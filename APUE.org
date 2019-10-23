@@ -1,0 +1,1551 @@
+#+SETUPFILE: ~/Public/github/org-html-themes/setup/theme-readtheorg.setup
+#+STARTUP: inlineimages:png
+#+OPTIONS: num:nil
+#+LATEX_HEADER: \usepackage{ulem}
+#+LATEX_HEADER: \usepackage{ctex}
+#+LaTeX_HEADER: \sectionfont{\normalfont\scshape}
+#+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
+#+title: Advanced Programming in the Unix Environment
+* Chapter 1. UNIX System Overview
+** Introduction
+** UNIX Architecture
+** Logging in
+   - Login Name
+** Files and Directories
+   - File System
+   - Pathname
+     - Example \\
+       #+NAME: Figure 1.3 List all the files in a directory
+       #+begin_src C
+         #include <dirent.h>
+         #include "apue.h"
+
+         int main(int argc, char *argv[]) {
+           DIR *dp;
+           struct dirent *dirp;
+
+           if (argc != 2) {
+             err_quit("usage: ls directory_name")}
+
+           if ((dp = opendir(argv[1])) == NULL) {
+             err_sys("can't open %s", argv[1]);
+           }
+           while ((dirp = readdir(dp)) != NULL) {
+             printf("%s\n", dirp->d_name);
+           }
+
+           closedir(dp);
+           exit(0);
+         }
+       #+end_src
+
+       #+RESULTS: Figure 1.3 List all the files in a directory
+
+** Input and Output
+   - File Descriptors
+   - Standard Input, Standard Output, and Standard Error
+   - Unbuffered I/O
+     - Example \\
+       [[file:Chapter01/mycp.c::#include%20"apue.h"][Figure 1.4 Copy standard input to standard output]]
+
+   - Standard I/O
+     - Example \\
+       [[file:Chapter01/getcputc.c::#include%20"apue.h"][Figure 1.5 Copy standard input to standard output, using standard I/O]]
+** Programs and Processes
+   - Program
+   - Proceses and Process ID
+     - Example \\
+       [[file:Chapter01/uidgid.c::#include%20"apue.h"][Figure 1.6 Print the process ID]]
+   - Process Control
+     - Example \\
+       [[file:Chapter01/shell1. c::#include%20"apue.h"][Figure 1.7 Read commands from standard input and execute them]]
+** Error Handling
+   - Example \\
+     [[file:Chapter01/testerror.c::#include%20"apue.h"][Figure 1.8 Demonstrate strerror and perror]]
+** User identification
+   - User ID
+   - Group ID
+     - Example \\
+       [[file:Chapter01/uidgid.c::#include%20"apue.h"][Figure 1.9 Print user ID and group ID]]
+   - Supplementary Group IDs
+** Signals
+   Process choices:
+   1.  Ignore
+   2.  default action
+   3.  provide call function (catch signal)
+
+
+   - Example \\
+     [[file:Chapter01/shell2. c::#include%20"apue.h"][Figure 1.10 Read commands from standard input and execute them]]
+** Time Values
+   1.  Calendar time.
+   2.  Process time.
+      - Clock time
+      - User CPU time
+      - System CPU time
+** System calls and Library Functions
+   - Concepts:
+     - System calls: \\
+       - Can be learned with =man 2= (Section 2 of /Unix Programmer's Mannual/)
+     - Library Functions:
+       - Can be learned with =man 3= for *general-purpose* (Section 3 of /Unix Programmer's Mannual/)
+       - These functions aren’t entry points into the kernel, although they may invoke one or more of the kernel’s system calls
+   - Distinction:
+     - the system calls usually cannot be replaced
+     - UNIX System provides to determine the current time and date
+** Summary
+   *Exercises*
+   1.
+   2.  53268 50922 was occupied
+   3.  strerror: int, value transfer, cannnot be changed, global errno cannnot be forecast
+      perror: pointer, can be changed the value point to, const set constant
+   4.  2038, 2^{31}/(60*60*24*365)+1970
+      change time_t to u_64_t
+      recompile the program
+   5.  2^{31}/(60*60*24*100)=248.551348 days
+* Chapter 2. UNIX Standardization and Implementations
+** Introduction
+** UNIX Standardization
+*** ISO C
+*** IEEE POSIX
+*** The Single UNIX Specification
+    - Encryption: denoted by =_XOPEN_CRYPE=
+    - Real-time: denoted by =_XOPEN_REALTIME=
+    - Advanced real-time
+    - Real-time threads: denoted by =_XOPEN_REALTIME_THREADS=
+    - Advanced real-time threads
+*** FIPS
+** UNIX System Implementations
+*** SVR4
+*** 4.4BSD
+*** FreeBSD
+*** Linux
+*** Mac OS X
+*** SOlaris
+*** Others
+    - AIX, IBMUNIX
+    - HP-UX, HP
+    - IRIX, Silicon Graphics
+    - Unix Ware, SVR4 distribution
+** Relationship of Standards and Implementations
+** Limits
+   1.  Comipile-time limits
+   2.  Runtime limits
+*** ISO C Limits
+*** POSIX Limits
+    1.  Numerical limits: =LONG_BIT=, =SSIZE_MAX=, and =WORD_BIT=
+    2.  Minimum value：
+    3.  Maximum value: =_POSIX_CLOCKRES_MIN=
+    4.  Runtime increasable values: =CHARCLASS_NAME_MAX=, =COLL_WEIGHTS_MAX=, =LINE_MAX=, =NGROUPS_MAX=, and =RE_DUP_MAX=
+    5.  Runtime invariant values;
+    6.  Other invariant values: =NL_ARGMAX=, =NL_MSGMAX=, =NL_SETMAX=, and =NL_TEXTMAX=;
+    7.  Pathname variables values: =FIFLESIZEBITS=, =LINK_MAX=, =MAX_CANON=, =MAX_INPUT=, =NAME_MAX=, =PATH_MAX=, =PIPE_BUF=, and =SYMLINK_MAX=
+*** XSI Limits
+    1.  Minimum values:
+    2.  Runtime invariant values, possibly indeterminate: *IOV_MAX* and *PAGE_SIZE*
+*** =sysconf=, =pathconf=, and =fpathconf= Functions
+    [[file:Chapter02/makeconf.awk::#!/usr/bin/awk%20-f][Figure 2.13 Build C program to print all supported configuration limits]]
+*** Indeterminate Runtime Limits
+    1.  [[file:lib/pathalloc.c::#include%20"apue.h"][pathalloc]]
+    2.  [[file:lib/openmax.c::#include%20"apue.h"][openmax]]
+** Options
+   1.  Compile-time options are defined in =<unistd.h>=
+   2.  Runtime options are not associated with a file or a directory are idnetified with the =sysconf= function
+   3.  Runtime options that are associated with a file or a directory are discovered by calling either the =pathconf= or the =fpathconf= function
+** Features Test Macros
+   =cc -D_POSIX_C_SOURCE=200809L code.c=
+** Primitive System Data Types
+   The header =<sys/types.h>= defines some implementation-dependent data types, called the /primitive system data types/.
+** Differences Between Standards
+** Summary
+   *Exercises*
+   1.  #ifndef ... #define ... #endif
+   2.  =u_long, ushort, uint, u_quad_t, quad_t, qaddr_t, daddr_t, fixpt_t=
+   3.  [[file:Chapter02/ex02.c::#include%20"apue.h"][OPEN_MAX exercise]]
+* Chapter 3. File I/O
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ./build/./build/./build/Chapter_3._File_I/O
+  :END:
+** Introduction
+** File Descriptors
+   To the kernel, all open file are referred to by file descriptors.
+   - 0: stdin
+   - 1: stdout
+   - 2: stderr
+** =open= and =openat= Functions
+   =man 2 open=
+** =creat= Function
+   =man 2 creat=
+** =close= Function
+   =man 2 close=
+** =lseek= Function
+   =man 2 lseek=
+   - Example \\
+     [[file:Chapter03/seek.c::#include%20"apue.h"][Figure 3.1 Test whether standard input is capable of seeking]] \\
+     [[file:Chapter03/hole.c::#include%20"apue.h"][Figure 3.2 Create a file with a hole in it]]
+** =read= Function
+   =man 2 read=
+** =write= Function
+   =man 2 write=
+** I/O Efficiency
+   [[file:Chapter03/mycat.c::#include%20"apue.h"][Figure 3.5 Copy standard input to standard output]]
+** File Sharing
+   1.  Every process has an entry in the process table.
+   2.  The kernel maintains a file table for all open files.
+   3.  Each open file(or device) has a v-node structure that contains information about the type of file \\
+      and pointers to functions that operate on the file;
+** Atomic Operations
+   - Appending to a File
+   - =pread= and =pwrite= Functions
+     Calling pread is equivalent to calling lseek followed by a call to read, with the following exceptions.
+     - There is no way to interrupt the two operations that occur when we call pread.
+     - The current file offset is not updated.
+
+   - Creating a File
+     /atomic operation/ refers to an operation that might be composed of multiple steps
+** =dup= and =dup2= Functions
+   =man 2 dup=
+   - =dup(fd)= = =fcntl(fd, F_DUPFD, 0)=
+   - =dup2(fd, fd2)= = =close(fd2); fcntl(fd, F_DUPFD, fd2);= \\
+   Differences:
+   - dup2 is an atomic operation, whereas the alternate form involves two function calls.
+   - errno differences
+** =sync=, =fsync= and =fdatasync= Functions
+   =man 2 sync=
+** =fcntl= Function
+   =man 2 fcntl=
+   The =fcntl= function is used for five different purposes.
+   1.  Duplicate an existing descriptor (/cmd/ = =F_DUPFD= or =F_DUPFD_CLOEXEC=)
+   2.  Get/set file descriptor flags (/cmd/ = =F_GETFD= or =F_SETFD=)
+   3.  Get/set file status flags (/cmd/ = =F_GETFL= or =F_SETFL=)
+   4.  Get/set asynchronous I/O ownership (/cmd/ = =F_GETOWN= or =F_SETOWN=)
+   5.  Get/set record locks (/cmd/ = =F_GETLK=, =F_SETLK=, or =F_SETLKW=)
+
+
+   - Example \\
+     [[file:Chapter03/fileflags.c::#include%20<fcntl.h>][Figure 3.11 Print file flags for specified descriptor]] \\
+     [[file:Chapter03/setfl.c::#include%20<fcntl.h>][Figure 3.12 Turn on one or more of the file status flags for a descriptor]]
+** =ioctl= Function
+   =man 2 ioctl=
+** =/dev/fd=
+** Summary
+   *Exercises*
+   1.  All disk I/O need to via buffer block. \\
+      =read/write= always be buffered via kernel automatically, unbuffered only means user process;
+   2.  [[file:Chapter03/mydup2.c::#include%20"apue.h"][mydup2]]
+   3.  F_SETFD: affect fd1 *file descriptor* \\
+      F_SETFL: affect fd1 and fd2 *file table*
+   4.  without =if (fd > 2)=, there are 4 descriptors pointer to file, otherwise , there will be 3
+   5.  =./a.out > outfile 2>&1=: stdout => outfile, stderr => stdout => outfile
+      =./a.out 2>&1 > outfile=: stderr => stdout, stdout => outfile \\
+   6.  [[file:Chapter03/ex06.c::#include%20<fcntl.h>][ex06]], can be read random, but cannot replace existing data;
+* Chapter 4. System Data Files and Information
+** 4.1 Introduction
+** 4.2 =stat=, =fstat=, =fstatat=, and =lstat= Functions
+   =man 2 stat=
+** 4.3 File Types
+   1.  Regular file.
+      There is no distinction to the UNIX kernel whether this data is text or binary.
+   2.  Directory file.
+   3.  Block special file.
+   4.  Character special file.
+      providing unbuffered I/O access.
+   5.  FIFO.
+   6.  Socket
+   7.  Symbolic link.
+
+
+   - Example \\
+     [[file:Chapter04/filetype.c::#include%20"apue.h"][Figure 4.3 Print type of file for each command-line argument]]
+** 4.4 Set-User-ID and Set-Group-ID
+   | IDs                     | using for                              |
+   |-------------------------+----------------------------------------|
+   | real user ID            | who we really are                      |
+   | real group ID           |                                        |
+   |-------------------------+----------------------------------------|
+   | effective user ID       |                                        |
+   | effective group ID      | used for file access permission checks |
+   | supplementary group IDs |                                        |
+   |-------------------------+----------------------------------------|
+   | save set-user-ID        | saved by exec functions                |
+   | save set-group-ID       |                                        |
+** 4.5 File Access Permissions
+   | st_mode mask | Meaning       |
+   |--------------+---------------|
+   | S_IRUSR      | user-read     |
+   | S_IWUSR      | user-write    |
+   | S_IXUSR      | user-execute  |
+   |--------------+---------------|
+   | S_IRGRP      | group-read    |
+   | S_IWGRP      | group-write   |
+   | S_IXGRP      | group-execute |
+   |--------------+---------------|
+   | S_IROTH      | other-read    |
+   | S_IWOTH      | other-write   |
+   | S_IXOTH      | other-execute |
+** 4.6 Ownership of New Files and Directories
+** =access= and =faccessat= Functions
+   =man 2 access=
+   - Example \\
+     [[file:Chapter04/access.c::#include%20<fcntl.h>][Figure 4.8 Example of access function]]
+** =umask= Function
+   =man 2 umask=
+   - Example \\
+     [[file:Chapter04/umask.c::#include%20"apue.h"][Figure 4.9 Example of umask function]]
+** =chmod=, =fchmod=, and =fchmodat= Functions
+   =man 2 chmod=
+   - Example \\
+     [[file:Chapter04/changemod.c::#include%20"apue.h"][Figure 4.12 Example of chmod function]]
+** Sticky Bit
+   If it was set for an executable program file, then the first time the program was executed, \\
+   a copy of the program’s text was saved in the swap area when the process terminated
+** =chown=, =fchown=, =fchownat=, and =lchown= Functions
+   =man 2 chown=
+** File Size
+   =struct stat.st_size=
+** File Truncation
+   =man 2 truncate=
+** File Systems
+   - Only when the link count goes to 0 can the file be deleted. \\
+     =struct stat.st_nlink=
+   - The other type of link is called a symbolic link. With a symbolic link, the actual contents of the file—the data blocks—store the name of the file that the symbolic link points to.
+   - The i-node contains all the information about the file. \\
+     Most of the information in the stat structure is obtained from the i-node, exclude *filename* and *i-node* number.
+   - a directory entry can’t refer to an i-node in a different file system.
+   - When renaming a file without changing file systems, the actual contents of the file need not be moved—all that needs to be done is to add a new directory entry that points to the existing i-node and then unlink the old directory entry.
+** =link=, =linkat=, =unlink=, =unlinkat=, and =remove= Functions
+   =man 2 link=
+   - Example \\
+     [[file:Chapter04/unlink.c::printf("file%20unlinked\n");][Figure 4.16 Open a file and then unlink it]]
+** =rename= and =renameat= Functions
+   =man 2 rename=
+   1.  If oldname specifies a file that is not a directory, then we are renaming a file or a symbolic link.
+   2.  If oldname specifies a directory, then we are renaming a directory.
+   3.  If either oldname or newname refers to a symbolic link, then the link itself is processed, not the file to which it resolves.
+   4.  We can’t rename dot or dot-dot.
+   5.  As a special case, if oldname and newname refer to the same file, the function returns successfully without changing anything.
+** Symbolic Links
+   - Hard links normally require that the link and the file reside in the same file system.
+   - Only the superuser can create a hard link to a directory (when supported by the underlying file system).
+** Creating and Reading Symbolic Links
+   =man 2 symlink=
+   =man 2 readlink=
+** File Times
+** =futimens=, =utimensat=, and =utimes= Functions
+   POSIX.1
+   =man 2 futimens=
+   XSI
+   =man 2 utimes=
+   - Example \\
+     [[file:Chapter04/futimens.c::#include%20<fcntl.h>][Figure 4.21 Example of futimens function]]
+** =mkdir=, =mkdirat=, and =rmdir= Functions
+   Creat:
+   =man 2 mkdir=
+   Remove:
+   =man 2 rmdir=
+** Reading Directories
+   =man 3 opendir=
+   - Example \\
+     [[/Users/zhoush/Private/Notes/books/c/APUE/Chapter04/ftw.c][Figure 4.22 Recursively descend a directory hierarchy, counting file types]]
+** =chidr=, =fchdir= and =getcwd= Functions
+   =man 2 chdir=
+   - Example \\
+     [[file:Chapter04/chdir.c::#include%20"apue.h"][Figure 4.23 Example of chdir function]]
+   =man 3 getcwd=
+   - Example \\
+     [[file:Chapter04/getcwd.c::#include%20"apue.h"][Figure 4.24 Example of getcwd function]]
+** Device Special Files
+   - Example \\
+     [[file:Chapter04/devrdev.c::#include%20"apue.h"][Figure 4.25 Print st_dev and st_rdev values]]
+** Summary of File Access Permission Bits
+   S_IRWXU = S_IRUSR | S_IWUSR | S_IXUSR
+   S_IRWXG = S_IRGRP | S_IWGRP | S_IXGRP
+   S_IRWXO = S_IROTH | S_IWOTH | S_IXOTH
+** Summary
+   *Exercises*
+   1.  [[file:Chapter04/exercises/ex1.c::#include%20"apue.h"][ex01]]
+      before modification: symbolic link
+      after  modification: regular
+   2.  default permissions: =----------=
+   3.  =cat= get : Permission denied
+   4.  nothing changed.
+   5.  directory always shoud be entries for . and ..
+      the size of symbolic link should be the size of the file contained in.
+   6.  [[file:Chapter04/exercises/ex6.c::#include%20<fcntl.h>][ex06]]
+   7.  default access permissions are different
+   8.  =du= check the file/directory/path space instead of disk , and may need path permissions.
+   9.  it's not the last link to the file.
+   10.  recursive depth number
+   11.  [[file:Chapter04/exercises/ex11.c::#include%20<dirent.h>][ex11]]
+   12.  FTP
+   13.  =stat= first, set timespec array to current time that you expect not change, and the other to the value you want.
+   14.  access time is the last read time \\
+       modify time is last received
+   15.  The change time isn't stored because, even if it was stored, you wouldn't be able to set it to the original time. You cannot cheat the change time, it is always based on when the inode data was actually changed.
+       \\
+       Depending on the utility (tar or cpio), you can tell it to keep the original access and/or modify times. For example, tar by default maintains the original modify time but you can use the -m switch to set it to extraction time. The access time is always set to extraction time.
+   16.  [[file:Chapter04/exercises/ex16.c::#include%20<fcntl.h>][ex16]] \\
+   17.  [[file:Chapter04/exercises/ex17.c::#include%20<fcntl.h>][ex17]] \\
+       =unlink: Operation not permitted=
+* Chapter 5. Standard I/O Library
+** Introduction
+   This library is specified by the ISO C standard because it has been implemented on many operating systems other than the UNIX System.
+** Streams and FILE Objects
+   =man 3 fwide=
+** Standard Input, Standard Output and Standard Error
+   =STDIN_FILENO=, =STDOUT_FILENO=, =STDERR_FILENO=
+** Buffering
+   Three types of buffering are provided:
+   1.  Fully buffered. \\
+      In this case, actual I/O takes place when the standard I/O buffer is filled.
+   2.  Line buffered. \\
+      In this case, the standard I/O library performs I/O when a newline character is encountered on input or output.
+   3.  Unbuffered. \\
+
+   ISO C requires the following buffering characteristics:
+   - Standard input and standard output are fully buffered, if and only if they do not refer to an interactive device.
+   - Standard error is never fully buffered.
+
+   Most implementations default to the following types of buffering:
+   - Standard error is always unbuffered.
+   - All other streams are line buffered if they refer to a terminal device; otherwise, they are fully buffered.
+
+
+   =man 3 setbuf=
+   =man 3 fflush=
+** Opening a Stream
+   =man 3 fopen=
+   =man 3 fclose=
+** Reading and Writing a Stream
+   Three types of unformatted I/O:
+   1.  Character-at-a-time I/O.
+   2.  Line-at-a-time I/O.
+   3.  Direct I/O.
+*** Input Functions
+    =man 3 getc=
+    1.  The argument to getc should not be an expression with side effects, because it could be evaluated more than once.
+    2.  Since fgetc is guaranteed to be a function, we can take its address. This allows us to pass the address of fgetc as an argument to another function.
+    3.  Calls to fgetc probably take longer than calls to getc, as it usually takes more time to call a function.
+
+
+    In most implementations, two flags are maintained for each stream in the FILE object:
+    =man 3 ferror=
+    - An error flag
+    - An end-of file flagp
+
+
+    After reading from a stream, we can push back characters by calling =ungetc=.
+*** Output Functions
+    =man 3 putc=
+** Line-at-a-Time I/O
+   =man fgets=
+** Standard I/O Efficiency
+   [[file:Chapter05/cpio.c::#include%20"apue.h"][Figure 5.4 Copy standard input to output using getc and putc]] \\
+   [[file:Chapter05/cpio_1. c::#include%20"apue.h"][Figure 5.5 Copy standard input to output using fgets and fputs]]
+** Binary I/O
+   =man fread=
+** Positioning a Stream
+   Three way to position a standard I/O stream:
+   1.  =ftell= and =fseek=
+   2.  =ftello= and =fseeko=
+   3.  =fgetpos= and =fsetpos=
+
+
+   When porting applications to non-UNIX systems, use fgetpos and fsetpos.
+   #+begin_src c
+     #include <stdio.h>
+
+     int
+     fgetpos(FILE *restrict stream, fpos_t *restrict pos);
+
+     int
+     fseek(FILE *stream, long offset, int whence);
+
+     int
+     fseeko(FILE *stream, off_t offset, int whence);
+
+     int
+     fsetpos(FILE *stream, const fpos_t *pos);
+
+     long
+     ftell(FILE *stream);
+
+     off_t
+     ftello(FILE *stream);
+
+     void
+     rewind(FILE *stream);
+   #+end_src
+** Formated I/O
+   =man 3 printf=
+
+
+   #+CAPTION: Figure 5.7 The flags component of a conversion specification
+   | Flag    | Description                                                                           |
+   |---------+---------------------------------------------------------------------------------------|
+   | /       | <>                                                                                    |
+   | '       | [[file:Chapter05/formatted.c::printf("\nthousands%20grouping:\n");][(apostrophe) format integer with thousands grouping characters]]                        |
+   | -       | [[file:Chapter05/formatted.c::printf("\nleft-justify:\n");][left justify]]                                                                          |
+   | +       | [[file:Chapter05/formatted.c::printf("\nsigned%20decimal:\n");][always display sign of a signed conversion]]                                            |
+   | (space) | [[file:Chapter05/formatted.c::printf("\nspace%20prefix:\n");][prefix by a space if no sign is generated]]                                             |
+   | \#      | [[file:Chapter05/formatted.c::printf("\nalternative%20form:\n");][convert using alternative form(include 0x prefix for hexadecimal format, for example)]] |
+   | 0       | [[file:Chapter05/formatted.c::printf("\nprefix%20zero:\n");][prefix with leading zeros instead of padding with spaces]]                              |
+
+
+   #+CAPTION: Figure 5.8 The lenth modifier component of a conversion specification
+   | Length modifer | Description                               |
+   |----------------+-------------------------------------------|
+   | /              | <>                                        |
+   | hh             | signed or unsigned char                   |
+   | h              | sigend or unsigned short                  |
+   | l              | signed or unsigned long or wide character |
+   | ll             | signed or unsigned long long              |
+   | j              | inmax_t or uintmax_t                      |
+   | z              | size_t                                    |
+   | t              | ptrdiff_t                                 |
+   | L              | long double                               |
+
+
+   #+CAPTION: Figure 5.9 The conversion type component of a conversion specification
+   | Conversion type | Description                                                                               |
+   |-----------------+-------------------------------------------------------------------------------------------|
+   | /               | <>                                                                                        |
+   | d,i             | [[file:Chapter05/formatted.c::printf("\nsigned%20decimal:\n");][signed decimal]]                                                                            |
+   | o               | [[file:Chapter05/formatted.c::printf("\nalternative%20form:\n");][unsigned octal]]                                                                            |
+   | u               | [[file:Chapter05/formatted.c::printf("\nunsigned%20decimal:\n");][unsigned decimal]]                                                                          |
+   | x,X             | [[file:Chapter05/formatted.c::printf("\nunsigned%20hexadecimal:\n");][unsigned hexadecimal]]                                                                      |
+   | f,F             | [[file:Chapter05/formatted.c::printf("\ndouble%20%EF%AC%82oating-point%20number:\n");][double floating-point number]]                                                              |
+   | e,E             | [[file:Chapter05/formatted.c::printf("\nexponential%20format:\n");][double floating-point number in exponential format]]                                        |
+   | g,G             | [[file:Chapter05/formatted.c::printf("\ninterpreted:\n");][interpreted as f, F, e, or E, depending on value converted]]                                |
+   | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble%20in%20hexadecimal:\n");][double ﬂoating-point number in hexadecimal exponential format]]                             |
+   | c               | character (with 1 length modifier, wide character)                                        |
+   | s               | string(with 1 length modifier, wide character string)                                     |
+   | p               | pointer to a void                                                                         |
+   | n               | pointer to a signed integer into which is written the number of characters written so far |
+   | %               | a % character                                                                             |
+   | C               | wide chracter(XSI option, equivalent to lc)                                               |
+   | S               | wide chracter string(XSI option, equivalent to ls)                                        |
+
+
+   *Formatted Input*
+   =man 3 scanf=
+   #+CAPTION: Figure 5.9 The conversion type component of a conversion specification
+   | Conversion type | Description                                                                               |
+   |-----------------+-------------------------------------------------------------------------------------------|
+   | /               | <>                                                                                        |
+   | d               | signed decimal, base 10                                                                   |
+   | i               | signed decimal, base determined by format of input                                        |
+   | o               | unsigned octal(input optionally signed)                                                   |
+   | u               | unsigned decimal, base 10(input optionally signed)                                        |
+   | x,X             | unsigned hexadecimal(input optionally signed)                                             |
+   | a,A,e,E,f,F,g,G | floating-point number                                                                     |
+   | c               | character (with 1 length modifier, wide character)                                        |
+   | s               | string(with 1 length modifier, wide character string)                                     |
+   | [               | mathches a sequence of listed characters, ending with ]                                   |
+   | [^              | mathches all characters except the ones listed, ending with ]                             |
+   | p               | pointer to a void                                                                         |
+   | n               | pointer to a signed integer into which is written the number of characters written so far |
+   | %               | a % character                                                                             |
+   | C               | wide chracter(XSI option, equivalent to lc)                                               |
+   | S               | wide chracter string(XSI option, equivalent to ls)                                        |
+
+   ***
+** Implementation Details
+   =man 3 fileno=
+
+
+   - Example \\
+     [[file:Chapter05/print.c::#include%20"apue.h"][Figure 5.11 Print buffering for various standard I/O streams]]
+** Temporary Files
+   =man 3 tmpnam=
+   - Example \\
+     [[file:Chapter05/tmpnam.c::#include%20"apue.h"][Figure 5.12 Demonstrate tmpnam and tmpfile functions]]
+
+
+   =man 3 mkdtemp=
+   - Example \\
+     [[file:Chapter05/mkdtemp.c::#include%20"apue.h"][Figure 5.13 Demonstrate mkstemp function]]
+** Memory Streams
+   =man 3 fmemopen=
+   - Example \\
+     [[file:Chapter05/memopen.c::#include%20"apue.h"][Figure 5.15 Investigate memory stream write behavior]] \\
+     *linux* result:
+     #+begin_quote
+     initial buffer contents: \\
+     before flush: \\
+     after fflush: hello, world \\
+     len of string in buf = 12 \\
+     after fseek: bbbbbbbbbbbbhello, world \\
+     len of string in buf = 24 \\
+     after fclose: hello, worldcccccccccccccccccccccccccccccccccc \\
+     len of string in buf = 46
+     #+end_quote
+
+     The other two functions:
+     =man open_memstream=
+** Alternatives to Standard I/O
+   The standard I/O library is not perfect. some in the basic design, but most in the various implementations.
+** Summary
+   *Exercises*
+   1.  [[file:Chapter05/exercises/ex1.c::#include%20"apue.h"][ex01]]
+   2.  [[file:Chapter05/exercises/ex2.c::#include%20"apue.h"][ex02]] \\
+      execute =fgets= and =fputs= more than 1 times;
+   3.  print nothing
+   4.  This is a common error. The return value from getc and getchar is an int, not a char. EOF is often defined to be −1, so if the system uses signed characters, the code normally works
+   5.  call =fflush= first
+   6.  stdin and stdout are both line buffered. fgets will fflush automatically
+   7.  [[file:Chapter05/exercises/funopen-fmemopen.c::#include%20<errno.h>][ex07]]
+* Chapter 6. System Data Files and Information
+** introduction
+** Password File
+   =man getpwuid=
+** Shadow Passwords
+   *On Linux 3.2.0 and Solaris 10,*
+   =man getspnam=
+   *On FreeBSD 8.0 and Mac OS X 10.6.8, there is no shadow password structure*
+** Group File
+   =man getgrgid=
+** Supplementary Group Ids
+   =man getgroups= \\
+   - Example \\
+     [[File:Chapter06/getgropus.c::#include%20<stdio.h>][Example for get groups' info]]
+** Implementation Differences
+** Other Data Files
+   at least three functions:
+   1.  A get function that reads the next record, opening the file if necessary.
+   2.  A set function that opens the file, if not already open, and rewinds the file.
+   3.  An end entry that closes the data file.
+** Login Accounting
+   #+begin_src c
+     struct utmp {
+       char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
+       char ut_name[8]; /* login name */
+       long ut_time; /* seconds since Epoch */
+     };
+   #+end_src
+** System Identification
+   =man 3 uname=
+   =man 3 gethostname=
+** Time and Date Routines
+   =man 3 time=
+   =man 3 clock_gettime=
+   =man 3 gmtime=
+   =man 3 strftime=
+   - Example \\
+     [[file:Chapter06/strftime.c::#include%20<stdio.h>][Figure 6.11 Using the strftime function]] \\
+   =man 3 strptim=
+** Summary
+   *Exercises*
+   1.  On Mac OS, I can't get it \\
+      On Linux, use =getsnam= group functions
+   2.  [[file:Chapter06/exercises/getspnam.c::#include%20<shadow.h>][ex2]]
+   3.  [[file:Chapter06/exercises/uname.c::#include%20<stdio.h>][ex3]], equivalent
+   4.  32-bit time: =1970 + (2^{31}/60/60/24/365)= \\
+      after pass : =1970 - (2^{31}/60/60/24/365)=
+   5.  [[file:Chapter06/exercises/time.c::#include%20<time.h>][ex5]]
+* Chapter 7. Process Environment
+** 7.1 Introduction
+** 7.2 main Function
+   #+begin_src C
+     int main(int argc, char *argv[]);
+   #+end_src
+** 7.3 Process Termination
+   There are eight ways for a process to terminate.
+   Normal termination occurs in five ways:
+   1.  Return from main
+   2.  Calling ~exit~
+   3.  Calling ~_exit~ or ~_Exit~
+   4.  Return of the last thread from its start routine (Section 11.5)
+   5.  Calling pthread_exit (Section 11.5) from the last thread
+
+
+   Abnormal termination occurs in three ways
+   1.  Calling abort
+   2.  Receipt of a signal
+   3.  Response of the last thread to a cancellation request
+*** Exit Functions
+    =man 3 exit=
+    =man 2 _exit=
+    #+begin_src c
+      #include <stdio.h>
+      void exit(int status);
+      // 1. call the functions registered with atexit(3) function, in the reverse order of their registration
+      // 2. Flush all open output streams
+      // 3. close all open streams
+      // 4. unlink all files created with the tmpfile functions
+
+      void _Exit(int status);
+      // terminates without calling functions registered with atexit(3),
+      // may or my not perform the other actions listed
+
+      #include <unistd.h>
+      void _exit(int status);
+      // The _exit() function terminates a process, with the following consequences:
+      // o   All of the descriptors that were open in the calling process are closed.  This may entail delays; for example, waiting for output to drain.  A process in this state may not be
+      //     killed, as it is already dying.
+      //
+      // o   If the parent process of the calling process has an outstanding wait call or catches the SIGCHLD signal, it is notified of the calling process's termination; the status is set as
+      //     defined by wait(2).
+      //
+      // o   The parent process-ID of all of the calling process's existing child processes are set to 1; the initialization process (see the DEFINITIONS section of intro(2)) inherits each of
+      //     these processes.
+      //
+      // o   If the termination of the process causes any process group to become orphaned (usually because the parents of all members of the group have now exited; see ``orphaned process
+      //     group'' in intro(2)), and if any member of the orphaned group is stopped, the SIGHUP signal and the SIGCONT signal are sent to all members of the newly-orphaned process group.
+      //
+      // o   If the process is a controlling process (see intro(2)), the SIGHUP signal is sent to the foreground process group of the controlling terminal.  All current access to the control-
+      //     ling terminal is revoked.
+    #+end_src
+    ~_exit~ does not perform any ﬂushing of standard I/O buffers.
+    - Example \\
+      #+begin_src c
+
+      #+end_src
+      [[file:Chapter07/hello.c::#include%20<stdio.h>][Figure 7.1 Classic C program]]
+*** ~atexit~ Function
+    =man 3 atexit=
+    The ~exit~ function calls these functions in reverse order of their registration.
+
+    - Example \\
+      [[file:Chapter07/atexit.c::#include%20"apue.h"][Figure 7.3 Example of exit handlers]]
+*** Commond-Line Arguments
+    - Example \\
+      [[file:Chapter07/echoarg.c::#include%20"apue.h"][Figure 7.4 Echo all command-line arguments to standard output]]
+** 7.5 Environment List
+
+   #+begin_src c
+     extern char **environ;
+   #+end_src
+** 7.6 Memory Layout of a C Program
+   Historically, a C program has been composed of the following pieces:
+   - Text segment: consisting of the machine instructions that the CPU executes.
+   - Initilized data segment, usually called simply the data segment, \\
+     containing variables that are specifically initialized in the program.\\
+     For example:
+     #+begin_src c
+       int maxcount=99;
+     #+end_src
+   - Uninitilized data segment, often called the “bss” segment, \\
+     named after an ancient assembler operator that stood for “block started by symbol.”
+     #+begin_src c
+       long sum[1024];
+     #+end_src
+   - Stack, where automatic variables are stored, \\
+     along with information that is saved each time a function is called.
+   - Heap, where dynamic memory allocation usually takes place.
+     #+begin_src c
+       malloc();
+     #+end_src
+     [[file:Chapter07/Figure7.6.png][Figure 7.6 Typical memory arrangement]]
+
+** 7.7 Shared Libraries
+   without shared libraries
+   #+begin_src bash
+     gcc -static hello.c
+     size a.out
+     text     data     bss     dec     hex	filename
+     723103     7284    6392  736779   b3e0b	a.out
+   #+end_src
+   use shared libraries, the text and data size are greatly decreased
+   #+begin_src bash
+     gcc hello.c
+     size a.out
+     text     data     bss     dec     hex	filename
+     1173      552       8    1733     6c5	a.out
+   #+end_src
+** 7.8 Memory Allocation
+   =man 3 malloc=
+   1. ~malloc~, allocates specified number of bytes of memory without initialized
+   2. ~calloc~, allocates specified number of bytes of memroy with initializing to 0
+   3. ~realloc~, increase or decrease the size of previous allocated area, the increased area was not initialized
+
+
+   #+begin_src c
+     #include <stdlib.h>
+     void *malloc(size_t size);
+     void *calloc(size_t nobj, size_t size);
+     void *realloc(void *ptr, size_t newsize);
+
+     void free(void*ptr);
+   #+end_src
+
+
+   - Alternative Memory Allocators
+     - ~jemalloc~ \\
+       designed to scale well when used with multithreaded applications running on multiprocessor systems.
+     - ~TCMalloc~ \\
+       for high performance, scalability, and memory efficiency.
+     - ~alloca~ Function \\
+       alloc memmory from stack, instaead of heap, so we don't have to free the space;
+** 7.9 Environment Variable
+   =man 3 getenv=
+   #+begin_src c
+     #include <stdlib.h>
+     char *getenv(const char *name);
+     int putenv(char *str);
+     int setenv(const char *name, const char *value, int rewrite);
+     int unsetenv(const char *name);
+   #+end_src
+
+   *malloc*
+
+** 7.10 =setjmp= and =longjmp= Functions
+   - *useful for dealing errors and interrupts*
+
+   - Example \\
+     [[file:Chapter07/cmd_add.c::#include%20"apue.h"][Figure 7.9 Typical program skeleton for command-processing]] \\
+
+
+   =man 3 setjmp=
+   - Example \\
+     [[file:Chapter07/testjmp.c::#include%20<setjmp.h>][Figure 7.13 Effect of longjmp on various type of variables]]
+   - *Automatic, Register and Volatile Variables* \\
+     Most implementations do not try to roll back these automatic variables and register variables, but the standards say only that their values are indeterminate
+
+
+   *Potential Problem with Automatic Variables*
+   [[file:Chapter07/incorrect_usage.c::#include%20<stdio.h>][Figure 7.14 Incorrect usage of an automatic variable]]
+   #+begin_quote
+   The problem is that when open_data returns, the space it used on the stack will be used by the stack frame for the next function that is called. But the standard I/O library will still be using that portion of memory for its stream buffer. Chaos is sure to result. To correct this problem, the array databuf needs to be allocated from global memory, either statically (static or extern) or dynamically (one of the alloc functions)
+   #+end_quote
+** =getrlimit= and =setrlimit= Functions
+   =man 3 getrlimit=
+   - Example \\
+     [[file:Chapter07/rlimit.c::#include%20<sys/resource.h>][Figure 7.16 print the current resource limits]]
+** Summary
+   *Exercises*
+   1. the length of "hello, world"
+   2. =man 3 exit=
+   3. Nope
+   4. *for NULL usage*
+   5. =typedef void Exitfunc(void);= \\
+      =int atexit(Exitfunc *func);=
+   6. Yep, not sure
+   7. the heap and stack aren't allocated before applying
+   8. a.out include symbol info
+   9. standard I/O library was copied
+   10. Nope. num in heap
+* Chapter 8. Process Control
+** 8.1 Introduction
+** 8.2 Process Identifiers
+   Process ID 0 is usually the scheduler process and is often know as /swapper/.
+   Process ID 1 is usually the *init* process.
+   responsible for bring up a UNIX system after the kernel has been bootstrapped
+   Process ID 2 is pagedaemon.
+   responsible for supporting paging of virtual memory system.
+
+   =man 2 getpid=
+   #+begin_src c
+     #include <unistd.h> pid_t getpid(void);
+     te
+
+     Returns: process ID of calling process
+
+     pid_t getppid(void);
+
+     Returns: parent process ID of calling process
+
+     uid_t getuid(void);
+
+     Returns: real user ID of calling process
+
+     uid_t geteuid(void);
+
+     Returns: effective user ID of calling process
+
+     gid_t getgid(void);
+
+     Returns: real group ID of calling process
+
+     gid_t getegid(void);
+
+     Returns: effective group ID of calling process
+   #+end_src
+
+   #+begin_quote
+   Note that none of these functions has an error return.
+   #+end_quote
+** 8.3 =fork= Function
+
+   =man 3 fork=
+   #+BEGIN_SRC c
+     pid_t fork(void);
+
+     Returns: 0 in child, process ID of child in parent, −1 on error
+   #+END_SRC
+
+
+   #+BEGIN_QUOTE
+   called once but return twice.
+
+   return value in child is 0, whereas the return value in the parent is the process ID of the new child
+
+   the child gets a copy of the parent’s data space, heap, and stack, parents and child do not share memmory
+   #+END_QUOTE
+
+   - Example \\
+     [[file:Chapter08/fork.c::#include%20"apue.h"][Figure 8.1 Example of fork function]] \\
+     *changes to variables in a child process do not affect the value of the variables in the parent process.*
+   - File Sharing
+     handling the descriptors after a fork.
+     1. The parent waits for the child to complete.
+     2. Both the parent and the child go their own ways. after fork, close needless descriptors(*socket*)
+
+
+   - inherits:
+     - Real user ID, real group ID, effective user ID, and effective group ID
+     - Supplementary group IDs
+     - Process group ID
+     - Session ID
+     - Controlling terminal
+     - The set-user-ID and set-group-ID ﬂags
+     - Current working directory
+     - Root directory
+     - File mode creation mask
+     - Signal mask and dispositions
+     - The close-on-exec ﬂag for any open file descriptors
+     - Environment
+     - Attached shared memory segments
+     - Memory mappings
+     - Resource limits
+
+   - differences
+     - return value
+     - process id
+     - parent id
+     - child's tms_utime, tms_stime, tms_cutime, tms_cstime set to 0
+     - parent's file locks are not inherited
+     - pending alarms are cleared for the child
+     - pending signals set is set to empty for child
+
+   - There are two uses for fork:
+     #+begin_quote
+     1. When a process wants to duplicate itself so that the parent and the child can each execute different sections of code at the same time.
+     2. When a process wants to execute a different program.
+     #+end_quote
+** 8.4 ~vfork~ Function
+   #+begin_quote
+   just like fork, without copying the address space of the parent into the child, as the child won’t reference that address space
+
+   the child runs in the address space of the parent until it calls either exec or exit.
+
+   *vfork guarantees that the child runs first, until the child calls exec or exit.*
+   #+end_quote
+   - Example \\
+     [[file:Chapter08/vfork.c::#include%20"apue.h"][Figure 8.3 Example of vfork function]]
+** 8.5 =exit= Function
+   #+begin_quote
+   As we described in Section 7.3, a process can terminate normally in five ways:
+   1.  Executing a return from the main function.
+   2.  Calling the exit function.
+   3.  Calling the _exit or _Exit function. *terminate without running exit handlers or signal handlers.*
+   4.  Executing a return from the start routine of the last thread in the process.
+   5.  Calling the pthread_exit function from the last thread in the process.
+   #+end_quote
+
+   #+begin_quote
+   The three forms of abnormal termination are as follows:
+   1.  Calling abort. generates *SIGABRT* signal
+   2.  When the process receives certain signals.
+   3.  The last thread responds to a cancellation request.
+   #+end_quote
+
+   #+begin_quote
+   - In UNIX System terminology, a process that has terminated, but whose parent has not yet waited for it, is called a zombie.
+
+   - The ps(1) command prints the state of a zombie process as Z.
+   #+end_quote
+** 8.6 =wait= and =waitpid= Functions
+   #+begin_quote
+   we need to be aware that a process that calls wait or waitpid can
+   - Block, if all of its children are still running
+   - Return immediately with the termination status of a child, if a child has terminated and is waiting for its termination for its termination status to be fetched
+   - Return immediately with an error, if it doesn't have any child processes
+   #+end_quote
+
+
+   =man 2 wait=
+   #+begin_src c
+     #include <sys/wait.h>
+     pid_t wait(int *statloc);
+     pid_t waitpid(pid_t pid, int *statloc, int options);
+
+     Both return: process ID if OK, 0(see later), or -1 on error
+   #+end_src
+
+   - Example \\
+     [[file:Chapter08/exit_status.c::#include%20<sys/wait.h>][Figure 8.5 Print a description of the exit status]] \\
+     [[file:Chapter08/exit.c::#include%20"apue.h"][Figure 8.6 Demonstrate various exit status]]
+
+   #+begin_quote
+   The waitpid function provides three features that aren’t provided by the wait function.
+   1.  The waitpid function lets us wait for one particular process, whereas the wait function returns the status of any terminated child.
+   2.  The waitpid function provides a nonblocking version of wait.
+   3.  The waitpid function provides support for job control with the WUNTRACED and WCONTINUED options.
+   #+end_quote
+
+   - Example \\
+     [[file:Chapter08/waitpid.c::#include%20"apue.h"][Figure 8.8 Avoid zombie processes by calling fork twice]]
+** 8.7 =waitid= Function
+   =man 2 waitid=
+   #+begin_src c
+     #include <sys/wait.h> int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
+     Returns: 0 if OK, −1 on error
+   #+end_src
+   (OS X can't get the info, but the function is valid)
+** 8.8 =wait3= and =wait4= Functions
+   =man 2 wait3=
+** 8.9 Race Conditions
+   *Avoid race by signal*
+   - Example \\
+     [[file:Chapter08/race.c::#include%20"apue.h"][Figure 8.12 Program with a race condition]] \\
+     [[file:Chapter08/avoid_race.c::#include%20"apue.h"][Figure 8.13 Modification of Figure 8.12 to avoid race condition]]
+** 8.10 =exec= Functions
+   =man 3 exec=
+   #+begin_src c
+     #include <unistd.h>
+     int execl(const char *pathname, const char *arg0, ... /* (char *)0 */ );
+     int execv(const char *pathname, char *const argv[]);
+     int execle(const char *pathname, const char *arg0, ...
+                /* (char *)0, char *const envp[] */ );
+     int execve(const char *pathname, char *const argv[], char *const envp[]);
+     int execlp(const char *filename, const char *arg0, ... /* (char *)0 */ );
+     int execvp(const char *filename, char *const argv[]);
+     int fexecve(int fd, char *const argv[], char *const envp[]);
+   #+end_src
+   Returns: All seven return: −1 on error, no return on success
+
+
+   #+begin_quote
+   The first difference in these functions is that the first four take a pathname argument, the next two take a filename argument, and the last one takes a file descriptor argument. When a filename argument is specified,
+   - If filename contains a slash, it is taken as a pathname.
+   - Otherwise, the executable file is searched for in the directories specified by the *PATH* environment variable.
+   #+end_quote
+
+
+   ~execlp~ and ~execvp~ assume *link* as a *shell script*, and try to invoke ~/bin/sh~ with *filename*
+
+
+   #+begin_quote
+   The letter *p* means that the function takes a filename argument and uses the PATH environment variable to find the executable file
+   The letter *l* means that the function takes a list of arguments and is mutually exclusive
+   The letter *v*, means that it takes an argv[] vector.
+   Finally, the letter *e* means that the function takes an envp[] array instead of using the current environment.
+   #+end_quote
+
+
+   #+CAPTION: Figure 8.14 Differences among the seven exec functions
+   [[file:Chapter08/Figure8.14.png]]
+
+   #+CAPTION: Figure 8.15 Relationship of the seven exec functions
+   [[file:Chapter08/Figure8.15.png]]
+
+
+   - Example \\
+     [[file:Chapter08/exec.c::#include%20<sys/wait.h>][Figure 8.16 Example of exec functions]] \\
+     [[file:Chapter08/echo_env.c::#include%20"apue.h"][Figure 8.17 Echo all command-line arguments and all environment strings]]
+** 8.11 Changing User IDs and Group IDs
+   =man 2 setuid=
+   #+begin_quote
+   1. If the process has superuser privileges, the setuid function sets the real user ID, effective user ID, and saved set-user-ID to uid.
+
+   2. If the process does not have superuser privileges, but uid equals either the real user ID or the saved set-user-ID, setuid sets only the effective user ID to uid. The real user ID and the saved set-user-ID are not changed.
+
+   3. If neither of these two conditions is true, errno is set to EPERM and −1 is returned.
+   #+end_quote
+   #+caption: Figure 8.18 Ways to change the three user IDs
+   file:Chapter08/Figure8.18.png
+   =man 2 setreuid=
+   =man 2 setregid=
+** 8.12 Interpreter Files
+   - Example \\
+     [[file:Chapter08/exec_intr.c::#include%20<sys/wait.h>][Figure 8.20 A program that execs an interpreter file]] \\
+     [[file:Chapter08/awkexample::#!/usr/bin/awk%20-f][Figure 8.21 An awk program as an interpreter file]]
+** 8.13 =system= Function
+   #+begin_src c
+     #include <stdlib.h>
+     int system(const char *cmdstring);
+   #+end_src
+   *if /cmdstring/ is a ~NULL~, ~system~ returns nonzero only if a command processor is available.
+   #+begin_quote
+   1. If either the fork fails or waitpid returns an error other than EINTR, system returns −1 with errno set to indicate the error.
+
+   2. If the exec fails, implying that the shell can’t be executed, the return value is as if the shell had executed exit(127).
+
+   3. Otherwise, all three functions—fork, exec, and waitpid—succeed, and the return value from system is the termination status of the shell, in the format speciﬁed for waitpid.
+   #+end_quote
+   - Example \\
+     [[file:Chapter08/system.c::#include%20<sys/wait.h>][Figure 8.22 The system function, without signal handling]]
+     [[file:Chapter08/system.c::int][Figure 8.23 Calling the system function]]
+
+     #+begin_quote
+     The advantage in using system, instead of using fork and exec directly, is that system does all the required error handling and (in our next version of this function in Section 10.18) all the required signal handling.
+     #+end_quote
+
+
+
+   *Set-User-ID Programs*
+   [[file:Chapter08/systest.c::#include%20"apue.h"][Figure 8.24 Execute the command-line argument using system]]
+
+
+   [[file:Chapter08/pruids.c][Figure 8.25 Print real and effective user IDs]]
+** 8.14 Process Accounting
+   - Example \\
+     [[file:Chapter08/acct_data.c::#include%20"apue.h"][Figure 8.28 Program to generate accounting data]] \\
+     [[file:Chapter08/print_sel_acct.c::#include%20<sys/acct.h>][Figure 8.29 Print select fields from system's accounting file]]
+** 8.15 User Identification
+   =man 2 getlogin=
+   [[file:Chapter08/getlogin.c::#include%20"apue.h"][getlogin]]
+** 8.16 Process Scheduling
+   Lower nice values have higher scheduling priority.
+
+   =man 3 nice=
+   =man 3 getpriority=
+   - Example \\
+     [[file:Chapter08/nice.c::#include%20<errno.h>][Figure 8.30 Evaluate the effect of changing the nice value]]
+** 8.17 Process Times
+   #+begin_src c
+     #include <sys/times.h>
+     clock_t times(struct tms *buf);
+
+     // Returns: elapsed wall clock time in clock ticks if OK, -1 on error
+   #+end_src
+   #+caption: Figure 8.31 Time and execute all command-line arguments
+   #+include: "Chapter08/pr_times.c" src c
+** 8.18 Summary
+   functions to master: ~fork~, ~exec~ family, ~_exit~, ~wait~ and ~waitpid~.
+
+   ~fork~ function gave us an opportunity to look at race conditions.
+
+   - Exercises
+     - [[file:Chapter08/ex8.1.c::#include%20"apue.h"][8.1]]
+     - [[file:Chapter08/ex8.2.c::#include%20"apue.h"][8.2]]
+     - [[file:Chapter08/ex8.1.c::#include%20"apue.h"][8.3]]
+     - 8.4
+In Figure 8.13, we have the parent write its output ﬁrst. When the parent is done, the child writes its output, but we let the parent terminate. Whether the parent terminates or whether the child ﬁnishes its output ﬁrst depends on the kernel’s scheduling of the two processes (another race condition). When the parent terminates, the shell starts up the next program, and this next program can interfere with the output from the previous child.
+We can prevent this from happening by not letting the parent terminate until the child has also ﬁnished its output. Replace the code following the fork with the following:
+#+begin_src c
+   else if (pid == 0) {
+     WAIT_PARENT(); /* parent goes first */
+     charatatime("output from child\n");
+     TELL_PARENT(getppid()); /* tell parent we’re done */
+   } else {
+     charatatime("output from parent\n");
+     TELL_CHILD(pid);
+     /* tell child we’re done */
+     WAIT_CHILD(); /* wait for child to finish */
+   }
+#+end_src
+We won’t see this happen if we let the child go ﬁrst, since the shell doesn’t start the next program until the parent terminates.
+    - 8.5 The same value
+    - [[file:Chapter08/ex8.6.c::#include%20"apue.h"][8.6]]
+* Chapter 9. Process Relationships
+** 9.1 Introduction
+** 9.2 Terminal Logins
+** 9.3 Network Logins
+** 9.4 Process Groups
+   #+begin_src c
+     getpgid(0) == getpgrp();
+   #+end_src
+** 9.5 Sessions
+** 9.6 Controlling Terminal
+** 9.7 =tcgetpgrp=, =tcsetpgrp=, and =tcgetsid= Functions
+** 9.8 Job Control
+   Requirements:
+   1. A shell that supports job control
+   2. The terminal driver in the kernel must support job control
+   3. The kernel must support certain job-control signals
+
+
+   #+begin_src sh
+     cat > temp.foo & # & let start in background
+     fg % 1 # % bring job number into the foreground
+   #+end_src
+   #+begin_src sh
+     stty tostop # disable ability of background to output to controlling terminal
+   #+end_src
+** 9.9 Shell Execution Programs
+** 9.10 Orphaned Process Groups
+** 9.11 FreeBSD Implementation
+** 9.12 Summary
+* Chapter 10. Signals
+** 10.1 Introduction
+   #+begin_quote
+    Signals provide a way of handling asynchronous events
+   #+end_quote
+** 10.2 Signal Concepts
+   ~<signal.h>~
+   conditions can generate a signal
+   * terminal generated when users press certain terminal keys.
+   * hardware exceptions
+   * function =kill= (man 2 kill)
+   * command =kill= (man 1 kill)
+   * software conditions : ~SIGURG~ ~SIGPIPE~ ~SIGALARM~
+
+
+   deal with signals via one of things below:
+   * ignore
+   * catch
+   * use defaut action apply
+
+
+   #+caption: Figure 10.1 UNIX System signals
+   | Name       | Description                                          | Default Action              |
+   |------------+------------------------------------------------------+-----------------------------|
+   | SIGABRT    | abnormal termination(abort)                          | terminate+core              |
+   | SIGALARM   | timer expired(alarm)                                 | terminate                   |
+   | SIGBUS     | hardware fault                                       | terminate+core              |
+   | SIGCHLD    | change in the status of child                        | ignore                      |
+   | SIGCONT    | continue stopped process                             | continue/ignore             |
+   | SIGEMT     | hardware fault                                       | terminate+core              |
+   | SIGFPE     | arithmetic exception                                 | terminate+core              |
+   | SIGFREEZE  | checkpoint freeze                                    | ignore                      |
+   | SIGHUP     | hangup                                               | terminate                   |
+   | SIGILL     | illegal instruction                                  | terminate+core              |
+   | SIGINFO    | status request from keyboard                         | ignore                      |
+   | SIGINT     | terminal interrupt character                         | terminate                   |
+   | SIGIO      | asynchronous I/O                                     | terminate/ignore            |
+   | SIGIOT     | hardware fault                                       | terminate+core              |
+   | SIGKILL    | termination : *can't be caught or ignored*           | terminate                   |
+   | SIGPIPE    | write to pipe with no readers                        | terminate                   |
+   | SIGPOLL    | pollable event(poll): *might be removed*             | terminate                   |
+   | SIGPROF    | profiling time alarm(setitimer):  *might be removed* | terminate                   |
+   | SIGPWR     | power fail/restart                                   | terminate/ignore            |
+   | SIGQUIT    | terminal quit character                              | terminate+core              |
+   | SIGSEGV    | invalid memory reference                             | terminate+core              |
+   | SIGSTKFLT  | coprocessor stack fault                              | terminate                   |
+   | SIGSTOP    | stop: *can't be caught or ignored*                   | stop process                |
+   | SIGSYS     | invalid system call                                  | terminate+core              |
+   | SIGTERM    | termination                                          | terminate                   |
+   | SIGTHAW    | checkpoint thaw                                      | ignore                      |
+   | SIGTHR     | threads library internal use                         | terminate                   |
+   | SIGTRAP    | hardware fault                                       | terminate+core              |
+   | SIGTSTP    | terminal stop character                              | stop process                |
+   | SIGTTIN    | background read from control tty                     | stop process                |
+   | SIGTTOU    | background write to control tty                      | stop process                |
+   | SIGURG     | urgent condition(sockets)                            | ignore                      |
+   | SIGUSR1    | user-defined signal                                  | terminate                   |
+   | SIGUSR2    | user-defined signal                                  | terminate                   |
+   | SIGVTALRM  | virtual time alarm(setitimer)                        | terminate                   |
+   | SIGWAITING | threads library internal use                         | ignore                      |
+   | SIGWINCH   | terminal window size change                          | ignore                      |
+   | SIGXCPU    | CPU limit exceeded (setrlimit)                       | terminate or terminate+core |
+   | SIGXFSZ    | file size limit exceeded(setrlimit0)                 | terminate or terminate+core |
+   | SIGXRES    | resource control exceeded                            | ignore                      |
+
+   #+begin_quote
+   The core file will not be generated if
+   1. the process was set-user-ID and the current user is not the owner of the program file
+   2. the process was set-group-ID and the current user is not the group owner of the file
+   3. the user does not have permission to write in the current working directory
+   4. the file already exists and the user does not have permission to write it
+   5. the file is too big (recall the RLIMIT_CORE)
+
+   The permission of the core file are usually =rw=, although Mac OSX sets only =r=
+   #+end_quote
+
+** 10.3 =signal= Function
+   #+begin_src sh
+     man signal
+   #+end_src
+
+   - Example: \\
+   #+caption: Figure 10.2 Simple program to catch SIGUSR1 and SIGUSR2
+   #+include: "Chapter10/sigfunc.c" src c
+
+   - Program Start-Up
+     we are not able to determine the current disposition of a signal without changing the disposition
+** 10.4 Unreliable Signals
+   In ealier versions of the UNIX system signals could get lost
+** 10.5 Interrupted System Calls
+** 10.6 Reentrant Functions
+** 10.7 =SIGCLD= Semantics
+** 10.8 Reliable-Signal Terminology and Semantics
+** 10.9 =kill= and =raise= Functions
+** 10.10 =alarm= and =pause= Functions
+** 10.11 Signal Sets
+** 10.12 =sigprocmask= Function
+** 10.13 =sigpending= Function
+** 10.14 =sigaction= Function
+** 10.15 =sigsetjmp= and =siglongjmp= Functions
+** 10.16 =sigsuspend= Function
+** 10.17 =abort= Function
+** 10.18 =system= Function
+** 10.19 =sleep=, =nanaosleep=, and =clock_nanosleep= Functions
+** 10.20 =sigqueue= Function
+** 10.21 Job-Control Signals
+** 10.22 Signal Names and Numbers
+** 10.23 Summary
+* Chapter 11. Threads
+** 11.1 Introduction
+** 11.2 Thread Concepts
+** 11.3 Thread Identification
+** 11.4 Thread Creation
+   =man pthread_create=
+   - Example \\
+     [[file:Chapter11/threadid.c::#include%20"apue.h"][Figure 11.2 Printing thread IDs]]
+** 11.5 Thread Termination
+   #+begin_src sh
+     $ man pthread_exit
+     $ man pthread_join
+   #+end_src
+   - Example \\
+     [[file:Chapter11/exitstatus.c::#include%20"apue.h"][Figure 11.3 Fetching the thread exit status]]
+* Chapter 12. Thread Control
+* Chapter 13. Daemon Processes
+* Chapter 14. Advanced I/O
+** 14.1 Introduction
+** 14.2 Nonblocking I/O
+   slow system calls can block forever. include:
+   * reads if data isn't present with certain file types
+   * writes if data isn't present with certain file types
+   * open conditions
+   * mandatory record locking
+   * =ioctl= options
+   * IPC
+
+
+   two way to specify nonblocking I/O:
+   1. =open= to get the descriptor, specify =O_NONBLOCK= flag
+   2. call =fcntl= to trun on the =O_NONBLOCK= if already open.
+
+
+   - Example \\
+     [[file:Chapter14/write.c::#include%20<errno.h>][Figure 14.1 Large nonblocking write]]
+** 14.3 Recording Locking
+   Record locking is the term normally used to describe the ability of a process to prevent other processes from modifying a region of a file while the first process is reading or modifying that portion of the file
+*** 1. History
+*** 2. =fcntl= Record Locking
+    #+begin_src sh
+      man 2 fcntl
+    #+end_src
+
+    - Example - Deadlock \\
+      [[file:Chapter14/deadlock.c::#include%20"apue.h"][Figure 14.7 Example of deadlock detection]]
+
+    - Advisory versus Mandatory Locking
+      - Example \\
+        [[file:Chapter14/mandatory.c::#include%20"apue.h"][Figure 14.12 Determine whether mandatory locking is supported]]
+** 14.4 I/O Multiplexing
+*** 14.4.1 =select= and =pselect= Functions
+*** 14.4.2 =poll= Function
+** 14.5 Asynchronous I/O
+*** 14.5.1 System V Asynchronous I/O
+*** 14.5.2 BSD Asynchronous I/O
+*** 14.5.3 POSIX Asynchronous I/O
+** 14.6 =readv= and =writev= Functions
+** 14.7 =readn= and =writen= Functions
+** 14.8 Memory-Mapped I/O
+   - Example
+     [[/Users/zhoush/Documents/Private/Notes/books/c/APUE/Chapter14/mcopy2.c][Figure 14.27 Copy a file using memory-mapped I/O]]
+** 14.9 Summary
+* Chapter 15. Interprocess Communication
+** 15.1 Introduction
+** 15.2 Pipes
+** 15.3 =popen= and =pclose= Functions
+** 15.4 Coprocesses
+** 15.5 FIFOs
+** 15.6 XSI IPC
+** 15.6.1 Identifiers and Keys
+** 15.6.2 Permission Structure
+** 15.6.3 Configuration Limits
+** 15.6.4 Advantages and Disadvantages
+** 15.7 Message Queues
+** 15.8 Semaphores
+** 15.9 Shared Memory
+** 15.10 POSIX Semaphores
+** 15.11 Client-Server Properties
+** 15.12 Summary
+* Chapter 16. Network IPC: Sockets
+** 16.1 Introduction
+** 16.2 Socket Descriptors
+** 16.3 Addressing
+*** 16.3.1 Byte Ordering
+*** 16.3.2 Address Formats
+*** 16.3.3 Address Lookup
+*** 16.3.4 Associating Addresses with Sockets
+** 16.4 Connection Establishment
+** 16.5 Data Transfer
+** 16.6 Socket Options
+** 16.7 Out-of-Band Data
+** 16.8 Nonblocking and Asynchronous I/O
+** 16.9 Summary
+* Chapter 17. Advanced IPC
+** 17.1 Introduction
+** 17.2 UNIX Domain Sockets
+   - Example -- Polling XSI Message Queues with the Help of UNIX Domain Sockets
+
+     [[file:Chapter17/pollmsg.c::#include%20"apue.h"][Figure 17.3 Poll for XSI Messsages using UNIX domain sockets]]
+
+     [[file:Chapter17/sendmsg.c::#include%20"apue.h"][Figure 17.4 Post a message to XSI message queue]]
+*** 17.2.1 Naming UNIX Domain Sockets
+    - Example \\
+      [[file:Chapter17/bindunix.c::#include%20<apue.h>][Figure 17.5 Binding an address to a UNIX domain socket]]
+** 17.3 Unique Connections
+   develop three functions can be used to create unique connections between unrelated processes running on same machine:
+   #+begin_src c
+     int serv_listen(const char *name);            // Returns: file descriptor to listen on if OK, negative value on error
+     int serv_accept(int listenfd, uid_t *uidptr); // Returns: new file descriptor if OK, negative value on Error
+     int cli_conn(const char *name);               // Returns: file descriptor if OK, negative value on error
+   #+end_src
+
+
+   #+begin_src c
+     #include "apue.h"
+     #include <errno.h>
+     #include <sys/socket.h>
+     #include <sys/un.h>
+
+     #define QLEN 10
+
+     /*
+      ,* Create a server endpoint of a connection.
+      ,* Returns fd if all OK, <0 on error.
+      ,*/
+     int serv_listen(const char *name)
+     {
+       int                fd, len, err, rval;
+       struct sockaddr_un un;
+
+       if (strlen(name) >= sizeof(un.sun_path)) {
+         errno = ENAMETOOLONG;
+         return (-1);
+       }
+
+       /* create a UNIX domain stream socket */
+       if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
+         return (-2);
+       }
+
+       /* in case it already exists */
+       unlink(name);
+
+       /* fill in socket address structure */
+       memset(&un, 0, sizeof(un));
+       un.sun_family = AF_UNIX;
+       strcpy(un.sun_path, name);
+       len = offsetof(struct sockaddr_un, sun_path) + strlen(name);
+
+       /* bind the name to the descriptor */
+       if (bind(fd, (struct sockaddr *)&un, len) < 0) {
+         rval = -3;
+         goto errout;
+       }
+
+       if (listen(fd, QLEN) < 0) {
+         /* tell kernel we're a server */
+         rval = -4;
+         goto errout;
+       }
+
+       return (fd);
+
+      errout:
+       err = errno;
+       close(fd);
+       errno = err;
+       return (rval);
+     }
+   #+end_src
+   #+begin_center
+   Figure 17.8 The =serv_listen= function
+   #+end_center
+
+
+   #+begin_src c
+     #include "apue.h"
+     #include <errno.h>
+     #include <sys/socket.h>
+     #include <sys/un.h>
+     #include <time.h>
+
+     #define STALE 30 /* client's name can't be older than this (sec) */
+
+     /**********************************************************/
+     /* Wait for a client connection to arrive, and accept it. */
+     /* We also obtain the client's user ID from the pathname  */
+     /* that it must bind before calling us.                   */
+     /* Returns new fd if all OK, <0 on error                  */
+     /**********************************************************/
+     int serv_accept(int listenfd, uid_t *uidptr)
+     {
+       int                clifd, err, rval;
+       socklen_t          len;
+       time_t             staletime;
+       struct sockaddr_un un;
+       struct stat        statbuf;
+       char *             name;
+
+       /* allocate enough space for longest name plus terminating null */
+       if ((name = malloc(sizeof(un.sun_path) + 1))) {
+         return (-1);
+       }
+       len = sizeof(un);
+       if ((clifd = accept(listenfd, (struct sockaddr *)&un, &len)) < 0) {
+         free(name);
+         return (-2);
+       }
+
+       /* obtain the client't uid from its calling address */
+       /* len of pathname */
+       len -= offsetof(struct sockaddr_un, sun_path);
+       memcpy(name, un.sun_path, len);
+       /* null terminate */
+       name[len] = 0;
+       if (stat(name, &statbuf) < 0) {
+         rval = -3;
+         goto errout;
+       }
+
+     #ifdef S_ISSOCK
+       if (S_ISSOCK(statbuf.st_mode) == 0) {
+         /* not a socket */
+         rval = -4;
+         goto errout;
+       }
+     #endif
+
+       if ((statbuf.st_mode & (S_IRWXG | S_IRWXO)) ||
+           (statbuf.st_mode & S_IRWXU) != S_IRWXU) {
+         /* is not rwx------ */
+         rval = -5;
+         goto errout;
+       }
+
+       staletime = time(NULL) - STALE;
+       if (statbuf.st_atime < staletime ||
+           statbuf.st_ctime < staletime ||
+           statbuf.st_mtime < staletime) {
+         /* i-node is too old */;
+         rval = -6;
+         goto errout;
+       }
+
+       if (uidptr != NULL) {
+         /* return uid of caller */
+         ,*uidptr = statbuf.st_uid;
+       }
+       unlink(name);
+       free(name);
+       return (clifd);
+
+      errout:
+       err = errno;
+       close(clifd);
+       free(name);
+       errno = err;
+       return (rval);
+     }
+   #+end_src
+   #+begin_center
+   Figure 17.9 The =serv_accept= function
+   #+end_center
+   [[file:Chapter17/cli_conn.c::#include%20"apue.h"][Figure 17.10 The =cli_conn= function]]
+** 17.4 Passing File Descriptors
+** 17.5 An Open Server, Version 1
+** 17.6 An Open Server, Version 2
+** 17.7 Summary
+* Chapter 18. Terminal I/O
+* Chapter 19. Pseudo Terminals
+* Chapter 20. A Database Library
+* Chapter 21. Communication with a Network Printer

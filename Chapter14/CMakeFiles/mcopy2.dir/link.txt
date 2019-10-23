@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/cc  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/mcopy2.dir/mcopy2.c.o  -o ../bin/mcopy2 ../lib/libapue.a 
