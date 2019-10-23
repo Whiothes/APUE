@@ -1256,8 +1256,12 @@ We won’t see this happen if we let the child go ﬁrst, since the shell doesn�
    - Program Start-Up
      we are not able to determine the current disposition of a signal without changing the disposition
 ** 10.4 Unreliable Signals
-   In ealier versions of the UNIX system signals could get lost
+   In ealier versions of the UNIX system :
+   - signals could get lost
+   - the process was unable to turn a signal off when it didn’t want the signal to occur
 ** 10.5 Interrupted System Calls
+   - automatically restarted functions: ~ioctl~, ~read~, ~readv~, ~write~, ~writev~, ~wait~, ~waitpid~ \\
+     POSIX.1 requires an implementation to restart system calls only when the SA_RESTART ﬂag is in effect for the interrupting signal.
 ** 10.6 Reentrant Functions
 ** 10.7 =SIGCLD= Semantics
 ** 10.8 Reliable-Signal Terminology and Semantics
