@@ -1263,7 +1263,12 @@ We won’t see this happen if we let the child go ﬁrst, since the shell doesn�
    - automatically restarted functions: ~ioctl~, ~read~, ~readv~, ~write~, ~writev~, ~wait~, ~waitpid~ \\
      POSIX.1 requires an implementation to restart system calls only when the SA_RESTART ﬂag is in effect for the interrupting signal.
 ** 10.6 Reentrant Functions
+   #+caption: Figure 10.5 Call a nonreentrant function from a signal handler
+   #+include: "Chapter10/fig10_5.c" src c
+
 ** 10.7 =SIGCLD= Semantics
+   #+caption: Figure 10.6 System V SIGCLD handler that doesn't work
+   #+include: "Chapter10/fig10.6.c" src c
 ** 10.8 Reliable-Signal Terminology and Semantics
 ** 10.9 =kill= and =raise= Functions
 ** 10.10 =alarm= and =pause= Functions

@@ -6,7 +6,7 @@ static void my_alarm(int signo) {
 
   printf("in signal hander\n");
 
-  if ((rootptr = getpwnam("root")) == NULL) {
+  if ((rootptr = getpwnam("hello")) == NULL) {
     err_sys("getpwnam(root) error");
   }
   alarm(1);
@@ -17,6 +17,8 @@ int main() {
   struct passwd *ptr;
   signal(SIGALRM, my_alarm);
   alarm(1);
+
+  // usleep(500);                  // it seems alarm cannot interrupt sleep function
 
   for (;;) {
     if ((ptr = getpwnam("zhoush")) == NULL) {

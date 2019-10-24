@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/cc  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/setbuf.dir/setbuf.c.o  -o ../bin/setbuf ../lib/libapue.a 
