@@ -1072,7 +1072,7 @@
 
    2. If the exec fails, implying that the shell can’t be executed, the return value is as if the shell had executed exit(127).
 
-   3. Otherwise, all three functions—fork, exec, and waitpid—succeed, and the return value from system is the termination status of the shell, in the format speciﬁed for waitpid.
+   3. Otherwise, all three functions—fork, exec, and waitpid—succeed, and the return value from system is the termination status of the shell, in the format specified for waitpid.
    #+end_quote
    - Example \\
      [[file:Chapter08/system.c::#include%20<sys/wait.h>][Figure 8.22 The system function, without signal handling]]
@@ -1122,8 +1122,8 @@
      - [[file:Chapter08/ex8.2.c::#include%20"apue.h"][8.2]]
      - [[file:Chapter08/ex8.1.c::#include%20"apue.h"][8.3]]
      - 8.4
-In Figure 8.13, we have the parent write its output ﬁrst. When the parent is done, the child writes its output, but we let the parent terminate. Whether the parent terminates or whether the child ﬁnishes its output ﬁrst depends on the kernel’s scheduling of the two processes (another race condition). When the parent terminates, the shell starts up the next program, and this next program can interfere with the output from the previous child.
-We can prevent this from happening by not letting the parent terminate until the child has also ﬁnished its output. Replace the code following the fork with the following:
+In Figure 8.13, we have the parent write its output first. When the parent is done, the child writes its output, but we let the parent terminate. Whether the parent terminates or whether the child finishes its output first depends on the kernel’s scheduling of the two processes (another race condition). When the parent terminates, the shell starts up the next program, and this next program can interfere with the output from the previous child.
+We can prevent this from happening by not letting the parent terminate until the child has also finished its output. Replace the code following the fork with the following:
 #+begin_src c
    else if (pid == 0) {
      WAIT_PARENT(); /* parent goes first */
@@ -1136,7 +1136,7 @@ We can prevent this from happening by not letting the parent terminate until the
      WAIT_CHILD(); /* wait for child to finish */
    }
 #+end_src
-We won’t see this happen if we let the child go ﬁrst, since the shell doesn’t start the next program until the parent terminates.
+We won’t see this happen if we let the child go first, since the shell doesn’t start the next program until the parent terminates.
     - 8.5 The same value
     - [[file:Chapter08/ex8.6.c::#include%20"apue.h"][8.6]]
 * Chapter 9. Process Relationships
@@ -1252,6 +1252,9 @@ We won’t see this happen if we let the child go ﬁrst, since the shell doesn�
    - Example: \\
    #+caption: Figure 10.2 Simple program to catch SIGUSR1 and SIGUSR2
    #+include: "Chapter10/sigfunc.c" src c
+   #+begin_quote
+   FreeBSD 8.0 and Mac OS X 10.6.8 don’t exhibit this problem, because BSD - based systems generally don’t support historical System V semantics for SIGCLD. Linux 3.2.0 also doesn’t exhibit this problem, because it doesn’t call the SIGCHLD signal handler when a process arranges to catch SIGCHLD and child processes are ready to be waited for, even though SIGCLD and SIGCHLD are defined to be the same value.
+   #+end_quote
 
    - Program Start-Up
      we are not able to determine the current disposition of a signal without changing the disposition
@@ -1264,13 +1267,31 @@ We won’t see this happen if we let the child go ﬁrst, since the shell doesn�
      POSIX.1 requires an implementation to restart system calls only when the SA_RESTART ﬂag is in effect for the interrupting signal.
 ** 10.6 Reentrant Functions
    #+caption: Figure 10.5 Call a nonreentrant function from a signal handler
-   #+include: "Chapter10/fig10_5.c" src c
+   #+include: "Chapter10/fig10.5.c" src c
 
 ** 10.7 =SIGCLD= Semantics
    #+caption: Figure 10.6 System V SIGCLD handler that doesn't work
    #+include: "Chapter10/fig10.6.c" src c
 ** 10.8 Reliable-Signal Terminology and Semantics
+   #+begin_quote
+   If the system delivers the signal more than once, we say that the signals are queued. \\
+   *Most UNIX systems do /not/ queue signals unless they support the real-time extensions to POSIX.1.* \\
+   POSIX.1 *does not specify the order* in which the signals are delivered to the process more than once.
+   #+end_quote
+
+   * /signal mask/: a set of signals currently blocked from delivery to the process (*on* is blocked)
+   * /=sigprocmask=/: examine and change its current signal mask
 ** 10.9 =kill= and =raise= Functions
+
+   #+begin_src c
+     #include <signal.h>
+     int kill(pid_t pid, int signo);
+     int raise(int signo);
+
+     // Both return: 0 if OK, -1 on error
+   #+end_src
+
+
 ** 10.10 =alarm= and =pause= Functions
 ** 10.11 Signal Sets
 ** 10.12 =sigprocmask= Function
