@@ -6,9 +6,12 @@ static void sig_cld(int);
 int main() {
   pid_t pid;
 
+#if defined(__linux__)
   if (signal(SIGCLD, sig_cld) == SIG_ERR) {
     perror("signal error");
   }
+
+#endif
 
   if ((pid = fork()) < 0) {
     perror("fork error");
@@ -28,9 +31,11 @@ static void sig_cld(int signo) { // interrupts pause()
 
   printf("SIGCLD received\n");
 
+#if defined(__linux__)
   if (signal(SIGCLD, sig_cld) == SIG_ERR) {
     perror("signal erro");
   }
+#endif
 
   if ((pid = wait(&status)) < 0) {
     perror("wait error");

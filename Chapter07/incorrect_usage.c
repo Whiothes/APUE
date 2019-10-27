@@ -1,7 +1,7 @@
 /**
  *   @file     incorrect_usage.c
  *   @date     2019-09-19
- *   @author   zhoushang <whiothes81@gmail.com>
+ *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
  *   @brief    Incorrect usage of an automatic variable
  */
