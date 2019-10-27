@@ -587,7 +587,6 @@
 ** Implementation Details
    =man 3 fileno=
 
-
    - Example \\
      #+caption: Figure 5.11 Print buffering for various standard I/O streams
      #+include: "Chapter05/print.c" src c
@@ -596,7 +595,6 @@
    - Example \\
      #+caption: Figure 5.12 Demonstrate tmpnam and tmpfile functions
      #+include: "Chapter05/tmpnam.c" src c
-
 
    =man 3 mkdtemp=
    - Example \\
@@ -890,29 +888,22 @@
    =man 2 getpid=
    #+begin_src c
      #include <unistd.h> pid_t getpid(void);
-     te
-
-     Returns: process ID of calling process
+     // Returns: process ID of calling process
 
      pid_t getppid(void);
-
-     Returns: parent process ID of calling process
+     // Returns: parent process ID of calling process
 
      uid_t getuid(void);
-
-     Returns: real user ID of calling process
+     // Returns: real user ID of calling process
 
      uid_t geteuid(void);
-
-     Returns: effective user ID of calling process
+     // Returns: effective user ID of calling process
 
      gid_t getgid(void);
-
-     Returns: real group ID of calling process
+     // Returns: real group ID of calling process
 
      gid_t getegid(void);
-
-     Returns: effective group ID of calling process
+     // Returns: effective group ID of calling process
    #+end_src
 
    #+begin_quote
@@ -923,8 +914,7 @@
    =man 3 fork=
    #+BEGIN_SRC c
      pid_t fork(void);
-
-     Returns: 0 in child, process ID of child in parent, −1 on error
+     // Returns: 0 in child, process ID of child in parent, −1 on error
    #+END_SRC
 
 
@@ -1031,8 +1021,8 @@
    - Example \\
      #+caption: Figure 8.5 Print a description of the exit status
      #+include: "Chapter08/exit_status.c" src c \\
-   #+caption: Figure 8.6 Demonstrate various exit status
-   #+include: "Chapter08/exit.c" src c
+     #+caption: Figure 8.6 Demonstrate various exit status
+     #+include: "Chapter08/exit.c" src c
 
    #+begin_quote
    The waitpid function provides three features that aren’t provided by the wait function.
@@ -1048,7 +1038,7 @@
    =man 2 waitid=
    #+begin_src c
      #include <sys/wait.h> int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
-     Returns: 0 if OK, −1 on error
+     // Returns: 0 if OK, −1 on error
    #+end_src
    (OS X can't get the info, but the function is valid)
 ** 8.8 ~wait3~ and ~wait4~ Functions
@@ -1058,8 +1048,8 @@
    - Example \\
      #+caption: Figure 8.12 Program with a race condition
      #+include: "Chapter08/race.c" src c \\
-   #+caption: Figure 8.13 Modification of Figure 8.12 to avoid race condition
-   #+include: "Chapter08/avoid_race.c" src c
+     #+caption: Figure 8.13 Modification of Figure 8.12 to avoid race condition
+     #+include: "Chapter08/avoid_race.c" src c
 ** 8.10 ~exec~ Functions
    =man 3 exec=
    #+begin_src c
@@ -1154,8 +1144,8 @@
    #+caption: Figure 8.24 Execute the command-line argument using system
    #+include: "Chapter08/systest.c" src c
 
-
-   [[file:Chapter08/pruids.c][Figure 8.25 Print real and effective user IDs]]
+   #+caption: Figure 8.25 Print real and effective user IDs
+   #+include; "Chapter08/pruids.c" src c
 ** 8.14 Process Accounting
    - Example \\
      #+caption: Figure 8.28 Program to generate accounting data
@@ -1481,7 +1471,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
      };
    #+end_src
 
-   #+caption Figure 10.16 Option ﬂags (sa_flags) for the handling of each signal
+   #+caption: Figure 10.16 Option ﬂags (sa_flags) for the handling of each signal
    | Option       | SUS | FreeBSD | Linux | Mac OSX | Solaris | Description                                                                                   |
    |--------------+-----+---------+-------+---------+---------+-----------------------------------------------------------------------------------------------|
    | SA_INTERRUPT | *   |         | *     |         |         | system call interrupted by this signal are not automatically restarted                        |
