@@ -518,18 +518,12 @@
    | Flag    | Description                                                                           |
    |---------+---------------------------------------------------------------------------------------|
    | /       | <>                                                                                    |
-   | '       | #+caption: (apostrophe) format integer with thousands grouping characters
-   #+include: "Chapter05/formatted.c" src c                        |
-   | -       | #+caption: left justify
-   #+include: "Chapter05/formatted.c" src c                                                                          |
-   | +       | #+caption: always display sign of a signed conversion
-   #+include: "Chapter05/formatted.c" src c                                            |
-   | (space) | #+caption: prefix by a space if no sign is generated
-   #+include: "Chapter05/formatted.c" src c                                             |
-   | \#      | #+caption: convert using alternative form(include 0x prefix for hexadecimal format, for example)
-   #+include: "Chapter05/formatted.c" src c |
-   | 0       | #+caption: prefix with leading zeros instead of padding with spaces
-   #+include: "Chapter05/formatted.c" src c                              |
+   | '       | [[file:Chapter05/formatted.c::printf("\nthousands%20grouping:\n");][(apostrophe) format integer with thousands grouping characters]]                        |
+   | -       | [[file:Chapter05/formatted.c::printf("\nleft-justify:\n");][left justify]]                                                                          |
+   | +       | [[file:Chapter05/formatted.c::printf("\nsigned%20decimal:\n");][always display sign of a signed conversion]]                                            |
+   | (space) | [[file:Chapter05/formatted.c::printf("\nspace%20prefix:\n");][prefix by a space if no sign is generated]]                                             |
+   | \#      | [[file:Chapter05/formatted.c::printf("\nalternative%20form:\n");][convert using alternative form(include 0x prefix for hexadecimal format, for example)]] |
+   | 0       | [[file:Chapter05/formatted.c::printf("\nprefix%20zero:\n");][prefix with leading zeros instead of padding with spaces]]                              |
 
 
    #+CAPTION: Figure 5.8 The lenth modifier component of a conversion specification
@@ -550,22 +544,14 @@
    | Conversion type | Description                                                                               |
    |-----------------+-------------------------------------------------------------------------------------------|
    | /               | <>                                                                                        |
-   | d,i             | #+caption: signed decimal
-   #+include: "Chapter05/formatted.c" src c                                                                            |
-   | o               | #+caption: unsigned octal
-   #+include: "Chapter05/formatted.c" src c                                                                            |
-   | u               | #+caption: unsigned decimal
-   #+include: "Chapter05/formatted.c" src c                                                                          |
-   | x,X             | #+caption: unsigned hexadecimal
-   #+include: "Chapter05/formatted.c" src c                                                                      |
-   | f,F             | #+caption: double floating-point number
-   #+include: "Chapter05/formatted.c" src c                                                              |
-   | e,E             | #+caption: double floating-point number in exponential format
-   #+include: "Chapter05/formatted.c" src c                                        |
-   | g,G             | #+caption: interpreted as f, F, e, or E, depending on value converted
-   #+include: "Chapter05/formatted.c" src c                                |
-   | a,A             | #+caption: double ﬂoating-point number in hexadecimal exponential format
-   #+include: "Chapter05/formatted.c" src c                             |
+   | d,i             | [[file:Chapter05/formatted.c::printf("\nsigned%20decimal:\n");][signed decimal]]                                                                            |
+   | o               | [[file:Chapter05/formatted.c::printf("\nalternative%20form:\n");][unsigned octal]]                                                                            |
+   | u               | [[file:Chapter05/formatted.c::printf("\nunsigned%20decimal:\n");][unsigned decimal]]                                                                          |
+   | x,X             | [[file:Chapter05/formatted.c::printf("\nunsigned%20hexadecimal:\n");][unsigned hexadecimal]]                                                                      |
+   | f,F             | [[file:Chapter05/formatted.c::printf("\ndouble%20%EF%AC%82oating-point%20number:\n");][double floating-point number]]                                                              |
+   | e,E             | [[file:Chapter05/formatted.c::printf("\nexponential%20format:\n");][double floating-point number in exponential format]]                                        |
+   | g,G             | [[file:Chapter05/formatted.c::printf("\ninterpreted:\n");][interpreted as f, F, e, or E, depending on value converted]]                                |
+   | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble%20in%20hexadecimal:\n");][double ﬂoating-point number in hexadecimal exponential format]]                             |
    | c               | character (with 1 length modifier, wide character)                                        |
    | s               | string(with 1 length modifier, wide character string)                                     |
    | p               | pointer to a void                                                                         |
