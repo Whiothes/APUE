@@ -1,7 +1,7 @@
 #include "apue.h"
 
 unsigned int sleep2(unsigned int);
-static void sig_int(int);
+static void  sig_int(int);
 
 int main(void) {
   unsigned int unslept;
@@ -16,7 +16,7 @@ int main(void) {
 }
 
 static void sig_int(int signo) {
-  int i, j;
+  int          i, j;
   volatile int k;
 
   printf("\nsig_int starting\n");

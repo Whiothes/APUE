@@ -22,6 +22,7 @@ link_libraries(apue)
 link_directories("${PROJECT_SOURCE_DIR}/lib")
 
 # add_subdirectory("Chapter07")
+add_subdirectory("Chapter01")
 add_subdirectory("Chapter08")
 add_subdirectory("Chapter10")
 # add_subdirectory("Chapter15")

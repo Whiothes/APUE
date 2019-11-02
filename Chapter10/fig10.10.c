@@ -10,10 +10,11 @@
  *
  */
 #include "apue.h"
+#include <signal.h>
 static void sig_alrm(int);
 
 int main(void) {
-  int n;
+  int  n;
   char line[MAXLINE];
 
   if (signal(SIGALRM, sig_alrm) == SIG_ERR) {

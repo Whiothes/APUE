@@ -202,7 +202,7 @@
    ~man 2 write~
 ** I/O Efficiency
    #+caption: Figure 3.5 Copy standard input to standard output
-   #+include: "Chapter03/mycat.c" src c
+   #+include: "Chapter03/fig3.5.c" src c
 ** File Sharing
    1.  Every process has an entry in the process table.
    2.  The kernel maintains a file table for all open files.
@@ -1130,9 +1130,9 @@
    #+end_quote
    - Example \\
      #+caption: Figure 8.22 The system function, without signal handling
-     #+include: "Chapter08/system.c" src c
+     #+include: "Chapter08/fig8.22.c" src c
      #+caption: Figure 8.23 Calling the system function
-     #+include: "Chapter08/system.c" src c
+     #+include: "Chapter08/fig8.22.c" src c
 
    #+begin_quote
    The advantage in using system, instead of using fork and exec directly, is that system does all the required error handling and (in our next version of this function in Section 10.18) all the required signal handling.
@@ -1320,7 +1320,7 @@
 
    - Example: \\
    #+caption: Figure 10.2 Simple program to catch SIGUSR1 and SIGUSR2
-   #+include: "Chapter10/sigfunc.c" src c
+   #+include: "Chapter10/fig10.2.c" src c
    #+begin_quote
    FreeBSD 8.0 and Mac OS X 10.6.8 don’t exhibit this problem, because BSD - based systems generally don’t support historical System V semantics for SIGCLD. Linux 3.2.0 also doesn’t exhibit this problem, because it doesn’t call the SIGCHLD signal handler when a process arranges to catch SIGCHLD and child processes are ready to be waited for, even though SIGCLD and SIGCHLD are defined to be the same value.
    #+end_quote
@@ -1552,18 +1552,170 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
    - Example
      #+caption: Figure 10.22 Protecting a critical region from a signal
      #+include: "Chapter10/fig10.22.c" src c
+   - Example
+     #+caption: Figure 10.23 Using sigsuspend to wait for a global variable to be set
+     #+include: "Chapter10/fig10.23.c" src c
+   - Example
+     #+caption: Figure 10.24 Routines to allow a parent and child to synchronize
+     #+include: "Chapter10/fig10.24.c" src c
+
+   #+begin_quote
+   1. Block SIGINT and SIGALRM.
+
+   2. Test the two global variables to see whether either signal has occurred and, if so, handle the condition.
+
+   3. Call read (or any other system function) and unblock the two signals, as an atomic operation.
+
+   The sigsuspend function helps us only if step 3 is a pause operation.
+   #+end_quote
 
 ** 10.17 ~abort~ Function
+   #+begin_src c
+     #include <stdlib.h>
+     void abort(void);
+   #+end_src
+
+   #+caption: Figure 10.25 Implementation of POSIX.1 ~abort~
+   #+include: "Chapter10/fig10.25.c" src c
 ** 10.18 ~system~ Function
+
+   #+caption: Figure 10.26 Using ~system~ to invoke the =ed= editor
+   #+include: "Chapter10/fig10.26.c" src c
+
+   #+caption: Figure 10.27 Foreground and background process groups for Figure 10.26
+   [[file:Chapter10/fig10.27.png]]
+
+   #+caption: Figure 10.28 Correct POSIX.1 implementation of ~system~ function
+   #+include: "Chapter10/fig10.28.c" src c
+
 ** 10.19 ~sleep~, ~nanaosleep~, and ~clock_nanosleep~ Functions
+   #+begin_src c
+     #include <unistd.h>
+     unsigned int sleep(unsigned int seconds);
+     // Returns: 0 or number of unslept seconds
+   #+end_src
+
+   #+caption: Figure 10.29 Reliable implementation of ~sleep~
+   #+include: "Chapter10/fig10.29.c" src c
+
+   #+begin_src c
+     #include <time.h>
+     int clock_nanosleep(clockid_t clock_id, int flags,
+                         const struct timespec* reqtp, struct timespec* remtp);
+     // Returns: 0 if slept for requested time or error number on failue
+   #+end_src
+
 ** 10.20 ~sigqueue~ Function
+  - Specify the SA_SIGINFO ﬂag when we install a signal handler using the sigaction function
+  - Provide a signal handler in the sa_sigaction member of the sigaction structure instead of using the usual sa_handler ﬁeld.
+  - Use the sigqueue function to send signals.
+   #+begin_src c
+     #include <signal.h>
+
+     int sigqueue(pid_t pid, int signo, const union sigval value);
+     // Returns: 0 if OK, -1 on error
+   #+end_src
+   #+caption: Figure 10.30 Behavior of queued signals on various platforms
+   | Behavior                                                         | SUS      | FreeBSD8.0 | Linux3.2.0 | Mac OSX | Solaris |
+   |------------------------------------------------------------------+----------+------------+------------+---------+---------|
+   | supports sigqueue                                                | *        | *          | *          |         | *       |
+   | queues other signals besides SIGRTMIN to SIGRTMAX                | optional | *          |            |         | *       |
+   | queues signals even if the caller don't use the SA_SIGINFO flags | optional | *          | *          |         |         |
+
 ** 10.21 Job-Control Signals
+   job-control signals:
+      SIGCHLD   Child process has stopped or terminated
+      SIGCONT   Continue process, if stopped.
+      SIGSTOP   Stop signal(can't caught or ignored)
+      SIGTSTP   Interactive stop signal.
+      SIGTTIN   Read from controlling terminately by background process group number
+      SIGTTOU   Write to controlling terminal by a background process group member
+
+   #+caption: Figure 10.31 How to handle SIGTSTP
+   #+include: "Chapter10/fig10.31.c" src c
 ** 10.22 Signal Names and Numbers
+   map between signal numbers and names.
+   #+begin_src  c
+     extern char *sys_siglist[];
+   #+end_src
+
+   in a portable manner
+   #+begin_src c
+     #include <signal.h>
+     void psignal(int signo, const char *msg);
+   #+end_src
+
+   print signal information
+   #+begin_src c
+     #include <signal.h>
+     void psiginfo(const siginfo_t* info, const char *msg);
+   #+end_src
+
+   string description of the signal and don't necessarily wnat to write it to standard error
+   #+begin_src c
+     #include <string.h>
+     char *strsignal(int signo);
+     // Returns: a pointer to a string describing the signal
+   #+end_src
+
+   *Solaris provides*
+   #+begin_src c
+     #include <signal.h>
+     int sig2str(int signo, char *str);
+     int str2sig(const char *str, int *signop);
+     // Both return: 0 if OK, -1 on error
+   #+end_src
+
 ** 10.23 Summary
+   - Example
+     - 10.1
+       #+begin_quote
+       terminates the first time
+       ~pause~ until a signal is received from either the kill(2) function or an interval timer
+       #+end_quote
+     - 10.2
+       #+include: "Chapter10/ex10.2.c" src c
+     - 10.3
+       [[file:Chapter10/ex10.3.png][file:~/Documents/Notes/books/system/APUE/Chapter10/ex10.3.png]]
+     - 10.4
+       race condition between first call ~alarm~ and ~setjmp~
+     - 10.5
+      [[http://www.kohala.com/start/libes.timers.txt][www.kohala.com/start/libes.timers.txt]]
+     - 10.6
+       #+include: "Chapter10/ex10.6.c" src c
+     - 10.7
+       #+begin_quote
+       the termination status of the process would not show that it was terminated by the SIGABRT signal.
+       #+end_quote
+     - 10.8
+       #+begin_quote
+       If the signal was sent by a process owned by some other user, the process has to be set-user-ID to either root or to the owner of the receiving process, or the kill attempt won’t work. Therefore, the real user ID provides more information to the receiver of the signal.
+       #+end_quote
+     - 10.9
+       #+include: "Chapter10/ex10.9.c" src c
+     - 10.10
+       #+include: "Chapter10/ex10.10.c" src c
+     - 10.11
+       #+include: "Chapter10/ex10.11.c" src c
+       SIGXFSZ never caught
+     - 10.12
+       #+include: "Chapter10/ex10.2.c" src c
+       finished, alarm appears until fwrite finshied, it seems the kernel is blocking SIGALRM
 * Chapter 11. Threads
 ** 11.1 Introduction
 ** 11.2 Thread Concepts
+   benefits
+   - asynchronous
+   - same memory address space and file descriptors
+   - problem partition
+   - seperate portions of the program
 ** 11.3 Thread Identification
+   #+begin_src c
+     #include <pthread.h>
+     int pthread_equal(pthread_t tid1, pthread_t tid2);
+
+     // Returns: nonzero if equal, 0 otherwise
+   #+end_src
 ** 11.4 Thread Creation
    =man pthread_create=
    - Example \\

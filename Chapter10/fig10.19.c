@@ -8,8 +8,14 @@
  */
 
 #include "apue.h"
+
 Sigfunc *signal_intr(int signo, Sigfunc *func) {
   struct sigaction act, oact;
+  char             signame[32] = {0};
+
+  psignal(signo, signame);
+
+  printf("%s is caught\n", signame);
 
   act.sa_handler = func;
   sigemptyset(&act.sa_mask);
