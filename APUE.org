@@ -1764,6 +1764,11 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
    #+begin_quote
    The calling thread will block until the speciﬁed thread calls pthread_exit, returns from its start routine, or is canceled.
    #+end_quote
+
+   #+begin_quote
+   *The Linux Programming Language:*
+   If the main thread calls pthread_exit() instead of calling exit() or performing a return, then the other threads continue to execute.
+   #+end_quote
    - Example \\
      #+caption: Figure 11.3 Fetching the thread exit status
      #+include: "Chapter11/fig11.3.c" src c
@@ -1771,6 +1776,61 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
    - Example \\
      #+caption: Figure 11.4 Incorrect use of ~pthread_exit~ argument
      #+include: "Chapter11/fig11.4.c" src c
+
+
+   #+begin_src c
+     #include <pthread.h>
+     int pthread_cancel(pthread_t tid);
+     // Returns: 0 if OK, error number on failure
+   #+end_src
+   in default circumstances, ~pthread_exit~ with *PTHREAD_CANCELD* \\
+   doesn't wait for the thread to terminate; it merely makes the request. \\
+   similar to ~atexit~ used by a process \\
+   known as /thread cleanup handlers/
+
+   #+begin_src c
+     #include <pthread.h>
+     void pthread_cleanup_push(void (*rtn)(void*), void *arg);
+     void pthread_cleanup_pop(int execute);
+   #+end_src
+   #+begin_quote
+   • Makes a call to pthread_exit
+   • Responds to a cancellation request
+   • Makes a call to pthread_cleanup_pop with a nonzero execute argument
+
+   If the execute argument is set to zero, the cleanup function is not called
+   #+end_quote
+
+
+   - Example \\
+     #+caption: Figure 11.5 Thread cleanup handler
+     #+include: "Chapter11/fig11.5.c" src c
+     #+begin_quote
+     if the thread terminates by returning from its start routine, its cleanup handlers are not called, although this behavior varies among implementations
+     #+end_quote
+
+
+   #+caption: Figure 11.6 Comparison of process and thread primitives
+   | Process primitives | Thread Primitive     | Description                                                 |
+   |--------------------+----------------------+-------------------------------------------------------------|
+   | fork               | pthread_create       | create a new flow of control                                |
+   | exit               | pthread_exit         | exit from an existing flow of control                       |
+   | waitpid            | pthread_join         | get exit status from flow of control                        |
+   | atexit             | pthread_cleanup_push | register function to be called at exit from flow of control |
+   | getpid             | pthread_self         | get ID for flow of control                                  |
+   | abort              | pthread_cancel       | request abnormal termination of flow of control             |
+
+
+   detach a thread by calling ~pthread_detach~
+   #+begin_src c
+     #include <pthread.h>
+     int pthread_detach(pthread_t tid);
+     // Returns: 0 if OK, error number on failure
+
+   #+end_src
+** 11.6 Thread Synchronization
+
+
 * Chapter 12. Thread Control
 * Chapter 13. Daemon Processes
 * Chapter 14. Advanced I/O
