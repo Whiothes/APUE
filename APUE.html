@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-11-05 Tue 21:28 -->
+<!-- 2019-11-06 Wed 00:33 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Advanced Programming in the Unix Environment</title>
@@ -253,361 +253,362 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgc3136dd">Chapter 1. UNIX System Overview</a>
+<li><a href="#orgd4cdb7a">Chapter 1. UNIX System Overview</a>
 <ul>
-<li><a href="#org4620dbb">Introduction</a></li>
-<li><a href="#orgff01461">UNIX Architecture</a></li>
-<li><a href="#org8322c4e">Logging in</a></li>
-<li><a href="#orgaff0ee9">Files and Directories</a></li>
-<li><a href="#orgbe2114a">Input and Output</a></li>
-<li><a href="#orgbb32ebb">Programs and Processes</a></li>
-<li><a href="#org4daebab">Error Handling</a></li>
-<li><a href="#org9c71978">User identification</a></li>
-<li><a href="#org92ae6e0">Signals</a></li>
-<li><a href="#org21d7306">Time Values</a></li>
-<li><a href="#orgbc3928b">System calls and Library Functions</a></li>
-<li><a href="#org71f845c">Summary</a></li>
+<li><a href="#orgca72c56">Introduction</a></li>
+<li><a href="#org997196b">UNIX Architecture</a></li>
+<li><a href="#org7f0626a">Logging in</a></li>
+<li><a href="#orgef66300">Files and Directories</a></li>
+<li><a href="#org9d6d5b8">Input and Output</a></li>
+<li><a href="#orgde0bde2">Programs and Processes</a></li>
+<li><a href="#org4592874">Error Handling</a></li>
+<li><a href="#org3d90d7c">User identification</a></li>
+<li><a href="#org994bc6d">Signals</a></li>
+<li><a href="#orge64f4b7">Time Values</a></li>
+<li><a href="#org740d0b6">System calls and Library Functions</a></li>
+<li><a href="#org4aa463b">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org9cc662d">Chapter 2. UNIX Standardization and Implementations</a>
+<li><a href="#org52727c8">Chapter 2. UNIX Standardization and Implementations</a>
 <ul>
-<li><a href="#org5632c24">Introduction</a></li>
-<li><a href="#org61f9881">UNIX Standardization</a>
+<li><a href="#org5bd6750">Introduction</a></li>
+<li><a href="#org5118233">UNIX Standardization</a>
 <ul>
-<li><a href="#orgd335ee4">ISO C</a></li>
-<li><a href="#orgc895238">IEEE POSIX</a></li>
-<li><a href="#orge2d6289">The Single UNIX Specification</a></li>
-<li><a href="#orgd1d1810">FIPS</a></li>
+<li><a href="#org341c6fd">ISO C</a></li>
+<li><a href="#orgeb635ac">IEEE POSIX</a></li>
+<li><a href="#orgca5ee93">The Single UNIX Specification</a></li>
+<li><a href="#org2a75d7f">FIPS</a></li>
 </ul>
 </li>
-<li><a href="#org822d9ce">UNIX System Implementations</a>
+<li><a href="#orgd87c12c">UNIX System Implementations</a>
 <ul>
-<li><a href="#orgcccc1c0">SVR4</a></li>
-<li><a href="#orgdd29c9f">4.4BSD</a></li>
-<li><a href="#orgce5687b">FreeBSD</a></li>
-<li><a href="#org27eb51b">Linux</a></li>
-<li><a href="#orge04ffba">Mac OS X</a></li>
-<li><a href="#org5ec2df3">SOlaris</a></li>
-<li><a href="#org66b6e0a">Others</a></li>
+<li><a href="#orgf161816">SVR4</a></li>
+<li><a href="#org5f64633">4.4BSD</a></li>
+<li><a href="#org99376d7">FreeBSD</a></li>
+<li><a href="#org4dbb3d7">Linux</a></li>
+<li><a href="#org042729a">Mac OS X</a></li>
+<li><a href="#orgd5de41d">SOlaris</a></li>
+<li><a href="#org2c1ca04">Others</a></li>
 </ul>
 </li>
-<li><a href="#org8b0de01">Relationship of Standards and Implementations</a></li>
-<li><a href="#org8cba19e">Limits</a>
+<li><a href="#org5fa6a37">Relationship of Standards and Implementations</a></li>
+<li><a href="#org4acd428">Limits</a>
 <ul>
-<li><a href="#org13cd1e5">ISO C Limits</a></li>
-<li><a href="#orgdd48732">POSIX Limits</a></li>
-<li><a href="#org25d09dd">XSI Limits</a></li>
-<li><a href="#org01f992f"><code>sysconf</code>, <code>pathconf</code>, and <code>fpathconf</code> Functions</a></li>
-<li><a href="#org354ddc4">Indeterminate Runtime Limits</a></li>
+<li><a href="#orgede736c">ISO C Limits</a></li>
+<li><a href="#org1279007">POSIX Limits</a></li>
+<li><a href="#orgfb35739">XSI Limits</a></li>
+<li><a href="#org6ad9586"><code>sysconf</code>, <code>pathconf</code>, and <code>fpathconf</code> Functions</a></li>
+<li><a href="#org6a7916a">Indeterminate Runtime Limits</a></li>
 </ul>
 </li>
-<li><a href="#org6564ac2">Options</a></li>
-<li><a href="#org2adb9bd">Features Test Macros</a></li>
-<li><a href="#orgefb23d6">Primitive System Data Types</a></li>
-<li><a href="#org92d0951">Differences Between Standards</a></li>
-<li><a href="#org03471c6">Summary</a></li>
+<li><a href="#orgb5d0494">Options</a></li>
+<li><a href="#orgfad4533">Features Test Macros</a></li>
+<li><a href="#org476fc37">Primitive System Data Types</a></li>
+<li><a href="#orgeeff89a">Differences Between Standards</a></li>
+<li><a href="#org8fff5e3">Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgb59754f">Chapter 3. File I/O</a>
+<li><a href="#orgc0e0846">Chapter 3. File I/O</a>
 <ul>
-<li><a href="#org28c88ab">Introduction</a></li>
-<li><a href="#org7b526a5">File Descriptors</a></li>
-<li><a href="#org749778f"><code>open</code> and <code>openat</code> Functions</a></li>
-<li><a href="#org241c0c2"><code>creat</code> Function</a></li>
-<li><a href="#org311f2b4"><code>close</code> Function</a></li>
-<li><a href="#orgf5965a5"><code>lseek</code> Function</a></li>
-<li><a href="#org69f5822"><code>read</code> Function</a></li>
-<li><a href="#org68d7972"><code>write</code> Function</a></li>
-<li><a href="#org179ced7">I/O Efficiency</a></li>
-<li><a href="#orgdc16e3b">File Sharing</a></li>
-<li><a href="#org3beeb16">Atomic Operations</a></li>
-<li><a href="#org8fbe81e"><code>dup</code> and <code>dup2</code> Functions</a></li>
-<li><a href="#org9c5744b"><code>sync</code>, <code>fsync</code> and <code>fdatasync</code> Functions</a></li>
-<li><a href="#orgebdb027"><code>fcntl</code> Function</a></li>
-<li><a href="#orgb5ef57f"><code>ioctl</code> Function</a></li>
-<li><a href="#org60b3a09"><code>/dev/fd</code></a></li>
-<li><a href="#org01a5f68">Summary</a></li>
+<li><a href="#org882b4f2">Introduction</a></li>
+<li><a href="#orgf012769">File Descriptors</a></li>
+<li><a href="#org8c25169"><code>open</code> and <code>openat</code> Functions</a></li>
+<li><a href="#org520b30c"><code>creat</code> Function</a></li>
+<li><a href="#org29990bb"><code>close</code> Function</a></li>
+<li><a href="#org208e136"><code>lseek</code> Function</a></li>
+<li><a href="#orgdbdeeff"><code>read</code> Function</a></li>
+<li><a href="#orgf0d5fbd"><code>write</code> Function</a></li>
+<li><a href="#orgcc74a77">I/O Efficiency</a></li>
+<li><a href="#orgfebebef">File Sharing</a></li>
+<li><a href="#orgc4d81d6">Atomic Operations</a></li>
+<li><a href="#org59fcf81"><code>dup</code> and <code>dup2</code> Functions</a></li>
+<li><a href="#org9d5d726"><code>sync</code>, <code>fsync</code> and <code>fdatasync</code> Functions</a></li>
+<li><a href="#org9da05a8"><code>fcntl</code> Function</a></li>
+<li><a href="#org581c7df"><code>ioctl</code> Function</a></li>
+<li><a href="#org6c77d7d"><code>/dev/fd</code></a></li>
+<li><a href="#org4e4ffc9">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org599d485">Chapter 4. System Data Files and Information</a>
+<li><a href="#org3d3dc08">Chapter 4. System Data Files and Information</a>
 <ul>
-<li><a href="#org0109222">4.1 Introduction</a></li>
-<li><a href="#org32a0ed1">4.2 <code>stat</code>, <code>fstat</code>, <code>fstatat</code>, and <code>lstat</code> Functions</a></li>
-<li><a href="#orgcb15cd2">4.3 File Types</a></li>
-<li><a href="#org0c19ef3">4.4 Set-User-ID and Set-Group-ID</a></li>
-<li><a href="#org902ebae">4.5 File Access Permissions</a></li>
-<li><a href="#org1ecafd2">4.6 Ownership of New Files and Directories</a></li>
-<li><a href="#org8a7aebc"><code>access</code> and <code>faccessat</code> Functions</a></li>
-<li><a href="#org63651c9"><code>umask</code> Function</a></li>
-<li><a href="#orgc4cf3e9"><code>chmod</code>, <code>fchmod</code>, and <code>fchmodat</code> Functions</a></li>
-<li><a href="#org4858f1e">Sticky Bit</a></li>
-<li><a href="#org85ae2d1"><code>chown</code>, <code>fchown</code>, <code>fchownat</code>, and <code>lchown</code> Functions</a></li>
-<li><a href="#org46f3e5b">File Size</a></li>
-<li><a href="#orgd4ebb63">File Truncation</a></li>
-<li><a href="#org47ab1d0">File Systems</a></li>
-<li><a href="#org87d3151"><code>link</code>, <code>linkat</code>, <code>unlink</code>, <code>unlinkat</code>, and <code>remove</code> Functions</a></li>
-<li><a href="#orga4d1914"><code>rename</code> and <code>renameat</code> Functions</a></li>
-<li><a href="#org274ea6e">Symbolic Links</a></li>
-<li><a href="#orgec5d7f7">Creating and Reading Symbolic Links</a></li>
-<li><a href="#org2998b47">File Times</a></li>
-<li><a href="#orgc66d4fa"><code>futimens</code>, <code>utimensat</code>, and <code>utimes</code> Functions</a></li>
-<li><a href="#orgab9f995"><code>mkdir</code>, <code>mkdirat</code>, and <code>rmdir</code> Functions</a></li>
-<li><a href="#orgb0a8d74">Reading Directories</a></li>
-<li><a href="#org1d55c1b"><code>chidr</code>, <code>fchdir</code> and <code>getcwd</code> Functions</a></li>
-<li><a href="#org1d2d1af">Device Special Files</a></li>
-<li><a href="#org278fe77">Summary of File Access Permission Bits</a></li>
-<li><a href="#org12acbb2">Summary</a></li>
+<li><a href="#org272c38d">4.1 Introduction</a></li>
+<li><a href="#orgd635a70">4.2 <code>stat</code>, <code>fstat</code>, <code>fstatat</code>, and <code>lstat</code> Functions</a></li>
+<li><a href="#orgbeb8e43">4.3 File Types</a></li>
+<li><a href="#orgbfbdb60">4.4 Set-User-ID and Set-Group-ID</a></li>
+<li><a href="#org7e52a2c">4.5 File Access Permissions</a></li>
+<li><a href="#org400d365">4.6 Ownership of New Files and Directories</a></li>
+<li><a href="#org6378708"><code>access</code> and <code>faccessat</code> Functions</a></li>
+<li><a href="#org80263be"><code>umask</code> Function</a></li>
+<li><a href="#org82907ac"><code>chmod</code>, <code>fchmod</code>, and <code>fchmodat</code> Functions</a></li>
+<li><a href="#orgcd6ad51">Sticky Bit</a></li>
+<li><a href="#orgb7c4a88"><code>chown</code>, <code>fchown</code>, <code>fchownat</code>, and <code>lchown</code> Functions</a></li>
+<li><a href="#orga940e0c">File Size</a></li>
+<li><a href="#org4fad6cc">File Truncation</a></li>
+<li><a href="#org8e6cf90">File Systems</a></li>
+<li><a href="#orga185757"><code>link</code>, <code>linkat</code>, <code>unlink</code>, <code>unlinkat</code>, and <code>remove</code> Functions</a></li>
+<li><a href="#org12dfa80"><code>rename</code> and <code>renameat</code> Functions</a></li>
+<li><a href="#org9e4bdc4">Symbolic Links</a></li>
+<li><a href="#org77b051c">Creating and Reading Symbolic Links</a></li>
+<li><a href="#org9d834ae">File Times</a></li>
+<li><a href="#orgc2342f4"><code>futimens</code>, <code>utimensat</code>, and <code>utimes</code> Functions</a></li>
+<li><a href="#orgdc23d5d"><code>mkdir</code>, <code>mkdirat</code>, and <code>rmdir</code> Functions</a></li>
+<li><a href="#org0052b4c">Reading Directories</a></li>
+<li><a href="#org06219a7"><code>chidr</code>, <code>fchdir</code> and <code>getcwd</code> Functions</a></li>
+<li><a href="#orgf38548d">Device Special Files</a></li>
+<li><a href="#org4d6ddf8">Summary of File Access Permission Bits</a></li>
+<li><a href="#orgc9aa5d6">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org6f6507e">Chapter 5. Standard I/O Library</a>
+<li><a href="#org8fce3b1">Chapter 5. Standard I/O Library</a>
 <ul>
-<li><a href="#org8fae753">Introduction</a></li>
-<li><a href="#org7aab0fa">Streams and FILE Objects</a></li>
-<li><a href="#org67b15cb">Standard Input, Standard Output and Standard Error</a></li>
-<li><a href="#org01ef19d">Buffering</a></li>
-<li><a href="#org1c0047b">Opening a Stream</a></li>
-<li><a href="#org1fd2313">Reading and Writing a Stream</a>
+<li><a href="#orge0f2c3e">Introduction</a></li>
+<li><a href="#org2f5299d">Streams and FILE Objects</a></li>
+<li><a href="#orgb45376a">Standard Input, Standard Output and Standard Error</a></li>
+<li><a href="#org4d9a214">Buffering</a></li>
+<li><a href="#org4d28ebe">Opening a Stream</a></li>
+<li><a href="#org9cd999a">Reading and Writing a Stream</a>
 <ul>
-<li><a href="#org10fa65c">Input Functions</a></li>
-<li><a href="#orgb0b6b5c">Output Functions</a></li>
+<li><a href="#org01e5a4a">Input Functions</a></li>
+<li><a href="#org22a7e22">Output Functions</a></li>
 </ul>
 </li>
-<li><a href="#orgcba77fe">Line-at-a-Time I/O</a></li>
-<li><a href="#org89331b2">Standard I/O Efficiency</a></li>
-<li><a href="#orgadf3cb2">Binary I/O</a></li>
-<li><a href="#org5750adc">Positioning a Stream</a></li>
-<li><a href="#orgb126d80">Formated I/O</a></li>
-<li><a href="#org99255ae">Implementation Details</a></li>
-<li><a href="#org0e8cf56">Temporary Files</a></li>
-<li><a href="#org6c8c334">Memory Streams</a></li>
-<li><a href="#org3ef6ac9">Alternatives to Standard I/O</a></li>
-<li><a href="#orge8de8e1">Summary</a></li>
+<li><a href="#org2528678">Line-at-a-Time I/O</a></li>
+<li><a href="#org44c0d44">Standard I/O Efficiency</a></li>
+<li><a href="#orgc958ee0">Binary I/O</a></li>
+<li><a href="#orgaee2e9c">Positioning a Stream</a></li>
+<li><a href="#orgc7f391f">Formated I/O</a></li>
+<li><a href="#orge52b186">Implementation Details</a></li>
+<li><a href="#org5209d6f">Temporary Files</a></li>
+<li><a href="#org232e0a7">Memory Streams</a></li>
+<li><a href="#org11f9c68">Alternatives to Standard I/O</a></li>
+<li><a href="#org8f47052">Summary</a></li>
 </ul>
 </li>
-<li><a href="#orga058d9a">Chapter 6. System Data Files and Information</a>
+<li><a href="#orgdd6e18a">Chapter 6. System Data Files and Information</a>
 <ul>
-<li><a href="#org9401fa3">introduction</a></li>
-<li><a href="#orgcdf11b6">Password File</a></li>
-<li><a href="#orge351f8f">Shadow Passwords</a></li>
-<li><a href="#orgfb7d24a">Group File</a></li>
-<li><a href="#orge2683f0">Supplementary Group Ids</a></li>
-<li><a href="#org59f3aa3">Implementation Differences</a></li>
-<li><a href="#org9841ffb">Other Data Files</a></li>
-<li><a href="#org487e3a6">Login Accounting</a></li>
-<li><a href="#org98b9127">System Identification</a></li>
-<li><a href="#org6cac8b3">Time and Date Routines</a></li>
-<li><a href="#orgd83f33c">Summary</a></li>
+<li><a href="#org59b6597">introduction</a></li>
+<li><a href="#org943e919">Password File</a></li>
+<li><a href="#org624cbe8">Shadow Passwords</a></li>
+<li><a href="#orgfaaa119">Group File</a></li>
+<li><a href="#orgf3593c2">Supplementary Group Ids</a></li>
+<li><a href="#orgef23769">Implementation Differences</a></li>
+<li><a href="#orgec986a3">Other Data Files</a></li>
+<li><a href="#orgb748468">Login Accounting</a></li>
+<li><a href="#org8eec094">System Identification</a></li>
+<li><a href="#orge300752">Time and Date Routines</a></li>
+<li><a href="#org72ce8c8">Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgff540a1">Chapter 7. Process Environment</a>
+<li><a href="#orgadff71e">Chapter 7. Process Environment</a>
 <ul>
-<li><a href="#org9ddafdb">7.1 Introduction</a></li>
-<li><a href="#org7b8c598">7.2 main Function</a></li>
-<li><a href="#org5344dc0">7.3 Process Termination</a>
+<li><a href="#org798133d">7.1 Introduction</a></li>
+<li><a href="#orgf750182">7.2 main Function</a></li>
+<li><a href="#orgf9df433">7.3 Process Termination</a>
 <ul>
-<li><a href="#orged29b82">Exit Functions</a></li>
-<li><a href="#orgb9ce2d9"><code>atexit</code> Function</a></li>
-<li><a href="#orge12c776">Commond-Line Arguments</a></li>
+<li><a href="#orgcdad77c">Exit Functions</a></li>
+<li><a href="#org8a5530a"><code>atexit</code> Function</a></li>
+<li><a href="#org884a376">Commond-Line Arguments</a></li>
 </ul>
 </li>
-<li><a href="#orgd6c1e8e">7.5 Environment List</a></li>
-<li><a href="#org3ffee90">7.6 Memory Layout of a C Program</a></li>
-<li><a href="#org46d955d">7.7 Shared Libraries</a></li>
-<li><a href="#org82a53aa">7.8 Memory Allocation</a></li>
-<li><a href="#org3de3b23">7.9 Environment Variable</a></li>
-<li><a href="#orgee08a49">7.10 <code>setjmp</code> and <code>longjmp</code> Functions</a></li>
-<li><a href="#org86df9ee"><code>getrlimit</code> and <code>setrlimit</code> Functions</a></li>
-<li><a href="#orgd4b398a">Summary</a></li>
+<li><a href="#org6ec376e">7.5 Environment List</a></li>
+<li><a href="#orge17ecbf">7.6 Memory Layout of a C Program</a></li>
+<li><a href="#orga82270c">7.7 Shared Libraries</a></li>
+<li><a href="#org4151cfa">7.8 Memory Allocation</a></li>
+<li><a href="#org4674ca4">7.9 Environment Variable</a></li>
+<li><a href="#orgd5f0654">7.10 <code>setjmp</code> and <code>longjmp</code> Functions</a></li>
+<li><a href="#org37fe4b9"><code>getrlimit</code> and <code>setrlimit</code> Functions</a></li>
+<li><a href="#orgb25e653">Summary</a></li>
 </ul>
 </li>
-<li><a href="#org914e2ca">Chapter 8. Process Control</a>
+<li><a href="#orgc337870">Chapter 8. Process Control</a>
 <ul>
-<li><a href="#org4e2dd55">8.1 Introduction</a></li>
-<li><a href="#org7ef4d27">8.2 Process Identifiers</a></li>
-<li><a href="#org2bd1c59">8.3 <code>fork</code> Function</a></li>
-<li><a href="#org8183076">8.4 <code>vfork</code> Function</a></li>
-<li><a href="#org3f16105">8.5 <code>exit</code> Function</a></li>
-<li><a href="#org9973cdb">8.6 <code>wait</code> and <code>waitpid</code> Functions</a></li>
-<li><a href="#org905202b">8.7 <code>waitid</code> Function</a></li>
-<li><a href="#orgf6fbb8e">8.8 <code>wait3</code> and <code>wait4</code> Functions</a></li>
-<li><a href="#org81eafb2">8.9 Race Conditions</a></li>
-<li><a href="#org33a37a4">8.10 <code>exec</code> Functions</a></li>
-<li><a href="#orgb05f6ce">8.11 Changing User IDs and Group IDs</a></li>
-<li><a href="#org4cde4a4">8.12 Interpreter Files</a></li>
-<li><a href="#org6cf50c1">8.13 <code>system</code> Function</a></li>
-<li><a href="#org587d0d6">8.14 Process Accounting</a></li>
-<li><a href="#org1b2022c">8.15 User Identification</a></li>
-<li><a href="#orgefe5379">8.16 Process Scheduling</a></li>
-<li><a href="#org7dcaa60">8.17 Process Times</a></li>
-<li><a href="#orgca6db35">8.18 Summary</a></li>
+<li><a href="#orgf4edc82">8.1 Introduction</a></li>
+<li><a href="#orge83b954">8.2 Process Identifiers</a></li>
+<li><a href="#orgc4e8d37">8.3 <code>fork</code> Function</a></li>
+<li><a href="#orgd57f63c">8.4 <code>vfork</code> Function</a></li>
+<li><a href="#org6439324">8.5 <code>exit</code> Function</a></li>
+<li><a href="#org520f797">8.6 <code>wait</code> and <code>waitpid</code> Functions</a></li>
+<li><a href="#orgaf5b2b9">8.7 <code>waitid</code> Function</a></li>
+<li><a href="#org8dd3bc2">8.8 <code>wait3</code> and <code>wait4</code> Functions</a></li>
+<li><a href="#orgbcdf09b">8.9 Race Conditions</a></li>
+<li><a href="#org4d97b4e">8.10 <code>exec</code> Functions</a></li>
+<li><a href="#org29699e8">8.11 Changing User IDs and Group IDs</a></li>
+<li><a href="#orgf71d612">8.12 Interpreter Files</a></li>
+<li><a href="#org4fa1292">8.13 <code>system</code> Function</a></li>
+<li><a href="#org678b921">8.14 Process Accounting</a></li>
+<li><a href="#orgfb36aaa">8.15 User Identification</a></li>
+<li><a href="#orge84fbff">8.16 Process Scheduling</a></li>
+<li><a href="#org6d5be1f">8.17 Process Times</a></li>
+<li><a href="#orge694c1b">8.18 Summary</a></li>
 </ul>
 </li>
-<li><a href="#org4c000e9">Chapter 9. Process Relationships</a>
+<li><a href="#orgf54368b">Chapter 9. Process Relationships</a>
 <ul>
-<li><a href="#org2740bd0">9.1 Introduction</a></li>
-<li><a href="#orgd027b9d">9.2 Terminal Logins</a></li>
-<li><a href="#org21ce769">9.3 Network Logins</a></li>
-<li><a href="#org8ea28b5">9.4 Process Groups</a></li>
-<li><a href="#orge5da05d">9.5 Sessions</a></li>
-<li><a href="#org434e529">9.6 Controlling Terminal</a></li>
-<li><a href="#org028986d">9.7 <code>tcgetpgrp</code>, <code>tcsetpgrp</code>, and <code>tcgetsid</code> Functions</a></li>
-<li><a href="#orgba702ca">9.8 Job Control</a></li>
-<li><a href="#org3dd1957">9.9 Shell Execution Programs</a></li>
-<li><a href="#org05edacd">9.10 Orphaned Process Groups</a></li>
-<li><a href="#org3a1f952">9.11 FreeBSD Implementation</a></li>
-<li><a href="#org03cab99">9.12 Summary</a></li>
+<li><a href="#orgb5df351">9.1 Introduction</a></li>
+<li><a href="#orgd73d9e8">9.2 Terminal Logins</a></li>
+<li><a href="#org716a08f">9.3 Network Logins</a></li>
+<li><a href="#org747ac91">9.4 Process Groups</a></li>
+<li><a href="#org2e657aa">9.5 Sessions</a></li>
+<li><a href="#orgc2a5a39">9.6 Controlling Terminal</a></li>
+<li><a href="#org3ac1e1f">9.7 <code>tcgetpgrp</code>, <code>tcsetpgrp</code>, and <code>tcgetsid</code> Functions</a></li>
+<li><a href="#org26bed99">9.8 Job Control</a></li>
+<li><a href="#orga1a558a">9.9 Shell Execution Programs</a></li>
+<li><a href="#orgf35ba5e">9.10 Orphaned Process Groups</a></li>
+<li><a href="#org761be25">9.11 FreeBSD Implementation</a></li>
+<li><a href="#org153944d">9.12 Summary</a></li>
 </ul>
 </li>
-<li><a href="#org330c722">Chapter 10. Signals</a>
+<li><a href="#orge781e35">Chapter 10. Signals</a>
 <ul>
-<li><a href="#org9a6caee">10.1 Introduction</a></li>
-<li><a href="#orgd3848d3">10.2 Signal Concepts</a></li>
-<li><a href="#org40f8122">10.3 <code>signal</code> Function</a></li>
-<li><a href="#orgf27f7ed">10.4 Unreliable Signals</a></li>
-<li><a href="#org2bddfff">10.5 Interrupted System Calls</a></li>
-<li><a href="#org71a5608">10.6 Reentrant Functions</a></li>
-<li><a href="#org6cdd31e">10.7 <code>SIGCLD</code> Semantics</a></li>
-<li><a href="#orgaf7810f">10.8 Reliable-Signal Terminology and Semantics</a></li>
-<li><a href="#org5db564c">10.9 <code>kill</code> and <code>raise</code> Functions</a></li>
-<li><a href="#org771b460">10.10 <code>alarm</code> and <code>pause</code> Functions</a></li>
-<li><a href="#orgda33e70">10.11 Signal Sets</a></li>
-<li><a href="#org7be3a8e">10.12 <code>sigprocmask</code> Function</a></li>
-<li><a href="#org965175f">10.13 <code>sigpending</code> Function</a></li>
-<li><a href="#orgb8be7eb">10.14 <code>sigaction</code> Function</a></li>
-<li><a href="#orgdccf26e">10.15 <code>sigsetjmp</code> and <code>siglongjmp</code> Functions</a></li>
-<li><a href="#orgde8c084">10.16 <code>sigsuspend</code> Function</a></li>
-<li><a href="#orgee4d9dd">10.17 <code>abort</code> Function</a></li>
-<li><a href="#org495435f">10.18 <code>system</code> Function</a></li>
-<li><a href="#orgf05345b">10.19 <code>sleep</code>, <code>nanaosleep</code>, and <code>clock_nanosleep</code> Functions</a></li>
-<li><a href="#orgbf41607">10.20 <code>sigqueue</code> Function</a></li>
-<li><a href="#orgffd7aee">10.21 Job-Control Signals</a></li>
-<li><a href="#org262c84d">10.22 Signal Names and Numbers</a></li>
-<li><a href="#orgac647c1">10.23 Summary</a></li>
+<li><a href="#org95bf58f">10.1 Introduction</a></li>
+<li><a href="#org955d748">10.2 Signal Concepts</a></li>
+<li><a href="#orgcc911c3">10.3 <code>signal</code> Function</a></li>
+<li><a href="#org1511183">10.4 Unreliable Signals</a></li>
+<li><a href="#org9baca49">10.5 Interrupted System Calls</a></li>
+<li><a href="#org8ab10ab">10.6 Reentrant Functions</a></li>
+<li><a href="#orga0968b6">10.7 <code>SIGCLD</code> Semantics</a></li>
+<li><a href="#org73ca052">10.8 Reliable-Signal Terminology and Semantics</a></li>
+<li><a href="#orgb089a05">10.9 <code>kill</code> and <code>raise</code> Functions</a></li>
+<li><a href="#org5488547">10.10 <code>alarm</code> and <code>pause</code> Functions</a></li>
+<li><a href="#orgf0e7ab2">10.11 Signal Sets</a></li>
+<li><a href="#org1d153ca">10.12 <code>sigprocmask</code> Function</a></li>
+<li><a href="#org305e71e">10.13 <code>sigpending</code> Function</a></li>
+<li><a href="#org1ff8492">10.14 <code>sigaction</code> Function</a></li>
+<li><a href="#org51a2479">10.15 <code>sigsetjmp</code> and <code>siglongjmp</code> Functions</a></li>
+<li><a href="#orga27f497">10.16 <code>sigsuspend</code> Function</a></li>
+<li><a href="#org2ce66d5">10.17 <code>abort</code> Function</a></li>
+<li><a href="#orgb641332">10.18 <code>system</code> Function</a></li>
+<li><a href="#org29630d4">10.19 <code>sleep</code>, <code>nanaosleep</code>, and <code>clock_nanosleep</code> Functions</a></li>
+<li><a href="#org022e56e">10.20 <code>sigqueue</code> Function</a></li>
+<li><a href="#orge349563">10.21 Job-Control Signals</a></li>
+<li><a href="#org00b12f3">10.22 Signal Names and Numbers</a></li>
+<li><a href="#org08abb99">10.23 Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgcdc9862">Chapter 11. Threads</a>
+<li><a href="#org63085c3">Chapter 11. Threads</a>
 <ul>
-<li><a href="#orgd31523b">11.1 Introduction</a></li>
-<li><a href="#org80bdd81">11.2 Thread Concepts</a></li>
-<li><a href="#orgfaf2bb5">11.3 Thread Identification</a></li>
-<li><a href="#org1f9fae2">11.4 Thread Creation</a></li>
-<li><a href="#org67f69a5">11.5 Thread Termination</a></li>
+<li><a href="#org2beece4">11.1 Introduction</a></li>
+<li><a href="#org5677c79">11.2 Thread Concepts</a></li>
+<li><a href="#orgeaf402c">11.3 Thread Identification</a></li>
+<li><a href="#org397db34">11.4 Thread Creation</a></li>
+<li><a href="#org4631690">11.5 Thread Termination</a></li>
+<li><a href="#orgcac9643">11.6 Thread Synchronization</a></li>
 </ul>
 </li>
-<li><a href="#org8d5f403">Chapter 12. Thread Control</a></li>
-<li><a href="#org17b1c85">Chapter 13. Daemon Processes</a></li>
-<li><a href="#org6f76666">Chapter 14. Advanced I/O</a>
+<li><a href="#org989d3c5">Chapter 12. Thread Control</a></li>
+<li><a href="#orgba07661">Chapter 13. Daemon Processes</a></li>
+<li><a href="#org110e165">Chapter 14. Advanced I/O</a>
 <ul>
-<li><a href="#orga3ca60d">14.1 Introduction</a></li>
-<li><a href="#org98f01da">14.2 Nonblocking I/O</a></li>
-<li><a href="#org2860109">14.3 Recording Locking</a>
+<li><a href="#orgbccc922">14.1 Introduction</a></li>
+<li><a href="#orgd01eb66">14.2 Nonblocking I/O</a></li>
+<li><a href="#org33d3214">14.3 Recording Locking</a>
 <ul>
-<li><a href="#org66cd414">1. History</a></li>
-<li><a href="#org1a727fb">2. <code>fcntl</code> Record Locking</a></li>
+<li><a href="#org31fa03f">1. History</a></li>
+<li><a href="#orgb61a614">2. <code>fcntl</code> Record Locking</a></li>
 </ul>
 </li>
-<li><a href="#orgd58f0d8">14.4 I/O Multiplexing</a>
+<li><a href="#org03859e4">14.4 I/O Multiplexing</a>
 <ul>
-<li><a href="#org368c7e7">14.4.1 <code>select</code> and <code>pselect</code> Functions</a></li>
-<li><a href="#org56aedbc">14.4.2 <code>poll</code> Function</a></li>
+<li><a href="#org0e2b69b">14.4.1 <code>select</code> and <code>pselect</code> Functions</a></li>
+<li><a href="#orgd3e1d00">14.4.2 <code>poll</code> Function</a></li>
 </ul>
 </li>
-<li><a href="#org135e0cf">14.5 Asynchronous I/O</a>
+<li><a href="#orga981457">14.5 Asynchronous I/O</a>
 <ul>
-<li><a href="#org55820c3">14.5.1 System V Asynchronous I/O</a></li>
-<li><a href="#orgf6c7a38">14.5.2 BSD Asynchronous I/O</a></li>
-<li><a href="#orgfbe1757">14.5.3 POSIX Asynchronous I/O</a></li>
+<li><a href="#org0ad161d">14.5.1 System V Asynchronous I/O</a></li>
+<li><a href="#org161cd2c">14.5.2 BSD Asynchronous I/O</a></li>
+<li><a href="#org2110e06">14.5.3 POSIX Asynchronous I/O</a></li>
 </ul>
 </li>
-<li><a href="#org889664a">14.6 <code>readv</code> and <code>writev</code> Functions</a></li>
-<li><a href="#org91416eb">14.7 <code>readn</code> and <code>writen</code> Functions</a></li>
-<li><a href="#org1f5b382">14.8 Memory-Mapped I/O</a></li>
-<li><a href="#orgbc66185">14.9 Summary</a></li>
+<li><a href="#org6b82ad4">14.6 <code>readv</code> and <code>writev</code> Functions</a></li>
+<li><a href="#org3dd0a34">14.7 <code>readn</code> and <code>writen</code> Functions</a></li>
+<li><a href="#orgc99b603">14.8 Memory-Mapped I/O</a></li>
+<li><a href="#orgf457601">14.9 Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgb1240d9">Chapter 15. Interprocess Communication</a>
+<li><a href="#org00237c1">Chapter 15. Interprocess Communication</a>
 <ul>
-<li><a href="#orgc82617a">15.1 Introduction</a></li>
-<li><a href="#org3b877f1">15.2 Pipes</a></li>
-<li><a href="#orge061ef2">15.3 <code>popen</code> and <code>pclose</code> Functions</a></li>
-<li><a href="#org10a00a9">15.4 Coprocesses</a></li>
-<li><a href="#orga607fc5">15.5 FIFOs</a></li>
-<li><a href="#orge7ed6be">15.6 XSI IPC</a></li>
-<li><a href="#orgfc68789">15.6.1 Identifiers and Keys</a></li>
-<li><a href="#org88f7f2e">15.6.2 Permission Structure</a></li>
-<li><a href="#org6156a80">15.6.3 Configuration Limits</a></li>
-<li><a href="#org63e47fa">15.6.4 Advantages and Disadvantages</a></li>
-<li><a href="#org46c1f23">15.7 Message Queues</a></li>
-<li><a href="#org12100b2">15.8 Semaphores</a></li>
-<li><a href="#org9fb5a14">15.9 Shared Memory</a></li>
-<li><a href="#org7170d36">15.10 POSIX Semaphores</a></li>
-<li><a href="#orga0a8f86">15.11 Client-Server Properties</a></li>
-<li><a href="#org3f898c7">15.12 Summary</a></li>
+<li><a href="#org1223d19">15.1 Introduction</a></li>
+<li><a href="#org37693e5">15.2 Pipes</a></li>
+<li><a href="#org521fb4e">15.3 <code>popen</code> and <code>pclose</code> Functions</a></li>
+<li><a href="#orgf86c387">15.4 Coprocesses</a></li>
+<li><a href="#orga9f5767">15.5 FIFOs</a></li>
+<li><a href="#org118149f">15.6 XSI IPC</a></li>
+<li><a href="#org083a2e5">15.6.1 Identifiers and Keys</a></li>
+<li><a href="#org4ec6315">15.6.2 Permission Structure</a></li>
+<li><a href="#org3dec06d">15.6.3 Configuration Limits</a></li>
+<li><a href="#org760ee7c">15.6.4 Advantages and Disadvantages</a></li>
+<li><a href="#orgc6e03dd">15.7 Message Queues</a></li>
+<li><a href="#org196ed1f">15.8 Semaphores</a></li>
+<li><a href="#orgf48d20e">15.9 Shared Memory</a></li>
+<li><a href="#orgf5c6e84">15.10 POSIX Semaphores</a></li>
+<li><a href="#orgcf02025">15.11 Client-Server Properties</a></li>
+<li><a href="#orgcfff336">15.12 Summary</a></li>
 </ul>
 </li>
-<li><a href="#orga3e8809">Chapter 16. Network IPC: Sockets</a>
+<li><a href="#org8dba0ee">Chapter 16. Network IPC: Sockets</a>
 <ul>
-<li><a href="#org37a096d">16.1 Introduction</a></li>
-<li><a href="#org1ca7c3f">16.2 Socket Descriptors</a></li>
-<li><a href="#org4beb7b0">16.3 Addressing</a>
+<li><a href="#orga495a0d">16.1 Introduction</a></li>
+<li><a href="#org01b8de9">16.2 Socket Descriptors</a></li>
+<li><a href="#org79814fc">16.3 Addressing</a>
 <ul>
-<li><a href="#org8ba64f6">16.3.1 Byte Ordering</a></li>
-<li><a href="#org805a2c9">16.3.2 Address Formats</a></li>
-<li><a href="#org0776f44">16.3.3 Address Lookup</a></li>
-<li><a href="#org91a2a51">16.3.4 Associating Addresses with Sockets</a></li>
+<li><a href="#org6637645">16.3.1 Byte Ordering</a></li>
+<li><a href="#org7ea9c3e">16.3.2 Address Formats</a></li>
+<li><a href="#org5127ac7">16.3.3 Address Lookup</a></li>
+<li><a href="#orgbe8dcd6">16.3.4 Associating Addresses with Sockets</a></li>
 </ul>
 </li>
-<li><a href="#org95a01a3">16.4 Connection Establishment</a></li>
-<li><a href="#org22f999c">16.5 Data Transfer</a></li>
-<li><a href="#org0050e76">16.6 Socket Options</a></li>
-<li><a href="#orge962845">16.7 Out-of-Band Data</a></li>
-<li><a href="#org3a81a21">16.8 Nonblocking and Asynchronous I/O</a></li>
-<li><a href="#orgf93afd3">16.9 Summary</a></li>
+<li><a href="#orgeea3e3a">16.4 Connection Establishment</a></li>
+<li><a href="#org40bc859">16.5 Data Transfer</a></li>
+<li><a href="#org1b0a2d1">16.6 Socket Options</a></li>
+<li><a href="#org4150ad5">16.7 Out-of-Band Data</a></li>
+<li><a href="#org4dfac22">16.8 Nonblocking and Asynchronous I/O</a></li>
+<li><a href="#orgc029c4a">16.9 Summary</a></li>
 </ul>
 </li>
-<li><a href="#org0481bc9">Chapter 17. Advanced IPC</a>
+<li><a href="#org68cf1ac">Chapter 17. Advanced IPC</a>
 <ul>
-<li><a href="#org0393295">17.1 Introduction</a></li>
-<li><a href="#org3cfd016">17.2 UNIX Domain Sockets</a>
+<li><a href="#org6927740">17.1 Introduction</a></li>
+<li><a href="#org279455d">17.2 UNIX Domain Sockets</a>
 <ul>
-<li><a href="#orgacd2c6f">17.2.1 Naming UNIX Domain Sockets</a></li>
+<li><a href="#orgecb93ff">17.2.1 Naming UNIX Domain Sockets</a></li>
 </ul>
 </li>
-<li><a href="#orgfbf45df">17.3 Unique Connections</a></li>
-<li><a href="#org50e52a9">17.4 Passing File Descriptors</a></li>
-<li><a href="#orgdd8d2da">17.5 An Open Server, Version 1</a></li>
-<li><a href="#orgfb2849a">17.6 An Open Server, Version 2</a></li>
-<li><a href="#orgd4efc38">17.7 Summary</a></li>
+<li><a href="#org9872d72">17.3 Unique Connections</a></li>
+<li><a href="#org720ecfb">17.4 Passing File Descriptors</a></li>
+<li><a href="#orga886b95">17.5 An Open Server, Version 1</a></li>
+<li><a href="#orged19e0b">17.6 An Open Server, Version 2</a></li>
+<li><a href="#org6f29ddd">17.7 Summary</a></li>
 </ul>
 </li>
-<li><a href="#org67470e3">Chapter 18. Terminal I/O</a></li>
-<li><a href="#org9fa6e1b">Chapter 19. Pseudo Terminals</a></li>
-<li><a href="#org5c418ee">Chapter 20. A Database Library</a></li>
-<li><a href="#orga8906ad">Chapter 21. Communication with a Network Printer</a></li>
+<li><a href="#org681bc74">Chapter 18. Terminal I/O</a></li>
+<li><a href="#orgc54714b">Chapter 19. Pseudo Terminals</a></li>
+<li><a href="#org91b1ad0">Chapter 20. A Database Library</a></li>
+<li><a href="#orgc681a41">Chapter 21. Communication with a Network Printer</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc3136dd" class="outline-2">
-<h2 id="orgc3136dd">Chapter 1. UNIX System Overview</h2>
-<div class="outline-text-2" id="text-orgc3136dd">
+<div id="outline-container-orgd4cdb7a" class="outline-2">
+<h2 id="orgd4cdb7a">Chapter 1. UNIX System Overview</h2>
+<div class="outline-text-2" id="text-orgd4cdb7a">
 </div>
-<div id="outline-container-org4620dbb" class="outline-3">
-<h3 id="org4620dbb">Introduction</h3>
+<div id="outline-container-orgca72c56" class="outline-3">
+<h3 id="orgca72c56">Introduction</h3>
 </div>
-<div id="outline-container-orgff01461" class="outline-3">
-<h3 id="orgff01461">UNIX Architecture</h3>
+<div id="outline-container-org997196b" class="outline-3">
+<h3 id="org997196b">UNIX Architecture</h3>
 </div>
-<div id="outline-container-org8322c4e" class="outline-3">
-<h3 id="org8322c4e">Logging in</h3>
-<div class="outline-text-3" id="text-org8322c4e">
+<div id="outline-container-org7f0626a" class="outline-3">
+<h3 id="org7f0626a">Logging in</h3>
+<div class="outline-text-3" id="text-org7f0626a">
 <ul class="org-ul">
 <li>Login Name</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgaff0ee9" class="outline-3">
-<h3 id="orgaff0ee9">Files and Directories</h3>
-<div class="outline-text-3" id="text-orgaff0ee9">
+<div id="outline-container-orgef66300" class="outline-3">
+<h3 id="orgef66300">Files and Directories</h3>
+<div class="outline-text-3" id="text-orgef66300">
 <ul class="org-ul">
 <li>File System</li>
 <li>Pathname
@@ -616,7 +617,7 @@ for the JavaScript code in this tag.
 Example <br />
 </p>
 <div class="org-src-container">
-<pre class="src src-C" id="orgada8be9"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">dirent.h</span><span style="color: #3a81c3;">&gt;</span>
+<pre class="src src-C" id="org89bb40a"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">dirent.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
 
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">main</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #715ab1;">argc</span>, <span style="color: #ba2f59; font-weight: bold;">char</span> *<span style="color: #715ab1;">argv</span><span style="color: #6c3163;">[]</span><span style="color: #3a81c3;">)</span> <span style="color: #3a81c3;">{</span>
@@ -643,9 +644,9 @@ Example <br />
 </div>
 </div>
 
-<div id="outline-container-orgbe2114a" class="outline-3">
-<h3 id="orgbe2114a">Input and Output</h3>
-<div class="outline-text-3" id="text-orgbe2114a">
+<div id="outline-container-org9d6d5b8" class="outline-3">
+<h3 id="org9d6d5b8">Input and Output</h3>
+<div class="outline-text-3" id="text-org9d6d5b8">
 <ul class="org-ul">
 <li>File Descriptors</li>
 <li>Standard Input, Standard Output, and Standard Error</li>
@@ -709,9 +710,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbb32ebb" class="outline-3">
-<h3 id="orgbb32ebb">Programs and Processes</h3>
-<div class="outline-text-3" id="text-orgbb32ebb">
+<div id="outline-container-orgde0bde2" class="outline-3">
+<h3 id="orgde0bde2">Programs and Processes</h3>
+<div class="outline-text-3" id="text-orgde0bde2">
 <ul class="org-ul">
 <li>Program</li>
 <li>Proceses and Process ID
@@ -777,9 +778,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org4daebab" class="outline-3">
-<h3 id="org4daebab">Error Handling</h3>
-<div class="outline-text-3" id="text-org4daebab">
+<div id="outline-container-org4592874" class="outline-3">
+<h3 id="org4592874">Error Handling</h3>
+<div class="outline-text-3" id="text-org4592874">
 <ul class="org-ul">
 <li><p>
 Example <br />
@@ -801,9 +802,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org9c71978" class="outline-3">
-<h3 id="org9c71978">User identification</h3>
-<div class="outline-text-3" id="text-org9c71978">
+<div id="outline-container-org3d90d7c" class="outline-3">
+<h3 id="org3d90d7c">User identification</h3>
+<div class="outline-text-3" id="text-org3d90d7c">
 <ul class="org-ul">
 <li>User ID</li>
 <li>Group ID
@@ -827,9 +828,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org92ae6e0" class="outline-3">
-<h3 id="org92ae6e0">Signals</h3>
-<div class="outline-text-3" id="text-org92ae6e0">
+<div id="outline-container-org994bc6d" class="outline-3">
+<h3 id="org994bc6d">Signals</h3>
+<div class="outline-text-3" id="text-org994bc6d">
 <p>
 Process choices:
 </p>
@@ -888,9 +889,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org21d7306" class="outline-3">
-<h3 id="org21d7306">Time Values</h3>
-<div class="outline-text-3" id="text-org21d7306">
+<div id="outline-container-orge64f4b7" class="outline-3">
+<h3 id="orge64f4b7">Time Values</h3>
+<div class="outline-text-3" id="text-orge64f4b7">
 <ol class="org-ol">
 <li>Calendar time.</li>
 <li>Process time.
@@ -902,9 +903,9 @@ Example <br />
 </ol>
 </div>
 </div>
-<div id="outline-container-orgbc3928b" class="outline-3">
-<h3 id="orgbc3928b">System calls and Library Functions</h3>
-<div class="outline-text-3" id="text-orgbc3928b">
+<div id="outline-container-org740d0b6" class="outline-3">
+<h3 id="org740d0b6">System calls and Library Functions</h3>
+<div class="outline-text-3" id="text-org740d0b6">
 <ul class="org-ul">
 <li>Concepts:
 <ul class="org-ul">
@@ -926,9 +927,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org71f845c" class="outline-3">
-<h3 id="org71f845c">Summary</h3>
-<div class="outline-text-3" id="text-org71f845c">
+<div id="outline-container-org4aa463b" class="outline-3">
+<h3 id="org4aa463b">Summary</h3>
+<div class="outline-text-3" id="text-org4aa463b">
 <p>
 <b>Exercises</b>
 </p>
@@ -946,26 +947,26 @@ recompile the program</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org9cc662d" class="outline-2">
-<h2 id="org9cc662d">Chapter 2. UNIX Standardization and Implementations</h2>
-<div class="outline-text-2" id="text-org9cc662d">
+<div id="outline-container-org52727c8" class="outline-2">
+<h2 id="org52727c8">Chapter 2. UNIX Standardization and Implementations</h2>
+<div class="outline-text-2" id="text-org52727c8">
 </div>
-<div id="outline-container-org5632c24" class="outline-3">
-<h3 id="org5632c24">Introduction</h3>
+<div id="outline-container-org5bd6750" class="outline-3">
+<h3 id="org5bd6750">Introduction</h3>
 </div>
-<div id="outline-container-org61f9881" class="outline-3">
-<h3 id="org61f9881">UNIX Standardization</h3>
-<div class="outline-text-3" id="text-org61f9881">
+<div id="outline-container-org5118233" class="outline-3">
+<h3 id="org5118233">UNIX Standardization</h3>
+<div class="outline-text-3" id="text-org5118233">
 </div>
-<div id="outline-container-orgd335ee4" class="outline-4">
-<h4 id="orgd335ee4">ISO C</h4>
+<div id="outline-container-org341c6fd" class="outline-4">
+<h4 id="org341c6fd">ISO C</h4>
 </div>
-<div id="outline-container-orgc895238" class="outline-4">
-<h4 id="orgc895238">IEEE POSIX</h4>
+<div id="outline-container-orgeb635ac" class="outline-4">
+<h4 id="orgeb635ac">IEEE POSIX</h4>
 </div>
-<div id="outline-container-orge2d6289" class="outline-4">
-<h4 id="orge2d6289">The Single UNIX Specification</h4>
-<div class="outline-text-4" id="text-orge2d6289">
+<div id="outline-container-orgca5ee93" class="outline-4">
+<h4 id="orgca5ee93">The Single UNIX Specification</h4>
+<div class="outline-text-4" id="text-orgca5ee93">
 <ul class="org-ul">
 <li>Encryption: denoted by <code>_XOPEN_CRYPE</code></li>
 <li>Real-time: denoted by <code>_XOPEN_REALTIME</code></li>
@@ -975,35 +976,35 @@ recompile the program</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd1d1810" class="outline-4">
-<h4 id="orgd1d1810">FIPS</h4>
+<div id="outline-container-org2a75d7f" class="outline-4">
+<h4 id="org2a75d7f">FIPS</h4>
 </div>
 </div>
-<div id="outline-container-org822d9ce" class="outline-3">
-<h3 id="org822d9ce">UNIX System Implementations</h3>
-<div class="outline-text-3" id="text-org822d9ce">
+<div id="outline-container-orgd87c12c" class="outline-3">
+<h3 id="orgd87c12c">UNIX System Implementations</h3>
+<div class="outline-text-3" id="text-orgd87c12c">
 </div>
-<div id="outline-container-orgcccc1c0" class="outline-4">
-<h4 id="orgcccc1c0">SVR4</h4>
+<div id="outline-container-orgf161816" class="outline-4">
+<h4 id="orgf161816">SVR4</h4>
 </div>
-<div id="outline-container-orgdd29c9f" class="outline-4">
-<h4 id="orgdd29c9f">4.4BSD</h4>
+<div id="outline-container-org5f64633" class="outline-4">
+<h4 id="org5f64633">4.4BSD</h4>
 </div>
-<div id="outline-container-orgce5687b" class="outline-4">
-<h4 id="orgce5687b">FreeBSD</h4>
+<div id="outline-container-org99376d7" class="outline-4">
+<h4 id="org99376d7">FreeBSD</h4>
 </div>
-<div id="outline-container-org27eb51b" class="outline-4">
-<h4 id="org27eb51b">Linux</h4>
+<div id="outline-container-org4dbb3d7" class="outline-4">
+<h4 id="org4dbb3d7">Linux</h4>
 </div>
-<div id="outline-container-orge04ffba" class="outline-4">
-<h4 id="orge04ffba">Mac OS X</h4>
+<div id="outline-container-org042729a" class="outline-4">
+<h4 id="org042729a">Mac OS X</h4>
 </div>
-<div id="outline-container-org5ec2df3" class="outline-4">
-<h4 id="org5ec2df3">SOlaris</h4>
+<div id="outline-container-orgd5de41d" class="outline-4">
+<h4 id="orgd5de41d">SOlaris</h4>
 </div>
-<div id="outline-container-org66b6e0a" class="outline-4">
-<h4 id="org66b6e0a">Others</h4>
-<div class="outline-text-4" id="text-org66b6e0a">
+<div id="outline-container-org2c1ca04" class="outline-4">
+<h4 id="org2c1ca04">Others</h4>
+<div class="outline-text-4" id="text-org2c1ca04">
 <ul class="org-ul">
 <li>AIX, IBMUNIX</li>
 <li>HP-UX, HP</li>
@@ -1013,23 +1014,23 @@ recompile the program</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org8b0de01" class="outline-3">
-<h3 id="org8b0de01">Relationship of Standards and Implementations</h3>
+<div id="outline-container-org5fa6a37" class="outline-3">
+<h3 id="org5fa6a37">Relationship of Standards and Implementations</h3>
 </div>
-<div id="outline-container-org8cba19e" class="outline-3">
-<h3 id="org8cba19e">Limits</h3>
-<div class="outline-text-3" id="text-org8cba19e">
+<div id="outline-container-org4acd428" class="outline-3">
+<h3 id="org4acd428">Limits</h3>
+<div class="outline-text-3" id="text-org4acd428">
 <ol class="org-ol">
 <li>Comipile-time limits</li>
 <li>Runtime limits</li>
 </ol>
 </div>
-<div id="outline-container-org13cd1e5" class="outline-4">
-<h4 id="org13cd1e5">ISO C Limits</h4>
+<div id="outline-container-orgede736c" class="outline-4">
+<h4 id="orgede736c">ISO C Limits</h4>
 </div>
-<div id="outline-container-orgdd48732" class="outline-4">
-<h4 id="orgdd48732">POSIX Limits</h4>
-<div class="outline-text-4" id="text-orgdd48732">
+<div id="outline-container-org1279007" class="outline-4">
+<h4 id="org1279007">POSIX Limits</h4>
+<div class="outline-text-4" id="text-org1279007">
 <ol class="org-ol">
 <li>Numerical limits: <code>LONG_BIT</code>, <code>SSIZE_MAX</code>, and <code>WORD_BIT</code></li>
 <li>Minimum value：</li>
@@ -1041,18 +1042,18 @@ recompile the program</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org25d09dd" class="outline-4">
-<h4 id="org25d09dd">XSI Limits</h4>
-<div class="outline-text-4" id="text-org25d09dd">
+<div id="outline-container-orgfb35739" class="outline-4">
+<h4 id="orgfb35739">XSI Limits</h4>
+<div class="outline-text-4" id="text-orgfb35739">
 <ol class="org-ol">
 <li>Minimum values:</li>
 <li>Runtime invariant values, possibly indeterminate: <b>IOV_MAX</b> and <b>PAGE_SIZE</b></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org01f992f" class="outline-4">
-<h4 id="org01f992f"><code>sysconf</code>, <code>pathconf</code>, and <code>fpathconf</code> Functions</h4>
-<div class="outline-text-4" id="text-org01f992f">
+<div id="outline-container-org6ad9586" class="outline-4">
+<h4 id="org6ad9586"><code>sysconf</code>, <code>pathconf</code>, and <code>fpathconf</code> Functions</h4>
+<div class="outline-text-4" id="text-org6ad9586">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 8: </span>Figure 2.13 Build C program to print all supported configuration limits</label><pre class="src src-c">#<span style="color: #4e3163;">!</span>/usr/bin/awk -f
 
@@ -1145,9 +1146,9 @@ END <span style="color: #3a81c3;">{</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org354ddc4" class="outline-4">
-<h4 id="org354ddc4">Indeterminate Runtime Limits</h4>
-<div class="outline-text-4" id="text-org354ddc4">
+<div id="outline-container-org6a7916a" class="outline-4">
+<h4 id="org6a7916a">Indeterminate Runtime Limits</h4>
+<div class="outline-text-4" id="text-org6a7916a">
 <ol class="org-ol">
 <li>#+caption: pathalloc</li>
 </ol>
@@ -1248,9 +1249,9 @@ END <span style="color: #3a81c3;">{</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org6564ac2" class="outline-3">
-<h3 id="org6564ac2">Options</h3>
-<div class="outline-text-3" id="text-org6564ac2">
+<div id="outline-container-orgb5d0494" class="outline-3">
+<h3 id="orgb5d0494">Options</h3>
+<div class="outline-text-3" id="text-orgb5d0494">
 <ol class="org-ol">
 <li>Compile-time options are defined in <code>&lt;unistd.h&gt;</code></li>
 <li>Runtime options are not associated with a file or a directory are idnetified with the <code>sysconf</code> function</li>
@@ -1258,28 +1259,28 @@ END <span style="color: #3a81c3;">{</span>
 </ol>
 </div>
 </div>
-<div id="outline-container-org2adb9bd" class="outline-3">
-<h3 id="org2adb9bd">Features Test Macros</h3>
-<div class="outline-text-3" id="text-org2adb9bd">
+<div id="outline-container-orgfad4533" class="outline-3">
+<h3 id="orgfad4533">Features Test Macros</h3>
+<div class="outline-text-3" id="text-orgfad4533">
 <p>
 <code>cc -D_POSIX_C_SOURCE=200809L code.c</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgefb23d6" class="outline-3">
-<h3 id="orgefb23d6">Primitive System Data Types</h3>
-<div class="outline-text-3" id="text-orgefb23d6">
+<div id="outline-container-org476fc37" class="outline-3">
+<h3 id="org476fc37">Primitive System Data Types</h3>
+<div class="outline-text-3" id="text-org476fc37">
 <p>
 The header <code>&lt;sys/types.h&gt;</code> defines some implementation-dependent data types, called the <i>primitive system data types</i>.
 </p>
 </div>
 </div>
-<div id="outline-container-org92d0951" class="outline-3">
-<h3 id="org92d0951">Differences Between Standards</h3>
+<div id="outline-container-orgeeff89a" class="outline-3">
+<h3 id="orgeeff89a">Differences Between Standards</h3>
 </div>
-<div id="outline-container-org03471c6" class="outline-3">
-<h3 id="org03471c6">Summary</h3>
-<div class="outline-text-3" id="text-org03471c6">
+<div id="outline-container-org8fff5e3" class="outline-3">
+<h3 id="org8fff5e3">Summary</h3>
+<div class="outline-text-3" id="text-org8fff5e3">
 <p>
 <b>Exercises</b>
 </p>
@@ -1324,16 +1325,16 @@ The header <code>&lt;sys/types.h&gt;</code> defines some implementation-dependen
 </div>
 </div>
 </div>
-<div id="outline-container-orgb59754f" class="outline-2">
-<h2 id="orgb59754f">Chapter 3. File I/O</h2>
-<div class="outline-text-2" id="text-orgb59754f">
+<div id="outline-container-orgc0e0846" class="outline-2">
+<h2 id="orgc0e0846">Chapter 3. File I/O</h2>
+<div class="outline-text-2" id="text-orgc0e0846">
 </div>
-<div id="outline-container-org28c88ab" class="outline-3">
-<h3 id="org28c88ab">Introduction</h3>
+<div id="outline-container-org882b4f2" class="outline-3">
+<h3 id="org882b4f2">Introduction</h3>
 </div>
-<div id="outline-container-org7b526a5" class="outline-3">
-<h3 id="org7b526a5">File Descriptors</h3>
-<div class="outline-text-3" id="text-org7b526a5">
+<div id="outline-container-orgf012769" class="outline-3">
+<h3 id="orgf012769">File Descriptors</h3>
+<div class="outline-text-3" id="text-orgf012769">
 <p>
 To the kernel, all open file are referred to by file descriptors.
 </p>
@@ -1344,33 +1345,33 @@ To the kernel, all open file are referred to by file descriptors.
 </ul>
 </div>
 </div>
-<div id="outline-container-org749778f" class="outline-3">
-<h3 id="org749778f"><code>open</code> and <code>openat</code> Functions</h3>
-<div class="outline-text-3" id="text-org749778f">
+<div id="outline-container-org8c25169" class="outline-3">
+<h3 id="org8c25169"><code>open</code> and <code>openat</code> Functions</h3>
+<div class="outline-text-3" id="text-org8c25169">
 <p>
 <code>man 2 open</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org241c0c2" class="outline-3">
-<h3 id="org241c0c2"><code>creat</code> Function</h3>
-<div class="outline-text-3" id="text-org241c0c2">
+<div id="outline-container-org520b30c" class="outline-3">
+<h3 id="org520b30c"><code>creat</code> Function</h3>
+<div class="outline-text-3" id="text-org520b30c">
 <p>
 <code>man 2 creat</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org311f2b4" class="outline-3">
-<h3 id="org311f2b4"><code>close</code> Function</h3>
-<div class="outline-text-3" id="text-org311f2b4">
+<div id="outline-container-org29990bb" class="outline-3">
+<h3 id="org29990bb"><code>close</code> Function</h3>
+<div class="outline-text-3" id="text-org29990bb">
 <p>
 <code>man 2 close</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgf5965a5" class="outline-3">
-<h3 id="orgf5965a5"><code>lseek</code> Function</h3>
-<div class="outline-text-3" id="text-orgf5965a5">
+<div id="outline-container-org208e136" class="outline-3">
+<h3 id="org208e136"><code>lseek</code> Function</h3>
+<div class="outline-text-3" id="text-org208e136">
 <p>
 <code>man 2 lseek</code>
 </p>
@@ -1428,25 +1429,25 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-org69f5822" class="outline-3">
-<h3 id="org69f5822"><code>read</code> Function</h3>
-<div class="outline-text-3" id="text-org69f5822">
+<div id="outline-container-orgdbdeeff" class="outline-3">
+<h3 id="orgdbdeeff"><code>read</code> Function</h3>
+<div class="outline-text-3" id="text-orgdbdeeff">
 <p>
 <code>man 2 read</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org68d7972" class="outline-3">
-<h3 id="org68d7972"><code>write</code> Function</h3>
-<div class="outline-text-3" id="text-org68d7972">
+<div id="outline-container-orgf0d5fbd" class="outline-3">
+<h3 id="orgf0d5fbd"><code>write</code> Function</h3>
+<div class="outline-text-3" id="text-orgf0d5fbd">
 <p>
 <code>man 2 write</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org179ced7" class="outline-3">
-<h3 id="org179ced7">I/O Efficiency</h3>
-<div class="outline-text-3" id="text-org179ced7">
+<div id="outline-container-orgcc74a77" class="outline-3">
+<h3 id="orgcc74a77">I/O Efficiency</h3>
+<div class="outline-text-3" id="text-orgcc74a77">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 11: </span>Figure 3.5 Copy standard input to standard output</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">fcntl.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">sys/stat.h</span><span style="color: #3a81c3;">&gt;</span>
@@ -1477,9 +1478,9 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgdc16e3b" class="outline-3">
-<h3 id="orgdc16e3b">File Sharing</h3>
-<div class="outline-text-3" id="text-orgdc16e3b">
+<div id="outline-container-orgfebebef" class="outline-3">
+<h3 id="orgfebebef">File Sharing</h3>
+<div class="outline-text-3" id="text-orgfebebef">
 <ol class="org-ol">
 <li>Every process has an entry in the process table.</li>
 <li>The kernel maintains a file table for all open files.</li>
@@ -1488,9 +1489,9 @@ and pointers to functions that operate on the file;</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org3beeb16" class="outline-3">
-<h3 id="org3beeb16">Atomic Operations</h3>
-<div class="outline-text-3" id="text-org3beeb16">
+<div id="outline-container-orgc4d81d6" class="outline-3">
+<h3 id="orgc4d81d6">Atomic Operations</h3>
+<div class="outline-text-3" id="text-orgc4d81d6">
 <ul class="org-ul">
 <li>Appending to a File</li>
 <li><code>pread</code> and <code>pwrite</code> Functions
@@ -1505,9 +1506,9 @@ Calling pread is equivalent to calling lseek followed by a call to read, with th
 </ul>
 </div>
 </div>
-<div id="outline-container-org8fbe81e" class="outline-3">
-<h3 id="org8fbe81e"><code>dup</code> and <code>dup2</code> Functions</h3>
-<div class="outline-text-3" id="text-org8fbe81e">
+<div id="outline-container-org59fcf81" class="outline-3">
+<h3 id="org59fcf81"><code>dup</code> and <code>dup2</code> Functions</h3>
+<div class="outline-text-3" id="text-org59fcf81">
 <p>
 <code>man 2 dup</code>
 </p>
@@ -1524,17 +1525,17 @@ Differences:
 </ul>
 </div>
 </div>
-<div id="outline-container-org9c5744b" class="outline-3">
-<h3 id="org9c5744b"><code>sync</code>, <code>fsync</code> and <code>fdatasync</code> Functions</h3>
-<div class="outline-text-3" id="text-org9c5744b">
+<div id="outline-container-org9d5d726" class="outline-3">
+<h3 id="org9d5d726"><code>sync</code>, <code>fsync</code> and <code>fdatasync</code> Functions</h3>
+<div class="outline-text-3" id="text-org9d5d726">
 <p>
 <code>man 2 sync</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgebdb027" class="outline-3">
-<h3 id="orgebdb027"><code>fcntl</code> Function</h3>
-<div class="outline-text-3" id="text-orgebdb027">
+<div id="outline-container-org9da05a8" class="outline-3">
+<h3 id="org9da05a8"><code>fcntl</code> Function</h3>
+<div class="outline-text-3" id="text-org9da05a8">
 <p>
 <code>man 2 fcntl</code>
 The <code>fcntl</code> function is used for five different purposes.
@@ -1621,20 +1622,20 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgb5ef57f" class="outline-3">
-<h3 id="orgb5ef57f"><code>ioctl</code> Function</h3>
-<div class="outline-text-3" id="text-orgb5ef57f">
+<div id="outline-container-org581c7df" class="outline-3">
+<h3 id="org581c7df"><code>ioctl</code> Function</h3>
+<div class="outline-text-3" id="text-org581c7df">
 <p>
 <code>man 2 ioctl</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org60b3a09" class="outline-3">
-<h3 id="org60b3a09"><code>/dev/fd</code></h3>
+<div id="outline-container-org6c77d7d" class="outline-3">
+<h3 id="org6c77d7d"><code>/dev/fd</code></h3>
 </div>
-<div id="outline-container-org01a5f68" class="outline-3">
-<h3 id="org01a5f68">Summary</h3>
-<div class="outline-text-3" id="text-org01a5f68">
+<div id="outline-container-org4e4ffc9" class="outline-3">
+<h3 id="org4e4ffc9">Summary</h3>
+<div class="outline-text-3" id="text-org4e4ffc9">
 <p>
 <b>Exercises</b>
 </p>
@@ -1770,24 +1771,24 @@ main(int argc, char *argv[argc])
 </div>
 </div>
 </div>
-<div id="outline-container-org599d485" class="outline-2">
-<h2 id="org599d485">Chapter 4. System Data Files and Information</h2>
-<div class="outline-text-2" id="text-org599d485">
+<div id="outline-container-org3d3dc08" class="outline-2">
+<h2 id="org3d3dc08">Chapter 4. System Data Files and Information</h2>
+<div class="outline-text-2" id="text-org3d3dc08">
 </div>
-<div id="outline-container-org0109222" class="outline-3">
-<h3 id="org0109222">4.1 Introduction</h3>
+<div id="outline-container-org272c38d" class="outline-3">
+<h3 id="org272c38d">4.1 Introduction</h3>
 </div>
-<div id="outline-container-org32a0ed1" class="outline-3">
-<h3 id="org32a0ed1">4.2 <code>stat</code>, <code>fstat</code>, <code>fstatat</code>, and <code>lstat</code> Functions</h3>
-<div class="outline-text-3" id="text-org32a0ed1">
+<div id="outline-container-orgd635a70" class="outline-3">
+<h3 id="orgd635a70">4.2 <code>stat</code>, <code>fstat</code>, <code>fstatat</code>, and <code>lstat</code> Functions</h3>
+<div class="outline-text-3" id="text-orgd635a70">
 <p>
 <code>man 2 stat</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgcb15cd2" class="outline-3">
-<h3 id="orgcb15cd2">4.3 File Types</h3>
-<div class="outline-text-3" id="text-orgcb15cd2">
+<div id="outline-container-orgbeb8e43" class="outline-3">
+<h3 id="orgbeb8e43">4.3 File Types</h3>
+<div class="outline-text-3" id="text-orgbeb8e43">
 <ol class="org-ol">
 <li>Regular file.
 There is no distinction to the UNIX kernel whether this data is text or binary.</li>
@@ -1849,9 +1850,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org0c19ef3" class="outline-3">
-<h3 id="org0c19ef3">4.4 Set-User-ID and Set-Group-ID</h3>
-<div class="outline-text-3" id="text-org0c19ef3">
+<div id="outline-container-orgbfbdb60" class="outline-3">
+<h3 id="orgbfbdb60">4.4 Set-User-ID and Set-Group-ID</h3>
+<div class="outline-text-3" id="text-orgbfbdb60">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1907,9 +1908,9 @@ Example <br />
 </table>
 </div>
 </div>
-<div id="outline-container-org902ebae" class="outline-3">
-<h3 id="org902ebae">4.5 File Access Permissions</h3>
-<div class="outline-text-3" id="text-org902ebae">
+<div id="outline-container-org7e52a2c" class="outline-3">
+<h3 id="org7e52a2c">4.5 File Access Permissions</h3>
+<div class="outline-text-3" id="text-org7e52a2c">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1975,12 +1976,12 @@ Example <br />
 </table>
 </div>
 </div>
-<div id="outline-container-org1ecafd2" class="outline-3">
-<h3 id="org1ecafd2">4.6 Ownership of New Files and Directories</h3>
+<div id="outline-container-org400d365" class="outline-3">
+<h3 id="org400d365">4.6 Ownership of New Files and Directories</h3>
 </div>
-<div id="outline-container-org8a7aebc" class="outline-3">
-<h3 id="org8a7aebc"><code>access</code> and <code>faccessat</code> Functions</h3>
-<div class="outline-text-3" id="text-org8a7aebc">
+<div id="outline-container-org6378708" class="outline-3">
+<h3 id="org6378708"><code>access</code> and <code>faccessat</code> Functions</h3>
+<div class="outline-text-3" id="text-org6378708">
 <p>
 <code>man 2 access</code>
 </p>
@@ -2019,9 +2020,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org63651c9" class="outline-3">
-<h3 id="org63651c9"><code>umask</code> Function</h3>
-<div class="outline-text-3" id="text-org63651c9">
+<div id="outline-container-org80263be" class="outline-3">
+<h3 id="org80263be"><code>umask</code> Function</h3>
+<div class="outline-text-3" id="text-org80263be">
 <p>
 <code>man 2 umask</code>
 </p>
@@ -2054,9 +2055,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc4cf3e9" class="outline-3">
-<h3 id="orgc4cf3e9"><code>chmod</code>, <code>fchmod</code>, and <code>fchmodat</code> Functions</h3>
-<div class="outline-text-3" id="text-orgc4cf3e9">
+<div id="outline-container-org82907ac" class="outline-3">
+<h3 id="org82907ac"><code>chmod</code>, <code>fchmod</code>, and <code>fchmodat</code> Functions</h3>
+<div class="outline-text-3" id="text-org82907ac">
 <p>
 <code>man 2 chmod</code>
 </p>
@@ -2092,42 +2093,42 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org4858f1e" class="outline-3">
-<h3 id="org4858f1e">Sticky Bit</h3>
-<div class="outline-text-3" id="text-org4858f1e">
+<div id="outline-container-orgcd6ad51" class="outline-3">
+<h3 id="orgcd6ad51">Sticky Bit</h3>
+<div class="outline-text-3" id="text-orgcd6ad51">
 <p>
 If it was set for an executable program file, then the first time the program was executed, <br />
 a copy of the program’s text was saved in the swap area when the process terminated
 </p>
 </div>
 </div>
-<div id="outline-container-org85ae2d1" class="outline-3">
-<h3 id="org85ae2d1"><code>chown</code>, <code>fchown</code>, <code>fchownat</code>, and <code>lchown</code> Functions</h3>
-<div class="outline-text-3" id="text-org85ae2d1">
+<div id="outline-container-orgb7c4a88" class="outline-3">
+<h3 id="orgb7c4a88"><code>chown</code>, <code>fchown</code>, <code>fchownat</code>, and <code>lchown</code> Functions</h3>
+<div class="outline-text-3" id="text-orgb7c4a88">
 <p>
 <code>man 2 chown</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org46f3e5b" class="outline-3">
-<h3 id="org46f3e5b">File Size</h3>
-<div class="outline-text-3" id="text-org46f3e5b">
+<div id="outline-container-orga940e0c" class="outline-3">
+<h3 id="orga940e0c">File Size</h3>
+<div class="outline-text-3" id="text-orga940e0c">
 <p>
 <code>struct stat.st_size</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgd4ebb63" class="outline-3">
-<h3 id="orgd4ebb63">File Truncation</h3>
-<div class="outline-text-3" id="text-orgd4ebb63">
+<div id="outline-container-org4fad6cc" class="outline-3">
+<h3 id="org4fad6cc">File Truncation</h3>
+<div class="outline-text-3" id="text-org4fad6cc">
 <p>
 <code>man 2 truncate</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org47ab1d0" class="outline-3">
-<h3 id="org47ab1d0">File Systems</h3>
-<div class="outline-text-3" id="text-org47ab1d0">
+<div id="outline-container-org8e6cf90" class="outline-3">
+<h3 id="org8e6cf90">File Systems</h3>
+<div class="outline-text-3" id="text-org8e6cf90">
 <ul class="org-ul">
 <li>Only when the link count goes to 0 can the file be deleted. <br />
 <code>struct stat.st_nlink</code></li>
@@ -2139,9 +2140,9 @@ Most of the information in the stat structure is obtained from the i-node, exclu
 </ul>
 </div>
 </div>
-<div id="outline-container-org87d3151" class="outline-3">
-<h3 id="org87d3151"><code>link</code>, <code>linkat</code>, <code>unlink</code>, <code>unlinkat</code>, and <code>remove</code> Functions</h3>
-<div class="outline-text-3" id="text-org87d3151">
+<div id="outline-container-orga185757" class="outline-3">
+<h3 id="orga185757"><code>link</code>, <code>linkat</code>, <code>unlink</code>, <code>unlinkat</code>, and <code>remove</code> Functions</h3>
+<div class="outline-text-3" id="text-orga185757">
 <p>
 <code>man 2 link</code>
 </p>
@@ -2173,9 +2174,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-orga4d1914" class="outline-3">
-<h3 id="orga4d1914"><code>rename</code> and <code>renameat</code> Functions</h3>
-<div class="outline-text-3" id="text-orga4d1914">
+<div id="outline-container-org12dfa80" class="outline-3">
+<h3 id="org12dfa80"><code>rename</code> and <code>renameat</code> Functions</h3>
+<div class="outline-text-3" id="text-org12dfa80">
 <p>
 <code>man 2 rename</code>
 </p>
@@ -2188,30 +2189,30 @@ Example <br />
 </ol>
 </div>
 </div>
-<div id="outline-container-org274ea6e" class="outline-3">
-<h3 id="org274ea6e">Symbolic Links</h3>
-<div class="outline-text-3" id="text-org274ea6e">
+<div id="outline-container-org9e4bdc4" class="outline-3">
+<h3 id="org9e4bdc4">Symbolic Links</h3>
+<div class="outline-text-3" id="text-org9e4bdc4">
 <ul class="org-ul">
 <li>Hard links normally require that the link and the file reside in the same file system.</li>
 <li>Only the superuser can create a hard link to a directory (when supported by the underlying file system).</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgec5d7f7" class="outline-3">
-<h3 id="orgec5d7f7">Creating and Reading Symbolic Links</h3>
-<div class="outline-text-3" id="text-orgec5d7f7">
+<div id="outline-container-org77b051c" class="outline-3">
+<h3 id="org77b051c">Creating and Reading Symbolic Links</h3>
+<div class="outline-text-3" id="text-org77b051c">
 <p>
 <code>man 2 symlink</code>
 <code>man 2 readlink</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org2998b47" class="outline-3">
-<h3 id="org2998b47">File Times</h3>
+<div id="outline-container-org9d834ae" class="outline-3">
+<h3 id="org9d834ae">File Times</h3>
 </div>
-<div id="outline-container-orgc66d4fa" class="outline-3">
-<h3 id="orgc66d4fa"><code>futimens</code>, <code>utimensat</code>, and <code>utimes</code> Functions</h3>
-<div class="outline-text-3" id="text-orgc66d4fa">
+<div id="outline-container-orgc2342f4" class="outline-3">
+<h3 id="orgc2342f4"><code>futimens</code>, <code>utimensat</code>, and <code>utimes</code> Functions</h3>
+<div class="outline-text-3" id="text-orgc2342f4">
 <p>
 POSIX.1
 <code>man 2 futimens</code>
@@ -2262,9 +2263,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-orgab9f995" class="outline-3">
-<h3 id="orgab9f995"><code>mkdir</code>, <code>mkdirat</code>, and <code>rmdir</code> Functions</h3>
-<div class="outline-text-3" id="text-orgab9f995">
+<div id="outline-container-orgdc23d5d" class="outline-3">
+<h3 id="orgdc23d5d"><code>mkdir</code>, <code>mkdirat</code>, and <code>rmdir</code> Functions</h3>
+<div class="outline-text-3" id="text-orgdc23d5d">
 <p>
 Creat:
 <code>man 2 mkdir</code>
@@ -2273,9 +2274,9 @@ Remove:
 </p>
 </div>
 </div>
-<div id="outline-container-orgb0a8d74" class="outline-3">
-<h3 id="orgb0a8d74">Reading Directories</h3>
-<div class="outline-text-3" id="text-orgb0a8d74">
+<div id="outline-container-org0052b4c" class="outline-3">
+<h3 id="org0052b4c">Reading Directories</h3>
+<div class="outline-text-3" id="text-org0052b4c">
 <p>
 <code>man 3 opendir</code>
 </p>
@@ -2285,9 +2286,9 @@ Remove:
 </ul>
 </div>
 </div>
-<div id="outline-container-org1d55c1b" class="outline-3">
-<h3 id="org1d55c1b"><code>chidr</code>, <code>fchdir</code> and <code>getcwd</code> Functions</h3>
-<div class="outline-text-3" id="text-org1d55c1b">
+<div id="outline-container-org06219a7" class="outline-3">
+<h3 id="org06219a7"><code>chidr</code>, <code>fchdir</code> and <code>getcwd</code> Functions</h3>
+<div class="outline-text-3" id="text-org06219a7">
 <p>
 <code>man 2 chdir</code>
 </p>
@@ -2343,9 +2344,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org1d2d1af" class="outline-3">
-<h3 id="org1d2d1af">Device Special Files</h3>
-<div class="outline-text-3" id="text-org1d2d1af">
+<div id="outline-container-orgf38548d" class="outline-3">
+<h3 id="orgf38548d">Device Special Files</h3>
+<div class="outline-text-3" id="text-orgf38548d">
 <ul class="org-ul">
 <li><p>
 Example <br />
@@ -2383,9 +2384,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org278fe77" class="outline-3">
-<h3 id="org278fe77">Summary of File Access Permission Bits</h3>
-<div class="outline-text-3" id="text-org278fe77">
+<div id="outline-container-org4d6ddf8" class="outline-3">
+<h3 id="org4d6ddf8">Summary of File Access Permission Bits</h3>
+<div class="outline-text-3" id="text-org4d6ddf8">
 <p>
 S_IRWXU = S_IRUSR | S_IWUSR | S_IXUSR
 S_IRWXG = S_IRGRP | S_IWGRP | S_IXGRP
@@ -2393,9 +2394,9 @@ S_IRWXO = S_IROTH | S_IWOTH | S_IXOTH
 </p>
 </div>
 </div>
-<div id="outline-container-org12acbb2" class="outline-3">
-<h3 id="org12acbb2">Summary</h3>
-<div class="outline-text-3" id="text-org12acbb2">
+<div id="outline-container-orgc9aa5d6" class="outline-3">
+<h3 id="orgc9aa5d6">Summary</h3>
+<div class="outline-text-3" id="text-orgc9aa5d6">
 <p>
 <b>Exercises</b>
 </p>
@@ -2741,37 +2742,37 @@ Depending on the utility (tar or cpio), you can tell it to keep the original acc
 </div>
 </div>
 </div>
-<div id="outline-container-org6f6507e" class="outline-2">
-<h2 id="org6f6507e">Chapter 5. Standard I/O Library</h2>
-<div class="outline-text-2" id="text-org6f6507e">
+<div id="outline-container-org8fce3b1" class="outline-2">
+<h2 id="org8fce3b1">Chapter 5. Standard I/O Library</h2>
+<div class="outline-text-2" id="text-org8fce3b1">
 </div>
-<div id="outline-container-org8fae753" class="outline-3">
-<h3 id="org8fae753">Introduction</h3>
-<div class="outline-text-3" id="text-org8fae753">
+<div id="outline-container-orge0f2c3e" class="outline-3">
+<h3 id="orge0f2c3e">Introduction</h3>
+<div class="outline-text-3" id="text-orge0f2c3e">
 <p>
 This library is specified by the ISO C standard because it has been implemented on many operating systems other than the UNIX System.
 </p>
 </div>
 </div>
-<div id="outline-container-org7aab0fa" class="outline-3">
-<h3 id="org7aab0fa">Streams and FILE Objects</h3>
-<div class="outline-text-3" id="text-org7aab0fa">
+<div id="outline-container-org2f5299d" class="outline-3">
+<h3 id="org2f5299d">Streams and FILE Objects</h3>
+<div class="outline-text-3" id="text-org2f5299d">
 <p>
 <code>man 3 fwide</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org67b15cb" class="outline-3">
-<h3 id="org67b15cb">Standard Input, Standard Output and Standard Error</h3>
-<div class="outline-text-3" id="text-org67b15cb">
+<div id="outline-container-orgb45376a" class="outline-3">
+<h3 id="orgb45376a">Standard Input, Standard Output and Standard Error</h3>
+<div class="outline-text-3" id="text-orgb45376a">
 <p>
 <code>STDIN_FILENO</code>, <code>STDOUT_FILENO</code>, <code>STDERR_FILENO</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org01ef19d" class="outline-3">
-<h3 id="org01ef19d">Buffering</h3>
-<div class="outline-text-3" id="text-org01ef19d">
+<div id="outline-container-org4d9a214" class="outline-3">
+<h3 id="org4d9a214">Buffering</h3>
+<div class="outline-text-3" id="text-org4d9a214">
 <p>
 Three types of buffering are provided:
 </p>
@@ -2806,18 +2807,18 @@ Most implementations default to the following types of buffering:
 </p>
 </div>
 </div>
-<div id="outline-container-org1c0047b" class="outline-3">
-<h3 id="org1c0047b">Opening a Stream</h3>
-<div class="outline-text-3" id="text-org1c0047b">
+<div id="outline-container-org4d28ebe" class="outline-3">
+<h3 id="org4d28ebe">Opening a Stream</h3>
+<div class="outline-text-3" id="text-org4d28ebe">
 <p>
 <code>man 3 fopen</code>
 <code>man 3 fclose</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org1fd2313" class="outline-3">
-<h3 id="org1fd2313">Reading and Writing a Stream</h3>
-<div class="outline-text-3" id="text-org1fd2313">
+<div id="outline-container-org9cd999a" class="outline-3">
+<h3 id="org9cd999a">Reading and Writing a Stream</h3>
+<div class="outline-text-3" id="text-org9cd999a">
 <p>
 Three types of unformatted I/O:
 </p>
@@ -2827,9 +2828,9 @@ Three types of unformatted I/O:
 <li>Direct I/O.</li>
 </ol>
 </div>
-<div id="outline-container-org10fa65c" class="outline-4">
-<h4 id="org10fa65c">Input Functions</h4>
-<div class="outline-text-4" id="text-org10fa65c">
+<div id="outline-container-org01e5a4a" class="outline-4">
+<h4 id="org01e5a4a">Input Functions</h4>
+<div class="outline-text-4" id="text-org01e5a4a">
 <p>
 <code>man 3 getc</code>
 </p>
@@ -2855,26 +2856,26 @@ After reading from a stream, we can push back characters by calling <code>ungetc
 </p>
 </div>
 </div>
-<div id="outline-container-orgb0b6b5c" class="outline-4">
-<h4 id="orgb0b6b5c">Output Functions</h4>
-<div class="outline-text-4" id="text-orgb0b6b5c">
+<div id="outline-container-org22a7e22" class="outline-4">
+<h4 id="org22a7e22">Output Functions</h4>
+<div class="outline-text-4" id="text-org22a7e22">
 <p>
 <code>man 3 putc</code>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcba77fe" class="outline-3">
-<h3 id="orgcba77fe">Line-at-a-Time I/O</h3>
-<div class="outline-text-3" id="text-orgcba77fe">
+<div id="outline-container-org2528678" class="outline-3">
+<h3 id="org2528678">Line-at-a-Time I/O</h3>
+<div class="outline-text-3" id="text-org2528678">
 <p>
 <code>man fgets</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org89331b2" class="outline-3">
-<h3 id="org89331b2">Standard I/O Efficiency</h3>
-<div class="outline-text-3" id="text-org89331b2">
+<div id="outline-container-org44c0d44" class="outline-3">
+<h3 id="org44c0d44">Standard I/O Efficiency</h3>
+<div class="outline-text-3" id="text-org44c0d44">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 23: </span>Figure 5.4 Copy standard input to output using getc and putc</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
 
@@ -2916,17 +2917,17 @@ After reading from a stream, we can push back characters by calling <code>ungetc
 </div>
 </div>
 </div>
-<div id="outline-container-orgadf3cb2" class="outline-3">
-<h3 id="orgadf3cb2">Binary I/O</h3>
-<div class="outline-text-3" id="text-orgadf3cb2">
+<div id="outline-container-orgc958ee0" class="outline-3">
+<h3 id="orgc958ee0">Binary I/O</h3>
+<div class="outline-text-3" id="text-orgc958ee0">
 <p>
 <code>man fread</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org5750adc" class="outline-3">
-<h3 id="org5750adc">Positioning a Stream</h3>
-<div class="outline-text-3" id="text-org5750adc">
+<div id="outline-container-orgaee2e9c" class="outline-3">
+<h3 id="orgaee2e9c">Positioning a Stream</h3>
+<div class="outline-text-3" id="text-orgaee2e9c">
 <p>
 Three way to position a standard I/O stream:
 </p>
@@ -2967,9 +2968,9 @@ When porting applications to non-UNIX systems, use fgetpos and fsetpos.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb126d80" class="outline-3">
-<h3 id="orgb126d80">Formated I/O</h3>
-<div class="outline-text-3" id="text-orgb126d80">
+<div id="outline-container-orgc7f391f" class="outline-3">
+<h3 id="orgc7f391f">Formated I/O</h3>
+<div class="outline-text-3" id="text-orgc7f391f">
 <p>
 <code>man 3 printf</code>
 </p>
@@ -3283,9 +3284,9 @@ When porting applications to non-UNIX systems, use fgetpos and fsetpos.
 </p>
 </div>
 </div>
-<div id="outline-container-org99255ae" class="outline-3">
-<h3 id="org99255ae">Implementation Details</h3>
-<div class="outline-text-3" id="text-org99255ae">
+<div id="outline-container-orge52b186" class="outline-3">
+<h3 id="orge52b186">Implementation Details</h3>
+<div class="outline-text-3" id="text-orge52b186">
 <p>
 <code>man 3 fileno</code>
 </p>
@@ -3423,9 +3424,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org0e8cf56" class="outline-3">
-<h3 id="org0e8cf56">Temporary Files</h3>
-<div class="outline-text-3" id="text-org0e8cf56">
+<div id="outline-container-org5209d6f" class="outline-3">
+<h3 id="org5209d6f">Temporary Files</h3>
+<div class="outline-text-3" id="text-org5209d6f">
 <p>
 <code>man 3 tmpnam</code>
 </p>
@@ -3511,9 +3512,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org6c8c334" class="outline-3">
-<h3 id="org6c8c334">Memory Streams</h3>
-<div class="outline-text-3" id="text-org6c8c334">
+<div id="outline-container-org232e0a7" class="outline-3">
+<h3 id="org232e0a7">Memory Streams</h3>
+<div class="outline-text-3" id="text-org232e0a7">
 <p>
 <code>man 3 fmemopen</code>
 </p>
@@ -3585,17 +3586,17 @@ The other two functions:
 </p>
 </div>
 </div>
-<div id="outline-container-org3ef6ac9" class="outline-3">
-<h3 id="org3ef6ac9">Alternatives to Standard I/O</h3>
-<div class="outline-text-3" id="text-org3ef6ac9">
+<div id="outline-container-org11f9c68" class="outline-3">
+<h3 id="org11f9c68">Alternatives to Standard I/O</h3>
+<div class="outline-text-3" id="text-org11f9c68">
 <p>
 The standard I/O library is not perfect. some in the basic design, but most in the various implementations.
 </p>
 </div>
 </div>
-<div id="outline-container-orge8de8e1" class="outline-3">
-<h3 id="orge8de8e1">Summary</h3>
-<div class="outline-text-3" id="text-orge8de8e1">
+<div id="outline-container-org8f47052" class="outline-3">
+<h3 id="org8f47052">Summary</h3>
+<div class="outline-text-3" id="text-org8f47052">
 <p>
 <b>Exercises</b>
 </p>
@@ -3959,24 +3960,24 @@ execute <code>fgets</code> and <code>fputs</code> more than 1 times;
 </div>
 </div>
 </div>
-<div id="outline-container-orga058d9a" class="outline-2">
-<h2 id="orga058d9a">Chapter 6. System Data Files and Information</h2>
-<div class="outline-text-2" id="text-orga058d9a">
+<div id="outline-container-orgdd6e18a" class="outline-2">
+<h2 id="orgdd6e18a">Chapter 6. System Data Files and Information</h2>
+<div class="outline-text-2" id="text-orgdd6e18a">
 </div>
-<div id="outline-container-org9401fa3" class="outline-3">
-<h3 id="org9401fa3">introduction</h3>
+<div id="outline-container-org59b6597" class="outline-3">
+<h3 id="org59b6597">introduction</h3>
 </div>
-<div id="outline-container-orgcdf11b6" class="outline-3">
-<h3 id="orgcdf11b6">Password File</h3>
-<div class="outline-text-3" id="text-orgcdf11b6">
+<div id="outline-container-org943e919" class="outline-3">
+<h3 id="org943e919">Password File</h3>
+<div class="outline-text-3" id="text-org943e919">
 <p>
 <code>man getpwuid</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orge351f8f" class="outline-3">
-<h3 id="orge351f8f">Shadow Passwords</h3>
-<div class="outline-text-3" id="text-orge351f8f">
+<div id="outline-container-org624cbe8" class="outline-3">
+<h3 id="org624cbe8">Shadow Passwords</h3>
+<div class="outline-text-3" id="text-org624cbe8">
 <p>
 <b>On Linux 3.2.0 and Solaris 10,</b>
 <code>man getspnam</code>
@@ -3984,17 +3985,17 @@ execute <code>fgets</code> and <code>fputs</code> more than 1 times;
 </p>
 </div>
 </div>
-<div id="outline-container-orgfb7d24a" class="outline-3">
-<h3 id="orgfb7d24a">Group File</h3>
-<div class="outline-text-3" id="text-orgfb7d24a">
+<div id="outline-container-orgfaaa119" class="outline-3">
+<h3 id="orgfaaa119">Group File</h3>
+<div class="outline-text-3" id="text-orgfaaa119">
 <p>
 <code>man getgrgid</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orge2683f0" class="outline-3">
-<h3 id="orge2683f0">Supplementary Group Ids</h3>
-<div class="outline-text-3" id="text-orge2683f0">
+<div id="outline-container-orgf3593c2" class="outline-3">
+<h3 id="orgf3593c2">Supplementary Group Ids</h3>
+<div class="outline-text-3" id="text-orgf3593c2">
 <p>
 <code>man getgroups</code> <br />
 </p>
@@ -4026,12 +4027,12 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org59f3aa3" class="outline-3">
-<h3 id="org59f3aa3">Implementation Differences</h3>
+<div id="outline-container-orgef23769" class="outline-3">
+<h3 id="orgef23769">Implementation Differences</h3>
 </div>
-<div id="outline-container-org9841ffb" class="outline-3">
-<h3 id="org9841ffb">Other Data Files</h3>
-<div class="outline-text-3" id="text-org9841ffb">
+<div id="outline-container-orgec986a3" class="outline-3">
+<h3 id="orgec986a3">Other Data Files</h3>
+<div class="outline-text-3" id="text-orgec986a3">
 <p>
 at least three functions:
 </p>
@@ -4042,9 +4043,9 @@ at least three functions:
 </ol>
 </div>
 </div>
-<div id="outline-container-org487e3a6" class="outline-3">
-<h3 id="org487e3a6">Login Accounting</h3>
-<div class="outline-text-3" id="text-org487e3a6">
+<div id="outline-container-orgb748468" class="outline-3">
+<h3 id="orgb748468">Login Accounting</h3>
+<div class="outline-text-3" id="text-orgb748468">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #3a81c3; font-weight: bold;">struct</span> <span style="color: #ba2f59; font-weight: bold;">utmp</span> <span style="color: #3a81c3;">{</span>
   <span style="color: #ba2f59; font-weight: bold;">char</span> <span style="color: #715ab1;">ut_line</span><span style="color: #6c3163;">[</span><span style="color: #4e3163;">8</span><span style="color: #6c3163;">]</span>; <span style="color: #2aa1ae; background-color: #ecf3ec;">/* </span><span style="color: #2aa1ae; background-color: #ecf3ec;">tty line: "ttyh0", "ttyd0", "ttyp0", ... */</span>
@@ -4055,18 +4056,18 @@ at least three functions:
 </div>
 </div>
 </div>
-<div id="outline-container-org98b9127" class="outline-3">
-<h3 id="org98b9127">System Identification</h3>
-<div class="outline-text-3" id="text-org98b9127">
+<div id="outline-container-org8eec094" class="outline-3">
+<h3 id="org8eec094">System Identification</h3>
+<div class="outline-text-3" id="text-org8eec094">
 <p>
 <code>man 3 uname</code>
 <code>man 3 gethostname</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org6cac8b3" class="outline-3">
-<h3 id="org6cac8b3">Time and Date Routines</h3>
-<div class="outline-text-3" id="text-org6cac8b3">
+<div id="outline-container-orge300752" class="outline-3">
+<h3 id="orge300752">Time and Date Routines</h3>
+<div class="outline-text-3" id="text-orge300752">
 <p>
 <code>man 3 time</code>
 <code>man 3 clock_gettime</code>
@@ -4114,9 +4115,9 @@ Example <br />
 </p>
 </div>
 </div>
-<div id="outline-container-orgd83f33c" class="outline-3">
-<h3 id="orgd83f33c">Summary</h3>
-<div class="outline-text-3" id="text-orgd83f33c">
+<div id="outline-container-org72ce8c8" class="outline-3">
+<h3 id="org72ce8c8">Summary</h3>
+<div class="outline-text-3" id="text-org72ce8c8">
 <p>
 <b>Exercises</b>
 </p>
@@ -4186,25 +4187,25 @@ after pass : <code>1970 - (2^{31}/60/60/24/365)</code></li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgff540a1" class="outline-2">
-<h2 id="orgff540a1">Chapter 7. Process Environment</h2>
-<div class="outline-text-2" id="text-orgff540a1">
+<div id="outline-container-orgadff71e" class="outline-2">
+<h2 id="orgadff71e">Chapter 7. Process Environment</h2>
+<div class="outline-text-2" id="text-orgadff71e">
 </div>
-<div id="outline-container-org9ddafdb" class="outline-3">
-<h3 id="org9ddafdb">7.1 Introduction</h3>
+<div id="outline-container-org798133d" class="outline-3">
+<h3 id="org798133d">7.1 Introduction</h3>
 </div>
-<div id="outline-container-org7b8c598" class="outline-3">
-<h3 id="org7b8c598">7.2 main Function</h3>
-<div class="outline-text-3" id="text-org7b8c598">
+<div id="outline-container-orgf750182" class="outline-3">
+<h3 id="orgf750182">7.2 main Function</h3>
+<div class="outline-text-3" id="text-orgf750182">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">main</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #715ab1;">argc</span>, <span style="color: #ba2f59; font-weight: bold;">char</span> *<span style="color: #715ab1;">argv</span><span style="color: #6c3163;">[]</span><span style="color: #3a81c3;">)</span>;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5344dc0" class="outline-3">
-<h3 id="org5344dc0">7.3 Process Termination</h3>
-<div class="outline-text-3" id="text-org5344dc0">
+<div id="outline-container-orgf9df433" class="outline-3">
+<h3 id="orgf9df433">7.3 Process Termination</h3>
+<div class="outline-text-3" id="text-orgf9df433">
 <p>
 There are eight ways for a process to terminate.
 Normal termination occurs in five ways:
@@ -4227,9 +4228,9 @@ Abnormal termination occurs in three ways
 <li>Response of the last thread to a cancellation request</li>
 </ol>
 </div>
-<div id="outline-container-orged29b82" class="outline-4">
-<h4 id="orged29b82">Exit Functions</h4>
-<div class="outline-text-4" id="text-orged29b82">
+<div id="outline-container-orgcdad77c" class="outline-4">
+<h4 id="orgcdad77c">Exit Functions</h4>
+<div class="outline-text-4" id="text-orgcdad77c">
 <p>
 <code>man 3 exit</code>
 <code>man 2 _exit</code>
@@ -4288,9 +4289,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb9ce2d9" class="outline-4">
-<h4 id="orgb9ce2d9"><code>atexit</code> Function</h4>
-<div class="outline-text-4" id="text-orgb9ce2d9">
+<div id="outline-container-org8a5530a" class="outline-4">
+<h4 id="org8a5530a"><code>atexit</code> Function</h4>
+<div class="outline-text-4" id="text-org8a5530a">
 <p>
 <code>man 3 atexit</code>
 The <code>exit</code> function calls these functions in reverse order of their registration.
@@ -4335,9 +4336,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-orge12c776" class="outline-4">
-<h4 id="orge12c776">Commond-Line Arguments</h4>
-<div class="outline-text-4" id="text-orge12c776">
+<div id="outline-container-org884a376" class="outline-4">
+<h4 id="org884a376">Commond-Line Arguments</h4>
+<div class="outline-text-4" id="text-org884a376">
 <ul class="org-ul">
 <li><p>
 Example <br />
@@ -4361,18 +4362,18 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgd6c1e8e" class="outline-3">
-<h3 id="orgd6c1e8e">7.5 Environment List</h3>
-<div class="outline-text-3" id="text-orgd6c1e8e">
+<div id="outline-container-org6ec376e" class="outline-3">
+<h3 id="org6ec376e">7.5 Environment List</h3>
+<div class="outline-text-3" id="text-org6ec376e">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #3a81c3; font-weight: bold;">extern</span> <span style="color: #ba2f59; font-weight: bold;">char</span> **<span style="color: #715ab1;">environ</span>;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3ffee90" class="outline-3">
-<h3 id="org3ffee90">7.6 Memory Layout of a C Program</h3>
-<div class="outline-text-3" id="text-org3ffee90">
+<div id="outline-container-orge17ecbf" class="outline-3">
+<h3 id="orge17ecbf">7.6 Memory Layout of a C Program</h3>
+<div class="outline-text-3" id="text-orge17ecbf">
 <p>
 Historically, a C program has been composed of the following pieces:
 </p>
@@ -4411,9 +4412,9 @@ Heap, where dynamic memory allocation usually takes place.
 </div>
 </div>
 
-<div id="outline-container-org46d955d" class="outline-3">
-<h3 id="org46d955d">7.7 Shared Libraries</h3>
-<div class="outline-text-3" id="text-org46d955d">
+<div id="outline-container-orga82270c" class="outline-3">
+<h3 id="orga82270c">7.7 Shared Libraries</h3>
+<div class="outline-text-3" id="text-orga82270c">
 <p>
 without shared libraries
 </p>
@@ -4436,9 +4437,9 @@ text     data     bss     dec     hex filename
 </div>
 </div>
 </div>
-<div id="outline-container-org82a53aa" class="outline-3">
-<h3 id="org82a53aa">7.8 Memory Allocation</h3>
-<div class="outline-text-3" id="text-org82a53aa">
+<div id="outline-container-org4151cfa" class="outline-3">
+<h3 id="org4151cfa">7.8 Memory Allocation</h3>
+<div class="outline-text-3" id="text-org4151cfa">
 <p>
 <code>man 3 malloc</code>
 </p>
@@ -4473,9 +4474,9 @@ alloc memmory from stack, instaead of heap, so we don't have to free the space;<
 </ul>
 </div>
 </div>
-<div id="outline-container-org3de3b23" class="outline-3">
-<h3 id="org3de3b23">7.9 Environment Variable</h3>
-<div class="outline-text-3" id="text-org3de3b23">
+<div id="outline-container-org4674ca4" class="outline-3">
+<h3 id="org4674ca4">7.9 Environment Variable</h3>
+<div class="outline-text-3" id="text-org4674ca4">
 <p>
 <code>man 3 getenv</code>
 </p>
@@ -4494,9 +4495,9 @@ alloc memmory from stack, instaead of heap, so we don't have to free the space;<
 </div>
 </div>
 
-<div id="outline-container-orgee08a49" class="outline-3">
-<h3 id="orgee08a49">7.10 <code>setjmp</code> and <code>longjmp</code> Functions</h3>
-<div class="outline-text-3" id="text-orgee08a49">
+<div id="outline-container-orgd5f0654" class="outline-3">
+<h3 id="orgd5f0654">7.10 <code>setjmp</code> and <code>longjmp</code> Functions</h3>
+<div class="outline-text-3" id="text-orgd5f0654">
 <ul class="org-ul">
 <li><b>useful for dealing errors and interrupts</b></li>
 
@@ -4667,9 +4668,9 @@ The problem is that when open_data returns, the space it used on the stack will 
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org86df9ee" class="outline-3">
-<h3 id="org86df9ee"><code>getrlimit</code> and <code>setrlimit</code> Functions</h3>
-<div class="outline-text-3" id="text-org86df9ee">
+<div id="outline-container-org37fe4b9" class="outline-3">
+<h3 id="org37fe4b9"><code>getrlimit</code> and <code>setrlimit</code> Functions</h3>
+<div class="outline-text-3" id="text-org37fe4b9">
 <p>
 <code>man 3 getrlimit</code>
 </p>
@@ -4769,9 +4770,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd4b398a" class="outline-3">
-<h3 id="orgd4b398a">Summary</h3>
-<div class="outline-text-3" id="text-orgd4b398a">
+<div id="outline-container-orgb25e653" class="outline-3">
+<h3 id="orgb25e653">Summary</h3>
+<div class="outline-text-3" id="text-orgb25e653">
 <p>
 <b>Exercises</b>
 </p>
@@ -4791,16 +4792,16 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-org914e2ca" class="outline-2">
-<h2 id="org914e2ca">Chapter 8. Process Control</h2>
-<div class="outline-text-2" id="text-org914e2ca">
+<div id="outline-container-orgc337870" class="outline-2">
+<h2 id="orgc337870">Chapter 8. Process Control</h2>
+<div class="outline-text-2" id="text-orgc337870">
 </div>
-<div id="outline-container-org4e2dd55" class="outline-3">
-<h3 id="org4e2dd55">8.1 Introduction</h3>
+<div id="outline-container-orgf4edc82" class="outline-3">
+<h3 id="orgf4edc82">8.1 Introduction</h3>
 </div>
-<div id="outline-container-org7ef4d27" class="outline-3">
-<h3 id="org7ef4d27">8.2 Process Identifiers</h3>
-<div class="outline-text-3" id="text-org7ef4d27">
+<div id="outline-container-orge83b954" class="outline-3">
+<h3 id="orge83b954">8.2 Process Identifiers</h3>
+<div class="outline-text-3" id="text-orge83b954">
 <p>
 Process ID 0 is usually the scheduler process and is often know as <i>swapper</i>.
 Process ID 1 is usually the <b>init</b> process.
@@ -4840,9 +4841,9 @@ Note that none of these functions has an error return.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org2bd1c59" class="outline-3">
-<h3 id="org2bd1c59">8.3 <code>fork</code> Function</h3>
-<div class="outline-text-3" id="text-org2bd1c59">
+<div id="outline-container-orgc4e8d37" class="outline-3">
+<h3 id="orgc4e8d37">8.3 <code>fork</code> Function</h3>
+<div class="outline-text-3" id="text-orgc4e8d37">
 <p>
 <code>man 3 fork</code>
 </p>
@@ -4959,9 +4960,9 @@ There are two uses for fork:
 </ul>
 </div>
 </div>
-<div id="outline-container-org8183076" class="outline-3">
-<h3 id="org8183076">8.4 <code>vfork</code> Function</h3>
-<div class="outline-text-3" id="text-org8183076">
+<div id="outline-container-orgd57f63c" class="outline-3">
+<h3 id="orgd57f63c">8.4 <code>vfork</code> Function</h3>
+<div class="outline-text-3" id="text-orgd57f63c">
 <blockquote>
 <p>
 just like fork, without copying the address space of the parent into the child, as the child won’t reference that address space
@@ -5008,9 +5009,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org3f16105" class="outline-3">
-<h3 id="org3f16105">8.5 <code>exit</code> Function</h3>
-<div class="outline-text-3" id="text-org3f16105">
+<div id="outline-container-org6439324" class="outline-3">
+<h3 id="org6439324">8.5 <code>exit</code> Function</h3>
+<div class="outline-text-3" id="text-org6439324">
 <blockquote>
 <p>
 As we described in Section 7.3, a process can terminate normally in five ways:
@@ -5044,9 +5045,9 @@ The three forms of abnormal termination are as follows:
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org9973cdb" class="outline-3">
-<h3 id="org9973cdb">8.6 <code>wait</code> and <code>waitpid</code> Functions</h3>
-<div class="outline-text-3" id="text-org9973cdb">
+<div id="outline-container-org520f797" class="outline-3">
+<h3 id="org520f797">8.6 <code>wait</code> and <code>waitpid</code> Functions</h3>
+<div class="outline-text-3" id="text-org520f797">
 <blockquote>
 <p>
 we need to be aware that a process that calls wait or waitpid can
@@ -5189,9 +5190,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org905202b" class="outline-3">
-<h3 id="org905202b">8.7 <code>waitid</code> Function</h3>
-<div class="outline-text-3" id="text-org905202b">
+<div id="outline-container-orgaf5b2b9" class="outline-3">
+<h3 id="orgaf5b2b9">8.7 <code>waitid</code> Function</h3>
+<div class="outline-text-3" id="text-orgaf5b2b9">
 <p>
 <code>man 2 waitid</code>
 </p>
@@ -5205,17 +5206,17 @@ Example <br />
 </p>
 </div>
 </div>
-<div id="outline-container-orgf6fbb8e" class="outline-3">
-<h3 id="orgf6fbb8e">8.8 <code>wait3</code> and <code>wait4</code> Functions</h3>
-<div class="outline-text-3" id="text-orgf6fbb8e">
+<div id="outline-container-org8dd3bc2" class="outline-3">
+<h3 id="org8dd3bc2">8.8 <code>wait3</code> and <code>wait4</code> Functions</h3>
+<div class="outline-text-3" id="text-org8dd3bc2">
 <p>
 <code>man 2 wait3</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org81eafb2" class="outline-3">
-<h3 id="org81eafb2">8.9 Race Conditions</h3>
-<div class="outline-text-3" id="text-org81eafb2">
+<div id="outline-container-orgbcdf09b" class="outline-3">
+<h3 id="orgbcdf09b">8.9 Race Conditions</h3>
+<div class="outline-text-3" id="text-orgbcdf09b">
 <p>
 <b>Avoid race by signal</b>
 </p>
@@ -5307,9 +5308,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org33a37a4" class="outline-3">
-<h3 id="org33a37a4">8.10 <code>exec</code> Functions</h3>
-<div class="outline-text-3" id="text-org33a37a4">
+<div id="outline-container-org4d97b4e" class="outline-3">
+<h3 id="org4d97b4e">8.10 <code>exec</code> Functions</h3>
+<div class="outline-text-3" id="text-org4d97b4e">
 <p>
 <code>man 3 exec</code>
 </p>
@@ -5435,9 +5436,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb05f6ce" class="outline-3">
-<h3 id="orgb05f6ce">8.11 Changing User IDs and Group IDs</h3>
-<div class="outline-text-3" id="text-orgb05f6ce">
+<div id="outline-container-org29699e8" class="outline-3">
+<h3 id="org29699e8">8.11 Changing User IDs and Group IDs</h3>
+<div class="outline-text-3" id="text-org29699e8">
 <p>
 <code>man 2 setuid</code>
 </p>
@@ -5457,9 +5458,9 @@ Example <br />
 </p>
 </div>
 </div>
-<div id="outline-container-org4cde4a4" class="outline-3">
-<h3 id="org4cde4a4">8.12 Interpreter Files</h3>
-<div class="outline-text-3" id="text-org4cde4a4">
+<div id="outline-container-orgf71d612" class="outline-3">
+<h3 id="orgf71d612">8.12 Interpreter Files</h3>
+<div class="outline-text-3" id="text-orgf71d612">
 <ul class="org-ul">
 <li><p>
 Example <br />
@@ -5501,9 +5502,9 @@ BEGIN <span style="color: #3a81c3;">{</span>
 </ul>
 </div>
 </div>
-<div id="outline-container-org6cf50c1" class="outline-3">
-<h3 id="org6cf50c1">8.13 <code>system</code> Function</h3>
-<div class="outline-text-3" id="text-org6cf50c1">
+<div id="outline-container-org4fa1292" class="outline-3">
+<h3 id="org4fa1292">8.13 <code>system</code> Function</h3>
+<div class="outline-text-3" id="text-org4fa1292">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">stdlib.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">system</span><span style="color: #3a81c3;">(</span><span style="color: #3a81c3; font-weight: bold;">const</span> <span style="color: #ba2f59; font-weight: bold;">char</span> *<span style="color: #715ab1;">cmdstring</span><span style="color: #3a81c3;">)</span>;
@@ -5663,9 +5664,9 @@ The advantage in using system, instead of using fork and exec directly, is that 
 </p>
 </div>
 </div>
-<div id="outline-container-org587d0d6" class="outline-3">
-<h3 id="org587d0d6">8.14 Process Accounting</h3>
-<div class="outline-text-3" id="text-org587d0d6">
+<div id="outline-container-org678b921" class="outline-3">
+<h3 id="org678b921">8.14 Process Accounting</h3>
+<div class="outline-text-3" id="text-org678b921">
 <ul class="org-ul">
 <li><p>
 Example <br />
@@ -5786,9 +5787,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org1b2022c" class="outline-3">
-<h3 id="org1b2022c">8.15 User Identification</h3>
-<div class="outline-text-3" id="text-org1b2022c">
+<div id="outline-container-orgfb36aaa" class="outline-3">
+<h3 id="orgfb36aaa">8.15 User Identification</h3>
+<div class="outline-text-3" id="text-orgfb36aaa">
 <p>
 <code>man 2 getlogin</code>
 </p>
@@ -5802,9 +5803,9 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgefe5379" class="outline-3">
-<h3 id="orgefe5379">8.16 Process Scheduling</h3>
-<div class="outline-text-3" id="text-orgefe5379">
+<div id="outline-container-orge84fbff" class="outline-3">
+<h3 id="orge84fbff">8.16 Process Scheduling</h3>
+<div class="outline-text-3" id="text-orge84fbff">
 <p>
 Lower nice values have higher scheduling priority.
 </p>
@@ -5897,9 +5898,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org7dcaa60" class="outline-3">
-<h3 id="org7dcaa60">8.17 Process Times</h3>
-<div class="outline-text-3" id="text-org7dcaa60">
+<div id="outline-container-org6d5be1f" class="outline-3">
+<h3 id="org6d5be1f">8.17 Process Times</h3>
+<div class="outline-text-3" id="text-org6d5be1f">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">sys/times.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">clock_t</span> <span style="color: #6c3163; font-weight: bold;">times</span><span style="color: #3a81c3;">(</span><span style="color: #3a81c3; font-weight: bold;">struct</span> <span style="color: #ba2f59; font-weight: bold;">tms</span> *<span style="color: #715ab1;">buf</span><span style="color: #3a81c3;">)</span>;
@@ -5968,9 +5969,9 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgca6db35" class="outline-3">
-<h3 id="orgca6db35">8.18 Summary</h3>
-<div class="outline-text-3" id="text-orgca6db35">
+<div id="outline-container-orge694c1b" class="outline-3">
+<h3 id="orge694c1b">8.18 Summary</h3>
+<div class="outline-text-3" id="text-orge694c1b">
 <p>
 functions to master: <code>fork</code>, <code>exec</code> family, <code>_exit</code>, <code>wait</code> and <code>waitpid</code>.
 </p>
@@ -6115,16 +6116,16 @@ We won’t see this happen if we let the child go first, since the shell doesn�
 </div>
 </div>
 </div>
-<div id="outline-container-org4c000e9" class="outline-2">
-<h2 id="org4c000e9">Chapter 9. Process Relationships</h2>
-<div class="outline-text-2" id="text-org4c000e9">
+<div id="outline-container-orgf54368b" class="outline-2">
+<h2 id="orgf54368b">Chapter 9. Process Relationships</h2>
+<div class="outline-text-2" id="text-orgf54368b">
 </div>
-<div id="outline-container-org2740bd0" class="outline-3">
-<h3 id="org2740bd0">9.1 Introduction</h3>
+<div id="outline-container-orgb5df351" class="outline-3">
+<h3 id="orgb5df351">9.1 Introduction</h3>
 </div>
-<div id="outline-container-orgd027b9d" class="outline-3">
-<h3 id="orgd027b9d">9.2 Terminal Logins</h3>
-<div class="outline-text-3" id="text-orgd027b9d">
+<div id="outline-container-orgd73d9e8" class="outline-3">
+<h3 id="orgd73d9e8">9.2 Terminal Logins</h3>
+<div class="outline-text-3" id="text-orgd73d9e8">
 <ul class="org-ul">
 <li><p>
 BSD Terminal Logins
@@ -6152,30 +6153,30 @@ a real user ID of 0 and an effective user ID of 0
 </div>
 </div>
 
-<div id="outline-container-org21ce769" class="outline-3">
-<h3 id="org21ce769">9.3 Network Logins</h3>
+<div id="outline-container-org716a08f" class="outline-3">
+<h3 id="org716a08f">9.3 Network Logins</h3>
 </div>
-<div id="outline-container-org8ea28b5" class="outline-3">
-<h3 id="org8ea28b5">9.4 Process Groups</h3>
-<div class="outline-text-3" id="text-org8ea28b5">
+<div id="outline-container-org747ac91" class="outline-3">
+<h3 id="org747ac91">9.4 Process Groups</h3>
+<div class="outline-text-3" id="text-org747ac91">
 <div class="org-src-container">
 <pre class="src src-c">getpgid<span style="color: #3a81c3;">(</span><span style="color: #4e3163;">0</span><span style="color: #3a81c3;">)</span> ~~ getpgrp<span style="color: #3a81c3;">()</span>;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge5da05d" class="outline-3">
-<h3 id="orge5da05d">9.5 Sessions</h3>
+<div id="outline-container-org2e657aa" class="outline-3">
+<h3 id="org2e657aa">9.5 Sessions</h3>
 </div>
-<div id="outline-container-org434e529" class="outline-3">
-<h3 id="org434e529">9.6 Controlling Terminal</h3>
+<div id="outline-container-orgc2a5a39" class="outline-3">
+<h3 id="orgc2a5a39">9.6 Controlling Terminal</h3>
 </div>
-<div id="outline-container-org028986d" class="outline-3">
-<h3 id="org028986d">9.7 <code>tcgetpgrp</code>, <code>tcsetpgrp</code>, and <code>tcgetsid</code> Functions</h3>
+<div id="outline-container-org3ac1e1f" class="outline-3">
+<h3 id="org3ac1e1f">9.7 <code>tcgetpgrp</code>, <code>tcsetpgrp</code>, and <code>tcgetsid</code> Functions</h3>
 </div>
-<div id="outline-container-orgba702ca" class="outline-3">
-<h3 id="orgba702ca">9.8 Job Control</h3>
-<div class="outline-text-3" id="text-orgba702ca">
+<div id="outline-container-org26bed99" class="outline-3">
+<h3 id="org26bed99">9.8 Job Control</h3>
+<div class="outline-text-3" id="text-org26bed99">
 <p>
 Requirements:
 </p>
@@ -6197,26 +6198,26 @@ Requirements:
 </div>
 </div>
 </div>
-<div id="outline-container-org3dd1957" class="outline-3">
-<h3 id="org3dd1957">9.9 Shell Execution Programs</h3>
+<div id="outline-container-orga1a558a" class="outline-3">
+<h3 id="orga1a558a">9.9 Shell Execution Programs</h3>
 </div>
-<div id="outline-container-org05edacd" class="outline-3">
-<h3 id="org05edacd">9.10 Orphaned Process Groups</h3>
+<div id="outline-container-orgf35ba5e" class="outline-3">
+<h3 id="orgf35ba5e">9.10 Orphaned Process Groups</h3>
 </div>
-<div id="outline-container-org3a1f952" class="outline-3">
-<h3 id="org3a1f952">9.11 FreeBSD Implementation</h3>
+<div id="outline-container-org761be25" class="outline-3">
+<h3 id="org761be25">9.11 FreeBSD Implementation</h3>
 </div>
-<div id="outline-container-org03cab99" class="outline-3">
-<h3 id="org03cab99">9.12 Summary</h3>
+<div id="outline-container-org153944d" class="outline-3">
+<h3 id="org153944d">9.12 Summary</h3>
 </div>
 </div>
-<div id="outline-container-org330c722" class="outline-2">
-<h2 id="org330c722">Chapter 10. Signals</h2>
-<div class="outline-text-2" id="text-org330c722">
+<div id="outline-container-orge781e35" class="outline-2">
+<h2 id="orge781e35">Chapter 10. Signals</h2>
+<div class="outline-text-2" id="text-orge781e35">
 </div>
-<div id="outline-container-org9a6caee" class="outline-3">
-<h3 id="org9a6caee">10.1 Introduction</h3>
-<div class="outline-text-3" id="text-org9a6caee">
+<div id="outline-container-org95bf58f" class="outline-3">
+<h3 id="org95bf58f">10.1 Introduction</h3>
+<div class="outline-text-3" id="text-org95bf58f">
 <blockquote>
 <p>
 Signals provide a way of handling asynchronous events
@@ -6224,9 +6225,9 @@ Signals provide a way of handling asynchronous events
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgd3848d3" class="outline-3">
-<h3 id="orgd3848d3">10.2 Signal Concepts</h3>
-<div class="outline-text-3" id="text-orgd3848d3">
+<div id="outline-container-org955d748" class="outline-3">
+<h3 id="org955d748">10.2 Signal Concepts</h3>
+<div class="outline-text-3" id="text-org955d748">
 <p>
 <code>&lt;signal.h&gt;</code>
 conditions can generate a signal
@@ -6529,9 +6530,9 @@ The permission of the core file are usually <code>rw</code>, although Mac OSX se
 </div>
 </div>
 
-<div id="outline-container-org40f8122" class="outline-3">
-<h3 id="org40f8122">10.3 <code>signal</code> Function</h3>
-<div class="outline-text-3" id="text-org40f8122">
+<div id="outline-container-orgcc911c3" class="outline-3">
+<h3 id="orgcc911c3">10.3 <code>signal</code> Function</h3>
+<div class="outline-text-3" id="text-orgcc911c3">
 <div class="org-src-container">
 <pre class="src src-sh">man signal
 </pre>
@@ -6577,9 +6578,9 @@ we are not able to determine the current disposition of a signal without changin
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf27f7ed" class="outline-3">
-<h3 id="orgf27f7ed">10.4 Unreliable Signals</h3>
-<div class="outline-text-3" id="text-orgf27f7ed">
+<div id="outline-container-org1511183" class="outline-3">
+<h3 id="org1511183">10.4 Unreliable Signals</h3>
+<div class="outline-text-3" id="text-org1511183">
 <p>
 In ealier versions of the UNIX system :
 </p>
@@ -6589,18 +6590,18 @@ In ealier versions of the UNIX system :
 </ul>
 </div>
 </div>
-<div id="outline-container-org2bddfff" class="outline-3">
-<h3 id="org2bddfff">10.5 Interrupted System Calls</h3>
-<div class="outline-text-3" id="text-org2bddfff">
+<div id="outline-container-org9baca49" class="outline-3">
+<h3 id="org9baca49">10.5 Interrupted System Calls</h3>
+<div class="outline-text-3" id="text-org9baca49">
 <ul class="org-ul">
 <li>automatically restarted functions: <code>ioctl</code>, <code>read</code>, <code>readv</code>, <code>write</code>, <code>writev</code>, <code>wait</code>, <code>waitpid</code> <br />
 POSIX.1 requires an implementation to restart system calls only when the SA_RESTART ﬂag is in effect for the interrupting signal.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org71a5608" class="outline-3">
-<h3 id="org71a5608">10.6 Reentrant Functions</h3>
-<div class="outline-text-3" id="text-org71a5608">
+<div id="outline-container-org8ab10ab" class="outline-3">
+<h3 id="org8ab10ab">10.6 Reentrant Functions</h3>
+<div class="outline-text-3" id="text-org8ab10ab">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 62: </span>Figure 10.5 Call a nonreentrant function from a signal handler</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">pwd.h</span><span style="color: #3a81c3;">&gt;</span>
@@ -6639,9 +6640,9 @@ POSIX.1 requires an implementation to restart system calls only when the SA_REST
 </div>
 </div>
 
-<div id="outline-container-org6cdd31e" class="outline-3">
-<h3 id="org6cdd31e">10.7 <code>SIGCLD</code> Semantics</h3>
-<div class="outline-text-3" id="text-org6cdd31e">
+<div id="outline-container-orga0968b6" class="outline-3">
+<h3 id="orga0968b6">10.7 <code>SIGCLD</code> Semantics</h3>
+<div class="outline-text-3" id="text-orga0968b6">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 63: </span>Figure 10.6 System V SIGCLD handler that doesn't work</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">sys/wait.h</span><span style="color: #3a81c3;">&gt;</span>
@@ -6692,9 +6693,9 @@ POSIX.1 requires an implementation to restart system calls only when the SA_REST
 </div>
 </div>
 </div>
-<div id="outline-container-orgaf7810f" class="outline-3">
-<h3 id="orgaf7810f">10.8 Reliable-Signal Terminology and Semantics</h3>
-<div class="outline-text-3" id="text-orgaf7810f">
+<div id="outline-container-org73ca052" class="outline-3">
+<h3 id="org73ca052">10.8 Reliable-Signal Terminology and Semantics</h3>
+<div class="outline-text-3" id="text-org73ca052">
 <blockquote>
 <p>
 If the system delivers the signal more than once, we say that the signals are queued. <br />
@@ -6709,9 +6710,9 @@ POSIX.1 <b>does not specify the order</b> in which the signals are delivered to 
 </ul>
 </div>
 </div>
-<div id="outline-container-org5db564c" class="outline-3">
-<h3 id="org5db564c">10.9 <code>kill</code> and <code>raise</code> Functions</h3>
-<div class="outline-text-3" id="text-org5db564c">
+<div id="outline-container-orgb089a05" class="outline-3">
+<h3 id="orgb089a05">10.9 <code>kill</code> and <code>raise</code> Functions</h3>
+<div class="outline-text-3" id="text-orgb089a05">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">signal.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">kill</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">pid_t</span> <span style="color: #715ab1;">pid</span>, <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #715ab1;">signo</span><span style="color: #3a81c3;">)</span>;
@@ -6727,9 +6728,9 @@ POSIX.1 <b>does not specify the order</b> in which the signals are delivered to 
 </div>
 </div>
 
-<div id="outline-container-org771b460" class="outline-3">
-<h3 id="org771b460">10.10 <code>alarm</code> and <code>pause</code> Functions</h3>
-<div class="outline-text-3" id="text-org771b460">
+<div id="outline-container-org5488547" class="outline-3">
+<h3 id="org5488547">10.10 <code>alarm</code> and <code>pause</code> Functions</h3>
+<div class="outline-text-3" id="text-org5488547">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">unistd.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">unsigned</span> <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">alarm</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">unsigned</span> <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #715ab1;">seconds</span><span style="color: #3a81c3;">)</span>;
@@ -6927,9 +6928,9 @@ Example:
 </div>
 </div>
 
-<div id="outline-container-orgda33e70" class="outline-3">
-<h3 id="orgda33e70">10.11 Signal Sets</h3>
-<div class="outline-text-3" id="text-orgda33e70">
+<div id="outline-container-orgf0e7ab2" class="outline-3">
+<h3 id="orgf0e7ab2">10.11 Signal Sets</h3>
+<div class="outline-text-3" id="text-orgf0e7ab2">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">signal.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">sigemptyset</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">sigset_t</span> *<span style="color: #715ab1;">set</span><span style="color: #3a81c3;">)</span>;
@@ -7010,9 +7011,9 @@ Implementation:
 </div>
 </div>
 
-<div id="outline-container-org7be3a8e" class="outline-3">
-<h3 id="org7be3a8e">10.12 <code>sigprocmask</code> Function</h3>
-<div class="outline-text-3" id="text-org7be3a8e">
+<div id="outline-container-org1d153ca" class="outline-3">
+<h3 id="org1d153ca">10.12 <code>sigprocmask</code> Function</h3>
+<div class="outline-text-3" id="text-org1d153ca">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">signal.h</span><span style="color: #3a81c3;">&gt;</span>
 
@@ -7106,9 +7107,9 @@ Example:
 </div>
 </div>
 
-<div id="outline-container-org965175f" class="outline-3">
-<h3 id="org965175f">10.13 <code>sigpending</code> Function</h3>
-<div class="outline-text-3" id="text-org965175f">
+<div id="outline-container-org305e71e" class="outline-3">
+<h3 id="org305e71e">10.13 <code>sigpending</code> Function</h3>
+<div class="outline-text-3" id="text-org305e71e">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">signal.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">sigpending</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">sigset_t</span> *<span style="color: #715ab1;">set</span><span style="color: #3a81c3;">)</span>;
@@ -7158,9 +7159,9 @@ Example:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb8be7eb" class="outline-3">
-<h3 id="orgb8be7eb">10.14 <code>sigaction</code> Function</h3>
-<div class="outline-text-3" id="text-orgb8be7eb">
+<div id="outline-container-org1ff8492" class="outline-3">
+<h3 id="org1ff8492">10.14 <code>sigaction</code> Function</h3>
+<div class="outline-text-3" id="text-org1ff8492">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">signal.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">sigaction</span> <span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #715ab1;">signo</span>, <span style="color: #3a81c3; font-weight: bold;">const</span> <span style="color: #3a81c3; font-weight: bold;">struct</span> <span style="color: #ba2f59; font-weight: bold;">sigaction</span>* <span style="color: #3a81c3; font-weight: bold;">restrict</span> <span style="color: #715ab1;">act</span>, <span style="color: #3a81c3; font-weight: bold;">struct</span> <span style="color: #ba2f59; font-weight: bold;">sigaction</span>* <span style="color: #3a81c3; font-weight: bold;">restrict</span> <span style="color: #715ab1;">oact</span><span style="color: #3a81c3;">)</span>;
@@ -7431,9 +7432,9 @@ Example - <code>signal_intr</code> function
 </div>
 </div>
 
-<div id="outline-container-orgdccf26e" class="outline-3">
-<h3 id="orgdccf26e">10.15 <code>sigsetjmp</code> and <code>siglongjmp</code> Functions</h3>
-<div class="outline-text-3" id="text-orgdccf26e">
+<div id="outline-container-org51a2479" class="outline-3">
+<h3 id="org51a2479">10.15 <code>sigsetjmp</code> and <code>siglongjmp</code> Functions</h3>
+<div class="outline-text-3" id="text-org51a2479">
 <p>
 These two functions should always be used when branching from a signal handler.
 </p>
@@ -7526,9 +7527,9 @@ This means that the main function is executing with the SIGUSR1 signal blocked, 
 </div>
 </div>
 
-<div id="outline-container-orgde8c084" class="outline-3">
-<h3 id="orgde8c084">10.16 <code>sigsuspend</code> Function</h3>
-<div class="outline-text-3" id="text-orgde8c084">
+<div id="outline-container-orga27f497" class="outline-3">
+<h3 id="orga27f497">10.16 <code>sigsuspend</code> Function</h3>
+<div class="outline-text-3" id="text-orga27f497">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">signal.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">sigsuspend</span><span style="color: #3a81c3;">(</span><span style="color: #3a81c3; font-weight: bold;">const</span> <span style="color: #ba2f59; font-weight: bold;">sigset_t</span> *<span style="color: #715ab1;">sigmask</span><span style="color: #3a81c3;">)</span>;
@@ -7715,9 +7716,9 @@ The sigsuspend function helps us only if step 3 is a pause operation.
 </div>
 </div>
 
-<div id="outline-container-orgee4d9dd" class="outline-3">
-<h3 id="orgee4d9dd">10.17 <code>abort</code> Function</h3>
-<div class="outline-text-3" id="text-orgee4d9dd">
+<div id="outline-container-org2ce66d5" class="outline-3">
+<h3 id="org2ce66d5">10.17 <code>abort</code> Function</h3>
+<div class="outline-text-3" id="text-org2ce66d5">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">stdlib.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">void</span> <span style="color: #6c3163; font-weight: bold;">abort</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span><span style="color: #3a81c3;">)</span>;
@@ -7771,9 +7772,9 @@ The sigsuspend function helps us only if step 3 is a pause operation.
 </div>
 </div>
 </div>
-<div id="outline-container-org495435f" class="outline-3">
-<h3 id="org495435f">10.18 <code>system</code> Function</h3>
-<div class="outline-text-3" id="text-org495435f">
+<div id="outline-container-orgb641332" class="outline-3">
+<h3 id="orgb641332">10.18 <code>system</code> Function</h3>
+<div class="outline-text-3" id="text-orgb641332">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 78: </span>Figure 10.26 Using <code>system</code> to invoke the <code>ed</code> editor</label><pre class="src src-c"><span style="color: #2aa1ae; background-color: #ecf3ec;">/**</span>
 <span style="color: #2aa1ae; background-color: #ecf3ec;"> *   @file     fig10.26.c</span>
@@ -7874,9 +7875,9 @@ The sigsuspend function helps us only if step 3 is a pause operation.
 </div>
 </div>
 
-<div id="outline-container-orgf05345b" class="outline-3">
-<h3 id="orgf05345b">10.19 <code>sleep</code>, <code>nanaosleep</code>, and <code>clock_nanosleep</code> Functions</h3>
-<div class="outline-text-3" id="text-orgf05345b">
+<div id="outline-container-org29630d4" class="outline-3">
+<h3 id="org29630d4">10.19 <code>sleep</code>, <code>nanaosleep</code>, and <code>clock_nanosleep</code> Functions</h3>
+<div class="outline-text-3" id="text-org29630d4">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">unistd.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">unsigned</span> <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">sleep</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">unsigned</span> <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #715ab1;">seconds</span><span style="color: #3a81c3;">)</span>;
@@ -7944,9 +7945,9 @@ The sigsuspend function helps us only if step 3 is a pause operation.
 </div>
 </div>
 
-<div id="outline-container-orgbf41607" class="outline-3">
-<h3 id="orgbf41607">10.20 <code>sigqueue</code> Function</h3>
-<div class="outline-text-3" id="text-orgbf41607">
+<div id="outline-container-org022e56e" class="outline-3">
+<h3 id="org022e56e">10.20 <code>sigqueue</code> Function</h3>
+<div class="outline-text-3" id="text-org022e56e">
 <ul class="org-ul">
 <li>Specify the SA_SIGINFO ﬂag when we install a signal handler using the sigaction function</li>
 <li>Provide a signal handler in the sa_sigaction member of the sigaction structure instead of using the usual sa_handler ﬁeld.</li>
@@ -8019,9 +8020,9 @@ Use the sigqueue function to send signals.
 </div>
 </div>
 
-<div id="outline-container-orgffd7aee" class="outline-3">
-<h3 id="orgffd7aee">10.21 Job-Control Signals</h3>
-<div class="outline-text-3" id="text-orgffd7aee">
+<div id="outline-container-orge349563" class="outline-3">
+<h3 id="orge349563">10.21 Job-Control Signals</h3>
+<div class="outline-text-3" id="text-orge349563">
 <p>
 job-control signals:
    SIGCHLD   Child process has stopped or terminated
@@ -8073,9 +8074,9 @@ job-control signals:
 </div>
 </div>
 </div>
-<div id="outline-container-org262c84d" class="outline-3">
-<h3 id="org262c84d">10.22 Signal Names and Numbers</h3>
-<div class="outline-text-3" id="text-org262c84d">
+<div id="outline-container-org00b12f3" class="outline-3">
+<h3 id="org00b12f3">10.22 Signal Names and Numbers</h3>
+<div class="outline-text-3" id="text-org00b12f3">
 <p>
 map between signal numbers and names.
 </p>
@@ -8125,9 +8126,9 @@ string description of the signal and don't necessarily wnat to write it to stand
 </div>
 </div>
 
-<div id="outline-container-orgac647c1" class="outline-3">
-<h3 id="orgac647c1">10.23 Summary</h3>
-<div class="outline-text-3" id="text-orgac647c1">
+<div id="outline-container-org08abb99" class="outline-3">
+<h3 id="org08abb99">10.23 Summary</h3>
+<div class="outline-text-3" id="text-org08abb99">
 <ul class="org-ul">
 <li>Example
 <ul class="org-ul">
@@ -8389,16 +8390,16 @@ finished, alarm appears until fwrite finshied, it seems the kernel is blocking S
 </div>
 </div>
 </div>
-<div id="outline-container-orgcdc9862" class="outline-2">
-<h2 id="orgcdc9862">Chapter 11. Threads</h2>
-<div class="outline-text-2" id="text-orgcdc9862">
+<div id="outline-container-org63085c3" class="outline-2">
+<h2 id="org63085c3">Chapter 11. Threads</h2>
+<div class="outline-text-2" id="text-org63085c3">
 </div>
-<div id="outline-container-orgd31523b" class="outline-3">
-<h3 id="orgd31523b">11.1 Introduction</h3>
+<div id="outline-container-org2beece4" class="outline-3">
+<h3 id="org2beece4">11.1 Introduction</h3>
 </div>
-<div id="outline-container-org80bdd81" class="outline-3">
-<h3 id="org80bdd81">11.2 Thread Concepts</h3>
-<div class="outline-text-3" id="text-org80bdd81">
+<div id="outline-container-org5677c79" class="outline-3">
+<h3 id="org5677c79">11.2 Thread Concepts</h3>
+<div class="outline-text-3" id="text-org5677c79">
 <p>
 benefits
 </p>
@@ -8410,9 +8411,9 @@ benefits
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfaf2bb5" class="outline-3">
-<h3 id="orgfaf2bb5">11.3 Thread Identification</h3>
-<div class="outline-text-3" id="text-orgfaf2bb5">
+<div id="outline-container-orgeaf402c" class="outline-3">
+<h3 id="orgeaf402c">11.3 Thread Identification</h3>
+<div class="outline-text-3" id="text-orgeaf402c">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">pthread.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">pthread_equal</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">pthread_t</span> <span style="color: #715ab1;">tid1</span>, <span style="color: #ba2f59; font-weight: bold;">pthread_t</span> <span style="color: #715ab1;">tid2</span><span style="color: #3a81c3;">)</span>;
@@ -8432,9 +8433,9 @@ obtain its own thread ID :
 </div>
 </div>
 </div>
-<div id="outline-container-org1f9fae2" class="outline-3">
-<h3 id="org1f9fae2">11.4 Thread Creation</h3>
-<div class="outline-text-3" id="text-org1f9fae2">
+<div id="outline-container-org397db34" class="outline-3">
+<h3 id="org397db34">11.4 Thread Creation</h3>
+<div class="outline-text-3" id="text-org397db34">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">pthread.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">pthread_create</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">pthread_t</span> *<span style="color: #3a81c3; font-weight: bold;">restrict</span> <span style="color: #715ab1;">tidp</span>,
@@ -8489,9 +8490,9 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org67f69a5" class="outline-3">
-<h3 id="org67f69a5">11.5 Thread Termination</h3>
-<div class="outline-text-3" id="text-org67f69a5">
+<div id="outline-container-org4631690" class="outline-3">
+<h3 id="org4631690">11.5 Thread Termination</h3>
+<div class="outline-text-3" id="text-org4631690">
 <ol class="org-ol">
 <li>thread return from start routine.</li>
 <li>can be canceled by another thread in the same process</li>
@@ -8511,6 +8512,13 @@ Example <br />
 <blockquote>
 <p>
 The calling thread will block until the speciﬁed thread calls pthread_exit, returns from its start routine, or is canceled.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>The Linux Programming Language:</b>
+If the main thread calls pthread_exit() instead of calling exit() or performing a return, then the other threads continue to execute.
 </p>
 </blockquote>
 <ul class="org-ul">
@@ -8632,25 +8640,232 @@ Example <br />
 </pre>
 </div></li>
 </ul>
+
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">pthread.h</span><span style="color: #3a81c3;">&gt;</span>
+<span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">pthread_cancel</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">pthread_t</span> <span style="color: #715ab1;">tid</span><span style="color: #3a81c3;">)</span>;
+<span style="color: #2aa1ae; background-color: #ecf3ec;">// </span><span style="color: #2aa1ae; background-color: #ecf3ec;">Returns: 0 if OK, error number on failure</span>
+</pre>
+</div>
+<p>
+in default circumstances, <code>pthread_exit</code> with <b>PTHREAD_CANCELD</b> <br />
+doesn't wait for the thread to terminate; it merely makes the request. <br />
+similar to <code>atexit</code> used by a process <br />
+known as <i>thread cleanup handlers</i>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">pthread.h</span><span style="color: #3a81c3;">&gt;</span>
+<span style="color: #ba2f59; font-weight: bold;">void</span> <span style="color: #6c3163; font-weight: bold;">pthread_cleanup_push</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> <span style="color: #6c3163;">(</span>*<span style="color: #6c3163; font-weight: bold;">rtn</span><span style="color: #6c3163;">)(</span><span style="color: #ba2f59; font-weight: bold;">void</span>*<span style="color: #6c3163;">)</span>, <span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #715ab1;">arg</span><span style="color: #3a81c3;">)</span>;
+<span style="color: #ba2f59; font-weight: bold;">void</span> <span style="color: #6c3163; font-weight: bold;">pthread_cleanup_pop</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #715ab1;">execute</span><span style="color: #3a81c3;">)</span>;
+</pre>
+</div>
+<blockquote>
+<p>
+• Makes a call to pthread_exit
+• Responds to a cancellation request
+• Makes a call to pthread_cleanup_pop with a nonzero execute argument
+</p>
+
+<p>
+If the execute argument is set to zero, the cleanup function is not called
+</p>
+</blockquote>
+
+
+<ul class="org-ul">
+<li><p>
+Example <br />
+</p>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 85: </span>Figure 11.5 Thread cleanup handler</label><pre class="src src-c"><span style="color: #2aa1ae; background-color: #ecf3ec;">/**</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;"> *   @file     fig11.5.c</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;"> *   @date     2019-11-05</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;"> *   @author   zhoushang <a href="mailto:whiothes81%40gmail.com">&lt;whiothes81@gmail.com&gt;</a></span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;"> *   @version  1.0</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;"> *   @brief    use thread cleanup handlers</span>
+<span style="color: #2aa1ae; background-color: #ecf3ec;"> */</span>
+
+<span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">pthread.h</span><span style="color: #3a81c3;">&gt;</span>
+
+<span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
+
+<span style="color: #ba2f59; font-weight: bold;">void</span> <span style="color: #6c3163; font-weight: bold;">cleanup</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #715ab1;">arg</span><span style="color: #3a81c3;">)</span> <span style="color: #3a81c3;">{</span> printf<span style="color: #6c3163;">(</span><span style="color: #2d9574;">"cleanup: %s\n"</span>, <span style="color: #2d9574;">(</span><span style="color: #ba2f59; font-weight: bold;">char</span> *<span style="color: #2d9574;">)</span>arg<span style="color: #6c3163;">)</span>; <span style="color: #3a81c3;">}</span>
+
+<span style="color: #2aa1ae; background-color: #ecf3ec;">// </span><span style="color: #b1951d;">NOTE</span><span style="color: #2aa1ae; background-color: #ecf3ec;">: return will be cuz segment fault here</span>
+<span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #6c3163; font-weight: bold;">thr_fn1</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #715ab1;">arg</span><span style="color: #3a81c3;">)</span> <span style="color: #3a81c3;">{</span>
+  printf<span style="color: #6c3163;">(</span><span style="color: #2d9574;">"thread 1 start\n"</span><span style="color: #6c3163;">)</span>;
+  pthread_cleanup_push<span style="color: #6c3163;">(</span>cleanup, <span style="color: #2d9574;">"thread 1 first handler"</span><span style="color: #6c3163;">)</span>;
+  pthread_cleanup_push<span style="color: #6c3163;">(</span>cleanup, <span style="color: #2d9574;">"thread 1 second handler"</span><span style="color: #6c3163;">)</span>;
+  printf<span style="color: #6c3163;">(</span><span style="color: #2d9574;">"thread 1 push complete\n"</span><span style="color: #6c3163;">)</span>;
+  <span style="color: #3a81c3; font-weight: bold;">if</span> <span style="color: #6c3163;">(</span>arg<span style="color: #6c3163;">)</span> <span style="color: #6c3163;">{</span>
+    <span style="color: #2aa1ae; background-color: #ecf3ec;">// </span><span style="color: #2aa1ae; background-color: #ecf3ec;">return ((void *)1);</span>
+    pthread_exit<span style="color: #2d9574;">(</span><span style="color: #67b11d;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #67b11d;">)</span><span style="color: #4e3163;">1</span><span style="color: #2d9574;">)</span>;
+  <span style="color: #6c3163;">}</span>
+  pthread_cleanup_pop<span style="color: #6c3163;">(</span><span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span>;
+  pthread_cleanup_pop<span style="color: #6c3163;">(</span><span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span>;
+  <span style="color: #2aa1ae; background-color: #ecf3ec;">// </span><span style="color: #2aa1ae; background-color: #ecf3ec;">return ((void *)1);</span>
+  pthread_exit<span style="color: #6c3163;">(</span><span style="color: #2d9574;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #2d9574;">)</span><span style="color: #4e3163;">1</span><span style="color: #6c3163;">)</span>;
+<span style="color: #3a81c3;">}</span>
+
+<span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #6c3163; font-weight: bold;">thr_fn2</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #715ab1;">arg</span><span style="color: #3a81c3;">)</span> <span style="color: #3a81c3;">{</span>
+  printf<span style="color: #6c3163;">(</span><span style="color: #2d9574;">"thread 2 start\n"</span><span style="color: #6c3163;">)</span>;
+  pthread_cleanup_push<span style="color: #6c3163;">(</span>cleanup, <span style="color: #2d9574;">"thread 2 first handler"</span><span style="color: #6c3163;">)</span>;
+  pthread_cleanup_push<span style="color: #6c3163;">(</span>cleanup, <span style="color: #2d9574;">"thread 2 second handler"</span><span style="color: #6c3163;">)</span>;
+  printf<span style="color: #6c3163;">(</span><span style="color: #2d9574;">"thread 2 push complete\n"</span><span style="color: #6c3163;">)</span>;
+  <span style="color: #3a81c3; font-weight: bold;">if</span> <span style="color: #6c3163;">(</span>arg<span style="color: #6c3163;">)</span> <span style="color: #6c3163;">{</span>
+    pthread_exit<span style="color: #2d9574;">(</span><span style="color: #67b11d;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #67b11d;">)</span><span style="color: #4e3163;">2</span><span style="color: #2d9574;">)</span>;
+  <span style="color: #6c3163;">}</span>
+  pthread_cleanup_pop<span style="color: #6c3163;">(</span><span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span>;
+  pthread_cleanup_pop<span style="color: #6c3163;">(</span><span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span>;
+  pthread_exit<span style="color: #6c3163;">(</span><span style="color: #2d9574;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #2d9574;">)</span><span style="color: #4e3163;">2</span><span style="color: #6c3163;">)</span>;
+<span style="color: #3a81c3;">}</span>
+
+<span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">main</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span><span style="color: #3a81c3;">)</span> <span style="color: #3a81c3;">{</span>
+  <span style="color: #ba2f59; font-weight: bold;">int</span>       <span style="color: #715ab1;">err</span>;
+  <span style="color: #ba2f59; font-weight: bold;">pthread_t</span> <span style="color: #715ab1;">tid1</span>, <span style="color: #715ab1;">tid2</span>;
+  <span style="color: #ba2f59; font-weight: bold;">void</span> *    <span style="color: #715ab1;">tret</span>;
+
+  err = pthread_create<span style="color: #6c3163;">(</span>&amp;tid1, <span style="color: #4e3163;">NULL</span>, thr_fn1, <span style="color: #2d9574;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #2d9574;">)</span><span style="color: #4e3163;">1</span><span style="color: #6c3163;">)</span>;
+  <span style="color: #3a81c3; font-weight: bold;">if</span> <span style="color: #6c3163;">(</span>err != <span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span> <span style="color: #6c3163;">{</span>
+    err_exit<span style="color: #2d9574;">(</span>err, <span style="color: #2d9574;">"can't create thread 1"</span><span style="color: #2d9574;">)</span>;
+  <span style="color: #6c3163;">}</span>
+  err = pthread_create<span style="color: #6c3163;">(</span>&amp;tid2, <span style="color: #4e3163;">NULL</span>, thr_fn2, <span style="color: #2d9574;">(</span><span style="color: #ba2f59; font-weight: bold;">void</span> *<span style="color: #2d9574;">)</span><span style="color: #4e3163;">2</span><span style="color: #6c3163;">)</span>;
+  <span style="color: #3a81c3; font-weight: bold;">if</span> <span style="color: #6c3163;">(</span>err != <span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span> <span style="color: #6c3163;">{</span>
+    err_exit<span style="color: #2d9574;">(</span>err, <span style="color: #2d9574;">"can't create thread 2"</span><span style="color: #2d9574;">)</span>;
+  <span style="color: #6c3163;">}</span>
+
+  err = pthread_join<span style="color: #6c3163;">(</span>tid1, &amp;tret<span style="color: #6c3163;">)</span>;
+  <span style="color: #3a81c3; font-weight: bold;">if</span> <span style="color: #6c3163;">(</span>err != <span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span> <span style="color: #6c3163;">{</span>
+    err_exit<span style="color: #2d9574;">(</span>err, <span style="color: #2d9574;">"can't join with thread 1"</span><span style="color: #2d9574;">)</span>;
+  <span style="color: #6c3163;">}</span>
+  printf<span style="color: #6c3163;">(</span><span style="color: #2d9574;">"thread 1 exit code %ld\n"</span>, <span style="color: #2d9574;">(</span><span style="color: #ba2f59; font-weight: bold;">long</span><span style="color: #2d9574;">)</span>tret<span style="color: #6c3163;">)</span>;
+  err = pthread_join<span style="color: #6c3163;">(</span>tid2, &amp;tret<span style="color: #6c3163;">)</span>;
+  <span style="color: #3a81c3; font-weight: bold;">if</span> <span style="color: #6c3163;">(</span>err != <span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span> <span style="color: #6c3163;">{</span>
+    err_exit<span style="color: #2d9574;">(</span>err, <span style="color: #2d9574;">"can't join with thread 2"</span><span style="color: #2d9574;">)</span>;
+  <span style="color: #6c3163;">}</span>
+  printf<span style="color: #6c3163;">(</span><span style="color: #2d9574;">"thread 2 exit code %ld\n"</span>, <span style="color: #2d9574;">(</span><span style="color: #ba2f59; font-weight: bold;">long</span><span style="color: #2d9574;">)</span>tret<span style="color: #6c3163;">)</span>;
+  exit<span style="color: #6c3163;">(</span><span style="color: #4e3163;">0</span><span style="color: #6c3163;">)</span>;
+<span style="color: #3a81c3;">}</span>
+</pre>
+</div>
+<blockquote>
+<p>
+if the thread terminates by returning from its start routine, its cleanup handlers are not called, although this behavior varies among implementations
+</p>
+</blockquote></li>
+</ul>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 9:</span> Figure 11.6 Comparison of process and thread primitives</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Process primitives</th>
+<th scope="col" class="org-left">Thread Primitive</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">fork</td>
+<td class="org-left">pthread_create</td>
+<td class="org-left">create a new flow of control</td>
+</tr>
+
+<tr>
+<td class="org-left">exit</td>
+<td class="org-left">pthread_exit</td>
+<td class="org-left">exit from an existing flow of control</td>
+</tr>
+
+<tr>
+<td class="org-left">waitpid</td>
+<td class="org-left">pthread_join</td>
+<td class="org-left">get exit status from flow of control</td>
+</tr>
+
+<tr>
+<td class="org-left">atexit</td>
+<td class="org-left">pthread_cleanup_push</td>
+<td class="org-left">register function to be called at exit from flow of control</td>
+</tr>
+
+<tr>
+<td class="org-left">getpid</td>
+<td class="org-left">pthread_self</td>
+<td class="org-left">get ID for flow of control</td>
+</tr>
+
+<tr>
+<td class="org-left">abort</td>
+<td class="org-left">pthread_cancel</td>
+<td class="org-left">request abnormal termination of flow of control</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+detach a thread by calling <code>pthread_detach</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">pthread.h</span><span style="color: #3a81c3;">&gt;</span>
+<span style="color: #ba2f59; font-weight: bold;">int</span> <span style="color: #6c3163; font-weight: bold;">pthread_detach</span><span style="color: #3a81c3;">(</span><span style="color: #ba2f59; font-weight: bold;">pthread_t</span> <span style="color: #715ab1;">tid</span><span style="color: #3a81c3;">)</span>;
+<span style="color: #2aa1ae; background-color: #ecf3ec;">// </span><span style="color: #2aa1ae; background-color: #ecf3ec;">Returns: 0 if OK, error number on failure</span>
+
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8d5f403" class="outline-2">
-<h2 id="org8d5f403">Chapter 12. Thread Control</h2>
+<div id="outline-container-orgcac9643" class="outline-3">
+<h3 id="orgcac9643">11.6 Thread Synchronization</h3>
+<div class="outline-text-3" id="text-orgcac9643">
+<p>
+Increment operation:
+</p>
+<blockquote>
+<ol class="org-ol">
+<li>Read the memory location into a register.</li>
+<li>Increment the value in the register.</li>
+<li>Write the new value back to the memory location.</li>
+</ol>
+
+
+<p>
+<b>If our data always appears to be sequentially consistent, then we need no additional synchronization.</b>
+</p>
+</blockquote>
 </div>
-<div id="outline-container-org17b1c85" class="outline-2">
-<h2 id="org17b1c85">Chapter 13. Daemon Processes</h2>
 </div>
-<div id="outline-container-org6f76666" class="outline-2">
-<h2 id="org6f76666">Chapter 14. Advanced I/O</h2>
-<div class="outline-text-2" id="text-org6f76666">
 </div>
-<div id="outline-container-orga3ca60d" class="outline-3">
-<h3 id="orga3ca60d">14.1 Introduction</h3>
+
+
+<div id="outline-container-org989d3c5" class="outline-2">
+<h2 id="org989d3c5">Chapter 12. Thread Control</h2>
 </div>
-<div id="outline-container-org98f01da" class="outline-3">
-<h3 id="org98f01da">14.2 Nonblocking I/O</h3>
-<div class="outline-text-3" id="text-org98f01da">
+<div id="outline-container-orgba07661" class="outline-2">
+<h2 id="orgba07661">Chapter 13. Daemon Processes</h2>
+</div>
+<div id="outline-container-org110e165" class="outline-2">
+<h2 id="org110e165">Chapter 14. Advanced I/O</h2>
+<div class="outline-text-2" id="text-org110e165">
+</div>
+<div id="outline-container-orgbccc922" class="outline-3">
+<h3 id="orgbccc922">14.1 Introduction</h3>
+</div>
+<div id="outline-container-orgd01eb66" class="outline-3">
+<h3 id="orgd01eb66">14.2 Nonblocking I/O</h3>
+<div class="outline-text-3" id="text-orgd01eb66">
 <p>
 slow system calls can block forever. include:
 </p>
@@ -8678,7 +8893,7 @@ two way to specify nonblocking I/O:
 Example <br />
 </p>
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 85: </span>Figure 14.1 Large nonblocking write</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
+<label class="org-src-name"><span class="listing-number">Listing 86: </span>Figure 14.1 Large nonblocking write</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">errno.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">fcntl.h</span><span style="color: #3a81c3;">&gt;</span>
 
@@ -8716,19 +8931,19 @@ Example <br />
 </ul>
 </div>
 </div>
-<div id="outline-container-org2860109" class="outline-3">
-<h3 id="org2860109">14.3 Recording Locking</h3>
-<div class="outline-text-3" id="text-org2860109">
+<div id="outline-container-org33d3214" class="outline-3">
+<h3 id="org33d3214">14.3 Recording Locking</h3>
+<div class="outline-text-3" id="text-org33d3214">
 <p>
 Record locking is the term normally used to describe the ability of a process to prevent other processes from modifying a region of a file while the first process is reading or modifying that portion of the file
 </p>
 </div>
-<div id="outline-container-org66cd414" class="outline-4">
-<h4 id="org66cd414">1. History</h4>
+<div id="outline-container-org31fa03f" class="outline-4">
+<h4 id="org31fa03f">1. History</h4>
 </div>
-<div id="outline-container-org1a727fb" class="outline-4">
-<h4 id="org1a727fb">2. <code>fcntl</code> Record Locking</h4>
-<div class="outline-text-4" id="text-org1a727fb">
+<div id="outline-container-orgb61a614" class="outline-4">
+<h4 id="orgb61a614">2. <code>fcntl</code> Record Locking</h4>
+<div class="outline-text-4" id="text-orgb61a614">
 <div class="org-src-container">
 <pre class="src src-sh">man <span style="color: #4e3163;">2</span> fcntl
 </pre>
@@ -8739,7 +8954,7 @@ Record locking is the term normally used to describe the ability of a process to
 Example - Deadlock <br />
 </p>
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 86: </span>Figure 14.7 Example of deadlock detection</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
+<label class="org-src-name"><span class="listing-number">Listing 87: </span>Figure 14.7 Example of deadlock detection</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">fcntl.h</span><span style="color: #3a81c3;">&gt;</span>
 
 <span style="color: #3a81c3; font-weight: bold;">static</span> <span style="color: #ba2f59; font-weight: bold;">void</span>
@@ -8792,7 +9007,7 @@ Example - Deadlock <br />
 Example <br />
 </p>
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 87: </span>Figure 14.12 Determine whether mandatory locking is supported</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
+<label class="org-src-name"><span class="listing-number">Listing 88: </span>Figure 14.12 Determine whether mandatory locking is supported</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">errno.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">fcntl.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">sys/wait.h</span><span style="color: #3a81c3;">&gt;</span>
@@ -8863,159 +9078,159 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgd58f0d8" class="outline-3">
-<h3 id="orgd58f0d8">14.4 I/O Multiplexing</h3>
-<div class="outline-text-3" id="text-orgd58f0d8">
+<div id="outline-container-org03859e4" class="outline-3">
+<h3 id="org03859e4">14.4 I/O Multiplexing</h3>
+<div class="outline-text-3" id="text-org03859e4">
 </div>
-<div id="outline-container-org368c7e7" class="outline-4">
-<h4 id="org368c7e7">14.4.1 <code>select</code> and <code>pselect</code> Functions</h4>
+<div id="outline-container-org0e2b69b" class="outline-4">
+<h4 id="org0e2b69b">14.4.1 <code>select</code> and <code>pselect</code> Functions</h4>
 </div>
-<div id="outline-container-org56aedbc" class="outline-4">
-<h4 id="org56aedbc">14.4.2 <code>poll</code> Function</h4>
-</div>
-</div>
-<div id="outline-container-org135e0cf" class="outline-3">
-<h3 id="org135e0cf">14.5 Asynchronous I/O</h3>
-<div class="outline-text-3" id="text-org135e0cf">
-</div>
-<div id="outline-container-org55820c3" class="outline-4">
-<h4 id="org55820c3">14.5.1 System V Asynchronous I/O</h4>
-</div>
-<div id="outline-container-orgf6c7a38" class="outline-4">
-<h4 id="orgf6c7a38">14.5.2 BSD Asynchronous I/O</h4>
-</div>
-<div id="outline-container-orgfbe1757" class="outline-4">
-<h4 id="orgfbe1757">14.5.3 POSIX Asynchronous I/O</h4>
+<div id="outline-container-orgd3e1d00" class="outline-4">
+<h4 id="orgd3e1d00">14.4.2 <code>poll</code> Function</h4>
 </div>
 </div>
-<div id="outline-container-org889664a" class="outline-3">
-<h3 id="org889664a">14.6 <code>readv</code> and <code>writev</code> Functions</h3>
+<div id="outline-container-orga981457" class="outline-3">
+<h3 id="orga981457">14.5 Asynchronous I/O</h3>
+<div class="outline-text-3" id="text-orga981457">
 </div>
-<div id="outline-container-org91416eb" class="outline-3">
-<h3 id="org91416eb">14.7 <code>readn</code> and <code>writen</code> Functions</h3>
+<div id="outline-container-org0ad161d" class="outline-4">
+<h4 id="org0ad161d">14.5.1 System V Asynchronous I/O</h4>
 </div>
-<div id="outline-container-org1f5b382" class="outline-3">
-<h3 id="org1f5b382">14.8 Memory-Mapped I/O</h3>
-<div class="outline-text-3" id="text-org1f5b382">
+<div id="outline-container-org161cd2c" class="outline-4">
+<h4 id="org161cd2c">14.5.2 BSD Asynchronous I/O</h4>
+</div>
+<div id="outline-container-org2110e06" class="outline-4">
+<h4 id="org2110e06">14.5.3 POSIX Asynchronous I/O</h4>
+</div>
+</div>
+<div id="outline-container-org6b82ad4" class="outline-3">
+<h3 id="org6b82ad4">14.6 <code>readv</code> and <code>writev</code> Functions</h3>
+</div>
+<div id="outline-container-org3dd0a34" class="outline-3">
+<h3 id="org3dd0a34">14.7 <code>readn</code> and <code>writen</code> Functions</h3>
+</div>
+<div id="outline-container-orgc99b603" class="outline-3">
+<h3 id="orgc99b603">14.8 Memory-Mapped I/O</h3>
+<div class="outline-text-3" id="text-orgc99b603">
 <ul class="org-ul">
 <li>Example
 <a href="file:///Users/zhoush/Documents/Private/Notes/books/c/APUE/Chapter14/mcopy2.c">Figure 14.27 Copy a file using memory-mapped I/O</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbc66185" class="outline-3">
-<h3 id="orgbc66185">14.9 Summary</h3>
+<div id="outline-container-orgf457601" class="outline-3">
+<h3 id="orgf457601">14.9 Summary</h3>
 </div>
 </div>
-<div id="outline-container-orgb1240d9" class="outline-2">
-<h2 id="orgb1240d9">Chapter 15. Interprocess Communication</h2>
-<div class="outline-text-2" id="text-orgb1240d9">
+<div id="outline-container-org00237c1" class="outline-2">
+<h2 id="org00237c1">Chapter 15. Interprocess Communication</h2>
+<div class="outline-text-2" id="text-org00237c1">
 </div>
-<div id="outline-container-orgc82617a" class="outline-3">
-<h3 id="orgc82617a">15.1 Introduction</h3>
+<div id="outline-container-org1223d19" class="outline-3">
+<h3 id="org1223d19">15.1 Introduction</h3>
 </div>
-<div id="outline-container-org3b877f1" class="outline-3">
-<h3 id="org3b877f1">15.2 Pipes</h3>
+<div id="outline-container-org37693e5" class="outline-3">
+<h3 id="org37693e5">15.2 Pipes</h3>
 </div>
-<div id="outline-container-orge061ef2" class="outline-3">
-<h3 id="orge061ef2">15.3 <code>popen</code> and <code>pclose</code> Functions</h3>
+<div id="outline-container-org521fb4e" class="outline-3">
+<h3 id="org521fb4e">15.3 <code>popen</code> and <code>pclose</code> Functions</h3>
 </div>
-<div id="outline-container-org10a00a9" class="outline-3">
-<h3 id="org10a00a9">15.4 Coprocesses</h3>
+<div id="outline-container-orgf86c387" class="outline-3">
+<h3 id="orgf86c387">15.4 Coprocesses</h3>
 </div>
-<div id="outline-container-orga607fc5" class="outline-3">
-<h3 id="orga607fc5">15.5 FIFOs</h3>
+<div id="outline-container-orga9f5767" class="outline-3">
+<h3 id="orga9f5767">15.5 FIFOs</h3>
 </div>
-<div id="outline-container-orge7ed6be" class="outline-3">
-<h3 id="orge7ed6be">15.6 XSI IPC</h3>
+<div id="outline-container-org118149f" class="outline-3">
+<h3 id="org118149f">15.6 XSI IPC</h3>
 </div>
-<div id="outline-container-orgfc68789" class="outline-3">
-<h3 id="orgfc68789">15.6.1 Identifiers and Keys</h3>
+<div id="outline-container-org083a2e5" class="outline-3">
+<h3 id="org083a2e5">15.6.1 Identifiers and Keys</h3>
 </div>
-<div id="outline-container-org88f7f2e" class="outline-3">
-<h3 id="org88f7f2e">15.6.2 Permission Structure</h3>
+<div id="outline-container-org4ec6315" class="outline-3">
+<h3 id="org4ec6315">15.6.2 Permission Structure</h3>
 </div>
-<div id="outline-container-org6156a80" class="outline-3">
-<h3 id="org6156a80">15.6.3 Configuration Limits</h3>
+<div id="outline-container-org3dec06d" class="outline-3">
+<h3 id="org3dec06d">15.6.3 Configuration Limits</h3>
 </div>
-<div id="outline-container-org63e47fa" class="outline-3">
-<h3 id="org63e47fa">15.6.4 Advantages and Disadvantages</h3>
+<div id="outline-container-org760ee7c" class="outline-3">
+<h3 id="org760ee7c">15.6.4 Advantages and Disadvantages</h3>
 </div>
-<div id="outline-container-org46c1f23" class="outline-3">
-<h3 id="org46c1f23">15.7 Message Queues</h3>
+<div id="outline-container-orgc6e03dd" class="outline-3">
+<h3 id="orgc6e03dd">15.7 Message Queues</h3>
 </div>
-<div id="outline-container-org12100b2" class="outline-3">
-<h3 id="org12100b2">15.8 Semaphores</h3>
+<div id="outline-container-org196ed1f" class="outline-3">
+<h3 id="org196ed1f">15.8 Semaphores</h3>
 </div>
-<div id="outline-container-org9fb5a14" class="outline-3">
-<h3 id="org9fb5a14">15.9 Shared Memory</h3>
+<div id="outline-container-orgf48d20e" class="outline-3">
+<h3 id="orgf48d20e">15.9 Shared Memory</h3>
 </div>
-<div id="outline-container-org7170d36" class="outline-3">
-<h3 id="org7170d36">15.10 POSIX Semaphores</h3>
+<div id="outline-container-orgf5c6e84" class="outline-3">
+<h3 id="orgf5c6e84">15.10 POSIX Semaphores</h3>
 </div>
-<div id="outline-container-orga0a8f86" class="outline-3">
-<h3 id="orga0a8f86">15.11 Client-Server Properties</h3>
+<div id="outline-container-orgcf02025" class="outline-3">
+<h3 id="orgcf02025">15.11 Client-Server Properties</h3>
 </div>
-<div id="outline-container-org3f898c7" class="outline-3">
-<h3 id="org3f898c7">15.12 Summary</h3>
-</div>
-</div>
-<div id="outline-container-orga3e8809" class="outline-2">
-<h2 id="orga3e8809">Chapter 16. Network IPC: Sockets</h2>
-<div class="outline-text-2" id="text-orga3e8809">
-</div>
-<div id="outline-container-org37a096d" class="outline-3">
-<h3 id="org37a096d">16.1 Introduction</h3>
-</div>
-<div id="outline-container-org1ca7c3f" class="outline-3">
-<h3 id="org1ca7c3f">16.2 Socket Descriptors</h3>
-</div>
-<div id="outline-container-org4beb7b0" class="outline-3">
-<h3 id="org4beb7b0">16.3 Addressing</h3>
-<div class="outline-text-3" id="text-org4beb7b0">
-</div>
-<div id="outline-container-org8ba64f6" class="outline-4">
-<h4 id="org8ba64f6">16.3.1 Byte Ordering</h4>
-</div>
-<div id="outline-container-org805a2c9" class="outline-4">
-<h4 id="org805a2c9">16.3.2 Address Formats</h4>
-</div>
-<div id="outline-container-org0776f44" class="outline-4">
-<h4 id="org0776f44">16.3.3 Address Lookup</h4>
-</div>
-<div id="outline-container-org91a2a51" class="outline-4">
-<h4 id="org91a2a51">16.3.4 Associating Addresses with Sockets</h4>
+<div id="outline-container-orgcfff336" class="outline-3">
+<h3 id="orgcfff336">15.12 Summary</h3>
 </div>
 </div>
-<div id="outline-container-org95a01a3" class="outline-3">
-<h3 id="org95a01a3">16.4 Connection Establishment</h3>
+<div id="outline-container-org8dba0ee" class="outline-2">
+<h2 id="org8dba0ee">Chapter 16. Network IPC: Sockets</h2>
+<div class="outline-text-2" id="text-org8dba0ee">
 </div>
-<div id="outline-container-org22f999c" class="outline-3">
-<h3 id="org22f999c">16.5 Data Transfer</h3>
+<div id="outline-container-orga495a0d" class="outline-3">
+<h3 id="orga495a0d">16.1 Introduction</h3>
 </div>
-<div id="outline-container-org0050e76" class="outline-3">
-<h3 id="org0050e76">16.6 Socket Options</h3>
+<div id="outline-container-org01b8de9" class="outline-3">
+<h3 id="org01b8de9">16.2 Socket Descriptors</h3>
 </div>
-<div id="outline-container-orge962845" class="outline-3">
-<h3 id="orge962845">16.7 Out-of-Band Data</h3>
+<div id="outline-container-org79814fc" class="outline-3">
+<h3 id="org79814fc">16.3 Addressing</h3>
+<div class="outline-text-3" id="text-org79814fc">
 </div>
-<div id="outline-container-org3a81a21" class="outline-3">
-<h3 id="org3a81a21">16.8 Nonblocking and Asynchronous I/O</h3>
+<div id="outline-container-org6637645" class="outline-4">
+<h4 id="org6637645">16.3.1 Byte Ordering</h4>
 </div>
-<div id="outline-container-orgf93afd3" class="outline-3">
-<h3 id="orgf93afd3">16.9 Summary</h3>
+<div id="outline-container-org7ea9c3e" class="outline-4">
+<h4 id="org7ea9c3e">16.3.2 Address Formats</h4>
+</div>
+<div id="outline-container-org5127ac7" class="outline-4">
+<h4 id="org5127ac7">16.3.3 Address Lookup</h4>
+</div>
+<div id="outline-container-orgbe8dcd6" class="outline-4">
+<h4 id="orgbe8dcd6">16.3.4 Associating Addresses with Sockets</h4>
 </div>
 </div>
-<div id="outline-container-org0481bc9" class="outline-2">
-<h2 id="org0481bc9">Chapter 17. Advanced IPC</h2>
-<div class="outline-text-2" id="text-org0481bc9">
+<div id="outline-container-orgeea3e3a" class="outline-3">
+<h3 id="orgeea3e3a">16.4 Connection Establishment</h3>
 </div>
-<div id="outline-container-org0393295" class="outline-3">
-<h3 id="org0393295">17.1 Introduction</h3>
+<div id="outline-container-org40bc859" class="outline-3">
+<h3 id="org40bc859">16.5 Data Transfer</h3>
 </div>
-<div id="outline-container-org3cfd016" class="outline-3">
-<h3 id="org3cfd016">17.2 UNIX Domain Sockets</h3>
-<div class="outline-text-3" id="text-org3cfd016">
+<div id="outline-container-org1b0a2d1" class="outline-3">
+<h3 id="org1b0a2d1">16.6 Socket Options</h3>
+</div>
+<div id="outline-container-org4150ad5" class="outline-3">
+<h3 id="org4150ad5">16.7 Out-of-Band Data</h3>
+</div>
+<div id="outline-container-org4dfac22" class="outline-3">
+<h3 id="org4dfac22">16.8 Nonblocking and Asynchronous I/O</h3>
+</div>
+<div id="outline-container-orgc029c4a" class="outline-3">
+<h3 id="orgc029c4a">16.9 Summary</h3>
+</div>
+</div>
+<div id="outline-container-org68cf1ac" class="outline-2">
+<h2 id="org68cf1ac">Chapter 17. Advanced IPC</h2>
+<div class="outline-text-2" id="text-org68cf1ac">
+</div>
+<div id="outline-container-org6927740" class="outline-3">
+<h3 id="org6927740">17.1 Introduction</h3>
+</div>
+<div id="outline-container-org279455d" class="outline-3">
+<h3 id="org279455d">17.2 UNIX Domain Sockets</h3>
+<div class="outline-text-3" id="text-org279455d">
 <ul class="org-ul">
 <li><p>
 Example &#x2013; Polling XSI Message Queues with the Help of UNIX Domain Sockets
@@ -9152,15 +9367,15 @@ Example &#x2013; Polling XSI Message Queues with the Help of UNIX Domain Sockets
 </pre>
 </div>
 </div>
-<div id="outline-container-orgacd2c6f" class="outline-4">
-<h4 id="orgacd2c6f">17.2.1 Naming UNIX Domain Sockets</h4>
-<div class="outline-text-4" id="text-orgacd2c6f">
+<div id="outline-container-orgecb93ff" class="outline-4">
+<h4 id="orgecb93ff">17.2.1 Naming UNIX Domain Sockets</h4>
+<div class="outline-text-4" id="text-orgecb93ff">
 <ul class="org-ul">
 <li><p>
 Example <br />
 </p>
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 88: </span>Figure 17.5 Binding an address to a UNIX domain socket</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">apue.h</span><span style="color: #3a81c3;">&gt;</span>
+<label class="org-src-name"><span class="listing-number">Listing 89: </span>Figure 17.5 Binding an address to a UNIX domain socket</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">apue.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">sys/socket.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">sys/un.h</span><span style="color: #3a81c3;">&gt;</span>
 
@@ -9189,9 +9404,9 @@ Example <br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgfbf45df" class="outline-3">
-<h3 id="orgfbf45df">17.3 Unique Connections</h3>
-<div class="outline-text-3" id="text-orgfbf45df">
+<div id="outline-container-org9872d72" class="outline-3">
+<h3 id="org9872d72">17.3 Unique Connections</h3>
+<div class="outline-text-3" id="text-org9872d72">
 <p>
 develop three functions can be used to create unique connections between unrelated processes running on same machine:
 </p>
@@ -9360,7 +9575,7 @@ Figure 17.9 The <code>serv_accept</code> function
 </p>
 </div>
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 89: </span>Figure 17.10 The <code>cli_conn</code> function</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
+<label class="org-src-name"><span class="listing-number">Listing 90: </span>Figure 17.10 The <code>cli_conn</code> function</label><pre class="src src-c"><span style="color: #6c3163;">#include</span> <span style="color: #2d9574;">"apue.h"</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">errno.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">sys/socket.h</span><span style="color: #3a81c3;">&gt;</span>
 <span style="color: #6c3163;">#include</span> <span style="color: #3a81c3;">&lt;</span><span style="color: #2d9574;">sys/un.h</span><span style="color: #3a81c3;">&gt;</span>
@@ -9431,30 +9646,30 @@ Figure 17.9 The <code>serv_accept</code> function
 </div>
 </div>
 </div>
-<div id="outline-container-org50e52a9" class="outline-3">
-<h3 id="org50e52a9">17.4 Passing File Descriptors</h3>
+<div id="outline-container-org720ecfb" class="outline-3">
+<h3 id="org720ecfb">17.4 Passing File Descriptors</h3>
 </div>
-<div id="outline-container-orgdd8d2da" class="outline-3">
-<h3 id="orgdd8d2da">17.5 An Open Server, Version 1</h3>
+<div id="outline-container-orga886b95" class="outline-3">
+<h3 id="orga886b95">17.5 An Open Server, Version 1</h3>
 </div>
-<div id="outline-container-orgfb2849a" class="outline-3">
-<h3 id="orgfb2849a">17.6 An Open Server, Version 2</h3>
+<div id="outline-container-orged19e0b" class="outline-3">
+<h3 id="orged19e0b">17.6 An Open Server, Version 2</h3>
 </div>
-<div id="outline-container-orgd4efc38" class="outline-3">
-<h3 id="orgd4efc38">17.7 Summary</h3>
+<div id="outline-container-org6f29ddd" class="outline-3">
+<h3 id="org6f29ddd">17.7 Summary</h3>
 </div>
 </div>
-<div id="outline-container-org67470e3" class="outline-2">
-<h2 id="org67470e3">Chapter 18. Terminal I/O</h2>
+<div id="outline-container-org681bc74" class="outline-2">
+<h2 id="org681bc74">Chapter 18. Terminal I/O</h2>
 </div>
-<div id="outline-container-org9fa6e1b" class="outline-2">
-<h2 id="org9fa6e1b">Chapter 19. Pseudo Terminals</h2>
+<div id="outline-container-orgc54714b" class="outline-2">
+<h2 id="orgc54714b">Chapter 19. Pseudo Terminals</h2>
 </div>
-<div id="outline-container-org5c418ee" class="outline-2">
-<h2 id="org5c418ee">Chapter 20. A Database Library</h2>
+<div id="outline-container-org91b1ad0" class="outline-2">
+<h2 id="org91b1ad0">Chapter 20. A Database Library</h2>
 </div>
-<div id="outline-container-orga8906ad" class="outline-2">
-<h2 id="orga8906ad">Chapter 21. Communication with a Network Printer</h2>
+<div id="outline-container-orgc681a41" class="outline-2">
+<h2 id="orgc681a41">Chapter 21. Communication with a Network Printer</h2>
 </div>
 <div id="footnotes">
 <h2 class="footnotes">Footnotes: </h2>
@@ -9469,7 +9684,7 @@ Figure 17.9 The <code>serv_accept</code> function
 </div></div>
 <div id="postamble" class="status">
 <p class="author">Author: zhoush</p>
-<p class="date">Created: 2019-11-05 Tue 21:28</p>
+<p class="date">Created: 2019-11-06 Wed 00:33</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
