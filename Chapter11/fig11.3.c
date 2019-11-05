@@ -8,7 +8,7 @@ void *thr_fn1(void *arg) {
 
 void *thr_fn2(void *arg) {
   printf("thread 2 returning\n");
-  return ((void *)2);
+  pthread_exit((void *)2);
 }
 
 int main(int argc, char *argv[]) {
@@ -28,9 +28,11 @@ int main(int argc, char *argv[]) {
   if (err != 0) {
     err_exit(err, "can't join thread1");
   }
+  printf("thread 1 exit code %ld\n", (long)tret);
   err = pthread_join(tid2, &tret);
   if (err != 0) {
     err_exit(err, "can't join thread2");
   }
+  printf("thread 2 exit code %ld\n", (long)tret);
   return 0;
 }

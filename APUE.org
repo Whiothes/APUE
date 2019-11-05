@@ -1211,6 +1211,18 @@
 * Chapter 9. Process Relationships
 ** 9.1 Introduction
 ** 9.2 Terminal Logins
+   - BSD Terminal Logins
+     #+caption: Figure 9.1 Processes invoked by init to allow terminal logins
+     [[file:Chapter09/fig9.1.png][file:Chapter09/fig9.1.png]]
+     #+begin_quote
+     a real user ID of 0 and an effective user ID of 0
+     #+end_quote
+
+     =login= program similar to
+     #+begin_src c
+       execle("/bin/login", "login", "-p", username, (char *)0, envp);
+     #+end_src
+
 ** 9.3 Network Logins
 ** 9.4 Process Groups
    #+begin_src c
@@ -1716,20 +1728,49 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
 
      // Returns: nonzero if equal, 0 otherwise
    #+end_src
+
+   obtain its own thread ID :
+   #+begin_src c
+     #include <pthread.h>
+     pthread_t pthread_self(void);
+     // Returns: the thread ID of the calling thread
+   #+end_src
 ** 11.4 Thread Creation
-   =man pthread_create=
+   #+begin_src c
+     #include <pthread.h>
+     int pthread_create(pthread_t *restrict tidp,
+                        const pthread_attr_t *restrict attr,
+                        void *(*start_rtn)(void*),
+                        void *restrict arg);
+     // Returns: 0 if OK, error number on failure
+   #+end_src
+
    - Example \\
      #+caption: Figure 11.2 Printing thread IDs
-     #+include: "Chapter11/threadid.c" src c
+     #+include: "Chapter11/fig11.2.c" src c
 ** 11.5 Thread Termination
-   #+begin_src sh
-
-     $ man pthread_exit
-     $ man pthread_join
+   1. thread return from start routine.
+   2. can be canceled by another thread in the same process
+   3. can call ~pthread_exit~
+   #+begin_src c
+     #include <pthread.h>
+     void pthread_exit(void *rval_ptr);
    #+end_src
+
+   #+begin_src c
+     #include <pthread.h>
+     int pthread_join(pthread_t thread, void **rval_ptr);
+   #+end_src
+   #+begin_quote
+   The calling thread will block until the speciﬁed thread calls pthread_exit, returns from its start routine, or is canceled.
+   #+end_quote
    - Example \\
      #+caption: Figure 11.3 Fetching the thread exit status
-     #+include: "Chapter11/exitstatus.c" src c
+     #+include: "Chapter11/fig11.3.c" src c
+
+   - Example \\
+     #+caption: Figure 11.4 Incorrect use of ~pthread_exit~ argument
+     #+include: "Chapter11/fig11.4.c" src c
 * Chapter 12. Thread Control
 * Chapter 13. Daemon Processes
 * Chapter 14. Advanced I/O
