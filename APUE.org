@@ -8,13 +8,13 @@
 #+title: Advanced Programming in the Unix Environment
 
 * Progress [42%]
-** DONE Chapter 1. UNIX System Overview
+** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
-***  DONE Introduction
-***  DONE UNIX Architecture
-***  DONE Logging in
+*** DONE Introduction
+*** DONE UNIX Architecture
+*** DONE Logging in
     - Login Name
-***  DONE Files and Directories
+*** DONE Files and Directories
     - File System
     - Pathname
       - Example \\
@@ -44,7 +44,7 @@
 
         #+RESULTS: Figure 1.3 List all the files in a directory
 
-***  DONE Input and Output
+*** DONE Input and Output
     - File Descriptors
     - Standard Input, Standard Output, and Standard Error
     - Unbuffered I/O
@@ -56,7 +56,7 @@
       - Example \\
         #+caption: Figure 1.5 Copy standard input to standard output, using standard I/O
         #+include: "Chapter01/getcputc.c" src c
-***  DONE Programs and Processes
+*** DONE Programs and Processes
     - Program
     - Proceses and Process ID
       - Example \\
@@ -66,18 +66,18 @@
       - Example \\
         #+caption: Figure 1.7 Read commands from standard input and execute them
         #+include: "Chapter01/shell1.c" src c
-***  DONE Error Handling
+*** DONE Error Handling
     - Example \\
       #+caption: Figure 1.8 Demonstrate strerror and perror
       #+include: "Chapter01/testerror.c" src c
-***  DONE User identification
+*** DONE User identification
     - User ID
     - Group ID
       - Example \\
         #+caption: Figure 1.9 Print user ID and group ID
         #+include: "Chapter01/uidgid.c" src c
     - Supplementary Group IDs
-***  DONE Signals
+*** DONE Signals
     Process choices:
     1.  Ignore
     2.  default action
@@ -87,13 +87,13 @@
     - Example \\
       #+caption: Figure 1.10 Read commands from standard input and execute them
       #+include: "Chapter01/shell2.c" src c
-***  DONE Time Values
+*** DONE Time Values
     1.  Calendar time.
     2.  Process time.
        - Clock time
        - User CPU time
        - System CPU time
-***  DONE System calls and Library Functions
+*** DONE System calls and Library Functions
     - Concepts:
       - System calls: \\
         - Can be learned with ~man 2~ (Section 2 of /Unix Programmer's Mannual/)
@@ -103,7 +103,7 @@
     - Distinction:
       - the system calls usually cannot be replaced
       - UNIX System provides to determine the current time and date
-***  DONE Summary
+*** DONE Summary
     *Exercises*
     1.
     2.  53268 50922 was occupied
@@ -113,36 +113,36 @@
        change time_t to u_64_t
        recompile the program
     5.  2^{31}/(60*60*24*100)=248.551348 days
-**  DONE Chapter 2. UNIX Standardization and Implementations
-***  DONE Introduction
-***  DONE UNIX Standardization
-****  DONE ISO C
-****  DONE IEEE POSIX
-****  DONE The Single UNIX Specification
+** DONE Chapter 2. UNIX Standardization and Implementations [10/10]
+*** DONE Introduction
+*** DONE UNIX Standardization
+**** DONE ISO C
+**** DONE IEEE POSIX
+**** DONE The Single UNIX Specification
      - Encryption: denoted by ~_XOPEN_CRYPE~
      - Real-time: denoted by ~_XOPEN_REALTIME~
      - Advanced real-time
      - Real-time threads: denoted by ~_XOPEN_REALTIME_THREADS~
      - Advanced real-time threads
-****  DONE FIPS
-***  DONE UNIX System Implementations
-****  DONE SVR4
-****  DONE 4.4BSD
-****  DONE FreeBSD
-****  DONE Linux
-****  DONE Mac OS X
-****  DONE SOlaris
-****  DONE Others
+**** DONE FIPS
+*** DONE UNIX System Implementations
+**** DONE SVR4
+**** DONE 4.4BSD
+**** DONE FreeBSD
+**** DONE Linux
+**** DONE Mac OS X
+**** DONE SOlaris
+**** DONE Others
      - AIX, IBMUNIX
      - HP-UX, HP
      - IRIX, Silicon Graphics
      - Unix Ware, SVR4 distribution
-***  DONE Relationship of Standards and Implementations
-***  DONE Limits
+*** DONE Relationship of Standards and Implementations
+*** DONE Limits
     1.  Comipile-time limits
     2.  Runtime limits
-****  DONE ISO C Limits
-****  DONE POSIX Limits
+**** DONE ISO C Limits
+**** DONE POSIX Limits
      1.  Numerical limits: ~LONG_BIT~, ~SSIZE_MAX~, and ~WORD_BIT~
      2.  Minimum value：
      3.  Maximum value: ~_POSIX_CLOCKRES_MIN~
@@ -150,69 +150,69 @@
      5.  Runtime invariant values;
      6.  Other invariant values: ~NL_ARGMAX~, ~NL_MSGMAX~, ~NL_SETMAX~, and ~NL_TEXTMAX~;
      7.  Pathname variables values: ~FIFLESIZEBITS~, ~LINK_MAX~, ~MAX_CANON~, ~MAX_INPUT~, ~NAME_MAX~, ~PATH_MAX~, ~PIPE_BUF~, and ~SYMLINK_MAX~
-****  DONE XSI Limits
+**** DONE XSI Limits
      1.  Minimum values:
      2.  Runtime invariant values, possibly indeterminate: *IOV_MAX* and *PAGE_SIZE*
-****  DONE ~sysconf~, ~pathconf~, and ~fpathconf~ Functions
+**** DONE ~sysconf~, ~pathconf~, and ~fpathconf~ Functions
      #+caption: Figure 2.13 Build C program to print all supported configuration limits
      #+include: "Chapter02/makeconf.awk" src c
-****  DONE Indeterminate Runtime Limits
+**** DONE Indeterminate Runtime Limits
      1.  #+caption: pathalloc
      #+include: "lib/pathalloc.c" src c
      2.  #+caption: openmax
      #+include: "lib/openmax.c" src c
-***  DONE Options
+*** DONE Options
     1.  Compile-time options are defined in ~<unistd.h>~
     2.  Runtime options are not associated with a file or a directory are idnetified with the ~sysconf~ function
     3.  Runtime options that are associated with a file or a directory are discovered by calling either the ~pathconf~ or the ~fpathconf~ function
-***  DONE Features Test Macros
+*** DONE Features Test Macros
     ~cc -D_POSIX_C_SOURCE=200809L code.c~
-***  DONE Primitive System Data Types
+*** DONE Primitive System Data Types
     The header ~<sys/types.h>~ defines some implementation-dependent data types, called the /primitive system data types/.
-***  DONE Differences Between Standards
-***  DONE Summary
+*** DONE Differences Between Standards
+*** DONE Summary
     *Exercises*
     1.  #ifndef ... #define ... #endif
     2.  ~u_long, ushort, uint, u_quad_t, quad_t, qaddr_t, daddr_t, fixpt_t~
     3.  #+caption: OPEN_MAX exercise
     #+include: "Chapter02/ex02.c" src c
-**  DONE DONE Chapter 3. File I/O
+** DONE Chapter 3. File I/O [17/17]
    CLOSED: [2019-11-08 Fri 00:38]
    :PROPERTIES:
    :EXPORT_FILE_NAME: ./build/./build/./build/Chapter_3._File_I/O
    :END:
-***  DONE Introduction
-***  DONE File Descriptors
+*** DONE Introduction
+*** DONE File Descriptors
     To the kernel, all open file are referred to by file descriptors.
     - 0: stdin
     - 1: stdout
     - 2: stderr
-***  DONE ~open~ and ~openat~ Functions
+*** DONE ~open~ and ~openat~ Functions
     ~man 2 open~
-***  DONE ~creat~ Function
+*** DONE ~creat~ Function
     ~man 2 creat~
-***  DONE ~close~ Function
+*** DONE ~close~ Function
     ~man 2 close~
-***  DONE ~lseek~ Function
+*** DONE ~lseek~ Function
     ~man 2 lseek~
     - Example \\
       #+caption: Figure 3.1 Test whether standard input is capable of seeking
       #+include: "Chapter03/seek.c" src c \\
     #+caption: Figure 3.2 Create a file with a hole in it
     #+include: "Chapter03/hole.c" src c
-***  DONE ~read~ Function
+*** DONE ~read~ Function
     ~man 2 read~
-***  DONE ~write~ Function
+*** DONE ~write~ Function
     ~man 2 write~
-***  DONE I/O Efficiency
+*** DONE I/O Efficiency
     #+caption: Figure 3.5 Copy standard input to standard output
     #+include: "Chapter03/fig3.5.c" src c
-***  DONE File Sharing
+*** DONE File Sharing
     1.  Every process has an entry in the process table.
     2.  The kernel maintains a file table for all open files.
     3.  Each open file(or device) has a v-node structure that contains information about the type of file \\
        and pointers to functions that operate on the file;
-***  DONE Atomic Operations
+*** DONE Atomic Operations
     - Appending to a File
     - ~pread~ and ~pwrite~ Functions
       Calling pread is equivalent to calling lseek followed by a call to read, with the following exceptions.
@@ -221,16 +221,16 @@
 
     - Creating a File
       /atomic operation/ refers to an operation that might be composed of multiple steps
-***  DONE ~dup~ and ~dup2~ Functions
+*** DONE ~dup~ and ~dup2~ Functions
     ~man 2 dup~
     - ~dup(fd)~ ~ =fcntl(fd, F_DUPFD, 0)~
     - ~dup2(fd, fd2)= = =close(fd2); fcntl(fd, F_DUPFD, fd2);~ \\
     Differences:
     - dup2 is an atomic operation, whereas the alternate form involves two function calls.
     - errno differences
-***  DONE ~sync~, ~fsync~ and ~fdatasync~ Functions
+*** DONE ~sync~, ~fsync~ and ~fdatasync~ Functions
     ~man 2 sync~
-***  DONE ~fcntl~ Function
+*** DONE ~fcntl~ Function
     ~man 2 fcntl~
     The ~fcntl~ function is used for five different purposes.
     1.  Duplicate an existing descriptor (/cmd/ = =F_DUPFD= or =F_DUPFD_CLOEXEC=)
@@ -245,10 +245,10 @@
       #+include: "Chapter03/fileflags.c" src c \\
     #+caption: Figure 3.12 Turn on one or more of the file status flags for a descriptor
     #+include: "Chapter03/setfl.c" src c
-***  DONE ~ioctl~ Function
+*** DONE ~ioctl~ Function
     =man 2 ioctl=
-***  DONE ~/dev/fd~
-***  DONE Summary
+*** DONE ~/dev/fd~
+*** DONE Summary
     *Exercises*
     1.  All disk I/O need to via buffer block. \\
        ~read/write~ always be buffered via kernel automatically, unbuffered only means user process;
@@ -261,12 +261,12 @@
        =./a.out 2>&1 > outfile=: stderr => stdout, stdout => outfile \\
     6.  #+caption: ex06
     #+include: "Chapter03/ex06.c" src c, can be read random, but cannot replace existing data;
-**  DONE DONE Chapter 4. System Data Files and Information
+** DONE Chapter 4. System Data Files and Information [26/26]
    CLOSED: [2019-11-08 Fri 00:38]
-***  DONE 4.1 Introduction
-***  DONE 4.2 ~stat~, ~fstat~, ~fstatat~, and ~lstat~ Functions
+*** DONE 4.1 Introduction
+*** DONE 4.2 ~stat~, ~fstat~, ~fstatat~, and ~lstat~ Functions
     =man 2 stat=
-***  DONE 4.3 File Types
+*** DONE 4.3 File Types
     1.  Regular file.
        There is no distinction to the UNIX kernel whether this data is text or binary.
     2.  Directory file.
@@ -281,7 +281,7 @@
     - Example \\
       #+caption: Figure 4.3 Print type of file for each command-line argument
       #+include: "Chapter04/filetype.c" src c
-***  DONE 4.4 Set-User-ID and Set-Group-ID
+*** DONE 4.4 Set-User-ID and Set-Group-ID
     | IDs                     | using for                              |
     |-------------------------+----------------------------------------|
     | real user ID            | who we really are                      |
@@ -293,7 +293,7 @@
     |-------------------------+----------------------------------------|
     | save set-user-ID        | saved by exec functions                |
     | save set-group-ID       |                                        |
-***  DONE 4.5 File Access Permissions
+*** DONE 4.5 File Access Permissions
     | st_mode mask | Meaning       |
     |--------------+---------------|
     | S_IRUSR      | user-read     |
@@ -307,32 +307,32 @@
     | S_IROTH      | other-read    |
     | S_IWOTH      | other-write   |
     | S_IXOTH      | other-execute |
-***  DONE 4.6 Ownership of New Files and Directories
-***  DONE ~access~ and ~faccessat~ Functions
+*** DONE 4.6 Ownership of New Files and Directories
+*** DONE ~access~ and ~faccessat~ Functions
     =man 2 access=
     - Example \\
       #+caption: Figure 4.8 Example of access function
       #+include: "Chapter04/access.c" src c
-***  DONE ~umask~ Function
+*** DONE ~umask~ Function
     =man 2 umask=
     - Example \\
       #+caption: Figure 4.9 Example of umask function
       #+include: "Chapter04/umask.c" src c
-***  DONE ~chmod~, ~fchmod~, and ~fchmodat~ Functions
+*** DONE ~chmod~, ~fchmod~, and ~fchmodat~ Functions
     =man 2 chmod=
     - Example \\
       #+caption: Figure 4.12 Example of chmod function
       #+include: "Chapter04/changemod.c" src c
-***  DONE Sticky Bit
+*** DONE Sticky Bit
     If it was set for an executable program file, then the first time the program was executed, \\
     a copy of the program’s text was saved in the swap area when the process terminated
-***  DONE ~chown~, ~fchown~, ~fchownat~, and ~lchown~ Functions
+*** DONE ~chown~, ~fchown~, ~fchownat~, and ~lchown~ Functions
     =man 2 chown=
-***  DONE File Size
+*** DONE File Size
     =struct stat.st_size=
-***  DONE File Truncation
+*** DONE File Truncation
     =man 2 truncate=
-***  DONE File Systems
+*** DONE File Systems
     - Only when the link count goes to 0 can the file be deleted. \\
       =struct stat.st_nlink=
     - The other type of link is called a symbolic link. With a symbolic link, the actual contents of the file—the data blocks—store the name of the file that the symbolic link points to.
@@ -340,26 +340,26 @@
       Most of the information in the stat structure is obtained from the i-node, exclude *filename* and *i-node* number.
     - a directory entry can’t refer to an i-node in a different file system.
     - When renaming a file without changing file systems, the actual contents of the file need not be moved—all that needs to be done is to add a new directory entry that points to the existing i-node and then unlink the old directory entry.
-***  DONE ~link~, ~linkat~, ~unlink~, ~unlinkat~, and ~remove~ Functions
+*** DONE ~link~, ~linkat~, ~unlink~, ~unlinkat~, and ~remove~ Functions
     =man 2 link=
     - Example \\
       #+caption: Figure 4.16 Open a file and then unlink it
       #+include: "Chapter04/unlink.c" src c
-***  DONE ~rename~ and ~renameat~ Functions
+*** DONE ~rename~ and ~renameat~ Functions
     =man 2 rename=
     1.  If oldname specifies a file that is not a directory, then we are renaming a file or a symbolic link.
     2.  If oldname specifies a directory, then we are renaming a directory.
     3.  If either oldname or newname refers to a symbolic link, then the link itself is processed, not the file to which it resolves.
     4.  We can’t rename dot or dot-dot.
     5.  As a special case, if oldname and newname refer to the same file, the function returns successfully without changing anything.
-***  DONE Symbolic Links
+*** DONE Symbolic Links
     - Hard links normally require that the link and the file reside in the same file system.
     - Only the superuser can create a hard link to a directory (when supported by the underlying file system).
-***  DONE Creating and Reading Symbolic Links
+*** DONE Creating and Reading Symbolic Links
     =man 2 symlink=
     =man 2 readlink=
-***  DONE File Times
-***  DONE ~futimens~, ~utimensat~, and ~utimes~ Functions
+*** DONE File Times
+*** DONE ~futimens~, ~utimensat~, and ~utimes~ Functions
     POSIX.1
     =man 2 futimens=
     XSI
@@ -367,16 +367,16 @@
     - Example \\
       #+caption: Figure 4.21 Example of futimens function
       #+include: "Chapter04/futimens.c" src c
-***  DONE ~mkdir~, ~mkdirat~, and ~rmdir~ Functions
+*** DONE ~mkdir~, ~mkdirat~, and ~rmdir~ Functions
     Creat:
     =man 2 mkdir=
     Remove:
     =man 2 rmdir=
-***  DONE Reading Directories
+*** DONE Reading Directories
     =man 3 opendir=
     - Example \\
       [[/Users/zhoush/Private/Notes/books/c/APUE/Chapter04/ftw.c][Figure 4.22 Recursively descend a directory hierarchy, counting file types]]
-***  DONE ~chidr~, ~fchdir~ and ~getcwd~ Functions
+*** DONE ~chidr~, ~fchdir~ and ~getcwd~ Functions
     =man 2 chdir=
     - Example \\
       #+caption: Figure 4.23 Example of chdir function
@@ -385,15 +385,15 @@
     - Example \\
       #+caption: Figure 4.24 Example of getcwd function
       #+include: "Chapter04/getcwd.c" src c
-***  DONE Device Special Files
+*** DONE Device Special Files
     - Example \\
       #+caption: Figure 4.25 Print st_dev and st_rdev values
       #+include: "Chapter04/devrdev.c" src c
-***  DONE Summary of File Access Permission Bits
+*** DONE Summary of File Access Permission Bits
     S_IRWXU = S_IRUSR | S_IWUSR | S_IXUSR
     S_IRWXG = S_IRGRP | S_IWGRP | S_IXGRP
     S_IRWXO = S_IROTH | S_IWOTH | S_IXOTH
-***  DONE Summary
+*** DONE Summary
     *Exercises*
     1.  #+caption: ex01
     #+include: "Chapter04/exercises/ex1.c" src c
@@ -424,15 +424,15 @@
     17.  #+caption: ex17
     #+include: "Chapter04/exercises/ex17.c" src c \\
     =unlink: Operation not permitted=
-**  DONE DONE Chapter 5. Standard I/O Library
+** DONE Chapter 5. Standard I/O Library [16/16]
    CLOSED: [2019-11-08 Fri 00:38]
-***  DONE Introduction
+*** DONE Introduction
     This library is specified by the ISO C standard because it has been implemented on many operating systems other than the UNIX System.
-***  DONE Streams and FILE Objects
+*** DONE Streams and FILE Objects
     =man 3 fwide=
-***  DONE Standard Input, Standard Output and Standard Error
+*** DONE Standard Input, Standard Output and Standard Error
     ~STDIN_FILENO~, ~STDOUT_FILENO~, ~STDERR_FILENO~
-***  DONE Buffering
+*** DONE Buffering
     Three types of buffering are provided:
     1.  Fully buffered. \\
        In this case, actual I/O takes place when the standard I/O buffer is filled.
@@ -451,15 +451,15 @@
 
     =man 3 setbuf=
     =man 3 fflush=
-***  DONE Opening a Stream
+*** DONE Opening a Stream
     =man 3 fopen=
     =man 3 fclose=
-***  DONE Reading and Writing a Stream
+*** DONE Reading and Writing a Stream
     Three types of unformatted I/O:
     1.  Character-at-a-time I/O.
     2.  Line-at-a-time I/O.
     3.  Direct I/O.
-****  DONE Input Functions
+**** DONE Input Functions
      =man 3 getc=
      1.  The argument to getc should not be an expression with side effects, because it could be evaluated more than once.
      2.  Since fgetc is guaranteed to be a function, we can take its address. This allows us to pass the address of fgetc as an argument to another function.
@@ -473,18 +473,18 @@
 
 
      After reading from a stream, we can push back characters by calling ~ungetc~.
-****  DONE Output Functions
+**** DONE Output Functions
      =man 3 putc=
-***  DONE Line-at-a-Time I/O
+*** DONE Line-at-a-Time I/O
     =man fgets=
-***  DONE Standard I/O Efficiency
+*** DONE Standard I/O Efficiency
     #+caption: Figure 5.4 Copy standard input to output using getc and putc
     #+include: "Chapter05/cpio.c" src c \\
     #+caption: Figure 5.5 Copy standard input to output using fgets and fputs
     #+include: "Chapter05/cpio_1.c" src c
-***  DONE Binary I/O
+*** DONE Binary I/O
     =man fread=
-***  DONE Positioning a Stream
+*** DONE Positioning a Stream
     Three way to position a standard I/O stream:
     1.  ~ftell~ and ~fseek~
     2.  ~ftello~ and ~fseeko~
@@ -516,7 +516,7 @@
       void
       rewind(FILE *stream);
     #+end_src
-***  DONE Formated I/O
+*** DONE Formated I/O
     =man 3 printf=
 
 
@@ -590,13 +590,13 @@
     | S               | wide chracter string(XSI option, equivalent to ls)                                        |
 
     ***
-***  DONE Implementation Details
+*** DONE Implementation Details
     =man 3 fileno=
 
     - Example \\
       #+caption: Figure 5.11 Print buffering for various standard I/O streams
       #+include: "Chapter05/print.c" src c
-***  DONE Temporary Files
+*** DONE Temporary Files
     =man 3 tmpnam=
     - Example \\
       #+caption: Figure 5.12 Demonstrate tmpnam and tmpfile functions
@@ -606,7 +606,7 @@
     - Example \\
       #+caption: Figure 5.13 Demonstrate mkstemp function
       #+include: "Chapter05/mkdtemp.c" src c
-***  DONE Memory Streams
+*** DONE Memory Streams
     =man 3 fmemopen=
     - Example \\
       #+caption: Figure 5.15 Investigate memory stream write behavior
@@ -625,9 +625,9 @@
 
     The other two functions:
     =man open_memstream=
-***  DONE Alternatives to Standard I/O
+*** DONE Alternatives to Standard I/O
     The standard I/O library is not perfect. some in the basic design, but most in the various implementations.
-***  DONE Summary
+*** DONE Summary
     *Exercises*
     1.  #+caption: ex01
     #+include: "Chapter05/exercises/ex1.c" src c
@@ -640,29 +640,29 @@
     6.  stdin and stdout are both line buffered. fgets will fflush automatically
     7.  #+caption: ex07
     #+include: "Chapter05/exercises/funopen-fmemopen.c" src c
-**  DONE DONE Chapter 6. System Data Files and Information
+** DONE Chapter 6. System Data Files and Information [11/11]
    CLOSED: [2019-11-08 Fri 00:38]
-***  DONE introduction
-***  DONE Password File
+*** DONE introduction
+*** DONE Password File
     =man getpwuid=
-***  DONE Shadow Passwords
+*** DONE Shadow Passwords
     *On Linux 3.2.0 and Solaris 10,*
     =man getspnam=
     *On FreeBSD 8.0 and Mac OS X 10.6.8, there is no shadow password structure*
-***  DONE Group File
+*** DONE Group File
     =man getgrgid=
-***  DONE Supplementary Group Ids
+*** DONE Supplementary Group Ids
     =man getgroups= \\
     - Example \\
       #+caption: Example for get groups' info
       #+include: "Chapter06/getgropus.c" src c
-***  DONE Implementation Differences
-***  DONE Other Data Files
+*** DONE Implementation Differences
+*** DONE Other Data Files
     at least three functions:
     1.  A get function that reads the next record, opening the file if necessary.
     2.  A set function that opens the file, if not already open, and rewinds the file.
     3.  An end entry that closes the data file.
-***  DONE Login Accounting
+*** DONE Login Accounting
     #+begin_src c
       struct utmp {
         char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
@@ -670,10 +670,10 @@
         long ut_time; /* seconds since Epoch */
       };
     #+end_src
-***  DONE System Identification
+*** DONE System Identification
     =man 3 uname=
     =man 3 gethostname=
-***  DONE Time and Date Routines
+*** DONE Time and Date Routines
     =man 3 time=
     =man 3 clock_gettime=
     =man 3 gmtime=
@@ -682,7 +682,7 @@
       #+caption: Figure 6.11 Using the strftime function
       #+include: "Chapter06/strftime.c" src c \\
     =man 3 strptim=
-***  DONE Summary
+*** DONE Summary
     *Exercises*
     1.  On Mac OS, I can't get it \\
        On Linux, use ~getsnam~ group functions
@@ -694,14 +694,14 @@
        after pass : =1970 - (2^{31}/60/60/24/365)=
     5.  #+caption: ex5
     #+include: "Chapter06/exercises/time.c" src c
-**  DONE DONE Chapter 7. Process Environment
+** DONE Chapter 7. Process Environment [11/11]
    CLOSED: [2019-11-08 Fri 00:38]
-***  DONE 7.1 Introduction
-***  DONE 7.2 main Function
+*** DONE 7.1 Introduction
+*** DONE 7.2 main Function
     #+begin_src C
       int main(int argc, char *argv[]);
     #+end_src
-***  DONE 7.3 Process Termination
+*** DONE 7.3 Process Termination
     There are eight ways for a process to terminate.
     Normal termination occurs in five ways:
     1.  Return from main
@@ -715,7 +715,7 @@
     1.  Calling abort
     2.  Receipt of a signal
     3.  Response of the last thread to a cancellation request
-****  DONE Exit Functions
+**** DONE Exit Functions
      =man 3 exit=
      =man 2 _exit=
      #+begin_src c
@@ -755,23 +755,23 @@
        #+end_src
        #+caption: Figure 7.1 Classic C program
        #+include: "Chapter07/hello.c" src c
-****  DONE ~atexit~ Function
+**** DONE ~atexit~ Function
      =man 3 atexit=
      The ~exit~ function calls these functions in reverse order of their registration.
 
      - Example \\
        #+caption: Figure 7.3 Example of exit handlers
        #+include: "Chapter07/atexit.c" src c
-****  DONE Commond-Line Arguments
+**** DONE Commond-Line Arguments
      - Example \\
        #+caption: Figure 7.4 Echo all command-line arguments to standard output
        #+include: "Chapter07/echoarg.c" src c
-***  DONE 7.5 Environment List
+*** DONE 7.5 Environment List
 
     #+begin_src c
       extern char **environ;
     #+end_src
-***  DONE 7.6 Memory Layout of a C Program
+*** DONE 7.6 Memory Layout of a C Program
     Historically, a C program has been composed of the following pieces:
     - Text segment: consisting of the machine instructions that the CPU executes.
     - Initilized data segment, usually called simply the data segment, \\
@@ -793,7 +793,7 @@
       #+end_src
       [[file:Chapter07/Figure7.6.png][Figure 7.6 Typical memory arrangement]]
 
-***  DONE 7.7 Shared Libraries
+*** DONE 7.7 Shared Libraries
     without shared libraries
     #+begin_src bash
       gcc -static hello.c
@@ -808,7 +808,7 @@
       text     data     bss     dec     hex	filename
       1173      552       8    1733     6c5	a.out
     #+end_src
-***  DONE 7.8 Memory Allocation
+*** DONE 7.8 Memory Allocation
     =man 3 malloc=
     1. ~malloc~, allocates specified number of bytes of memory without initialized
     2. ~calloc~, allocates specified number of bytes of memroy with initializing to 0
@@ -832,7 +832,7 @@
         for high performance, scalability, and memory efficiency.
       - ~alloca~ Function \\
         alloc memmory from stack, instaead of heap, so we don't have to free the space;
-***  DONE 7.9 Environment Variable
+*** DONE 7.9 Environment Variable
     =man 3 getenv=
     #+begin_src c
       #include <stdlib.h>
@@ -844,7 +844,7 @@
 
     *malloc*
 
-***  DONE 7.10 ~setjmp~ and ~longjmp~ Functions
+*** DONE 7.10 ~setjmp~ and ~longjmp~ Functions
     - *useful for dealing errors and interrupts*
 
     - Example \\
@@ -866,12 +866,12 @@
     #+begin_quote
     The problem is that when open_data returns, the space it used on the stack will be used by the stack frame for the next function that is called. But the standard I/O library will still be using that portion of memory for its stream buffer. Chaos is sure to result. To correct this problem, the array databuf needs to be allocated from global memory, either statically (static or extern) or dynamically (one of the alloc functions)
     #+end_quote
-***  DONE ~getrlimit~ and ~setrlimit~ Functions
+*** DONE ~getrlimit~ and ~setrlimit~ Functions
     =man 3 getrlimit=
     - Example \\
       #+caption: Figure 7.16 print the current resource limits
       #+include: "Chapter07/rlimit.c" src c
-***  DONE Summary
+*** DONE Summary
     *Exercises*
     1. the length of "hello, world"
     2. =man 3 exit=
@@ -884,10 +884,10 @@
     8. a.out include symbol info
     9. standard I/O library was copied
     10. Nope. num in heap
-**  DONE DONE Chapter 8. Process Control
+** DONE Chapter 8. Process Control [18/18]
    CLOSED: [2019-11-08 Fri 00:38]
-***  DONE 8.1 Introduction
-***  DONE 8.2 Process Identifiers
+*** DONE 8.1 Introduction
+*** DONE 8.2 Process Identifiers
     Process ID 0 is usually the scheduler process and is often know as /swapper/.
     Process ID 1 is usually the *init* process.
     responsible for bring up a UNIX system after the kernel has been bootstrapped
@@ -918,7 +918,7 @@
     #+begin_quote
     Note that none of these functions has an error return.
     #+end_quote
-***  DONE 8.3 ~fork~ Function
+*** DONE 8.3 ~fork~ Function
 
     =man 3 fork=
     #+BEGIN_SRC c
@@ -976,7 +976,7 @@
       1. When a process wants to duplicate itself so that the parent and the child can each execute different sections of code at the same time.
       2. When a process wants to execute a different program.
       #+end_quote
-***  DONE 8.4 ~vfork~ Function
+*** DONE 8.4 ~vfork~ Function
     #+begin_quote
     just like fork, without copying the address space of the parent into the child, as the child won’t reference that address space
 
@@ -987,7 +987,7 @@
     - Example \\
       #+caption: Figure 8.3 Example of vfork function
       #+include: "Chapter08/vfork.c" src c
-***  DONE 8.5 ~exit~ Function
+*** DONE 8.5 ~exit~ Function
     #+begin_quote
     As we described in Section 7.3, a process can terminate normally in five ways:
     1.  Executing a return from the main function.
@@ -1009,7 +1009,7 @@
 
     - The ps(1) command prints the state of a zombie process as Z.
     #+end_quote
-***  DONE 8.6 ~wait~ and ~waitpid~ Functions
+*** DONE 8.6 ~wait~ and ~waitpid~ Functions
     #+begin_quote
     we need to be aware that a process that calls wait or waitpid can
     - Block, if all of its children are still running
@@ -1043,23 +1043,23 @@
     - Example \\
       #+caption: Figure 8.8 Avoid zombie processes by calling fork twice
       #+include: "Chapter08/waitpid.c" src c
-***  DONE 8.7 ~waitid~ Function
+*** DONE 8.7 ~waitid~ Function
     =man 2 waitid=
     #+begin_src c
       #include <sys/wait.h> int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
       // Returns: 0 if OK, −1 on error
     #+end_src
     (OS X can't get the info, but the function is valid)
-***  DONE 8.8 ~wait3~ and ~wait4~ Functions
+*** DONE 8.8 ~wait3~ and ~wait4~ Functions
     =man 2 wait3=
-***  DONE 8.9 Race Conditions
+*** DONE 8.9 Race Conditions
     *Avoid race by signal*
     - Example \\
       #+caption: Figure 8.12 Program with a race condition
       #+include: "Chapter08/race.c" src c \\
       #+caption: Figure 8.13 Modification of Figure 8.12 to avoid race condition
       #+include: "Chapter08/avoid_race.c" src c
-***  DONE 8.10 ~exec~ Functions
+*** DONE 8.10 ~exec~ Functions
     =man 3 exec=
     #+begin_src c
       #include <unistd.h>
@@ -1105,7 +1105,7 @@
       #+include: "Chapter08/exec.c" src c \\
       #+caption: Figure 8.17 Echo all command-line arguments and all environment strings
       #+include: "Chapter08/echo_env.c" src c
-***  DONE 8.11 Changing User IDs and Group IDs
+*** DONE 8.11 Changing User IDs and Group IDs
     =man 2 setuid=
     #+begin_quote
     1. If the process has superuser privileges, the setuid function sets the real user ID, effective user ID, and saved set-user-ID to uid.
@@ -1118,13 +1118,13 @@
     file:Chapter08/Figure8.18.png
     =man 2 setreuid=
     =man 2 setregid=
-***  DONE 8.12 Interpreter Files
+*** DONE 8.12 Interpreter Files
     - Example \\
       #+caption: Figure 8.20 A program that execs an interpreter file
       #+include: "Chapter08/exec_intr.c" src c \\
       #+caption: Figure 8.21 An awk program as an interpreter file
       #+include: "Chapter08/awkexample" src c
-***  DONE 8.13 ~system~ Function
+*** DONE 8.13 ~system~ Function
     #+begin_src c
       #include <stdlib.h>
       int system(const char *cmdstring);
@@ -1155,17 +1155,17 @@
 
     #+caption: Figure 8.25 Print real and effective user IDs
     #+include; "Chapter08/pruids.c" src c
-***  DONE 8.14 Process Accounting
+*** DONE 8.14 Process Accounting
     - Example \\
       #+caption: Figure 8.28 Program to generate accounting data
       #+include: "Chapter08/acct_data.c" src c \\
       #+caption: Figure 8.29 Print select fields from system's accounting file
       #+include: "Chapter08/print_sel_acct.c" src c
-***  DONE 8.15 User Identification
+*** DONE 8.15 User Identification
     =man 2 getlogin=
     #+caption: getlogin
     #+include: "Chapter08/getlogin.c" src c
-***  DONE 8.16 Process Scheduling
+*** DONE 8.16 Process Scheduling
     Lower nice values have higher scheduling priority.
 
     =man 3 nice=
@@ -1173,7 +1173,7 @@
     - Example \\
       #+caption: Figure 8.30 Evaluate the effect of changing the nice value
       #+include: "Chapter08/nice.c" src c
-***  DONE 8.17 Process Times
+*** DONE 8.17 Process Times
     #+begin_src c
       #include <sys/times.h>
       clock_t times(struct tms *buf);
@@ -1182,7 +1182,7 @@
     #+end_src
     #+caption: Figure 8.31 Time and execute all command-line arguments
     #+include: "Chapter08/pr_times.c" src c
-***  DONE 8.18 Summary
+*** DONE 8.18 Summary
     functions to master: ~fork~, ~exec~ family, ~_exit~, ~wait~ and ~waitpid~.
 
     ~fork~ function gave us an opportunity to look at race conditions.
@@ -1217,7 +1217,7 @@
     -
       #+caption: 8.6
       #+include: "Chapter08/ex8.6.c" src c
-** TODO Chapter 9. Process Relationships
+** TODO Chapter 9. Process Relationships [0/0]
 *** 9.1 Introduction
 *** 9.2 Terminal Logins
     - BSD Terminal Logins
@@ -1258,13 +1258,13 @@
 *** 9.10 Orphaned Process Groups
 *** 9.11 FreeBSD Implementation
 *** 9.12 Summary
-**  DONE DONE Chapter 10. Signals
+** DONE Chapter 10. Signals [23/23]
    CLOSED: [2019-11-08 Fri 00:38]
-***  DONE 10.1 Introduction
+*** DONE 10.1 Introduction
     #+begin_quote
     Signals provide a way of handling asynchronous events
     #+end_quote
-***  DONE 10.2 Signal Concepts
+*** DONE 10.2 Signal Concepts
     ~<signal.h>~
     conditions can generate a signal
     * terminal generated when users press certain terminal keys.
@@ -1335,7 +1335,7 @@
     The permission of the core file are usually ~rw~, although Mac OSX sets only ~r~
     #+end_quote
 
-***  DONE 10.3 ~signal~ Function
+*** DONE 10.3 ~signal~ Function
     #+begin_src sh
       man signal
     #+end_src
@@ -1349,21 +1349,21 @@
 
     - Program Start-Up
       we are not able to determine the current disposition of a signal without changing the disposition
-***  DONE 10.4 Unreliable Signals
+*** DONE 10.4 Unreliable Signals
     In ealier versions of the UNIX system :
     - signals could get lost
     - the process was unable to turn a signal off when it didn’t want the signal to occur
-***  DONE 10.5 Interrupted System Calls
+*** DONE 10.5 Interrupted System Calls
     - automatically restarted functions: ~ioctl~, ~read~, ~readv~, ~write~, ~writev~, ~wait~, ~waitpid~ \\
       POSIX.1 requires an implementation to restart system calls only when the SA_RESTART ﬂag is in effect for the interrupting signal.
-***  DONE 10.6 Reentrant Functions
+*** DONE 10.6 Reentrant Functions
     #+caption: Figure 10.5 Call a nonreentrant function from a signal handler
     #+include: "Chapter10/fig10.5.c" src c
 
-***  DONE 10.7 ~SIGCLD~ Semantics
+*** DONE 10.7 ~SIGCLD~ Semantics
     #+caption: Figure 10.6 System V SIGCLD handler that doesn't work
     #+include: "Chapter10/fig10.6.c" src c
-***  DONE 10.8 Reliable-Signal Terminology and Semantics
+*** DONE 10.8 Reliable-Signal Terminology and Semantics
     #+begin_quote
     If the system delivers the signal more than once, we say that the signals are queued. \\
     *Most UNIX systems do /not/ queue signals unless they support the real-time extensions to POSIX.1.* \\
@@ -1372,7 +1372,7 @@
 
     * /signal mask/: a set of signals currently blocked from delivery to the process (*on* is blocked)
     * /~sigprocmask~/: examine and change its current signal mask
-***  DONE 10.9 ~kill~ and ~raise~ Functions
+*** DONE 10.9 ~kill~ and ~raise~ Functions
     #+begin_src c
       #include <signal.h>
       int kill(pid_t pid, int signo);
@@ -1383,7 +1383,7 @@
 
     ~raise(signo);~ is equivalent to ~kill(getpid(), signo);~
 
-***  DONE 10.10 ~alarm~ and ~pause~ Functions
+*** DONE 10.10 ~alarm~ and ~pause~ Functions
     #+begin_src c
       #include <unistd.h>
       unsigned int alarm(unsigned int seconds);
@@ -1420,7 +1420,7 @@
       #+caption: Figure 10.11 Calling ~read~ with a timeout, using longjmp
       #+include: "Chapter10/fig10.11.c" src c
 
-***  DONE 10.11 Signal Sets
+*** DONE 10.11 Signal Sets
     #+begin_src c
       #include <signal.h>
       int sigemptyset(sigset_t *set);
@@ -1444,7 +1444,7 @@
 
     #+include: "Chapter10/fig10.12.c" src c
 
-***  DONE 10.12 ~sigprocmask~ Function
+*** DONE 10.12 ~sigprocmask~ Function
     #+begin_src c
       #include <signal.h>
 
@@ -1464,7 +1464,7 @@
       #+caption: Figure 10.14 Print the signal mask for the process
       #+include: "Chapter10/fig10.14.c" src c
 
-***  DONE 10.13 ~sigpending~ Function
+*** DONE 10.13 ~sigpending~ Function
     #+begin_src c
       #include <signal.h>
       int sigpending(sigset_t *set);
@@ -1474,7 +1474,7 @@
     - Example:
       #+caption: Example of signal sets and sigprocmask
       #+include: "Chapter10/fig10.5.c" src c
-***  DONE 10.14 ~sigaction~ Function
+*** DONE 10.14 ~sigaction~ Function
     #+begin_src c
       #include <signal.h>
       int sigaction (int signo, const struct sigaction* restrict act, struct sigaction* restrict oact);
@@ -1542,7 +1542,7 @@
       #+caption: Figure 10.19 The signal_intr function
       #+include: "Chapter10/fig10.19.c" src c
 
-***  DONE 10.15 ~sigsetjmp~ and ~siglongjmp~ Functions
+*** DONE 10.15 ~sigsetjmp~ and ~siglongjmp~ Functions
     These two functions should always be used when branching from a signal handler.
     #+begin_src c
       #include <setjmp.h>
@@ -1564,7 +1564,7 @@
       This means that the main function is executing with the SIGUSR1 signal blocked, after the call to setjmp.
       #+end_quote
 
-***  DONE 10.16 ~sigsuspend~ Function
+*** DONE 10.16 ~sigsuspend~ Function
     #+begin_src c
       #include <signal.h>
       int sigsuspend(const sigset_t *sigmask);
@@ -1591,7 +1591,7 @@
     The sigsuspend function helps us only if step 3 is a pause operation.
     #+end_quote
 
-***  DONE 10.17 ~abort~ Function
+*** DONE 10.17 ~abort~ Function
     #+begin_src c
       #include <stdlib.h>
       void abort(void);
@@ -1599,7 +1599,7 @@
 
     #+caption: Figure 10.25 Implementation of POSIX.1 ~abort~
     #+include: "Chapter10/fig10.25.c" src c
-***  DONE 10.18 ~system~ Function
+*** DONE 10.18 ~system~ Function
 
     #+caption: Figure 10.26 Using ~system~ to invoke the =ed= editor
     #+include: "Chapter10/fig10.26.c" src c
@@ -1610,7 +1610,7 @@
     #+caption: Figure 10.28 Correct POSIX.1 implementation of ~system~ function
     #+include: "Chapter10/fig10.28.c" src c
 
-***  DONE 10.19 ~sleep~, ~nanaosleep~, and ~clock_nanosleep~ Functions
+*** DONE 10.19 ~sleep~, ~nanaosleep~, and ~clock_nanosleep~ Functions
     #+begin_src c
       #include <unistd.h>
       unsigned int sleep(unsigned int seconds);
@@ -1627,7 +1627,7 @@
       // Returns: 0 if slept for requested time or error number on failue
     #+end_src
 
-***  DONE 10.20 ~sigqueue~ Function
+*** DONE 10.20 ~sigqueue~ Function
    - Specify the SA_SIGINFO ﬂag when we install a signal handler using the sigaction function
    - Provide a signal handler in the sa_sigaction member of the sigaction structure instead of using the usual sa_handler ﬁeld.
    - Use the sigqueue function to send signals.
@@ -1644,7 +1644,7 @@
     | queues other signals besides SIGRTMIN to SIGRTMAX                | optional | *          |            |         | *       |
     | queues signals even if the caller don't use the SA_SIGINFO flags | optional | *          | *          |         |         |
 
-***  DONE 10.21 Job-Control Signals
+*** DONE 10.21 Job-Control Signals
     job-control signals:
        SIGCHLD   Child process has stopped or terminated
        SIGCONT   Continue process, if stopped.
@@ -1655,7 +1655,7 @@
 
     #+caption: Figure 10.31 How to handle SIGTSTP
     #+include: "Chapter10/fig10.31.c" src c
-***  DONE 10.22 Signal Names and Numbers
+*** DONE 10.22 Signal Names and Numbers
     map between signal numbers and names.
     #+begin_src  c
       extern char *sys_siglist[];
@@ -1688,7 +1688,7 @@
       // Both return: 0 if OK, -1 on error
     #+end_src
 
-***  DONE 10.23 Summary
+*** DONE 10.23 Summary
     - Example
       - 10.1
         #+begin_quote
@@ -1723,15 +1723,16 @@
       - 10.12
         #+include: "Chapter10/ex10.2.c" src c
         finished, alarm appears until fwrite finshied, it seems the kernel is blocking SIGALRM
-** TODO Chapter 11. Threads
-*** 11.1 Introduction
-*** 11.2 Thread Concepts
+** TODO Chapter 11. Threads [1/6]
+*** DONE 11.1 Introduction
+    CLOSED: [2019-11-08 Fri 00:42]
+*** TODO 11.2 Thread Concepts
     benefits
     - asynchronous
     - same memory address space and file descriptors
     - problem partition
     - seperate portions of the program
-*** 11.3 Thread Identification
+*** TODO 11.3 Thread Identification
     #+begin_src c
       #include <pthread.h>
       int pthread_equal(pthread_t tid1, pthread_t tid2);
@@ -1745,7 +1746,7 @@
       pthread_t pthread_self(void);
       // Returns: the thread ID of the calling thread
     #+end_src
-*** 11.4 Thread Creation
+*** TODO 11.4 Thread Creation
     #+begin_src c
       #include <pthread.h>
       int pthread_create(pthread_t *restrict tidp,
@@ -1758,7 +1759,7 @@
     - Example \\
       #+caption: Figure 11.2 Printing thread IDs
       #+include: "Chapter11/fig11.2.c" src c
-*** 11.5 Thread Termination
+*** TODO 11.5 Thread Termination
     1. thread return from start routine.
     2. can be canceled by another thread in the same process
     3. can call ~pthread_exit~
@@ -1838,7 +1839,7 @@
       // Returns: 0 if OK, error number on failure
 
     #+end_src
-*** 11.6 Thread Synchronization
+*** TODO 11.6 Thread Synchronization
     Increment operation:
     #+begin_quote
     1. Read the memory location into a register.
@@ -1851,12 +1852,12 @@
 
     #+caption: Figure 11.9 Two unsynchronized threads incrementing the same variable
     [[file:Chapter11/fig11.9.png][file:Chapter11/fig11.9.png]]
-**** 11.6.1 Mutexes
-** TODO Chapter 12. Thread Control
-** TODO Chapter 13. Daemon Processes
-** TODO Chapter 14. Advanced I/O
-*** 14.1 Introduction
-*** 14.2 Nonblocking I/O
+**** TODO 11.6.1 Mutexes
+** TODO Chapter 12. Thread Control [0/0]
+** TODO Chapter 13. Daemon Processes [0/0]
+** TODO Chapter 14. Advanced I/O [0/9]
+*** TODO 14.1 Introduction
+*** TODO 14.2 Nonblocking I/O
     slow system calls can block forever. include:
     * reads if data isn't present with certain file types
     * writes if data isn't present with certain file types
@@ -1874,10 +1875,10 @@
     - Example \\
       #+caption: Figure 14.1 Large nonblocking write
       #+include: "Chapter14/write.c" src c
-*** 14.3 Recording Locking
+*** TODO 14.3 Recording Locking
     Record locking is the term normally used to describe the ability of a process to prevent other processes from modifying a region of a file while the first process is reading or modifying that portion of the file
-**** 1. History
-**** 2. ~fcntl~ Record Locking
+**** TODO 1. History
+**** TODO 2. ~fcntl~ Record Locking
      #+begin_src sh
        man 2 fcntl
      #+end_src
@@ -1890,53 +1891,53 @@
        - Example \\
          #+caption: Figure 14.12 Determine whether mandatory locking is supported
          #+include: "Chapter14/mandatory.c" src c
-*** 14.4 I/O Multiplexing
-**** 14.4.1 ~select~ and ~pselect~ Functions
-**** 14.4.2 ~poll~ Function
-*** 14.5 Asynchronous I/O
-**** 14.5.1 System V Asynchronous I/O
-**** 14.5.2 BSD Asynchronous I/O
-**** 14.5.3 POSIX Asynchronous I/O
-*** 14.6 ~readv~ and ~writev~ Functions
-*** 14.7 ~readn~ and ~writen~ Functions
-*** 14.8 Memory-Mapped I/O
+*** TODO 14.4 I/O Multiplexing
+**** TODO 14.4.1 ~select~ and ~pselect~ Functions
+**** TODO 14.4.2 ~poll~ Function
+*** TODO 14.5 Asynchronous I/O
+**** TODO 14.5.1 System V Asynchronous I/O
+**** TODO 14.5.2 BSD Asynchronous I/O
+**** TODO 14.5.3 POSIX Asynchronous I/O
+*** TODO 14.6 ~readv~ and ~writev~ Functions
+*** TODO 14.7 ~readn~ and ~writen~ Functions
+*** TODO 14.8 Memory-Mapped I/O
     - Example
       [[/Users/zhoush/Documents/Private/Notes/books/c/APUE/Chapter14/mcopy2.c][Figure 14.27 Copy a file using memory-mapped I/O]]
-*** 14.9 Summary
-** TODO Chapter 15. Interprocess Communication
-*** 15.1 Introduction
-*** 15.2 Pipes
-*** 15.3 ~popen~ and ~pclose~ Functions
-*** 15.4 Coprocesses
-*** 15.5 FIFOs
-*** 15.6 XSI IPC
-*** 15.6.1 Identifiers and Keys
-*** 15.6.2 Permission Structure
-*** 15.6.3 Configuration Limits
-*** 15.6.4 Advantages and Disadvantages
-*** 15.7 Message Queues
-*** 15.8 Semaphores
-*** 15.9 Shared Memory
-*** 15.10 POSIX Semaphores
-*** 15.11 Client-Server Properties
-*** 15.12 Summary
-** TODO Chapter 16. Network IPC: Sockets
-*** 16.1 Introduction
-*** 16.2 Socket Descriptors
-*** 16.3 Addressing
-**** 16.3.1 Byte Ordering
-**** 16.3.2 Address Formats
-**** 16.3.3 Address Lookup
-**** 16.3.4 Associating Addresses with Sockets
-*** 16.4 Connection Establishment
-*** 16.5 Data Transfer
-*** 16.6 Socket Options
-*** 16.7 Out-of-Band Data
-*** 16.8 Nonblocking and Asynchronous I/O
-*** 16.9 Summary
-** TODO Chapter 17. Advanced IPC
-*** 17.1 Introduction
-*** 17.2 UNIX Domain Sockets
+*** TODO 14.9 Summary
+** TODO Chapter 15. Interprocess Communication [0/16]
+*** TODO 15.1 Introduction
+*** TODO 15.2 Pipes
+*** TODO 15.3 ~popen~ and ~pclose~ Functions
+*** TODO 15.4 Coprocesses
+*** TODO 15.5 FIFOs
+*** TODO 15.6 XSI IPC
+*** TODO 15.6.1 Identifiers and Keys
+*** TODO 15.6.2 Permission Structure
+*** TODO 15.6.3 Configuration Limits
+*** TODO 15.6.4 Advantages and Disadvantages
+*** TODO 15.7 Message Queues
+*** TODO 15.8 Semaphores
+*** TODO 15.9 Shared Memory
+*** TODO 15.10 POSIX Semaphores
+*** TODO 15.11 Client-Server Properties
+*** TODO 15.12 Summary
+** TODO Chapter 16. Network IPC: Sockets [0/9]
+*** TODO 16.1 Introduction
+*** TODO 16.2 Socket Descriptors
+*** TODO 16.3 Addressing
+**** TODO 16.3.1 Byte Ordering
+**** TODO 16.3.2 Address Formats
+**** TODO 16.3.3 Address Lookup
+**** TODO 16.3.4 Associating Addresses with Sockets
+*** TODO 16.4 Connection Establishment
+*** TODO 16.5 Data Transfer
+*** TODO 16.6 Socket Options
+*** TODO 16.7 Out-of-Band Data
+*** TODO 16.8 Nonblocking and Asynchronous I/O
+*** TODO 16.9 Summary
+** TODO Chapter 17. Advanced IPC [0/7]
+*** TODO 17.1 Introduction
+*** TODO 17.2 UNIX Domain Sockets
     - Example -- Polling XSI Message Queues with the Help of UNIX Domain Sockets
 
       #+caption: Figure 17.3 Poll for XSI Messsages using UNIX domain sockets
@@ -1946,11 +1947,11 @@
     #+caption: Figure 17.4 Post a message to XSI message queue
 
     #+include: "Chapter17/sendmsg.c" src c
-**** 17.2.1 Naming UNIX Domain Sockets
+**** TODO 17.2.1 Naming UNIX Domain Sockets
      - Example \\
        #+caption: Figure 17.5 Binding an address to a UNIX domain socket
        #+include: "Chapter17/bindunix.c" src c
-*** 17.3 Unique Connections
+*** TODO 17.3 Unique Connections
     develop three functions can be used to create unique connections between unrelated processes running on same machine:
     #+begin_src c
       int serv_listen(const char *name);            // Returns: file descriptor to listen on if OK, negative value on error
@@ -2111,14 +2112,14 @@
     #+end_center
     #+caption: Figure 17.10 The ~cli_conn~ function
     #+include: "Chapter17/cli_conn.c" src c
-*** 17.4 Passing File Descriptors
-*** 17.5 An Open Server, Version 1
-*** 17.6 An Open Server, Version 2
-*** 17.7 Summary
-** TODO Chapter 18. Terminal I/O
-** TODO Chapter 19. Pseudo Terminals
-** TODO Chapter 20. A Database Library
-** TODO Chapter 21. Communication with a Network Printer
+*** TODO 17.4 Passing File Descriptors
+*** TODO 17.5 An Open Server, Version 1
+*** TODO 17.6 An Open Server, Version 2
+*** TODO 17.7 Summary
+** TODO Chapter 18. Terminal I/O [0/0]
+** TODO Chapter 19. Pseudo Terminals [0/0]
+** TODO Chapter 20. A Database Library [0/0]
+** TODO Chapter 21. Communication with a Network Printer [0/0]
 
 * Footnotes
 
