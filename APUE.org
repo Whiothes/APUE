@@ -8,7 +8,7 @@
 #+AUTHOR: whiothes
 #+title: Advanced Programming in the Unix Environment
 
-* Progress [42%]
+* Advanced Programming in the Unix Environment [42%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE Introduction
@@ -158,9 +158,11 @@
      #+caption: Figure 2.13 Build C program to print all supported configuration limits
      #+include: "Chapter02/makeconf.awk" src c
 **** DONE Indeterminate Runtime Limits
-     1.  #+caption: pathalloc
+     1.
+     #+caption: pathalloc
      #+include: "lib/pathalloc.c" src c
-     2.  #+caption: openmax
+     2.
+     #+caption: openmax
      #+include: "lib/openmax.c" src c
 *** DONE Options
     1.  Compile-time options are defined in ~<unistd.h>~
@@ -175,7 +177,8 @@
     *Exercises*
     1.  #ifndef ... #define ... #endif
     2.  ~u_long, ushort, uint, u_quad_t, quad_t, qaddr_t, daddr_t, fixpt_t~
-    3.  #+caption: OPEN_MAX exercise
+    3.
+    #+caption: OPEN_MAX exercise
     #+include: "Chapter02/ex02.c" src c
 ** DONE Chapter 3. File I/O [17/17]
    CLOSED: [2019-11-08 Fri 00:38]
@@ -520,8 +523,7 @@
 *** DONE Formated I/O
     =man 3 printf=
 
-
-    #+CAPTION: Figure 5.7 The flags component of a conversion specification
+    #+caption: Figure 5.7 The flags component of a conversion specification
     | Flag    | Description                                                                           |
     |---------+---------------------------------------------------------------------------------------|
     | /       | <>                                                                                    |
@@ -532,8 +534,7 @@
     | \#      | [[file:Chapter05/formatted.c::printf("\nalternative%20form:\n");][convert using alternative form(include 0x prefix for hexadecimal format, for example)]] |
     | 0       | [[file:Chapter05/formatted.c::printf("\nprefix%20zero:\n");][prefix with leading zeros instead of padding with spaces]]                              |
 
-
-    #+CAPTION: Figure 5.8 The lenth modifier component of a conversion specification
+    #+caption: Figure 5.8 The lenth modifier component of a conversion specification
     | Length modifer | Description                               |
     |----------------+-------------------------------------------|
     | /              | <>                                        |
@@ -546,8 +547,7 @@
     | t              | ptrdiff_t                                 |
     | L              | long double                               |
 
-
-    #+CAPTION: Figure 5.9 The conversion type component of a conversion specification
+    #+caption: Figure 5.9 The conversion type component of a conversion specification
     | Conversion type | Description                                                                               |
     |-----------------+-------------------------------------------------------------------------------------------|
     | /               | <>                                                                                        |
@@ -570,7 +570,7 @@
 
     *Formatted Input*
     =man 3 scanf=
-    #+CAPTION: Figure 5.9 The conversion type component of a conversion specification
+    #+caption: Figure 5.9 The conversion type component of a conversion specification
     | Conversion type | Description                                                                               |
     |-----------------+-------------------------------------------------------------------------------------------|
     | /               | <>                                                                                        |
@@ -1218,9 +1218,10 @@
     -
       #+caption: 8.6
       #+include: "Chapter08/ex8.6.c" src c
-** TODO Chapter 9. Process Relationships [0/0]
-*** 9.1 Introduction
-*** 9.2 Terminal Logins
+** TODO Chapter 9. Process Relationships [2/12]
+*** DONE 9.1 Introduction
+*** DONE 9.2 Terminal Logins
+    CLOSED: [2019-11-08 Fri 09:48]
     - BSD Terminal Logins
       #+caption: Figure 9.1 Processes invoked by init to allow terminal logins
       [[file:Chapter09/fig9.1.png][file:Chapter09/fig9.1.png]]
@@ -1233,15 +1234,15 @@
         execle("/bin/login", "login", "-p", username, (char *)0, envp);
       #+end_src
 
-*** 9.3 Network Logins
-*** 9.4 Process Groups
+*** TODO 9.3 Network Logins
+*** TODO 9.4 Process Groups
     #+begin_src c
       getpgid(0) ~~ getpgrp();
     #+end_src
-*** 9.5 Sessions
-*** 9.6 Controlling Terminal
-*** 9.7 ~tcgetpgrp~, ~tcsetpgrp~, and ~tcgetsid~ Functions
-*** 9.8 Job Control
+*** TODO 9.5 Sessions
+*** TODO 9.6 Controlling Terminal
+*** TODO 9.7 ~tcgetpgrp~, ~tcsetpgrp~, and ~tcgetsid~ Functions
+*** TODO 9.8 Job Control
     Requirements:
     1. A shell that supports job control
     2. The terminal driver in the kernel must support job control
@@ -1255,10 +1256,10 @@
     #+begin_src sh
       stty tostop # disable ability of background to output to controlling terminal
     #+end_src
-*** 9.9 Shell Execution Programs
-*** 9.10 Orphaned Process Groups
-*** 9.11 FreeBSD Implementation
-*** 9.12 Summary
+*** TODO 9.9 Shell Execution Programs
+*** TODO 9.10 Orphaned Process Groups
+*** TODO 9.11 FreeBSD Implementation
+*** TODO 9.12 Summary
 ** DONE Chapter 10. Signals [23/23]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 10.1 Introduction
@@ -1393,11 +1394,11 @@
 
     #+begin_quote
 
- There is only one of these alarm clocks per process. If, when we call alarm, a previously registered alarm clock for the process has not yet expired, the number of seconds left for that alarm clock is returned as the value of this function.
+There is only one of these alarm clocks per process. If, when we call alarm, a previously registered alarm clock for the process has not yet expired, the number of seconds left for that alarm clock is returned as the value of this function.
 
- If a previously registered alarm clock for the process has not yet expired and if the seconds value is 0, the previous alarm clock is canceled.
+If a previously registered alarm clock for the process has not yet expired and if the seconds value is 0, the previous alarm clock is canceled.
 
- If we call alarm ﬁrst and are sent SIGALRM before we can install the signal handler, our process will terminate
+If we call alarm ﬁrst and are sent SIGALRM before we can install the signal handler, our process will terminate
     #+end_quote
 
 
@@ -1629,30 +1630,30 @@
     #+end_src
 
 *** DONE 10.20 ~sigqueue~ Function
-   - Specify the SA_SIGINFO ﬂag when we install a signal handler using the sigaction function
-   - Provide a signal handler in the sa_sigaction member of the sigaction structure instead of using the usual sa_handler ﬁeld.
-   - Use the sigqueue function to send signals.
-    #+begin_src c
-      #include <signal.h>
+    - Specify the SA_SIGINFO ﬂag when we install a signal handler using the sigaction function
+    - Provide a signal handler in the sa_sigaction member of the sigaction structure instead of using the usual sa_handler ﬁeld.
+    - Use the sigqueue function to send signals.
+      #+begin_src c
+        #include <signal.h>
 
-      int sigqueue(pid_t pid, int signo, const union sigval value);
-      // Returns: 0 if OK, -1 on error
-    #+end_src
-    #+caption: Figure 10.30 Behavior of queued signals on various platforms
-    | Behavior                                                         | SUS      | FreeBSD8.0 | Linux3.2.0 | Mac OSX | Solaris |
-    |------------------------------------------------------------------+----------+------------+------------+---------+---------|
-    | supports sigqueue                                                | *        | *          | *          |         | *       |
-    | queues other signals besides SIGRTMIN to SIGRTMAX                | optional | *          |            |         | *       |
-    | queues signals even if the caller don't use the SA_SIGINFO flags | optional | *          | *          |         |         |
+        int sigqueue(pid_t pid, int signo, const union sigval value);
+        // Returns: 0 if OK, -1 on error
+      #+end_src
+      #+caption: Figure 10.30 Behavior of queued signals on various platforms
+      | Behavior                                                         | SUS      | FreeBSD8.0 | Linux3.2.0 | Mac OSX | Solaris |
+      |------------------------------------------------------------------+----------+------------+------------+---------+---------|
+      | supports sigqueue                                                | *        | *          | *          |         | *       |
+      | queues other signals besides SIGRTMIN to SIGRTMAX                | optional | *          |            |         | *       |
+      | queues signals even if the caller don't use the SA_SIGINFO flags | optional | *          | *          |         |         |
 
 *** DONE 10.21 Job-Control Signals
     job-control signals:
-       SIGCHLD   Child process has stopped or terminated
-       SIGCONT   Continue process, if stopped.
-       SIGSTOP   Stop signal(can't caught or ignored)
-       SIGTSTP   Interactive stop signal.
-       SIGTTIN   Read from controlling terminately by background process group number
-       SIGTTOU   Write to controlling terminal by a background process group member
+    SIGCHLD   Child process has stopped or terminated
+    SIGCONT   Continue process, if stopped.
+    SIGSTOP   Stop signal(can't caught or ignored)
+    SIGTSTP   Interactive stop signal.
+    SIGTTIN   Read from controlling terminately by background process group number
+    SIGTTOU   Write to controlling terminal by a background process group member
 
     #+caption: Figure 10.31 How to handle SIGTSTP
     #+include: "Chapter10/fig10.31.c" src c
@@ -1703,7 +1704,7 @@
       - 10.4
         race condition between first call ~alarm~ and ~setjmp~
       - 10.5
-       [[http://www.kohala.com/start/libes.timers.txt][www.kohala.com/start/libes.timers.txt]]
+        [[http://www.kohala.com/start/libes.timers.txt][www.kohala.com/start/libes.timers.txt]]
       - 10.6
         #+include: "Chapter10/ex10.6.c" src c
       - 10.7
@@ -1724,16 +1725,18 @@
       - 10.12
         #+include: "Chapter10/ex10.2.c" src c
         finished, alarm appears until fwrite finshied, it seems the kernel is blocking SIGALRM
-** TODO Chapter 11. Threads [1/6]
+** TODO Chapter 11. Threads [5/6]
 *** DONE 11.1 Introduction
     CLOSED: [2019-11-08 Fri 00:42]
-*** TODO 11.2 Thread Concepts
+*** DONE 11.2 Thread Concepts
+    CLOSED: [2019-11-08 Fri 09:48]
     benefits
     - asynchronous
     - same memory address space and file descriptors
     - problem partition
     - seperate portions of the program
-*** TODO 11.3 Thread Identification
+*** DONE 11.3 Thread Identification
+    CLOSED: [2019-11-08 Fri 09:48]
     #+begin_src c
       #include <pthread.h>
       int pthread_equal(pthread_t tid1, pthread_t tid2);
@@ -1747,7 +1750,8 @@
       pthread_t pthread_self(void);
       // Returns: the thread ID of the calling thread
     #+end_src
-*** TODO 11.4 Thread Creation
+*** DONE 11.4 Thread Creation
+    CLOSED: [2019-11-08 Fri 09:48]
     #+begin_src c
       #include <pthread.h>
       int pthread_create(pthread_t *restrict tidp,
@@ -1760,7 +1764,8 @@
     - Example \\
       #+caption: Figure 11.2 Printing thread IDs
       #+include: "Chapter11/fig11.2.c" src c
-*** TODO 11.5 Thread Termination
+*** DONE 11.5 Thread Termination
+    CLOSED: [2019-11-08 Fri 09:49]
     1. thread return from start routine.
     2. can be canceled by another thread in the same process
     3. can call ~pthread_exit~
@@ -1788,6 +1793,9 @@
     - Example \\
       #+caption: Figure 11.4 Incorrect use of ~pthread_exit~ argument
       #+include: "Chapter11/fig11.4.c" src c
+      #+begin_quote
+      the contents of the structure (allocated on the stack of thread tid1) have changed by the time the main thread can access the structure
+      #+end_quote
 
 
     #+begin_src c
@@ -1807,7 +1815,9 @@
     #+end_src
     #+begin_quote
     • Makes a call to pthread_exit
+
     • Responds to a cancellation request
+
     • Makes a call to pthread_cleanup_pop with a nonzero execute argument
 
     If the execute argument is set to zero, the cleanup function is not called
@@ -1840,7 +1850,7 @@
       // Returns: 0 if OK, error number on failure
 
     #+end_src
-*** TODO 11.6 Thread Synchronization
+*** TODO 11.6 Thread Synchronization [4/8]
     Increment operation:
     #+begin_quote
     1. Read the memory location into a register.
@@ -1853,12 +1863,109 @@
 
     #+caption: Figure 11.9 Two unsynchronized threads incrementing the same variable
     [[file:Chapter11/fig11.9.png][file:Chapter11/fig11.9.png]]
-**** TODO 11.6.1 Mutexes
+**** DONE 11.6.1 Mutexes
+     CLOSED: [2019-11-08 Fri 15:43]
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_mutex_init(pthread_mutex_t *restrict mutex,
+                              const pthread_mutexattr_t *restrict attr);
+       int pthread_mutex_destroy(pthread_mutex_t *mutex);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_mutex_lock(pthread_mutex_t *mutex);
+       int pthread_mutex_trylock(pthread_mutex_t *mutex);
+       int pthread_mutex_unlock(pthread_mutex_t *mutex);
+       // All return: 0 if OK, error number on failure
+     #+end_src
+
+     - Example \\
+       #+caption: Figure 11.10 Using a mutex to protect a data structure
+       #+include: "Chapter11/fig11.10.c" src c
+**** DONE 11.6.2 Deadlock Avoidance
+     CLOSED: [2019-11-08 Fri 15:43]
+     lock the same mutex twice will cause deadlock
+
+     Deadlocks can be avoided by carefully controlling the order in which mutexes are locked
+
+     - Example
+       #+caption: Figure 11.11 Using two mutexes
+       #+include: "Chapter11/fig11.11.c" src c
+
+     - Example
+       #+caption: Figure 11.12 Simplified locking
+       #+include: "Chapter11/fig11.12.c" src c
+**** DONE 11.6.3 ~pthread_mutex_timedlock~ function
+     CLOSED: [2019-11-08 Fri 15:53]
+     *Mac OSX 10.15.1 doesn't support ~pthread_mutex_timedlock~ yet*
+
+     ~pthread_mutex_timedlock~ is equivalent to ~pthread_mutex_lock~, but returns *ETIMEDOUT* without locking mutex after timeout
+
+     #+begin_src c
+       #include <pthread.h>
+       #include <time.h>
+
+       int phtread_mutex_timedlock(pthread_mutex_t *restrict mutex,
+                                   const struct timespec *restrict tsptr);
+
+       // Returns: 0 if OK, error number on failure
+     #+end_src
+
+     - Example
+       #+caption: Figure 11.13 Using ~pthread_mutex_timedlock~
+       #+include: "Chapter11/fig11.13.c" src c
+**** DONE 11.6.4 Reader-Writer Locks
+     CLOSED: [2019-11-09 Sat 22:07]
+     * mutex  : can only one thread lock it at a time, lock/unlock.
+     * rw-lock: read lock, write lock, unlock.
+     * rw-lock: only one thread can hold a rw-lock in write mode, but multiple threads can hold a rw-lock in read mode at the same time.
+       * w-lock: all threads attempting to lock it block until it is unlocked (*exclusive mode*)
+       * r-lock: all threads attempting to do r-lock are given access, but w-lock block (*shared mode*)
+
+
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_rwlock_init(pthread_rwlock_t *restrict rwlock,
+                               const phtread_rwlockattr_t *restrict attr);
+       int pthread_rwlock_destroy(pthread_rwlock_t *rwlock);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+     The Single UNIX specification defines *PTHREAD_RWLOCK_INITIALIZE* constant in the XSI option to initialize a statically allocated rw lock.
+
+     rw-lock control:
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_rwlock_rdlock(pthread_rwlock_t *rwlock);
+       int phtread_rwlock_wrlock(pthread_rwlock_t *rwlock);
+       int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);
+       // All return: 0 if OK, error number on failure
+     #+end_src
+
+     rw-lock try control:
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_rwlock_tryrdlock(pthread_rwlock_t *rwlock);
+       int pthread_rwlock_trywrlock(pthread_rwlock_t *rwlock);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+
+
+     - Example
+       #+caption: Figure 11.14 Using reader-writer locks
+       #+include: "Chapter11/fig11.14.c" src c
+
+**** TODO 11.6.5 Reader-Writer Locking with Timeouts
+**** TODO 11.6.6 Condition Variables
+**** TODO 11.6.7 Spin Locks
+**** TODO 11.6.8 Barriers
+*** TODO 11.7 Summary
 ** TODO Chapter 12. Thread Control [0/0]
 ** TODO Chapter 13. Daemon Processes [0/0]
-** TODO Chapter 14. Advanced I/O [0/9]
-*** TODO 14.1 Introduction
-*** TODO 14.2 Nonblocking I/O
+** TODO Chapter 14. Advanced I/O [4/9]
+*** DONE 14.1 Introduction
+*** DONE 14.2 Nonblocking I/O
     slow system calls can block forever. include:
     * reads if data isn't present with certain file types
     * writes if data isn't present with certain file types
@@ -1876,22 +1983,23 @@
     - Example \\
       #+caption: Figure 14.1 Large nonblocking write
       #+include: "Chapter14/write.c" src c
-*** TODO 14.3 Recording Locking
+*** DONE 14.3 Record Locking
     Record locking is the term normally used to describe the ability of a process to prevent other processes from modifying a region of a file while the first process is reading or modifying that portion of the file
-**** TODO 1. History
-**** TODO 2. ~fcntl~ Record Locking
-     #+begin_src sh
-       man 2 fcntl
-     #+end_src
+    - 1. History
+    - 2. ~fcntl~ Record Locking
+      #+begin_src sh
+        man 2 fcntl
+      #+end_src
 
-     - Example - Deadlock \\
-       #+caption: Figure 14.7 Example of deadlock detection
-       #+include: "Chapter14/deadlock.c" src c
 
-     - Advisory versus Mandatory Locking
-       - Example \\
-         #+caption: Figure 14.12 Determine whether mandatory locking is supported
-         #+include: "Chapter14/mandatory.c" src c
+    - Example - Deadlock \\
+      #+caption: Figure 14.7 Example of deadlock detection
+      #+include: "Chapter14/deadlock.c" src c
+
+    - Advisory versus Mandatory Locking
+      - Example \\
+        #+caption: Figure 14.12 Determine whether mandatory locking is supported
+        #+include: "Chapter14/mandatory.c" src c
 *** TODO 14.4 I/O Multiplexing
 **** TODO 14.4.1 ~select~ and ~pselect~ Functions
 **** TODO 14.4.2 ~poll~ Function
@@ -1901,9 +2009,10 @@
 **** TODO 14.5.3 POSIX Asynchronous I/O
 *** TODO 14.6 ~readv~ and ~writev~ Functions
 *** TODO 14.7 ~readn~ and ~writen~ Functions
-*** TODO 14.8 Memory-Mapped I/O
+*** DONE 14.8 Memory-Mapped I/O
     - Example
-      [[/Users/zhoush/Documents/Private/Notes/books/c/APUE/Chapter14/mcopy2.c][Figure 14.27 Copy a file using memory-mapped I/O]]
+      #+caption: Figure 14.27 Copy a file using memory-mapped I/O
+      #+include: "Chapter14/mcopy2.c" src c
 *** TODO 14.9 Summary
 ** TODO Chapter 15. Interprocess Communication [0/16]
 *** TODO 15.1 Introduction
@@ -1936,23 +2045,20 @@
 *** TODO 16.7 Out-of-Band Data
 *** TODO 16.8 Nonblocking and Asynchronous I/O
 *** TODO 16.9 Summary
-** TODO Chapter 17. Advanced IPC [0/7]
+** TODO Chapter 17. Advanced IPC [2/7]
 *** TODO 17.1 Introduction
-*** TODO 17.2 UNIX Domain Sockets
+*** DONE 17.2 UNIX Domain Sockets
     - Example -- Polling XSI Message Queues with the Help of UNIX Domain Sockets
-
       #+caption: Figure 17.3 Poll for XSI Messsages using UNIX domain sockets
-
       #+include: "Chapter17/pollmsg.c" src c
 
-    #+caption: Figure 17.4 Post a message to XSI message queue
-
-    #+include: "Chapter17/sendmsg.c" src c
-**** TODO 17.2.1 Naming UNIX Domain Sockets
+      #+caption: Figure 17.4 Post a message to XSI message queue
+      #+include: "Chapter17/sendmsg.c" src c
+**** DONE 17.2.1 Naming UNIX Domain Sockets
      - Example \\
        #+caption: Figure 17.5 Binding an address to a UNIX domain socket
        #+include: "Chapter17/bindunix.c" src c
-*** TODO 17.3 Unique Connections
+*** DONE 17.3 Unique Connections
     develop three functions can be used to create unique connections between unrelated processes running on same machine:
     #+begin_src c
       int serv_listen(const char *name);            // Returns: file descriptor to listen on if OK, negative value on error

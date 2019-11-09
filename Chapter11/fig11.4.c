@@ -1,7 +1,7 @@
 /**
  *   @file     fig11.4.c
  *   @date     2019-11-05
- *   @author   zhoushang <whiothes81@gmail.com>
+ *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
  *   @brief    Figure 11.4
  *

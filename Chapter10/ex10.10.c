@@ -1,7 +1,7 @@
 /**
  *   @file     ex10.10.c
  *   @date     2019-11-03
- *   @author   zhoushang <whiothes81@gmail.com>
+ *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
  *   @brief
  */
