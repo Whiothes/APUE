@@ -1850,7 +1850,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       // Returns: 0 if OK, error number on failure
 
     #+end_src
-*** TODO 11.6 Thread Synchronization [4/8]
+*** TODO 11.6 Thread Synchronization [5/8]
     Increment operation:
     #+begin_quote
     1. Read the memory location into a register.
@@ -1956,7 +1956,20 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
        #+caption: Figure 11.14 Using reader-writer locks
        #+include: "Chapter11/fig11.14.c" src c
 
-**** TODO 11.6.5 Reader-Writer Locking with Timeouts
+**** DONE 11.6.5 Reader-Writer Locking with Timeouts
+     CLOSED: [2019-11-09 Sat 22:25]
+     rw-lock with timeout to avoid blocking indefinitely
+     #+begin_src c
+       #include <pthread.h>
+       #include <time.h>
+
+       int pthread_rwlock_timedrdlock(pthread_rwlock_t *restrict rwlock,
+                                      const struct timespec *restrict tsptr);
+       int pthread_rwlock_timedwrlock(pthread_rwlock_t *restrict rwlock,
+                                      const struct timespec *restrict tsptr);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+     *the timeout speciﬁes an absolute time, not a relative one.*
 **** TODO 11.6.6 Condition Variables
 **** TODO 11.6.7 Spin Locks
 **** TODO 11.6.8 Barriers
