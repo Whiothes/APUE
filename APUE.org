@@ -1850,7 +1850,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       // Returns: 0 if OK, error number on failure
 
     #+end_src
-*** TODO 11.6 Thread Synchronization [5/8]
+*** TODO 11.6 Thread Synchronization [6/8]
     Increment operation:
     #+begin_quote
     1. Read the memory location into a register.
@@ -1907,7 +1907,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
        #include <pthread.h>
        #include <time.h>
 
-       int phtread_mutex_timedlock(pthread_mutex_t *restrict mutex,
+       int pthread_mutex_timedlock(pthread_mutex_t *restrict mutex,
                                    const struct timespec *restrict tsptr);
 
        // Returns: 0 if OK, error number on failure
@@ -1928,7 +1928,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
      #+begin_src c
        #include <pthread.h>
        int pthread_rwlock_init(pthread_rwlock_t *restrict rwlock,
-                               const phtread_rwlockattr_t *restrict attr);
+                               const pthread_rwlockattr_t *restrict attr);
        int pthread_rwlock_destroy(pthread_rwlock_t *rwlock);
        // Both return: 0 if OK, error number on failure
      #+end_src
@@ -1938,7 +1938,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
      #+begin_src c
        #include <pthread.h>
        int pthread_rwlock_rdlock(pthread_rwlock_t *rwlock);
-       int phtread_rwlock_wrlock(pthread_rwlock_t *rwlock);
+       int pthread_rwlock_wrlock(pthread_rwlock_t *rwlock);
        int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);
        // All return: 0 if OK, error number on failure
      #+end_src
@@ -1970,7 +1970,63 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
        // Both return: 0 if OK, error number on failure
      #+end_src
      *the timeout speciﬁes an absolute time, not a relative one.*
-**** TODO 11.6.6 Condition Variables
+**** DONE 11.6.6 Condition Variables
+     CLOSED: [2019-11-10 Sun 15:07]
+     #+begin_quote
+     The condition itself is protected by a mutex. A thread must ﬁrst lock the mutex to change the condition state. Other threads will not notice the change until they acquire the mutex, because the mutex must be locked to be able to evaluate the condition.
+
+     assign the constant PTHREAD_COND_INITIALIZER to a statically allocated condition variable
+     #+end_quote
+
+     ~pthread_cond_init/destroy~
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_cond_init(pthread_cond_t *restrict cond,
+                             const pthread_condattr_t *restrict attr);
+       int pthread_cond_destroy(pthread_cond_t *cond);
+       // Both returns: 0 if OK, error number on failure
+     #+end_src
+
+     ~pthread_cond wait/timedwait~
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_cond_wait(pthread_cond_t *restrict cond,
+                             pthread_mutex_t *restrict mutex);
+       int pthread_cond_timedwait(pthread_cond_t *restrict cond,
+                                  pthread_mutex_t *restrict mutex,
+                                  const struct timespec *restrict tsptr);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+     wait as an absolute time instead of a relative time.
+
+     To obtain the absolute time for the timeout value,
+     #+begin_src c
+       #include <sys/time.h>
+       #include <stdlib.h>
+
+       void maketimeout(struct timespec *tsp, long minutes) {
+         struct timeval now;
+
+         // get the current time
+         gettimeofday(&now, NULL);
+         tsp->tv_sec = now.tv_sec;
+         tsp->tv_nsec = now.tv_usec * 1000; // usec to nsec
+         tsp->tv_sec += minutes * 60;
+       }
+     #+end_src
+
+
+     notify threads that a condition has been satisfied.
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_cond_signal(pthread_cond_t *cond);
+       int pthread_cond_broadcast (pthread_cond_t *cond);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+
+     - Example
+       #+caption: Figure 11.15 Using a condition variable
+       #+include: "Chapter11/fig11.15.c" src c
 **** TODO 11.6.7 Spin Locks
 **** TODO 11.6.8 Barriers
 *** TODO 11.7 Summary
