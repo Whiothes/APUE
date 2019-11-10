@@ -1850,7 +1850,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       // Returns: 0 if OK, error number on failure
 
     #+end_src
-*** TODO 11.6 Thread Synchronization [6/8]
+*** TODO 11.6 Thread Synchronization [7/8]
     Increment operation:
     #+begin_quote
     1. Read the memory location into a register.
@@ -2027,7 +2027,34 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
      - Example
        #+caption: Figure 11.15 Using a condition variable
        #+include: "Chapter11/fig11.15.c" src c
-**** TODO 11.6.7 Spin Locks
+**** DONE 11.6.7 Spin Locks
+     CLOSED: [2019-11-10 Sun 16:15]
+     #+begin_quote
+     A spin lock is like a mutex, except that *instead of blocking* a process by sleeping, the process is blocked by busy-waiting (spinning) until the lock can be acquired
+
+     use for short periods of times
+     #+end_quote
+
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_spin_init(pthread_spinlock_t *lock, int pshared);
+       int pthread_spin_destroy(pthread_spinlock_t *lock);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+     * *PTHREAD_PROCESS_SHARED*: the spin lock can be acquired by threads that have access to the lock's underlying memory
+     * *PTHREAD_PROCESS_PRIVATE*: the spin lock can be accessed by only from threads within the process that initialized it.
+
+
+     ~pthread_spin_trylock~ doesn't spin,
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_spin_lock(pthread_spinlock_t *lock);
+       int pthread_spin_trylock(pthread_spinlock_t *lock);
+       int pthread_spin_unlock(pthread_spinlock_t *lock);
+       // All return: 0 if OK, error number on failure
+     #+end_src
+     If either pthread_spin_lock or pthread_spin_trylock returns 0, then the spin lock is locked
+
 **** TODO 11.6.8 Barriers
 *** TODO 11.7 Summary
 ** TODO Chapter 12. Thread Control [0/0]
