@@ -3,7 +3,7 @@ add_executable(fig10.5 fig10.5)
 add_executable(fig10.6 fig10.6)
 
 add_executable(fig10.9 fig10.9)
-add_library(sleep SHARED fig10.7 fig10.8)
+add_library(sleep STATIC fig10.7 fig10.8)
 target_link_libraries(fig10.9 sleep)
 
 add_executable(fig10.10 fig10.10)

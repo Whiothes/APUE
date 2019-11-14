@@ -8,10 +8,13 @@
  *  implementation of the system function with the required signal handling
  *
  */
+#include "apue.h"
+
 #include <errno.h>
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
 
 // with appropriate signal handling
 int system(const char *cmdstring) {

@@ -1691,7 +1691,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
     #+end_src
 
 *** DONE 10.23 Summary
-    - Example
+    - Exercises
       - 10.1
         #+begin_quote
         terminates the first time
@@ -1725,7 +1725,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       - 10.12
         #+include: "Chapter10/ex10.2.c" src c
         finished, alarm appears until fwrite finshied, it seems the kernel is blocking SIGALRM
-** TODO Chapter 11. Threads [5/6]
+** TODO Chapter 11. Threads [6/7]
 *** DONE 11.1 Introduction
     CLOSED: [2019-11-08 Fri 00:42]
 *** DONE 11.2 Thread Concepts
@@ -1850,7 +1850,8 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       // Returns: 0 if OK, error number on failure
 
     #+end_src
-*** TODO 11.6 Thread Synchronization [7/8]
+*** DONE 11.6 Thread Synchronization [8/8]
+    CLOSED: [2019-11-14 Thu 20:58]
     Increment operation:
     #+begin_quote
     1. Read the memory location into a register.
@@ -2055,8 +2056,36 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
      #+end_src
      If either pthread_spin_lock or pthread_spin_trylock returns 0, then the spin lock is locked
 
-**** TODO 11.6.8 Barriers
+**** DONE 11.6.8 Barriers
+     CLOSED: [2019-11-14 Thu 20:57]
+     *Mac OSX doesn't implemented yet, but we can implemente it by pthread_cond and pthread_mutex*
+     coordinate multiple threads working in parallel.
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_barrier_init(pthread_barrier_t *restrict barrier,
+                                const pthread_barrierattr_t *restrict attr,
+                                unsigned int count);
+       int pthread_barrier_destroy(pthread_barrier_t *barrier);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+
+     ~pthread_barrier_wait~ indicates a thread is done with its work and is ready to wait for all the other threads to catch up .
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_barrier_wait(pthread_barrier_t *barrier);
+       // Returns: 0 or PTHREAD_BARRIER_SERIAL_THREAD if OK, error number on failure
+     #+end_src
+     calling ~pthread_barrier_wait~ is put to sleep if barrier count is not yet satisfied.
+
+     - Example
+       #+caption: Figure 11.16 Using a barrier
+       #+include: "Chapter11/fig11.16.c" src c
 *** TODO 11.7 Summary
+    - Exercises
+      - 11.1
+        #+include: "Chapter11/ex11.1.c" src c
+      - 11.2
+
 ** TODO Chapter 12. Thread Control [0/0]
 ** TODO Chapter 13. Daemon Processes [0/0]
 ** TODO Chapter 14. Advanced I/O [4/9]

@@ -12,11 +12,11 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 include_directories("${PROJECT_SOURCE_DIR}/include")
 aux_source_directory("${PROJECT_SOURCE_DIR}/lib" libapue)
 add_library(apue STATIC ${libapue})
-set_target_properties(apue
-  PROPERTIES
-  VERSION 1.0
-  SOVERSION 1)
 
+message(STATUS "The CMAKE_SYSTEM_NAME: " ${CMAKE_SYSTEM_NAME})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  add_definitions(-D_POSIX_C_SOURCE=200809L)
+endif()
 
 link_libraries(apue)
 link_directories("${PROJECT_SOURCE_DIR}/lib")

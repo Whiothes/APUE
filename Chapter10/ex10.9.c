@@ -13,6 +13,10 @@
 
 #include "apue.h"
 
+#ifndef NSIG
+#define NSIG 32
+#endif
+
 void pr_mask(const char *str) {
   sigset_t sigset;
   int      errno_save;
@@ -26,7 +30,7 @@ void pr_mask(const char *str) {
 
     for (int signo = 1; signo < NSIG; ++signo) {
       if (sigismember(&sigset, signo)) {
-        printf("%s ", strdup(sys_signame[signo]));
+        printf("%s ", strdup(strsignal(signo)));
       }
     }
 
