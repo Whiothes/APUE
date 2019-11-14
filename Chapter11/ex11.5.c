@@ -28,14 +28,12 @@ extern int heapsort(void *, size_t, size_t,
                     int (*)(const void *, const void *));
 #endif
 
-
 #if defined(__APPLE__)
 typedef struct {
   int             counter;
   pthread_cond_t  cond;
   pthread_mutex_t mutex;
 } pthread_barrier_t;
-
 
 int pthread_barrier_init(pthread_barrier_t *b, void *attr, int count) {
   int ret;
@@ -150,7 +148,7 @@ int main() {
   pthread_barrier_init(&b, NULL, NTHR + 1);
   for (i = 0; i < NTHR; ++i) {
     void *func = thr_fn;
-    err = pthread_create(&tid, NULL, thr_fn, (void *)(i * TNUM));
+    err        = pthread_create(&tid, NULL, thr_fn, (void *)(i * TNUM));
     if (err != 0) {
       err_exit(err, "can't create thread");
     }

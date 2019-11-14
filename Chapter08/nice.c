@@ -3,7 +3,7 @@
 
 #include "apue.h"
 
-#if defined(MACOS)
+#if defined(__APPLE__)
 #include <sys/syslimits.h>
 #elif defined(SOLARIS)
 #include <limits.h>

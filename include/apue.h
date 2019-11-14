@@ -15,7 +15,7 @@
 #include <sys/types.h>		/* some systems still require this */
 #include <sys/stat.h>
 #include <sys/termios.h>	/* for winsize */
-#if defined(MACOS) || !defined(TIOCGWINSZ)
+#if defined(__APPLE__) || !defined(TIOCGWINSZ)
 #include <sys/ioctl.h>
 #endif
 
