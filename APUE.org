@@ -1725,7 +1725,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       - 10.12
         #+include: "Chapter10/ex10.2.c" src c
         finished, alarm appears until fwrite finshied, it seems the kernel is blocking SIGALRM
-** DONE Chapter 11. Threads [6/7]
+** DONE Chapter 11. Threads [7/7]
    CLOSED: [2019-11-14 Thu 22:35]
 *** DONE 11.1 Introduction
     CLOSED: [2019-11-08 Fri 00:42]
@@ -2081,7 +2081,8 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
      - Example
        #+caption: Figure 11.16 Using a barrier
        #+include: "Chapter11/fig11.16.c" src c
-*** TODO 11.7 Summary
+*** DONE 11.7 Summary
+    CLOSED: [2019-11-15 Fri 00:29]
     - Exercises
       - 11.1
         #+include: "Chapter11/ex11.1.c" src c
@@ -2094,12 +2095,17 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
         to solve this problem, add another mutex in struct job
         #+end_quote
       - 11.3
+        #+include: "Chapter11/ex11.3.c" src c
+        1. rwlock change to condition lock, and need additional mutex lock
+        2. data structure for each thread OR
+        3. if lock the whole list, the other jobs have to wait, it is the waste of time
       - 11.4
         #+begin_quote
         It depends on the circumstances. In general, both can be correct, but each alternative has drawbacks. In the ﬁrst sequence, the waiting threads will be scheduled to run after we call pthread_cond_broadcast. If the program is running on a multiprocessor, some threads will run and immediately block because we are still holding the mutex (recall that pthread_cond_wait returns with the mutex held). In the second sequence, a running thread can acquire the mutex between steps 3 and 4, invalidate the condition, and release the mutex. Then, when we call pthread_cond_broadcast, the condition will no longer be true, and the threads will run needlessly. This is why the awakened threads must recheck the condition and not assume that it is true merely because pthread_cond_wait returned.
         #+end_quote
       - 11.5
         pthread_cond && counter
+        #+include: "Chapter11/ex11.5.c" src c
 ** TODO Chapter 12. Thread Control [1/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
