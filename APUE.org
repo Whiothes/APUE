@@ -8,7 +8,7 @@
 #+AUTHOR: whiothes
 #+title: Advanced Programming in the Unix Environment
 
-* Advanced Programming in the Unix Environment [42%]
+* Advanced Programming in the Unix Environment [47%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE Introduction
@@ -1725,7 +1725,8 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       - 10.12
         #+include: "Chapter10/ex10.2.c" src c
         finished, alarm appears until fwrite finshied, it seems the kernel is blocking SIGALRM
-** TODO Chapter 11. Threads [6/7]
+** DONE Chapter 11. Threads [6/7]
+   CLOSED: [2019-11-14 Thu 22:35]
 *** DONE 11.1 Introduction
     CLOSED: [2019-11-08 Fri 00:42]
 *** DONE 11.2 Thread Concepts
@@ -2085,8 +2086,37 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       - 11.1
         #+include: "Chapter11/ex11.1.c" src c
       - 11.2
+        #+begin_quote
+        write-mode lock on the whole list while the ID is changing.
 
-** TODO Chapter 12. Thread Control [0/0]
+        the thread ID between ~job_find~ and ~job_remove~ maybe changed
+
+        to solve this problem, add another mutex in struct job
+        #+end_quote
+      - 11.3
+      - 11.4
+        #+begin_quote
+        It depends on the circumstances. In general, both can be correct, but each alternative has drawbacks. In the ﬁrst sequence, the waiting threads will be scheduled to run after we call pthread_cond_broadcast. If the program is running on a multiprocessor, some threads will run and immediately block because we are still holding the mutex (recall that pthread_cond_wait returns with the mutex held). In the second sequence, a running thread can acquire the mutex between steps 3 and 4, invalidate the condition, and release the mutex. Then, when we call pthread_cond_broadcast, the condition will no longer be true, and the threads will run needlessly. This is why the awakened threads must recheck the condition and not assume that it is true merely because pthread_cond_wait returned.
+        #+end_quote
+      - 11.5
+        pthread_cond && counter
+** TODO Chapter 12. Thread Control [1/11]
+*** DONE 12.1 Introduction
+    CLOSED: [2019-11-14 Thu 22:39]
+*** TODO 12.2 Thread Limits
+*** TODO 12.3 Thread Attributes
+*** TODO 12.4 Synchronization Attributes [0/5]
+**** TODO 12.4.1 Mutex Attributes
+**** TODO 12.4.2 Reader-Writer Lock Attributes
+**** TODO 12.4.3 Condition Variable Attributes
+**** TODO 12.4.4 Barrier Attributes
+*** TODO 12.5 Reentrancy
+*** TODO 12.6 Thread-Specific Data
+*** TODO 12.7 Cancel Options
+*** TODO 12.8 Threads and Signals
+*** TODO 12.9 Threads and fork
+*** TODO 12.10 Threads and I/O
+*** TODO 12.11 Summary
 ** TODO Chapter 13. Daemon Processes [0/0]
 ** TODO Chapter 14. Advanced I/O [4/9]
 *** DONE 14.1 Introduction
