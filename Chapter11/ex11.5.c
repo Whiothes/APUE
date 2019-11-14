@@ -36,7 +36,6 @@ typedef struct {
   pthread_mutex_t mutex;
 } pthread_barrier_t;
 
-pthread_barrier_t b;
 
 int pthread_barrier_init(pthread_barrier_t *b, void *attr, int count) {
   int ret;
@@ -97,6 +96,8 @@ err:
   return ret;
 }
 #endif
+
+pthread_barrier_t b;
 
 int complong(const void *arg1, const void *arg2) {
   long l1 = *(long *)arg1;
