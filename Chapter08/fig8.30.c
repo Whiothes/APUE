@@ -39,8 +39,7 @@ int main(int argc, char *argv[]) {
 #error NZERO undefined
 #endif
   printf("NZERO = %d\n", nzero);
-  if (argc == 2)
-    adj = strtol(argv[1], NULL, 10);
+  if (argc == 2) adj = strtol(argv[1], NULL, 10);
   gettimeofday(&end, NULL);
   end.tv_sec += 10; /* run for 10 seconds */
 
@@ -49,8 +48,7 @@ int main(int argc, char *argv[]) {
   } else if (pid == 0) { /* child */
     s = "child";
     printf("current nice value in child is %d adjusting by %d\n",
-           nice(0) + nzero,
-           adj);
+           nice(0) + nzero, adj);
     errno = 0;
     if ((ret = nice(adj)) == -1 && errno != 0) {
       err_sys("child set scheduling priority");
@@ -61,14 +59,12 @@ int main(int argc, char *argv[]) {
     printf("current nice value in parent is %d\n", nice(0) + nzero);
   }
 
-
   for (;;) {
     if (++count == 0) {
       err_quit("%s counter wrap", s);
     }
     checktime(s);
   }
-
 
   return 0;
 }

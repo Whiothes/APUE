@@ -1173,7 +1173,7 @@
     =man 3 getpriority=
     - Example \\
       #+caption: Figure 8.30 Evaluate the effect of changing the nice value
-      #+include: "Chapter08/nice.c" src c
+      #+include: "Chapter08/fig8.30.c" src c
 *** DONE 8.17 Process Times
     #+begin_src c
       #include <sys/times.h>
@@ -2106,10 +2106,23 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [1/11]
+** TODO Chapter 12. Thread Control [2/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
-*** TODO 12.2 Thread Limits
+*** DONE 12.2 Thread Limits
+    CLOSED: [2019-11-15 Fri 08:42]
+    #+caption: Figure 12.1 Thread limits and /name/ arguments to ~sysconf~
+    | Name of limit                 | Description                                   | /name/ argument                  |
+    |-------------------------------+-----------------------------------------------+----------------------------------|
+    | PTHREAD_DESTRUCTOR_ITERATIONS | maximum number of times an implemetation will | _SC_THREAD_DESTRUCTOR_ITERATIONS |
+    |                               | try to destroy the thread-specific data       |                                  |
+    |                               | when a thread exits (Section 12.6)            |                                  |
+    | PTHREAD_KEYS_MAX              | maximum number of keys that can be created    | _SC_THREAD_KEYS_MAX              |
+    |                               | by a process (Section 12.6)                   |                                  |
+    | PTHREAD_STACK_MIN             | minimum number of bytes that can be used      | _SC_THREAD_STACK_MIN             |
+    |                               | for a thread's stack (Section by 12.3)        |                                  |
+    | PTHREAD_STACK_MAX             | maximum number of threads that can be created | _SC_THREAD_STACK_MAX             |
+    |                               | in a process (Section 12.3)                   |                                  |
 *** TODO 12.3 Thread Attributes
 *** TODO 12.4 Synchronization Attributes [0/5]
 **** TODO 12.4.1 Mutex Attributes
