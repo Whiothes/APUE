@@ -1398,7 +1398,7 @@ There is only one of these alarm clocks per process. If, when we call alarm, a p
 
 If a previously registered alarm clock for the process has not yet expired and if the seconds value is 0, the previous alarm clock is canceled.
 
-If we call alarm ﬁrst and are sent SIGALRM before we can install the signal handler, our process will terminate
+If we call alarm first and are sent SIGALRM before we can install the signal handler, our process will terminate
     #+end_quote
 
 
@@ -1559,7 +1559,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       #+include: "Chapter10/fig10.20.c" src c
 
       #+begin_quote
-      If we change the program in Figure 10.20 so that the calls to sigsetjmp and siglongjmp are replaced with calls to setjmp and longjmp on Linux (or _setjmp and _longjmp on FreeBSD), the ﬁnal line of output becomes
+      If we change the program in Figure 10.20 so that the calls to sigsetjmp and siglongjmp are replaced with calls to setjmp and longjmp on Linux (or _setjmp and _longjmp on FreeBSD), the final line of output becomes
 
       ending main: SIGUSR1
 
@@ -1631,7 +1631,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
 
 *** DONE 10.20 ~sigqueue~ Function
     - Specify the SA_SIGINFO ﬂag when we install a signal handler using the sigaction function
-    - Provide a signal handler in the sa_sigaction member of the sigaction structure instead of using the usual sa_handler ﬁeld.
+    - Provide a signal handler in the sa_sigaction member of the sigaction structure instead of using the usual sa_handler field.
     - Use the sigqueue function to send signals.
       #+begin_src c
         #include <signal.h>
@@ -1780,7 +1780,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       int pthread_join(pthread_t thread, void **rval_ptr);
     #+end_src
     #+begin_quote
-    The calling thread will block until the speciﬁed thread calls pthread_exit, returns from its start routine, or is canceled.
+    The calling thread will block until the specified thread calls pthread_exit, returns from its start routine, or is canceled.
     #+end_quote
 
     #+begin_quote
@@ -1971,11 +1971,11 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
                                       const struct timespec *restrict tsptr);
        // Both return: 0 if OK, error number on failure
      #+end_src
-     *the timeout speciﬁes an absolute time, not a relative one.*
+     *the timeout specifies an absolute time, not a relative one.*
 **** DONE 11.6.6 Condition Variables
      CLOSED: [2019-11-10 Sun 15:07]
      #+begin_quote
-     The condition itself is protected by a mutex. A thread must ﬁrst lock the mutex to change the condition state. Other threads will not notice the change until they acquire the mutex, because the mutex must be locked to be able to evaluate the condition.
+     The condition itself is protected by a mutex. A thread must first lock the mutex to change the condition state. Other threads will not notice the change until they acquire the mutex, because the mutex must be locked to be able to evaluate the condition.
 
      assign the constant PTHREAD_COND_INITIALIZER to a statically allocated condition variable
      #+end_quote
@@ -2101,7 +2101,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
         3. if lock the whole list, the other jobs have to wait, it is the waste of time
       - 11.4
         #+begin_quote
-        It depends on the circumstances. In general, both can be correct, but each alternative has drawbacks. In the ﬁrst sequence, the waiting threads will be scheduled to run after we call pthread_cond_broadcast. If the program is running on a multiprocessor, some threads will run and immediately block because we are still holding the mutex (recall that pthread_cond_wait returns with the mutex held). In the second sequence, a running thread can acquire the mutex between steps 3 and 4, invalidate the condition, and release the mutex. Then, when we call pthread_cond_broadcast, the condition will no longer be true, and the threads will run needlessly. This is why the awakened threads must recheck the condition and not assume that it is true merely because pthread_cond_wait returned.
+        It depends on the circumstances. In general, both can be correct, but each alternative has drawbacks. In the first sequence, the waiting threads will be scheduled to run after we call pthread_cond_broadcast. If the program is running on a multiprocessor, some threads will run and immediately block because we are still holding the mutex (recall that pthread_cond_wait returns with the mutex held). In the second sequence, a running thread can acquire the mutex between steps 3 and 4, invalidate the condition, and release the mutex. Then, when we call pthread_cond_broadcast, the condition will no longer be true, and the threads will run needlessly. This is why the awakened threads must recheck the condition and not assume that it is true merely because pthread_cond_wait returned.
         #+end_quote
       - 11.5
         pthread_cond && counter
@@ -2191,8 +2191,94 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
     Threads have other attributes not represented by the pthread_attr_t structure: the cancelability state and the cancelability type.
     #+end_quote
 
-*** TODO 12.4 Synchronization Attributes [0/5]
-**** TODO 12.4.1 Mutex Attributes
+*** TODO 12.4 Synchronization Attributes [1/4]
+**** DONE 12.4.1 Mutex Attributes
+     CLOSED: [2019-11-15 Fri 18:07]
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_mutexattr_init(pthread_mutexattr_t *attr);
+       int pthread_mutexattr_destroy(pthread_mutexattr *attr);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_mutexattr_getshared(const pthread_mutexattr_t *restrict attr,
+                                       int *restrict pshared);
+       int pthread_mutexattr_setshared(pthread_mutexattr_t *attr,
+                                       int pshared);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+     default: ~PTHREAD_PROCESS_PRIVATE~
+     #+begin_quote
+     multiple threads can access the same synchronization object
+     #+end_quote
+     other: ~PTHREAD_PROCESS_SHARED~
+     #+begin_quote
+     a mutex allocated from a memory extent shared between multiple processes may be used for synchronization by those processes.
+     #+end_quote
+
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_mutexattr_getrobust(const pthread_mutexattr_t *restrict attr,
+                                       int *restrict robust);
+       int pthread_mutexattr_setrobust(pthread_mutexattr_t *attr, int robust);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+     default: ~PTHREAD_MUTEX_STALLED~
+     #+begin_quote
+     use of the mutex can result in undeﬁned behavior, and applications waiting for it to be unlocked are effectively "stalled".
+     #+end_quote
+     other:   ~PTHREAD_MUTEX_ROBUST~
+     #+begin_quote
+     This value will cause a thread blocked in a call to pthread_mutex_lock to acquire the lock when another process holding the lock terminates without first unlocking it, but the return value from pthread_mutex_lock is EOWNERDEAD instead of 0.
+     #+end_quote
+
+     *Using robust mutexes has to check for three return values instead of two*:
+     * success with no recovery
+     * success but recovery needj
+     * failure
+
+
+     for application can't be recovered to indicate that the state associated with the mutex is consistent before unlocking the mutex.
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_mutex_consistent(pthread_mutex_t *mutex);
+       // Returns: 0 if OK, error number on failure
+     #+end_src
+     #+caption: mutex types
+     | type                     | description                                                          |
+     |--------------------------+----------------------------------------------------------------------|
+     | PTHREAD_MUTEX_NORMAL     | doesn't do any special error checking or deadlock detection          |
+     | PTHREAD_MUTEX_ERRORCHECK | provides error checking                                              |
+     | PTHREAD_MUTEX_RECURSIVE  | allow the same thread to lock multiple times without first unlocking |
+     | PTHREAD_MUTEX_DEFAULT    | prividing default characteristics and behavior.                      |
+
+     #+caption: Figure 12.5 Mutex type behavior
+     | Mutex type               | Relock without unlock? | Unlock when not owned? | Unlock when unlocked? |
+     |--------------------------+------------------------+------------------------+-----------------------|
+     | PTHREAD_MUTEX_NORMAL     | deadlock               | undefined              | undefined             |
+     | PTHREAD_MUTEX_ERRORCHECK | returns error          | returns error          | returns error         |
+     | PTHREAD_MUTEX_RECURSIVE  | allowed                | returns error          | returns error         |
+     | PTHREAD_MUTEX_DEFAULT    | undefined              | undefined              | undefined             |
+
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_mutexattr_gettype(const pthread_mutexattr_t *restrict attr,
+                                     int *restrict type);
+       int pthread_mutexattr_settype(pthread_mutexattr_t *restrict attr, int type);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+
+     #+begin_quote
+     If a recursive mutex is locked multiple times and used in a call to pthread_cond_wait, the condition can never be satisﬁed, because the unlock done by pthread_cond_wait doesn’t release the mutex.
+
+     should be used only when no other solution is possible.
+     #+end_quote
+
+     - Example
+       #+caption: Figure 12.8 Using a recursive mutex
+       #+include: "Chapter12/fig12.8.c" src c
 **** TODO 12.4.2 Reader-Writer Lock Attributes
 **** TODO 12.4.3 Condition Variable Attributes
 **** TODO 12.4.4 Barrier Attributes
