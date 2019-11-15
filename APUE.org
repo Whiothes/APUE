@@ -1,4 +1,4 @@
-#+SETUPFILE: ~/Public/github/org-html-themes/setup/theme-readtheorg.setup
+#+SETUPFILE: ~/Documents/style.setup
 #+STARTUP: inlineimages:png
 #+OPTIONS: num:nil
 #+LATEX_HEADER: \usepackage{ulem}
@@ -2106,7 +2106,7 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [2/11]
+** TODO Chapter 12. Thread Control [3/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
 *** DONE 12.2 Thread Limits
@@ -2123,7 +2123,74 @@ If we call alarm ﬁrst and are sent SIGALRM before we can install the signal ha
     |                               | for a thread's stack (Section by 12.3)        |                                  |
     | PTHREAD_STACK_MAX             | maximum number of threads that can be created | _SC_THREAD_STACK_MAX             |
     |                               | in a process (Section 12.3)                   |                                  |
-*** TODO 12.3 Thread Attributes
+*** DONE 12.3 Thread Attributes
+    CLOSED: [2019-11-15 Fri 16:45]
+    #+begin_quote
+    1. Each object is associated with its own type of attribute object (threads with thread attributes, mutexes with mutex attributes, and so on).
+
+    2. An initialization function exists to set the attributes to their default values.
+
+    3. Another function exists to destroy the attributes object.
+
+    4. Each attribute has a function to get the value of the attribute from the attribute object.
+
+    5. Each attribute has a function to set the value of the attribute.
+    #+end_quote
+
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_attr_init(pthread_attr_t *attr);
+      int pthread_attr_destroy(pthread_attr_t *attr);
+      // Both return: 0 if OK, error number on failure
+    #+end_src
+
+    attributes:
+    #+caption: Figure 12.3 POSIX.1 thread attributes
+    | Name          | Description                                       |
+    |---------------+---------------------------------------------------|
+    | /detachstate/ | detached threada attribute                        |
+    | /guardsize/   | guard buffer size in bytes at end of thread stack |
+    | /stackaddr/   | lowest address of thread stack                    |
+    | /stacksize/   | minimum size in bytes of thread stack             |
+
+    detachstate:
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_attr_getdetachstate(const ptrhead_attr_t *restrict attr,
+                                      int *detachstate);
+      int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate);
+      // Both return: 0 if OK, error number on failure
+    #+end_src
+    ~PTHREAD_CREATE_DETACHED~ or ~PTHREAD_CREATE_JOINABLE~
+
+    - Example
+      #+caption: Figure 12.4 Creating a thread in the detached state
+      #+include: "Chapter12/fig12.4.c" src c
+
+    stack:
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_attr_getstack(const pthread_attr_t *restrict attr,
+                                void **restrict stackattr,
+                                size_t *restrict stacksize);
+      int pthread_attr_setstack(pthread_attr_t *attr,
+                                void *stackaddr, size_t stacksize);
+      // Both return: 0 if OK, error number on failure
+    #+end_src
+
+    guardsize:
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_attr_getguardsize(const pthread_attr_t *restrict attr,
+                                    size_t *restrict guardsize);
+      int pthread_attr_setguardsize(pthread_attr_t *attr, size_t guardsize);
+      // Both return: 0 if OK, error number on failure
+    #+end_src
+
+    #+begin_quote
+    Threads have other attributes not represented by the pthread_attr_t structure: the cancelability state and the cancelability type.
+    #+end_quote
+
 *** TODO 12.4 Synchronization Attributes [0/5]
 **** TODO 12.4.1 Mutex Attributes
 **** TODO 12.4.2 Reader-Writer Lock Attributes
