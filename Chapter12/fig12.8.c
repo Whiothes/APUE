@@ -21,9 +21,7 @@ struct to_info {
 
 #define SECTONSEC 1000000000  // seconds to nanoseconds
 
-#if !defined(CLOCK_REALTIME) || defined(BSD)
 #define clock_nanosleep(ID, FL, REQ, REM) nanosleep((REQ), (REM))
-#endif
 
 #ifndef CLOCK_REALTIME
 #define CLOCK_REALTIME 0
