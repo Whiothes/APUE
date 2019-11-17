@@ -2203,9 +2203,9 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      #+begin_src c
        #include <pthread.h>
-       int pthread_mutexattr_getshared(const pthread_mutexattr_t *restrict attr,
+       int pthread_mutexattr_getpshared(const pthread_mutexattr_t *restrict attr,
                                        int *restrict pshared);
-       int pthread_mutexattr_setshared(pthread_mutexattr_t *attr,
+       int pthread_mutexattr_setpshared(pthread_mutexattr_t *attr,
                                        int pshared);
        // Both return: 0 if OK, error number on failure
      #+end_src
