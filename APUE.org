@@ -2106,7 +2106,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [3/11]
+** TODO Chapter 12. Thread Control [4/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
 *** DONE 12.2 Thread Limits
@@ -2191,7 +2191,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     Threads have other attributes not represented by the pthread_attr_t structure: the cancelability state and the cancelability type.
     #+end_quote
 
-*** TODO 12.4 Synchronization Attributes [3/4]
+*** DONE 12.4 Synchronization Attributes [4/4]
+    CLOSED: [2019-11-17 Sun 16:21]
 **** DONE 12.4.1 Mutex Attributes
      CLOSED: [2019-11-15 Fri 18:07]
      #+begin_src c
@@ -2305,9 +2306,22 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
                                        int pshared); ;
 
        int pthread_condattr_getclock(const pthread_condattr_t *restrict attr,
-                                     clockid_t *restirct clock_id);
+                                     clockid_t *restrict clock_id);
        int pthread_condattr_setclock(pthread_condattr_t *attr,
                                      clockid_t clock_id);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+**** DONE 12.4.4 Barrier Attributes
+     CLOSED: [2019-11-17 Sun 16:21]
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_barrierattr_init(pthread_barrierattr_t *attr);
+       int pthread_barrierattr_destroy(pthread_barrierattr_t *attr);
+
+       int pthread_barrierattr_getpshared(const pthread_barrierattr_t *restrict attr,
+                                          int *restrict pshared);
+       int pthread_barrierattr_setpshared(const pthread_barrierattr_t *attr,
+                                          int pshared);
        // Both return: 0 if OK, error number on failure
      #+end_src
 
