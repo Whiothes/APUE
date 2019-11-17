@@ -87,7 +87,7 @@ void retry(void *arg) {
 }
 
 int main(void) {
-  int             err, condition, arg;
+  int             err = 0, condition = 0, arg = 0;
   struct timespec when;
 
   if ((err = pthread_mutexattr_init(&attr)) != 0) {
@@ -100,7 +100,7 @@ int main(void) {
     err_exit(err, "can't create recursive mutex");
   }
 
-  if (condition) {
+  if (condition == 0) {
     clock_gettime(CLOCK_REALTIME, &when);
     when.tv_sec += 10;  // 10 seconds after now
     timeout(&when, retry, (void *)((unsigned long)arg));

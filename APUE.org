@@ -2191,7 +2191,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     Threads have other attributes not represented by the pthread_attr_t structure: the cancelability state and the cancelability type.
     #+end_quote
 
-*** TODO 12.4 Synchronization Attributes [1/4]
+*** TODO 12.4 Synchronization Attributes [2/4]
 **** DONE 12.4.1 Mutex Attributes
      CLOSED: [2019-11-15 Fri 18:07]
      #+begin_src c
@@ -2279,7 +2279,20 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
      - Example
        #+caption: Figure 12.8 Using a recursive mutex
        #+include: "Chapter12/fig12.8.c" src c
-**** TODO 12.4.2 Reader-Writer Lock Attributes
+**** DONE 12.4.2 Reader-Writer Lock Attributes
+     CLOSED: [2019-11-17 Sun 15:55]
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_rwlockattr_init(pthread_rwlockattr_t *attr);
+       int pthread_rwlockattr_destroy(pthread_rwlockattr_t *attr);
+
+       int pthread_rwlockattr_getpshared(const pthread_rwlockattr_t *restrict attr,
+                                         int *restirct pshared);
+       int pthread_rwlockattr_setpshared(const pthread_rwlockattr_t *restrict attr,
+                                         int pshared);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+
 **** TODO 12.4.3 Condition Variable Attributes
 **** TODO 12.4.4 Barrier Attributes
 *** TODO 12.5 Reentrancy
