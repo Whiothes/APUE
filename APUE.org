@@ -2191,7 +2191,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     Threads have other attributes not represented by the pthread_attr_t structure: the cancelability state and the cancelability type.
     #+end_quote
 
-*** TODO 12.4 Synchronization Attributes [2/4]
+*** TODO 12.4 Synchronization Attributes [3/4]
 **** DONE 12.4.1 Mutex Attributes
      CLOSED: [2019-11-15 Fri 18:07]
      #+begin_src c
@@ -2292,8 +2292,25 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
                                          int pshared);
        // Both return: 0 if OK, error number on failure
      #+end_src
+**** DONE 12.4.3 Condition Variable Attributes
+     CLOSED: [2019-11-17 Sun 16:15]
+     #+begin_src c
+       #include <pthread.h>
+       int pthread_condattr_init(pthread_condattr_t *attr);
+       int pthread_condattr_destroy(pthread_condattr_t *attr);
 
-**** TODO 12.4.3 Condition Variable Attributes
+       int pthread_condattr_getpshared(pthread_condattr_t const *restrict attr,
+                                       int *restrict pshared);
+       int pthread_condattr_setpshared(pthread_condattr_t *attr,
+                                       int pshared); ;
+
+       int pthread_condattr_getclock(const pthread_condattr_t *restrict attr,
+                                     clockid_t *restirct clock_id);
+       int pthread_condattr_setclock(pthread_condattr_t *attr,
+                                     clockid_t clock_id);
+       // Both return: 0 if OK, error number on failure
+     #+end_src
+
 **** TODO 12.4.4 Barrier Attributes
 *** TODO 12.5 Reentrancy
 *** TODO 12.6 Thread-Specific Data
