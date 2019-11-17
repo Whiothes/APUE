@@ -2106,7 +2106,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [4/11]
+** TODO Chapter 12. Thread Control [5/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
 *** DONE 12.2 Thread Limits
@@ -2324,9 +2324,46 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
                                           int pshared);
        // Both return: 0 if OK, error number on failure
      #+end_src
+*** DONE 12.5 Reentrancy
+    CLOSED: [2019-11-17 Sun 17:13]
+    #+begin_quote
+    If a function can be safely called by multiple threads at the same time, we say that the function is thread-safe.
 
-**** TODO 12.4.4 Barrier Attributes
-*** TODO 12.5 Reentrancy
+    /thread-safe/ version of functions with an _r appended at the end of its name
+    #+end_quote
+
+    lock associated with a given FILE object
+    #+begin_src c
+      #include <sstdio.h>
+      int ftrylockfile(FILE *fp);
+      // Returns: 0 if OK, nonzero if lock can't be acquired
+      void flockfile(FILE *fp);
+      void funlockfile(FILE *fp);
+    #+end_src
+    I/O routines might be implemented to be thread-safe, but locking applications is still useful
+
+
+    lock associated with character-based standard I/O
+    #+begin_src c
+      #include <pthread.h>
+      int getchar_unlcoked(void);
+      int getc_unlcoked(FILE *fp);
+      // Both return: the next character if OK, EOF on the end of file or error
+
+      int putchar_unlocked(int c);
+      int putc_unlcoked(int c, FILE *fp);
+      // Both return: c if OK, EOF on error
+    #+end_src
+    #+begin_quote
+    *These four functions should not be called unless they are surrounded by calls to flockfile (or ftrylockfile) and funlockfile*
+    #+end_quote
+
+    - Example
+      #+caption: Figure 12.11 A nonreentrant version of getenv
+      #+include: "Chapter12/fig12.11.c" src c
+
+      #+caption: Figure 12.12 a reentrant (thread-safe) version of getenv
+      #+include: "Chapter12/fig12.12.c" src c
 *** TODO 12.6 Thread-Specific Data
 *** TODO 12.7 Cancel Options
 *** TODO 12.8 Threads and Signals
