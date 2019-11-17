@@ -2106,7 +2106,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [5/11]
+** TODO Chapter 12. Thread Control [6/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
 *** DONE 12.2 Thread Limits
@@ -2228,7 +2228,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
      #+end_src
      default: ~PTHREAD_MUTEX_STALLED~
      #+begin_quote
-     use of the mutex can result in undeﬁned behavior, and applications waiting for it to be unlocked are effectively "stalled".
+     use of the mutex can result in undefined behavior, and applications waiting for it to be unlocked are effectively "stalled".
      #+end_quote
      other:   ~PTHREAD_MUTEX_ROBUST~
      #+begin_quote
@@ -2272,7 +2272,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
      #+end_src
 
      #+begin_quote
-     If a recursive mutex is locked multiple times and used in a call to pthread_cond_wait, the condition can never be satisﬁed, because the unlock done by pthread_cond_wait doesn’t release the mutex.
+     If a recursive mutex is locked multiple times and used in a call to pthread_cond_wait, the condition can never be satisfied, because the unlock done by pthread_cond_wait doesn’t release the mutex.
 
      should be used only when no other solution is possible.
      #+end_quote
@@ -2364,7 +2364,63 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
       #+caption: Figure 12.12 a reentrant (thread-safe) version of getenv
       #+include: "Chapter12/fig12.12.c" src c
-*** TODO 12.6 Thread-Specific Data
+*** DONE 12.6 Thread-Specific Data
+    CLOSED: [2019-11-17 Sun 21:20]
+    #+begin_quote
+    Thread-specific data, also known as thread-private data, is a mechanism for storing and finding data associated with a particular thread
+
+    The reasons to prevent sharing process data and attributes
+    - First, sometimes we need to maintain data on a per-thread basis.
+    - The second reason for thread-private data is to provide a mechanism for adapting process-based interfaces to a multithreaded environment.
+    #+end_quote
+
+    crate a /key/ to gain acess to with the thread-specific data
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_key_create(pthread_key_t *keyp, void (*destructor)(void*));
+      // Returns: 0 if OK, error number on failure
+    #+end_src
+    break the association of a key with the thread-specific data
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_key_delete(pthread_key_t key);
+    #+end_src
+    #+begin_quote
+    *calling pthread_key_delete will not invoke the destructor function. To free a key:*
+    ensure a key we allocated doesn't change because of a race during initialization. Code like the following can result in two threads both calling ~pthread_key_create~:
+    #+begin_src c
+      void destructor(void *);
+      pthread_key_t key;
+      int init_done = 0;
+
+      int threadfunc(void *arg) {
+        if (!init_done) {
+          init_done = 1;
+          err = pthread_key_create(&key, destructor);
+        }
+      }
+    #+end_src
+
+    The proper way to create a key without a race is as follows:
+    #+begin_src c
+      void destructor(void *);
+
+      pthread_key_t key;
+      pthread_once_t init_done = PTHREAD_ONCE_INIT;
+
+      void thread_init(void) {
+        err = pthread_key_create(&key, destructor);
+      }
+
+      int threadfunc (void *arg) {
+        pthread_once(&init_done, thread_init);
+      }
+    #+end_src
+    #+end_quote
+
+    - Example
+      #+caption: Figure 12.13 A thread-safe, compatible version of getenv
+      #+include: "Chapter12/fig12.13.c" src c
 *** TODO 12.7 Cancel Options
 *** TODO 12.8 Threads and Signals
 *** TODO 12.9 Threads and fork
