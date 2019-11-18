@@ -2106,7 +2106,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [6/11]
+** TODO Chapter 12. Thread Control [7/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
 *** DONE 12.2 Thread Limits
@@ -2421,7 +2421,40 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     - Example
       #+caption: Figure 12.13 A thread-safe, compatible version of getenv
       #+include: "Chapter12/fig12.13.c" src c
-*** TODO 12.7 Cancel Options
+*** DONE 12.7 Cancel Options
+    CLOSED: [2019-11-18 Mon 09:49]
+    #+begin_quote
+    The /cancelability state/ attribute can be either PTHREAD_CANCEL_ENABLE or PTHREAD_CANCEL_DISABLE.
+    #+end_quote
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_setcancelstate(int state, int* oldstate);
+      // Returns: 0 if OK, error number on failure
+    #+end_src
+
+    #+begin_quote
+    a call to pthread_cancel doesn’t wait for a thread to terminate. In the default case, a thread will continue to execute after a cancellation request is made until the thread reaches a cancellation point.
+
+
+    When the state is set to PTHREAD_CANCEL_DISABLE, a call to pthread_cancel will not kill the thread. Instead, the cancellation request remains pending for the thread. When the state is enabled again, the thread will act on any pending cancellation requests at the next cancellation point.
+    #+end_quote
+
+    add you own cancellation points
+    #+begin_src c
+      #include <pthread.h>
+      void pthread_testcancel(void);
+    #+end_src
+    Cancel the pending and enbaled cancellation request, no effect when cancellation is disabled.
+
+    change the cancellation type
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_setcanceltype(int type, int *oldtype);
+      // Returns: 0 if OK, error number on failure
+    #+end_src
+    type: PTHREAD_CANCEL_DEFERRED, PTHREAD_CANCEL_ASYNCHRONOUS
+
+
 *** TODO 12.8 Threads and Signals
 *** TODO 12.9 Threads and fork
 *** TODO 12.10 Threads and I/O
