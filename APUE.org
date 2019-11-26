@@ -2106,7 +2106,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [7/11]
+** TODO Chapter 12. Thread Control [8/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
 *** DONE 12.2 Thread Limits
@@ -2453,9 +2453,37 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       // Returns: 0 if OK, error number on failure
     #+end_src
     type: PTHREAD_CANCEL_DEFERRED, PTHREAD_CANCEL_ASYNCHRONOUS
+*** DONE 12.8 Threads and Signals
+    CLOSED: [2019-11-27 Wed 00:51]
+    function like ~sigprocmask~, but works with threads and returns error number instead:
+    #+begin_src c
+      #include <signal.h>
+      int pthread_sigmask(int how, const sigset_t *restrict set,
+                          sigset_t *restrict oset);
+      // Returns: 0 if OK, error number on failure
+    #+end_src
+    how values:
+    * SIG_BLOCK
+    * SIG_SETMASK
+    * SIG_UNBLOCK
 
+      wait one or more signals:
+    #+begin_src c
+      #include <signal.h>
+      int sigwait(const siget_t *restrict set, int *restrict signop);
+      // Returns: 0 if OK, error number on failure
+    #+end_src
 
-*** TODO 12.8 Threads and Signals
+    function like ~kill~:
+    #+begin_src c
+      #include <signal.h>
+      int pthread_kill(pthread_t thread, int signo);
+      // Returns: 0 if OK, error number on failure
+    #+end_src
+
+    - Example:
+      #+caption: Figure 12.16 Synchronous signal handling
+      #+include: "Chapter12/fig12.16.c" src c
 *** TODO 12.9 Threads and fork
 *** TODO 12.10 Threads and I/O
 *** TODO 12.11 Summary
