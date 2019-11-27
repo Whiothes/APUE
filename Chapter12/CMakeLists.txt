@@ -1,5 +1,4 @@
 add_executable(fig12.8 fig12.8 fig12.4)
+add_executable(fig12.17 fig12.17)
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  target_link_libraries(fig12.8 ${CMAKE_THREAD_LIBS_INIT} pthread)
-endif()
+linkThreads(fig12.8 fig12.17)

@@ -2069,6 +2069,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        int pthread_barrier_destroy(pthread_barrier_t *barrier);
        // Both return: 0 if OK, error number on failure
      #+end_src
+     *count* refers to the number of threads that must call ~pthread_barrier_wait()~ (includes the calling in process)
 
      ~pthread_barrier_wait~ indicates a thread is done with its work and is ready to wait for all the other threads to catch up .
      #+begin_src c
@@ -2106,7 +2107,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [8/11]
+** TODO Chapter 12. Thread Control [9/11]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
 *** DONE 12.2 Thread Limits
@@ -2484,7 +2485,41 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     - Example:
       #+caption: Figure 12.16 Synchronous signal handling
       #+include: "Chapter12/fig12.16.c" src c
-*** TODO 12.9 Threads and fork
+*** DONE 12.9 Threads and fork
+    CLOSED: [2019-11-28 Thu 01:33]
+    #+begin_src c
+      #include <pthread.h>
+      int pthread_atfork(void (*prepare)(void), void (*parent)(void),
+                         void (*child)(void));
+      // Returns: 0 if OK, error number on failure
+    #+end_src
+
+    * *prepare* called before ~fork~ creates the child process
+    * *parent* called in parent after ~fork~ has created the child but before returned
+    * *child* called in child before returning
+
+
+    *the child will get a copy of all locks that the parent defined, but in new memory*
+    1. The parent acquired all its locks.
+    2. The child acquired all its locks.
+    3. The parent released its locks.
+    4. The child relased its locks.
+
+
+    - Example:
+      #+caption: Figure 12.17 pthread_atfork example
+      #+include: "Chapter12/fig12.17.c" src c
+
+
+    *drawbacks*:
+    #+begin_quote
+    * no good way to reinitialize the state for more complex synchronization like conditioon and barriers.
+    * some implementations of error-checking mutexes will generate errors when the child fork handler tries to unlock a mutex that was locked by the parent
+    * recursive mutexes can't be cleand up in the child fork handler, because there is no way to determine the number of times one has been locked
+    * if child process are allowed to call only async-singal safe functions, then the child fork handler shouldn't even be able to clean up synchronization objects, because none of the functions are used to manipulate them are async-signal safe.
+    * if an application calls fork in a signal handler(which is legal, because fork is async-signal safe), then the fork handlers registered by ~pthread_atfork~ can only async-signal safe functions, or else the results are undefined.
+    #+end_quote
+
 *** TODO 12.10 Threads and I/O
 *** TODO 12.11 Summary
 ** TODO Chapter 13. Daemon Processes [0/0]
