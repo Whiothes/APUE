@@ -2520,7 +2520,9 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     * if an application calls fork in a signal handler(which is legal, because fork is async-signal safe), then the fork handlers registered by ~pthread_atfork~ can only async-signal safe functions, or else the results are undefined.
     #+end_quote
 
-*** TODO 12.10 Threads and I/O
+*** DONE 12.10 Threads and I/O
+    CLOSED: [2019-11-28 Thu 13:31]
+    use ~pread/pwrite~ in Chapter 3 to solve I/O at different record
 *** TODO 12.11 Summary
 ** TODO Chapter 13. Daemon Processes [0/0]
 ** TODO Chapter 14. Advanced I/O [4/9]
