@@ -1,33 +1,33 @@
-#include "apue.h"
 #include <errno.h>
 #include <fcntl.h>
 
+#include "apue.h"
+
 char buf[50000];
 
-int main(void)
-{
-  int   ntowrite, nwrite;
-  char *ptr;
+int main(void) {
+    int   ntowrite, nwrite;
+    char *ptr;
 
-  ntowrite = read(STDIN_FILENO, buf, sizeof(buf));
-  fprintf(stderr, "read %d bytes\n", ntowrite);
+    ntowrite = read(STDIN_FILENO, buf, sizeof(buf));
+    fprintf(stderr, "read %d bytes\n", ntowrite);
 
-  set_fl(STDOUT_FILENO, O_NONBLOCK);
+    set_fl(STDOUT_FILENO, O_NONBLOCK);
 
-  ptr = buf;
+    ptr = buf;
 
-  while (ntowrite > 0) {
-    errno  = 0;
-    nwrite = write(STDOUT_FILENO, ptr, ntowrite);
-    fprintf(stderr, "nwrite = %d, errno = %d\n", nwrite, errno);
+    while (ntowrite > 0) {
+        errno  = 0;
+        nwrite = write(STDOUT_FILENO, ptr, ntowrite);
+        fprintf(stderr, "nwrite = %d, errno = %d\n", nwrite, errno);
 
-    if (nwrite > 0) {
-      ptr += nwrite;
-      ntowrite -= nwrite;
+        if (nwrite > 0) {
+            ptr += nwrite;
+            ntowrite -= nwrite;
+        }
     }
-  }
 
-  clr_fl(STDOUT_FILENO, O_NONBLOCK); /* clear nonblocking */
+    clr_fl(STDOUT_FILENO, O_NONBLOCK); /* clear nonblocking */
 
-  return 0;
+    return 0;
 }

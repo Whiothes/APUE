@@ -10,8 +10,8 @@
 #include <pthread.h>
 
 struct msg {
-  struct msg *m_next;
-  // more stuff here
+    struct msg *m_next;
+    // more stuff here
 };
 
 struct msg *workd;
@@ -20,23 +20,23 @@ pthread_cond_t  qready = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t qlock  = PTHREAD_MUTEX_INITIALIZER;
 
 void process_msg(void) {
-  struct msg *mp;
-  for (;;) {
-    pthread_mutex_lock(&qlock);
-    while (workd == NULL) {
-      pthread_cond_wait(&qready, &qlock);
+    struct msg *mp;
+    for (;;) {
+        pthread_mutex_lock(&qlock);
+        while (workd == NULL) {
+            pthread_cond_wait(&qready, &qlock);
+        }
+        mp    = workd;
+        workd = mp->m_next;
+        pthread_mutex_unlock(&qlock);
+        // now process the messg mp
     }
-    mp    = workd;
-    workd = mp->m_next;
-    pthread_mutex_unlock(&qlock);
-    // now process the messg mp
-  }
 }
 
 void enqueue_msg(struct msg *mp) {
-  pthread_mutex_lock(&qlock);
-  mp->m_next = workd;
-  workd      = mp;
-  pthread_mutex_unlock(&qlock);
-  pthread_cond_signal(&qready);
+    pthread_mutex_lock(&qlock);
+    mp->m_next = workd;
+    workd      = mp;
+    pthread_mutex_unlock(&qlock);
+    pthread_cond_signal(&qready);
 }

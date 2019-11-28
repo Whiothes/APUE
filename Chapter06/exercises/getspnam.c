@@ -1,12 +1,10 @@
 #include <shadow.h>
 #include <stdio.h>
 
-int
-main()
-{
-  struct spwd *ptr;
+int main() {
+    struct spwd *ptr;
 
-  ptr = getspent();
+    ptr = getspent();
 
-  printf("password: %s\n", ptr->sp_pwdp);
+    printf("password: %s\n", ptr->sp_pwdp);
 }

@@ -3,29 +3,25 @@
 static void f1(void), f2(void);
 
 int main(void) {
+    f1();
 
-  f1();
+    f2();
 
-  f2();
-
-  _exit(0);
+    _exit(0);
 }
 
 static void f1(void) {
-  pid_t pid;
+    pid_t pid;
 
-  if ((pid = vfork()) < 0)
-    err_sys("vfork error"); /* child and parent both return */
-
+    if ((pid = vfork()) < 0)
+        err_sys("vfork error"); /* child and parent both return */
 }
 
 static void f2(void) {
+    char buf[100];
+    int  i;
 
-  char buf[100];
-  int i;
+    /* automatic variables */
 
-  /* automatic variables */
-
-  for (i = 0; i < sizeof(buf); i++)
-    buf[i] = 0;
+    for (i = 0; i < sizeof(buf); i++) buf[i] = 0;
 }

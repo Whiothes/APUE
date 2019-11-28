@@ -9,26 +9,26 @@
 #include "apue.h"
 
 int main(void) {
-  FILE *fp = fopen("a.txt", "w+");
+    FILE *fp = fopen("a.txt", "w+");
 
-  int num = 0;
+    int num = 0;
 
-  fwrite(&num, sizeof(num), 1, fp);
+    fwrite(&num, sizeof(num), 1, fp);
 
-  pid_t pid = fork();
+    pid_t pid = fork();
 
-  if (pid == 0) {
+    if (pid == 0) {
+        // fread(&num, sizeof(num), 1, fp);
+        ++num;
+        fwrite(&num, sizeof(num), 1, fp);
+        fprintf(stdout, "child process: %d\n", num);
+        exit(EXIT_SUCCESS);
+    }
+
     // fread(&num, sizeof(num), 1, fp);
     ++num;
     fwrite(&num, sizeof(num), 1, fp);
-    fprintf(stdout, "child process: %d\n", num);
-    exit(EXIT_SUCCESS);
-  }
+    fprintf(stdout, "parent process: %d\n", num);
 
-  // fread(&num, sizeof(num), 1, fp);
-  ++num;
-  fwrite(&num, sizeof(num), 1, fp);
-  fprintf(stdout, "parent process: %d\n", num);
-
-  fclose(fp);
+    fclose(fp);
 }

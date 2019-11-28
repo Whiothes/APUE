@@ -1,5 +1,6 @@
-#include "apue.h"
 #include <locale.h>
+
+#include "apue.h"
 
 int main(void) {
     printf("\nthousands grouping:\n");

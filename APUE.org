@@ -8,7 +8,7 @@
 #+AUTHOR: whiothes
 #+title: Advanced Programming in the Unix Environment
 
-* Advanced Programming in the Unix Environment [47%]
+* Advanced Programming in the Unix Environment [52%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 1.1 Introduction
@@ -557,7 +557,7 @@
     | f,F             | [[file:Chapter05/formatted.c::printf("\ndouble%20%EF%AC%82oating-point%20number:\n");][double floating-point number]]                                                              |
     | e,E             | [[file:Chapter05/formatted.c::printf("\nexponential%20format:\n");][double floating-point number in exponential format]]                                        |
     | g,G             | [[file:Chapter05/formatted.c::printf("\ninterpreted:\n");][interpreted as f, F, e, or E, depending on value converted]]                                |
-    | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble%20in%20hexadecimal:\n");][double ﬂoating-point number in hexadecimal exponential format]]                             |
+    | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble%20in%20hexadecimal:\n");][double floating-point number in hexadecimal exponential format]]                             |
     | c               | character (with 1 length modifier, wide character)                                        |
     | s               | string(with 1 length modifier, wide character string)                                     |
     | p               | pointer to a void                                                                         |
@@ -748,7 +748,7 @@
        // o   If the process is a controlling process (see intro(2)), the SIGHUP signal is sent to the foreground process group of the controlling terminal.  All current access to the control-
        //     ling terminal is revoked.
      #+end_src
-     ~_exit~ does not perform any ﬂushing of standard I/O buffers.
+     ~_exit~ does not perform any flushing of standard I/O buffers.
      - Example \\
        #+begin_src c
 
@@ -951,12 +951,12 @@
       - Process group ID
       - Session ID
       - Controlling terminal
-      - The set-user-ID and set-group-ID ﬂags
+      - The set-user-ID and set-group-ID flags
       - Current working directory
       - Root directory
       - File mode creation mask
       - Signal mask and dispositions
-      - The close-on-exec ﬂag for any open file descriptors
+      - The close-on-exec flag for any open file descriptors
       - Environment
       - Attached shared memory segments
       - Memory mappings
@@ -1356,7 +1356,7 @@
     - the process was unable to turn a signal off when it didn’t want the signal to occur
 *** DONE 10.5 Interrupted System Calls
     - automatically restarted functions: ~ioctl~, ~read~, ~readv~, ~write~, ~writev~, ~wait~, ~waitpid~ \\
-      POSIX.1 requires an implementation to restart system calls only when the SA_RESTART ﬂag is in effect for the interrupting signal.
+      POSIX.1 requires an implementation to restart system calls only when the SA_RESTART flag is in effect for the interrupting signal.
 *** DONE 10.6 Reentrant Functions
     #+caption: Figure 10.5 Call a nonreentrant function from a signal handler
     #+include: "Chapter10/fig10.5.c" src c
@@ -1494,7 +1494,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       };
     #+end_src
 
-    #+caption: Figure 10.16 Option ﬂags (sa_flags) for the handling of each signal
+    #+caption: Figure 10.16 Option flags (sa_flags) for the handling of each signal
     | Option       | SUS | FreeBSD | Linux | Mac OSX | Solaris | Description                                                                                   |
     |--------------+-----+---------+-------+---------+---------+-----------------------------------------------------------------------------------------------|
     | SA_INTERRUPT | *   |         | *     |         |         | system call interrupted by this signal are not automatically restarted                        |
@@ -1629,7 +1629,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_src
 
 *** DONE 10.20 ~sigqueue~ Function
-    - Specify the SA_SIGINFO ﬂag when we install a signal handler using the sigaction function
+    - Specify the SA_SIGINFO flag when we install a signal handler using the sigaction function
     - Provide a signal handler in the sa_sigaction member of the sigaction structure instead of using the usual sa_handler field.
     - Use the sigqueue function to send signals.
       #+begin_src c
@@ -2106,7 +2106,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 11.5
         pthread_cond && counter
         #+include: "Chapter11/ex11.5.c" src c
-** TODO Chapter 12. Thread Control [9/11]
+** DONE Chapter 12. Thread Control [11/11]
+   CLOSED: [2019-11-28 Thu 15:37]
 *** DONE 12.1 Introduction
     CLOSED: [2019-11-14 Thu 22:39]
 *** DONE 12.2 Thread Limits
@@ -2522,8 +2523,32 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 *** DONE 12.10 Threads and I/O
     CLOSED: [2019-11-28 Thu 13:31]
     use ~pread/pwrite~ in Chapter 3 to solve I/O at different record
-*** TODO 12.11 Summary
+*** DONE 12.11 Summary
+    CLOSED: [2019-11-28 Thu 15:37]
+    *Exercises*
+    - 12.1 there are duplicated prints in the file
+      #+begin_quote
+      This is not a multithreading problem, as one might first guess. The standard I/O routines are indeed thread-safe. When we call fork, each process gets a copy of the standard I/O data structures. When we run the program with standard output attached to a terminal, the output is line buffered, so every time we print a line, the standard I/O library writes it to our terminal. However, if we redirect the standard output to a file, then the standard output is fully buffered. The output is written when the buffer fills or the process closes the stream. When we fork in this example, the buffer contains several printed lines not yet written, so when the parent and the child finally flush their copies of the buffer, the initial duplicate contents are written to the file.
+      #+end_quote
+    - 12.2 reentrant version of ~putenv~
+      #+include: "Chapter12/ex12.2.c" src c
+    - 12.3 a signal-blocked version of getenv
+      #+include: "Chapter12/ex12.3.c" src c
+      #+begin_quote
+      The problem is that we don’t know whether any of the functions we call might unmask a signal that we’ve blocked, thereby making it possible for the function to be reentered through another signal handler.
+      #+end_quote
+    - 12.4 just copied the answer
+      #+begin_quote
+      On FreeBSD 8.0, the program drops core. With gdb, we are able to see that the program initialization calls pthread functions, which call getenv to ﬁnd the value of the LIBPTHREAD_SPINLOOPS and LIBPTHREAD_YIELDLOOPS environment variables. However, our thread-safe version of getenv calls back into the pthread library while it is in an intermediate, inconsistent state. In addition, the thread initialization functions call malloc, which, in turn, call getenv to ﬁnd the value of the MALLOC_OPTIONS environment variable.
 
+      To get around this problem, we could make the reasonable assumption that program start-up is single threaded, and use a ﬂag to indicate whether the thread initialization had been completed by our version of getenv. While this ﬂag is false, our version of getenv can operate as the non-reentrant version does (and avoid all calls to pthread functions and malloc). Then we could provide a separate initialization function to call pthread_once, instead of calling it from inside getenv. This requires that the program call our initialization function before calling getenv. This solves our problem, because this can’t be done until the program start-up initialization completes. After the program calls our initialization function, our version of getenv operates in a thread-safe manner.
+      #+end_quote
+    - 12.5 run a program within a program
+    - 12.6 implemented sleep by using select
+      #+include: "Chapter12/ex12.6.c" src c
+    - 12.7 unsafe to do that, because we hardly acquire and release the mutex protected condition variable
+    - 12.8 use select instead?
+      #+include: "Chapter12/ex12.8.c" src c
 ** TODO Chapter 13. Daemon Processes [0/0]
 ** TODO Chapter 14. Advanced I/O [4/9]
 *** DONE 14.1 Introduction

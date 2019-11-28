@@ -8,10 +8,10 @@
 #include "apue.h"
 
 int sig2str(int signo, char *str) {
-  if (signo <= 0 || signo >= NSIG) {
-    return -1;
-  }
-  snprintf(str, SIG2STR_MAX, "%s", sys_siglist[signo]);
+    if (signo <= 0 || signo >= NSIG) {
+        return -1;
+    }
+    snprintf(str, SIG2STR_MAX, "%s", sys_siglist[signo]);
 
-  return 0;
+    return 0;
 }

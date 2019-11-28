@@ -3,18 +3,18 @@
 #define BUFFSIZE 4096
 
 int main(void) {
-  int  n = 0;
-  char buf[BUFFSIZE];
+    int  n = 0;
+    char buf[BUFFSIZE];
 
-  while ((n = read(STDIN_FILENO, buf, BUFFSIZE)) > 0) {
-    if (write(STDOUT_FILENO, buf, n) != 0) {
-      err_sys("write error");
+    while ((n = read(STDIN_FILENO, buf, BUFFSIZE)) > 0) {
+        if (write(STDOUT_FILENO, buf, n) != 0) {
+            err_sys("write error");
+        }
     }
-  }
 
-  if (n < 0) {
-    err_sys("read error");
-  }
+    if (n < 0) {
+        err_sys("read error");
+    }
 
-  return 0;
+    return 0;
 }

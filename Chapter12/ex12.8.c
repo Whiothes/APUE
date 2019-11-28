@@ -14,12 +14,12 @@
 extern int makethread(void *(*)(void *), void *);
 
 struct to_info {
-    void (*to_fn)(void *);    // function
-    void *          to_arg;   // argument
-    struct timespec to_wait;  // time to wait
+    void (*to_fn)(void *);   // function
+    void *         to_arg;   // argument
+    struct timeval to_wait;  // time to wait
 };
 
-#define SECTONSEC 1000000000  // seconds to nanoseconds
+#define SECTOUSEC 1000000  // seconds to nanoseconds
 
 #define clock_nanosleep(ID, FL, REQ, REM) nanosleep((REQ), (REM))
 
@@ -60,18 +60,14 @@ void timeout(const struct timespec *when, void (*func)(void *), void *arg) {
             tip->to_arg         = arg;
             tip->to_wait.tv_sec = when->tv_sec - now.tv_sec;
             if (when->tv_nsec >= now.tv_nsec) {
-                tip->to_wait.tv_nsec = when->tv_nsec - now.tv_nsec;
+                tip->to_wait.tv_usec = when->tv_nsec / 1000 - now.tv_nsec;
             } else {
                 tip->to_wait.tv_sec--;
-                tip->to_wait.tv_nsec = SECTONSEC - now.tv_nsec + when->tv_nsec;
+                tip->to_wait.tv_usec =
+                    SECTOUSEC - now.tv_usec + when->tv_nsec / 1000;
             }
 
-            // err = makethread(timeout_helper, (void *)tip);
-            if (err == 0) {
-                return;
-            } else {
-                free(tip);
-            }
+            select(0, NULL, NULL, NULL, &tip->to_wait);
         }
     }
     (*func)(arg);

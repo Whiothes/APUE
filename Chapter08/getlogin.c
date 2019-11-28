@@ -1,5 +1,3 @@
 #include "apue.h"
 
-int main() {
-  printf("%s\n", getlogin());
-}
+int main() { printf("%s\n", getlogin()); }

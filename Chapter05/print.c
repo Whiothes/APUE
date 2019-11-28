@@ -6,36 +6,36 @@ int  is_linebuffered(FILE *);
 int  buffer_size(FILE *);
 
 int main(void) {
-  FILE *fp;
+    FILE *fp;
 
-  fputs("enter any character\n", stdout);
-  if (getchar() == EOF) {
-    err_sys("getchar: %s\n", strerror(errno));
-  }
-  fputs("one line to standard error\n", stderr);
+    fputs("enter any character\n", stdout);
+    if (getchar() == EOF) {
+        err_sys("getchar: %s\n", strerror(errno));
+    }
+    fputs("one line to standard error\n", stderr);
 
-  pr_stdio("stdin", stdin);
-  pr_stdio("stdout", stdout);
-  pr_stdio("stderr", stderr);
+    pr_stdio("stdin", stdin);
+    pr_stdio("stdout", stdout);
+    pr_stdio("stderr", stderr);
 
-  if ((fp = fopen("/etc/passwd", "r")) == NULL)
-    err_sys("fopen: %s\n", strerror(errno));
-  if (getc(fp) == EOF) err_sys("getc: %s\n", strerror(errno));
+    if ((fp = fopen("/etc/passwd", "r")) == NULL)
+        err_sys("fopen: %s\n", strerror(errno));
+    if (getc(fp) == EOF) err_sys("getc: %s\n", strerror(errno));
 
-  exit(0);
+    exit(0);
 }
 
 void pr_stdio(const char *name, FILE *fp) {
-  printf("stream = %s, ", name);
-  if (is_unbuffered(fp))
-    printf("unbuffered");
+    printf("stream = %s, ", name);
+    if (is_unbuffered(fp))
+        printf("unbuffered");
 
-  else if (is_linebuffered(fp))
-    printf("line buffered");
+    else if (is_linebuffered(fp))
+        printf("line buffered");
 
-  else /* if neither or above */
-    printf("fully buffered");
-  printf(", buffer size = %d\n", buffer_size(fp));
+    else /* if neither or above */
+        printf("fully buffered");
+    printf(", buffer size = %d\n", buffer_size(fp));
 }
 
 /*
@@ -71,9 +71,9 @@ int is_linebuffered(FILE *fp) { return (fp->_flag & _IOLBF); }
 
 int buffer_size(FILE *fp) {
 #ifdef _LP64
-  return (fp->_base - fp->_ptr);
+    return (fp->_base - fp->_ptr);
 #else
-  return (BUFSIZ); /* just a guess */
+    return (BUFSIZ); /* just a guess */
 #endif
 }
 

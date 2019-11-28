@@ -16,34 +16,33 @@
  */
 #define SIGBAD(signao) ((signo) <= 0 || (signo) >= NSIG)
 
-
 int my_sigaddset(sigset_t *set, int signo) {
-  if (SIGBAD(signo)) {
-    errno = EINVAL;
-    return (-1);
-  }
+    if (SIGBAD(signo)) {
+        errno = EINVAL;
+        return (-1);
+    }
 
-  *set |= 1 << (signo - 1); // turn bit on
+    *set |= 1 << (signo - 1);  // turn bit on
 
-  return (0);
+    return (0);
 }
 
 int my_sigdelset(sigset_t *set, int signo) {
-  if (SIGBAD(signo)) {
-    errno = EINVAL;
-    return (-1);
-  }
+    if (SIGBAD(signo)) {
+        errno = EINVAL;
+        return (-1);
+    }
 
-  *set &= ~(1 << (signo - 1)); // turn bit off
+    *set &= ~(1 << (signo - 1));  // turn bit off
 
-  return (0);
+    return (0);
 }
 
 int my_sigismember(const sigset_t *set, int signo) {
-  if (SIGBAD(signo)) {
-    errno = EINVAL;
-    return (-1);
-  }
+    if (SIGBAD(signo)) {
+        errno = EINVAL;
+        return (-1);
+    }
 
-  return ((*set & (1 << (signo - 1))) != 0);
+    return ((*set & (1 << (signo - 1))) != 0);
 }
