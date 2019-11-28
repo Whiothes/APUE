@@ -2541,7 +2541,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       #+begin_quote
       On FreeBSD 8.0, the program drops core. With gdb, we are able to see that the program initialization calls pthread functions, which call getenv to ﬁnd the value of the LIBPTHREAD_SPINLOOPS and LIBPTHREAD_YIELDLOOPS environment variables. However, our thread-safe version of getenv calls back into the pthread library while it is in an intermediate, inconsistent state. In addition, the thread initialization functions call malloc, which, in turn, call getenv to ﬁnd the value of the MALLOC_OPTIONS environment variable.
 
-      To get around this problem, we could make the reasonable assumption that program start-up is single threaded, and use a ﬂag to indicate whether the thread initialization had been completed by our version of getenv. While this ﬂag is false, our version of getenv can operate as the non-reentrant version does (and avoid all calls to pthread functions and malloc). Then we could provide a separate initialization function to call pthread_once, instead of calling it from inside getenv. This requires that the program call our initialization function before calling getenv. This solves our problem, because this can’t be done until the program start-up initialization completes. After the program calls our initialization function, our version of getenv operates in a thread-safe manner.
+      To get around this problem, we could make the reasonable assumption that program start-up is single threaded, and use a flag to indicate whether the thread initialization had been completed by our version of getenv. While this flag is false, our version of getenv can operate as the non-reentrant version does (and avoid all calls to pthread functions and malloc). Then we could provide a separate initialization function to call pthread_once, instead of calling it from inside getenv. This requires that the program call our initialization function before calling getenv. This solves our problem, because this can’t be done until the program start-up initialization completes. After the program calls our initialization function, our version of getenv operates in a thread-safe manner.
       #+end_quote
     - 12.5 run a program within a program
     - 12.6 implemented sleep by using select
@@ -2549,7 +2549,42 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     - 12.7 unsafe to do that, because we hardly acquire and release the mutex protected condition variable
     - 12.8 use select instead?
       #+include: "Chapter12/ex12.8.c" src c
-** TODO Chapter 13. Daemon Processes [0/0]
+** TODO Chapter 13. Daemon Processes [2/8]
+*** DONE 13.1 Introduction
+    CLOSED: [2019-11-28 Thu 16:16]
+    A process live for a long time in the background.
+*** DONE 13.2 Daemon Characteristics
+    CLOSED: [2019-11-28 Thu 21:33]
+    #+begin_src sh
+      ps -axj
+    #+end_src
+
+    #+begin_quote
+    * The kswapd daemon is also known as pageout daemon. It supports the virtual memory subsystem by writing dirty pages to disk slowly over time, so the pages can be reclamed.
+    * The flush daemon fluhes dirty pages to disk when available memory reaches a configured minimul thrshold.
+    * The sync_supers daemon periodically fluhes the system metadata to disk.
+    * The jbd daemon helps implement the journal in the ext4 file system.
+    #+end_quote
+
+    #+begin_quote
+    Process 1 is uaually init (launchd on Mac OS X). It is a system daemon responsible for, among other things, starting system services specific to various run levels.
+
+    The rpcbind provides the service of mapping RPC(Remote Procedure Call) program numbers to network port. The rsyslogd daemon is available to any program to log system messages for administrator.
+
+    inetd daemon listens on the system's network interfaces for incoming requests for various network servers. The nfsd, nfsiod, lockd, rpciod, rpc.idmapd, rpc.statd, and rpc.mountd daemons provide support for the Network File System(NFS). The fist four are *kernel* daemons, while the last three are *user-level* daemons
+
+    The cron daemon executes commands at regularly scheduled dates and times.
+
+    most of daemons run with superuser(root) privileges.
+
+    the parent of the user-level daemons is the init process.
+    #+end_quote
+*** TODO 13.3 Coding Rules
+*** TODO 13.4 Error Logging
+*** TODO 13.5 Single-Instance Daemons
+*** TODO 13.6 Daemon Conventions
+*** TODO 13.7 Client-Server Model
+*** TODO 13.8 Summary
 ** TODO Chapter 14. Advanced I/O [4/9]
 *** DONE 14.1 Introduction
 *** DONE 14.2 Nonblocking I/O
