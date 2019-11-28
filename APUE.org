@@ -11,11 +11,11 @@
 * Advanced Programming in the Unix Environment [47%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
-*** DONE Introduction
-*** DONE UNIX Architecture
-*** DONE Logging in
+*** DONE 1.1 Introduction
+*** DONE 1.2 UNIX Architecture
+*** DONE 1.3 Logging in
     - Login Name
-*** DONE Files and Directories
+*** DONE 1.4 Files and Directories
     - File System
     - Pathname
       - Example \\
@@ -45,8 +45,7 @@
 
         #+RESULTS: Figure 1.3 List all the files in a directory
 
-*** DONE Input and Output
-    - File Descriptors
+*** DONE 1.5 Input and Output - File Descriptors
     - Standard Input, Standard Output, and Standard Error
     - Unbuffered I/O
       - Example \\
@@ -57,7 +56,7 @@
       - Example \\
         #+caption: Figure 1.5 Copy standard input to standard output, using standard I/O
         #+include: "Chapter01/getcputc.c" src c
-*** DONE Programs and Processes
+*** DONE 1.6 Programs and Processes
     - Program
     - Proceses and Process ID
       - Example \\
@@ -67,18 +66,18 @@
       - Example \\
         #+caption: Figure 1.7 Read commands from standard input and execute them
         #+include: "Chapter01/shell1.c" src c
-*** DONE Error Handling
+*** DONE 1.7 Error Handling
     - Example \\
       #+caption: Figure 1.8 Demonstrate strerror and perror
       #+include: "Chapter01/testerror.c" src c
-*** DONE User identification
+*** DONE 1.8 User identification
     - User ID
     - Group ID
       - Example \\
         #+caption: Figure 1.9 Print user ID and group ID
         #+include: "Chapter01/uidgid.c" src c
     - Supplementary Group IDs
-*** DONE Signals
+*** DONE 1.9 Signals
     Process choices:
     1.  Ignore
     2.  default action
@@ -88,13 +87,13 @@
     - Example \\
       #+caption: Figure 1.10 Read commands from standard input and execute them
       #+include: "Chapter01/shell2.c" src c
-*** DONE Time Values
+*** DONE 1.10 Time Values
     1.  Calendar time.
     2.  Process time.
        - Clock time
        - User CPU time
        - System CPU time
-*** DONE System calls and Library Functions
+*** DONE 1.11 System calls and Library Functions
     - Concepts:
       - System calls: \\
         - Can be learned with ~man 2~ (Section 2 of /Unix Programmer's Mannual/)
@@ -104,19 +103,19 @@
     - Distinction:
       - the system calls usually cannot be replaced
       - UNIX System provides to determine the current time and date
-*** DONE Summary
+*** DONE 1.12 Summary
     *Exercises*
-    1.
-    2.  53268 50922 was occupied
-    3.  strerror: int, value transfer, cannnot be changed, global errno cannnot be forecast
-       perror: pointer, can be changed the value point to, const set constant
-    4.  2038, 2^{31}/(60*60*24*365)+1970
-       change time_t to u_64_t
-       recompile the program
-    5.  2^{31}/(60*60*24*100)=248.551348 days
+    - 1.1
+    - 1.2  53268 50922 was occupied
+    - 1.3  strerror: int, value transfer, cannnot be changed, global errno cannnot be forecast
+           perror: pointer, can be changed the value point to, const set constant
+    - 1.4  2038, 2^{31}/(60*60*24*365)+1970
+           change time_t to u_64_t
+           recompile the program
+    - 1.5  2^{31}/(60*60*24*100)=248.551348 days
 ** DONE Chapter 2. UNIX Standardization and Implementations [10/10]
-*** DONE Introduction
-*** DONE UNIX Standardization
+*** DONE 2.1 Introduction
+*** DONE 2.2 UNIX Standardization
 **** DONE ISO C
 **** DONE IEEE POSIX
 **** DONE The Single UNIX Specification
@@ -126,10 +125,10 @@
      - Real-time threads: denoted by ~_XOPEN_REALTIME_THREADS~
      - Advanced real-time threads
 **** DONE FIPS
-*** DONE UNIX System Implementations
+*** DONE 2.3 UNIX System Implementations
 **** DONE SVR4
-**** DONE 4.4BSD
-**** DONE FreeBSD
+**** DONE 2.3.1 4.4BSD
+**** DONE 2.3.2 FreeBSD
 **** DONE Linux
 **** DONE Mac OS X
 **** DONE SOlaris
@@ -138,8 +137,8 @@
      - HP-UX, HP
      - IRIX, Silicon Graphics
      - Unix Ware, SVR4 distribution
-*** DONE Relationship of Standards and Implementations
-*** DONE Limits
+*** DONE 2.4 Relationship of Standards and Implementations
+*** DONE 2.5 Limits
     1.  Comipile-time limits
     2.  Runtime limits
 **** DONE ISO C Limits
@@ -164,59 +163,59 @@
      2.
      #+caption: openmax
      #+include: "lib/openmax.c" src c
-*** DONE Options
+*** DONE 2.6 Options
     1.  Compile-time options are defined in ~<unistd.h>~
     2.  Runtime options are not associated with a file or a directory are idnetified with the ~sysconf~ function
     3.  Runtime options that are associated with a file or a directory are discovered by calling either the ~pathconf~ or the ~fpathconf~ function
-*** DONE Features Test Macros
+*** DONE 2.7 Features Test Macros
     ~cc -D_POSIX_C_SOURCE=200809L code.c~
-*** DONE Primitive System Data Types
+*** DONE 2.8 Primitive System Data Types
     The header ~<sys/types.h>~ defines some implementation-dependent data types, called the /primitive system data types/.
-*** DONE Differences Between Standards
-*** DONE Summary
+*** DONE 2.9 Differences Between Standards
+*** DONE 2.10 Summary
     *Exercises*
-    1.  #ifndef ... #define ... #endif
-    2.  ~u_long, ushort, uint, u_quad_t, quad_t, qaddr_t, daddr_t, fixpt_t~
-    3.
-    #+caption: OPEN_MAX exercise
-    #+include: "Chapter02/ex02.c" src c
+    - 2.1  #ifndef ... #define ... #endif
+    - 2.2  ~u_long, ushort, uint, u_quad_t, quad_t, qaddr_t, daddr_t, fixpt_t~
+    - 2.3
+      #+caption: OPEN_MAX exercise
+      #+include: "Chapter02/ex02.c" src c
 ** DONE Chapter 3. File I/O [17/17]
    CLOSED: [2019-11-08 Fri 00:38]
    :PROPERTIES:
    :EXPORT_FILE_NAME: ./build/./build/./build/Chapter_3._File_I/O
    :END:
-*** DONE Introduction
-*** DONE File Descriptors
+*** DONE 3.1 Introduction
+*** DONE 3.2 File Descriptors
     To the kernel, all open file are referred to by file descriptors.
     - 0: stdin
     - 1: stdout
     - 2: stderr
-*** DONE ~open~ and ~openat~ Functions
+*** DONE 3.3 ~open~ and ~openat~ Functions
     ~man 2 open~
-*** DONE ~creat~ Function
+*** DONE 3.4 ~creat~ Function
     ~man 2 creat~
-*** DONE ~close~ Function
+*** DONE 3.5 ~close~ Function
     ~man 2 close~
-*** DONE ~lseek~ Function
+*** DONE 3.6 ~lseek~ Function
     ~man 2 lseek~
     - Example \\
       #+caption: Figure 3.1 Test whether standard input is capable of seeking
       #+include: "Chapter03/seek.c" src c \\
     #+caption: Figure 3.2 Create a file with a hole in it
     #+include: "Chapter03/hole.c" src c
-*** DONE ~read~ Function
+*** DONE 3.7 ~read~ Function
     ~man 2 read~
-*** DONE ~write~ Function
+*** DONE 3.8 ~write~ Function
     ~man 2 write~
-*** DONE I/O Efficiency
+*** DONE 3.9 I/O Efficiency
     #+caption: Figure 3.5 Copy standard input to standard output
     #+include: "Chapter03/fig3.5.c" src c
-*** DONE File Sharing
+*** DONE 3.10 File Sharing
     1.  Every process has an entry in the process table.
     2.  The kernel maintains a file table for all open files.
     3.  Each open file(or device) has a v-node structure that contains information about the type of file \\
        and pointers to functions that operate on the file;
-*** DONE Atomic Operations
+*** DONE 3.11 Atomic Operations
     - Appending to a File
     - ~pread~ and ~pwrite~ Functions
       Calling pread is equivalent to calling lseek followed by a call to read, with the following exceptions.
@@ -225,16 +224,16 @@
 
     - Creating a File
       /atomic operation/ refers to an operation that might be composed of multiple steps
-*** DONE ~dup~ and ~dup2~ Functions
+*** DONE 3.12 ~dup~ and ~dup2~ Functions
     ~man 2 dup~
     - ~dup(fd)~ ~ =fcntl(fd, F_DUPFD, 0)~
     - ~dup2(fd, fd2)= = =close(fd2); fcntl(fd, F_DUPFD, fd2);~ \\
     Differences:
     - dup2 is an atomic operation, whereas the alternate form involves two function calls.
     - errno differences
-*** DONE ~sync~, ~fsync~ and ~fdatasync~ Functions
+*** DONE 3.13 ~sync~, ~fsync~ and ~fdatasync~ Functions
     ~man 2 sync~
-*** DONE ~fcntl~ Function
+*** DONE 3.14 ~fcntl~ Function
     ~man 2 fcntl~
     The ~fcntl~ function is used for five different purposes.
     1.  Duplicate an existing descriptor (/cmd/ = =F_DUPFD= or =F_DUPFD_CLOEXEC=)
@@ -249,22 +248,22 @@
       #+include: "Chapter03/fileflags.c" src c \\
     #+caption: Figure 3.12 Turn on one or more of the file status flags for a descriptor
     #+include: "Chapter03/setfl.c" src c
-*** DONE ~ioctl~ Function
+*** DONE 3.15 ~ioctl~ Function
     =man 2 ioctl=
-*** DONE ~/dev/fd~
-*** DONE Summary
+*** DONE 3.16 ~/dev/fd~
+*** DONE 3.17 Summary
     *Exercises*
-    1.  All disk I/O need to via buffer block. \\
-       ~read/write~ always be buffered via kernel automatically, unbuffered only means user process;
-    2.  #+caption: mydup2
-    #+include: "Chapter03/mydup2.c" src c
-    3.  F_SETFD: affect fd1 *file descriptor* \\
-       F_SETFL: affect fd1 and fd2 *file table*
-    4.  without =if (fd > 2)=, there are 4 descriptors pointer to file, otherwise , there will be 3
-    5.  =./a.out > outfile 2>&1=: stdout => outfile, stderr => stdout => outfile
-       =./a.out 2>&1 > outfile=: stderr => stdout, stdout => outfile \\
-    6.  #+caption: ex06
-    #+include: "Chapter03/ex06.c" src c, can be read random, but cannot replace existing data;
+    - 3.1  All disk I/O need to via buffer block. \\
+      ~read/write~ always be buffered via kernel automatically, unbuffered only means user process;
+    - 3.2
+      #+include: "Chapter03/mydup2.c" src c
+    - 3.3  F_SETFD: affect fd1 *file descriptor* \\
+      F_SETFL: affect fd1 and fd2 *file table*
+    - 3.4  without =if (fd > 2)=, there are 4 descriptors pointer to file, otherwise , there will be 3
+    - 3.5  =./a.out > outfile 2>&1=: stdout => outfile, stderr => stdout => outfile
+      =./a.out 2>&1 > outfile=: stderr => stdout, stdout => outfile \\
+    - 3.6
+      #+include: "Chapter03/ex06.c" src c, can be read random, but cannot replace existing data;
 ** DONE Chapter 4. System Data Files and Information [26/26]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 4.1 Introduction
@@ -399,44 +398,44 @@
     S_IRWXO = S_IROTH | S_IWOTH | S_IXOTH
 *** DONE Summary
     *Exercises*
-    1.  #+caption: ex01
-    #+include: "Chapter04/exercises/ex1.c" src c
-    before modification: symbolic link
-    after  modification: regular
-    2.  default permissions: =----------=
-    3.  ~cat~ get : Permission denied
-    4.  nothing changed.
-    5.  directory always shoud be entries for . and ..
-       the size of symbolic link should be the size of the file contained in.
-    6.  #+caption: ex06
-    #+include: "Chapter04/exercises/ex6.c" src c
-    7.  default access permissions are different
-    8.  ~du~ check the file/directory/path space instead of disk , and may need path permissions.
-    9.  it's not the last link to the file.
-    10.  recursive depth number
-    11.  #+caption: ex11
-    #+include: "Chapter04/exercises/ex11.c" src c
-    12.  FTP
-    13.  ~stat~ first, set timespec array to current time that you expect not change, and the other to the value you want.
-    14.  access time is the last read time \\
-        modify time is last received
-    15.  The change time isn't stored because, even if it was stored, you wouldn't be able to set it to the original time. You cannot cheat the change time, it is always based on when the inode data was actually changed.
-        \\
-        Depending on the utility (tar or cpio), you can tell it to keep the original access and/or modify times. For example, tar by default maintains the original modify time but you can use the -m switch to set it to extraction time. The access time is always set to extraction time.
-    16.  #+caption: ex16
-    #+include: "Chapter04/exercises/ex16.c" src c \\
-    17.  #+caption: ex17
-    #+include: "Chapter04/exercises/ex17.c" src c \\
-    =unlink: Operation not permitted=
+    - 4.1
+      #+include: "Chapter04/exercises/ex1.c" src c
+      before modification: symbolic link
+      after  modification: regular
+    - 4.2  default permissions: =----------=
+    - 4.3  ~cat~ get : Permission denied
+    - 4.4  nothing changed.
+    - 4.5  directory always shoud be entries for . and ..
+      the size of symbolic link should be the size of the file contained in.
+    - 4.6
+      #+include: "Chapter04/exercises/ex6.c" src c
+    - 4.7  default access permissions are different
+    - 4.8  ~du~ check the file/directory/path space instead of disk , and may need path permissions.
+    - 4.9  it's not the last link to the file.
+    - 4.10  recursive depth number
+    - 4.11
+      #+include: "Chapter04/exercises/ex11.c" src c
+    - 4.12  FTP
+    - 4.13  ~stat~ first, set timespec array to current time that you expect not change, and the other to the value you want.
+    - 4.14  access time is the last read time \\
+      modify time is last received
+    - 4.15  The change time isn't stored because, even if it was stored, you wouldn't be able to set it to the original time. You cannot cheat the change time, it is always based on when the inode data was actually changed.
+      \\
+      Depending on the utility (tar or cpio), you can tell it to keep the original access and/or modify times. For example, tar by default maintains the original modify time but you can use the -m switch to set it to extraction time. The access time is always set to extraction time.
+    - 4.16
+      #+include: "Chapter04/exercises/ex16.c" src c \\
+    - 4.17
+      #+include: "Chapter04/exercises/ex17.c" src c \\
+      =unlink: Operation not permitted=
 ** DONE Chapter 5. Standard I/O Library [16/16]
    CLOSED: [2019-11-08 Fri 00:38]
-*** DONE Introduction
+*** DONE 5.1 Introduction
     This library is specified by the ISO C standard because it has been implemented on many operating systems other than the UNIX System.
-*** DONE Streams and FILE Objects
+*** DONE 5.2 Streams and FILE Objects
     =man 3 fwide=
-*** DONE Standard Input, Standard Output and Standard Error
+*** DONE 5.3 Standard Input, Standard Output and Standard Error
     ~STDIN_FILENO~, ~STDOUT_FILENO~, ~STDERR_FILENO~
-*** DONE Buffering
+*** DONE 5.4 Buffering
     Three types of buffering are provided:
     1.  Fully buffered. \\
        In this case, actual I/O takes place when the standard I/O buffer is filled.
@@ -455,15 +454,15 @@
 
     =man 3 setbuf=
     =man 3 fflush=
-*** DONE Opening a Stream
+*** DONE 5.5 Opening a Stream
     =man 3 fopen=
     =man 3 fclose=
-*** DONE Reading and Writing a Stream
+*** DONE 5.6 Reading and Writing a Stream
     Three types of unformatted I/O:
     1.  Character-at-a-time I/O.
     2.  Line-at-a-time I/O.
     3.  Direct I/O.
-**** DONE Input Functions
+5.7 **** DONE Input Functions
      =man 3 getc=
      1.  The argument to getc should not be an expression with side effects, because it could be evaluated more than once.
      2.  Since fgetc is guaranteed to be a function, we can take its address. This allows us to pass the address of fgetc as an argument to another function.
@@ -477,18 +476,18 @@
 
 
      After reading from a stream, we can push back characters by calling ~ungetc~.
-**** DONE Output Functions
+5.8 **** DONE Output Functions
      =man 3 putc=
-*** DONE Line-at-a-Time I/O
+*** DONE 5.9 Line-at-a-Time I/O
     =man fgets=
-*** DONE Standard I/O Efficiency
+*** DONE 5.10 Standard I/O Efficiency
     #+caption: Figure 5.4 Copy standard input to output using getc and putc
     #+include: "Chapter05/cpio.c" src c \\
     #+caption: Figure 5.5 Copy standard input to output using fgets and fputs
     #+include: "Chapter05/cpio_1.c" src c
-*** DONE Binary I/O
+*** DONE 5.11 Binary I/O
     =man fread=
-*** DONE Positioning a Stream
+*** DONE 5.12 Positioning a Stream
     Three way to position a standard I/O stream:
     1.  ~ftell~ and ~fseek~
     2.  ~ftello~ and ~fseeko~
@@ -520,7 +519,7 @@
       void
       rewind(FILE *stream);
     #+end_src
-*** DONE Formated I/O
+*** DONE 5.13 Formated I/O
     =man 3 printf=
 
     #+caption: Figure 5.7 The flags component of a conversion specification
@@ -591,13 +590,13 @@
     | S               | wide chracter string(XSI option, equivalent to ls)                                        |
 
     ***
-*** DONE Implementation Details
+*** DONE 5.14 Implementation Details
     =man 3 fileno=
 
     - Example \\
       #+caption: Figure 5.11 Print buffering for various standard I/O streams
       #+include: "Chapter05/print.c" src c
-*** DONE Temporary Files
+*** DONE 5.15 Temporary Files
     =man 3 tmpnam=
     - Example \\
       #+caption: Figure 5.12 Demonstrate tmpnam and tmpfile functions
@@ -607,7 +606,7 @@
     - Example \\
       #+caption: Figure 5.13 Demonstrate mkstemp function
       #+include: "Chapter05/mkdtemp.c" src c
-*** DONE Memory Streams
+*** DONE 5.16 Memory Streams
     =man 3 fmemopen=
     - Example \\
       #+caption: Figure 5.15 Investigate memory stream write behavior
@@ -626,44 +625,44 @@
 
     The other two functions:
     =man open_memstream=
-*** DONE Alternatives to Standard I/O
+*** DONE 5.17 Alternatives to Standard I/O
     The standard I/O library is not perfect. some in the basic design, but most in the various implementations.
-*** DONE Summary
+*** DONE 5.18 Summary
     *Exercises*
-    1.  #+caption: ex01
-    #+include: "Chapter05/exercises/ex1.c" src c
-    2.  #+caption: ex02
-    #+include: "Chapter05/exercises/ex2.c" src c \\
-    execute ~fgets~ and ~fputs~ more than 1 times;
-    3.  print nothing
-    4.  This is a common error. The return value from getc and getchar is an int, not a char. EOF is often defined to be −1, so if the system uses signed characters, the code normally works
-    5.  call ~fflush~ first
-    6.  stdin and stdout are both line buffered. fgets will fflush automatically
-    7.  #+caption: ex07
-    #+include: "Chapter05/exercises/funopen-fmemopen.c" src c
+    - 3.1
+      #+include: "Chapter05/exercises/ex1.c" src c
+    - 3.2
+      #+include: "Chapter05/exercises/ex2.c" src c \\
+      execute ~fgets~ and ~fputs~ more than 1 times;
+    - 3.3  print nothing
+    - 3.4  This is a common error. The return value from getc and getchar is an int, not a char. EOF is often defined to be −1, so if the system uses signed characters, the code normally works
+    - 3.5  call ~fflush~ first
+    - 3.6  stdin and stdout are both line buffered. fgets will fflush automatically
+    - 3.7
+      #+include: "Chapter05/exercises/funopen-fmemopen.c" src c
 ** DONE Chapter 6. System Data Files and Information [11/11]
    CLOSED: [2019-11-08 Fri 00:38]
-*** DONE introduction
-*** DONE Password File
+*** DONE 6.1 introduction
+*** DONE 6.2 Password File
     =man getpwuid=
-*** DONE Shadow Passwords
+*** DONE 6.3 Shadow Passwords
     *On Linux 3.2.0 and Solaris 10,*
     =man getspnam=
     *On FreeBSD 8.0 and Mac OS X 10.6.8, there is no shadow password structure*
-*** DONE Group File
+*** DONE 6.4 Group File
     =man getgrgid=
-*** DONE Supplementary Group Ids
+*** DONE 6.5 Supplementary Group Ids
     =man getgroups= \\
     - Example \\
       #+caption: Example for get groups' info
       #+include: "Chapter06/getgropus.c" src c
-*** DONE Implementation Differences
-*** DONE Other Data Files
+*** DONE 6.6 Implementation Differences
+*** DONE 6.7 Other Data Files
     at least three functions:
     1.  A get function that reads the next record, opening the file if necessary.
     2.  A set function that opens the file, if not already open, and rewinds the file.
     3.  An end entry that closes the data file.
-*** DONE Login Accounting
+*** DONE 6.8 Login Accounting
     #+begin_src c
       struct utmp {
         char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
@@ -671,10 +670,10 @@
         long ut_time; /* seconds since Epoch */
       };
     #+end_src
-*** DONE System Identification
+*** DONE 6.9 System Identification
     =man 3 uname=
     =man 3 gethostname=
-*** DONE Time and Date Routines
+*** DONE 6.10 Time and Date Routines
     =man 3 time=
     =man 3 clock_gettime=
     =man 3 gmtime=
@@ -683,18 +682,18 @@
       #+caption: Figure 6.11 Using the strftime function
       #+include: "Chapter06/strftime.c" src c \\
     =man 3 strptim=
-*** DONE Summary
+*** DONE 6.11 Summary
     *Exercises*
-    1.  On Mac OS, I can't get it \\
-       On Linux, use ~getsnam~ group functions
-    2.  #+caption: ex2
-    #+include: "Chapter06/exercises/getspnam.c" src c
-    3.  #+caption: ex3
-    #+include: "Chapter06/exercises/uname.c" src c, equivalent
-    4.  32-bit time: =1970 + (2^{31}/60/60/24/365)= \\
-       after pass : =1970 - (2^{31}/60/60/24/365)=
-    5.  #+caption: ex5
-    #+include: "Chapter06/exercises/time.c" src c
+    - 6.1  On Mac OS, I can't get it \\
+      On Linux, use ~getsnam~ group functions
+    - 6.2
+      #+include: "Chapter06/exercises/getspnam.c" src c
+    - 6.3
+      #+include: "Chapter06/exercises/uname.c" src c, equivalent
+    - 6.4 32-bit time: =1970 + (2^{31}/60/60/24/365)= \\
+      after pass : =1970 - (2^{31}/60/60/24/365)=
+    - 6.5
+      #+include: "Chapter06/exercises/time.c" src c
 ** DONE Chapter 7. Process Environment [11/11]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 7.1 Introduction
@@ -2524,6 +2523,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     CLOSED: [2019-11-28 Thu 13:31]
     use ~pread/pwrite~ in Chapter 3 to solve I/O at different record
 *** TODO 12.11 Summary
+
 ** TODO Chapter 13. Daemon Processes [0/0]
 ** TODO Chapter 14. Advanced I/O [4/9]
 *** DONE 14.1 Introduction
