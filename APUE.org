@@ -6,7 +6,6 @@
 #+LaTeX_HEADER: \sectionfont{\normalfont\scshape}
 #+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
 #+AUTHOR: whiothes
-#+title: Advanced Programming in the Unix Environment
 
 * Advanced Programming in the Unix Environment [52%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
@@ -2549,7 +2548,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     - 12.7 unsafe to do that, because we hardly acquire and release the mutex protected condition variable
     - 12.8 use select instead?
       #+include: "Chapter12/ex12.8.c" src c
-** TODO Chapter 13. Daemon Processes [2/8]
+** TODO Chapter 13. Daemon Processes [3/8]
 *** DONE 13.1 Introduction
     CLOSED: [2019-11-28 Thu 16:16]
     A process live for a long time in the background.
@@ -2579,7 +2578,24 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     the parent of the user-level daemons is the init process.
     #+end_quote
-*** TODO 13.3 Coding Rules
+*** DONE 13.3 Coding Rules
+    CLOSED: [2019-11-28 Thu 22:24]
+    basic rules to coding a daemon prevent unwanted interactions from happening.
+    1. Call unmask to set the file mode createion mask to a known value, usually 0.
+    2. Call fork and have the parent exit.
+    3. Call setsid to create a new session.
+       1. becomes the leader of a new session
+       2. becomes the leader of a new process group
+       3. is disassociated from its controlling terminal
+    4. Change the current working directory to the root directory.
+    5. Unneeded file descriptors should be closed
+    6. Some daemons open file descriptors 0, 1 and 2 to /dev/null so that any library routines that try to read from standard input or write to standard output or standard error will have no effect.
+
+
+    - Example
+      #+caption: Figure 13.1 initialize a daemon process
+      #+include: "Chapter13/fig13.1.c" src c
+
 *** TODO 13.4 Error Logging
 *** TODO 13.5 Single-Instance Daemons
 *** TODO 13.6 Daemon Conventions
