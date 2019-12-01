@@ -1,6 +1,7 @@
 
-
+#include <ctype.h>
 #include <sys/acct.h>
+#include <sys/types.h>
 
 #include "apue.h"
 #if defined(BSD) /* different structure in FreeBSD */

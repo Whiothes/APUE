@@ -2548,7 +2548,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     - 12.7 unsafe to do that, because we hardly acquire and release the mutex protected condition variable
     - 12.8 use select instead?
       #+include: "Chapter12/ex12.8.c" src c
-** TODO Chapter 13. Daemon Processes [4/8]
+** TODO Chapter 13. Daemon Processes [6/8]
 *** DONE 13.1 Introduction
     CLOSED: [2019-11-28 Thu 16:16]
     A process live for a long time in the background.
@@ -2695,8 +2695,27 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       void vsyslog(int priority, const char *format, va_list arg);
     #+end_src
 
-*** TODO 13.5 Single-Instance Daemons
-*** TODO 13.6 Daemon Conventions
+*** DONE 13.5 Single-Instance Daemons
+    CLOSED: [2019-11-29 Fri 10:25]
+    - Example:
+      #+caption: Figure 13.6 Ensure that only one copy of a daemon is running
+      #+include: "Chapter13/fig13.6.c" src c
+*** DONE 13.6 Daemon Conventions
+    CLOSED: [2019-12-01 Sun 18:04]
+    - daemon's lock file is usually stored in /var/run. (might need superuser permissions to create a file here.)
+    - daemon's configuration options usually stored in /etc
+    - daemons can be started from the command line , but they are usually started from one of the system initialization scripts
+    - daemon read configuration file when it starts, but usually won't look at it again.
+
+
+    - Example:
+      #+caption: Figure 13.7 Daemon reredaing configuration files
+      #+include: "Chapter13/fig13.7.c" src c
+
+    - Example:
+      #+caption: Figure 13.8 Alternative implementation of daemon rereading configuration files
+      #+include: "Chapter13/fig13.8.c" src c
+
 *** TODO 13.7 Client-Server Model
 *** TODO 13.8 Summary
 ** TODO Chapter 14. Advanced I/O [4/9]
