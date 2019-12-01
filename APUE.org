@@ -7,7 +7,7 @@
 #+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
 #+AUTHOR: whiothes
 
-* Advanced Programming in the Unix Environment [52%]
+* Advanced Programming in the Unix Environment [57%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 1.1 Introduction
@@ -18,63 +18,39 @@
     - File System
     - Pathname
       - Example \\
-        #+NAME: Figure 1.3 List all the files in a directory
-        #+begin_src C
-          #include <dirent.h>
-          #include "apue.h"
-
-          int main(int argc, char *argv[]) {
-            DIR *dp;
-            struct dirent *dirp;
-
-            if (argc != 2) {
-              err_quit("usage: ls directory_name")}
-
-            if ((dp = opendir(argv[1])) == NULL) {
-              err_sys("can't open %s", argv[1]);
-            }
-            while ((dirp = readdir(dp)) != NULL) {
-              printf("%s\n", dirp->d_name);
-            }
-
-            closedir(dp);
-            exit(0);
-          }
-        #+end_src
-
-        #+RESULTS: Figure 1.3 List all the files in a directory
-
+        #+caption: Figure 1.3 List all the files in a directory
+        #+include: "Chapter01/fig1.3.c" src c
 *** DONE 1.5 Input and Output - File Descriptors
     - Standard Input, Standard Output, and Standard Error
     - Unbuffered I/O
       - Example \\
         #+caption: Figure 1.4 Copy standard input to standard output
-        #+include: "Chapter01/mycp.c" src c
+        #+include: "Chapter01/fig1.4.c" src c
 
     - Standard I/O
       - Example \\
         #+caption: Figure 1.5 Copy standard input to standard output, using standard I/O
-        #+include: "Chapter01/getcputc.c" src c
+        #+include: "Chapter01/fig1.5.c" src c
 *** DONE 1.6 Programs and Processes
     - Program
     - Proceses and Process ID
       - Example \\
         #+caption: Figure 1.6 Print the process ID
-        #+include: "Chapter01/uidgid.c" src c
+        #+include: "Chapter01/fig1.6.c" src c
     - Process Control
       - Example \\
         #+caption: Figure 1.7 Read commands from standard input and execute them
-        #+include: "Chapter01/shell1.c" src c
+        #+include: "Chapter01/fig1.7.c" src c
 *** DONE 1.7 Error Handling
     - Example \\
       #+caption: Figure 1.8 Demonstrate strerror and perror
-      #+include: "Chapter01/testerror.c" src c
+      #+include: "Chapter01/fig1.8.c" src c
 *** DONE 1.8 User identification
     - User ID
     - Group ID
       - Example \\
         #+caption: Figure 1.9 Print user ID and group ID
-        #+include: "Chapter01/uidgid.c" src c
+        #+include: "Chapter01/fig1.9.c" src c
     - Supplementary Group IDs
 *** DONE 1.9 Signals
     Process choices:
@@ -85,7 +61,7 @@
 
     - Example \\
       #+caption: Figure 1.10 Read commands from standard input and execute them
-      #+include: "Chapter01/shell2.c" src c
+      #+include: "Chapter01/fig1.10.c" src c
 *** DONE 1.10 Time Values
     1.  Calendar time.
     2.  Process time.
@@ -103,15 +79,15 @@
       - the system calls usually cannot be replaced
       - UNIX System provides to determine the current time and date
 *** DONE 1.12 Summary
-    *Exercises*
-    - 1.1
-    - 1.2  53268 50922 was occupied
-    - 1.3  strerror: int, value transfer, cannnot be changed, global errno cannnot be forecast
-           perror: pointer, can be changed the value point to, const set constant
-    - 1.4  2038, \( \frac{2^{31}}{(60*60*24*365)+1970} \)
-           change time_t to u_64_t
-           recompile the program
-    - 1.5  \( \frac{2^{31}}{(60*60*24*100)}=248.551348 \) days
+    - Exercises
+      - 1.1
+      - 1.2  53268 50922 was occupied
+      - 1.3  strerror: int, value transfer, cannnot be changed, global errno cannnot be forecast
+        perror: pointer, can be changed the value point to, const set constant
+      - 1.4  2038, \( \frac{2^{31}}{(60*60*24*365)+1970} \)
+        change time_t to u_64_t
+        recompile the program
+      - 1.5  \( \frac{2^{31}}{(60*60*24*100)}=248.551348 \) days
 ** DONE Chapter 2. UNIX Standardization and Implementations [10/10]
 *** DONE 2.1 Introduction
 *** DONE 2.2 UNIX Standardization
@@ -172,12 +148,12 @@
     The header ~<sys/types.h>~ defines some implementation-dependent data types, called the /primitive system data types/.
 *** DONE 2.9 Differences Between Standards
 *** DONE 2.10 Summary
-    *Exercises*
-    - 2.1  #ifndef ... #define ... #endif
-    - 2.2  ~u_long, ushort, uint, u_quad_t, quad_t, qaddr_t, daddr_t, fixpt_t~
-    - 2.3
-      #+caption: OPEN_MAX exercise
-      #+include: "Chapter02/ex02.c" src c
+    - Exercises
+      - 2.1  #ifndef ... #define ... #endif
+      - 2.2  ~u_long, ushort, uint, u_quad_t, quad_t, qaddr_t, daddr_t, fixpt_t~
+      - 2.3
+        #+caption: OPEN_MAX exercise
+        #+include: "Chapter02/ex02.c" src c
 ** DONE Chapter 3. File I/O [17/17]
    CLOSED: [2019-11-08 Fri 00:38]
    :PROPERTIES:
@@ -251,18 +227,18 @@
     =man 2 ioctl=
 *** DONE 3.16 ~/dev/fd~
 *** DONE 3.17 Summary
-    *Exercises*
-    - 3.1  All disk I/O need to via buffer block. \\
-      ~read/write~ always be buffered via kernel automatically, unbuffered only means user process;
-    - 3.2
-      #+include: "Chapter03/mydup2.c" src c
-    - 3.3  F_SETFD: affect fd1 *file descriptor* \\
-      F_SETFL: affect fd1 and fd2 *file table*
-    - 3.4  without =if (fd > 2)=, there are 4 descriptors pointer to file, otherwise , there will be 3
-    - 3.5  =./a.out > outfile 2>&1=: stdout => outfile, stderr => stdout => outfile
-      =./a.out 2>&1 > outfile=: stderr => stdout, stdout => outfile \\
-    - 3.6
-      #+include: "Chapter03/ex06.c" src c, can be read random, but cannot replace existing data;
+    - Exercises
+      - 3.1  All disk I/O need to via buffer block. \\
+        ~read/write~ always be buffered via kernel automatically, unbuffered only means user process;
+      - 3.2
+        #+include: "Chapter03/mydup2.c" src c
+      - 3.3  F_SETFD: affect fd1 *file descriptor* \\
+        F_SETFL: affect fd1 and fd2 *file table*
+      - 3.4  without =if (fd > 2)=, there are 4 descriptors pointer to file, otherwise , there will be 3
+      - 3.5  =./a.out > outfile 2>&1=: stdout => outfile, stderr => stdout => outfile
+        =./a.out 2>&1 > outfile=: stderr => stdout, stdout => outfile \\
+      - 3.6
+        #+include: "Chapter03/ex06.c" src c, can be read random, but cannot replace existing data;
 ** DONE Chapter 4. System Data Files and Information [26/26]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 4.1 Introduction
@@ -396,36 +372,36 @@
     S_IRWXG = S_IRGRP | S_IWGRP | S_IXGRP
     S_IRWXO = S_IROTH | S_IWOTH | S_IXOTH
 *** DONE Summary
-    *Exercises*
-    - 4.1
-      #+include: "Chapter04/exercises/ex1.c" src c
-      before modification: symbolic link
-      after  modification: regular
-    - 4.2  default permissions: =----------=
-    - 4.3  ~cat~ get : Permission denied
-    - 4.4  nothing changed.
-    - 4.5  directory always shoud be entries for . and ..
-      the size of symbolic link should be the size of the file contained in.
-    - 4.6
-      #+include: "Chapter04/exercises/ex6.c" src c
-    - 4.7  default access permissions are different
-    - 4.8  ~du~ check the file/directory/path space instead of disk , and may need path permissions.
-    - 4.9  it's not the last link to the file.
-    - 4.10  recursive depth number
-    - 4.11
-      #+include: "Chapter04/exercises/ex11.c" src c
-    - 4.12  FTP
-    - 4.13  ~stat~ first, set timespec array to current time that you expect not change, and the other to the value you want.
-    - 4.14  access time is the last read time \\
-      modify time is last received
-    - 4.15  The change time isn't stored because, even if it was stored, you wouldn't be able to set it to the original time. You cannot cheat the change time, it is always based on when the inode data was actually changed.
-      \\
-      Depending on the utility (tar or cpio), you can tell it to keep the original access and/or modify times. For example, tar by default maintains the original modify time but you can use the -m switch to set it to extraction time. The access time is always set to extraction time.
-    - 4.16
-      #+include: "Chapter04/exercises/ex16.c" src c \\
-    - 4.17
-      #+include: "Chapter04/exercises/ex17.c" src c \\
-      =unlink: Operation not permitted=
+    - Exercises
+      - 4.1
+        #+include: "Chapter04/exercises/ex1.c" src c
+        before modification: symbolic link
+        after  modification: regular
+      - 4.2  default permissions: =----------=
+      - 4.3  ~cat~ get : Permission denied
+      - 4.4  nothing changed.
+      - 4.5  directory always shoud be entries for . and ..
+        the size of symbolic link should be the size of the file contained in.
+      - 4.6
+        #+include: "Chapter04/exercises/ex6.c" src c
+      - 4.7  default access permissions are different
+      - 4.8  ~du~ check the file/directory/path space instead of disk , and may need path permissions.
+      - 4.9  it's not the last link to the file.
+      - 4.10  recursive depth number
+      - 4.11
+        #+include: "Chapter04/exercises/ex11.c" src c
+      - 4.12  FTP
+      - 4.13  ~stat~ first, set timespec array to current time that you expect not change, and the other to the value you want.
+      - 4.14  access time is the last read time \\
+        modify time is last received
+      - 4.15  The change time isn't stored because, even if it was stored, you wouldn't be able to set it to the original time. You cannot cheat the change time, it is always based on when the inode data was actually changed.
+        \\
+        Depending on the utility (tar or cpio), you can tell it to keep the original access and/or modify times. For example, tar by default maintains the original modify time but you can use the -m switch to set it to extraction time. The access time is always set to extraction time.
+      - 4.16
+        #+include: "Chapter04/exercises/ex16.c" src c \\
+      - 4.17
+        #+include: "Chapter04/exercises/ex17.c" src c \\
+        =unlink: Operation not permitted=
 ** DONE Chapter 5. Standard I/O Library [16/16]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 5.1 Introduction
@@ -461,22 +437,22 @@
     1.  Character-at-a-time I/O.
     2.  Line-at-a-time I/O.
     3.  Direct I/O.
-5.7 **** DONE Input Functions
-     =man 3 getc=
-     1.  The argument to getc should not be an expression with side effects, because it could be evaluated more than once.
-     2.  Since fgetc is guaranteed to be a function, we can take its address. This allows us to pass the address of fgetc as an argument to another function.
-     3.  Calls to fgetc probably take longer than calls to getc, as it usually takes more time to call a function.
+    5.7 **** DONE Input Functions
+    =man 3 getc=
+    1.  The argument to getc should not be an expression with side effects, because it could be evaluated more than once.
+    2.  Since fgetc is guaranteed to be a function, we can take its address. This allows us to pass the address of fgetc as an argument to another function.
+    3.  Calls to fgetc probably take longer than calls to getc, as it usually takes more time to call a function.
 
 
-     In most implementations, two flags are maintained for each stream in the FILE object:
-     =man 3 ferror=
-     - An error flag
-     - An end-of file flagp
+    In most implementations, two flags are maintained for each stream in the FILE object:
+    =man 3 ferror=
+    - An error flag
+    - An end-of file flagp
 
 
-     After reading from a stream, we can push back characters by calling ~ungetc~.
-5.8 **** DONE Output Functions
-     =man 3 putc=
+    After reading from a stream, we can push back characters by calling ~ungetc~.
+    5.8 **** DONE Output Functions
+    =man 3 putc=
 *** DONE 5.9 Line-at-a-Time I/O
     =man fgets=
 *** DONE 5.10 Standard I/O Efficiency
@@ -627,18 +603,18 @@
 *** DONE 5.17 Alternatives to Standard I/O
     The standard I/O library is not perfect. some in the basic design, but most in the various implementations.
 *** DONE 5.18 Summary
-    *Exercises*
-    - 3.1
-      #+include: "Chapter05/exercises/ex1.c" src c
-    - 3.2
-      #+include: "Chapter05/exercises/ex2.c" src c \\
-      execute ~fgets~ and ~fputs~ more than 1 times;
-    - 3.3  print nothing
-    - 3.4  This is a common error. The return value from getc and getchar is an int, not a char. EOF is often defined to be −1, so if the system uses signed characters, the code normally works
-    - 3.5  call ~fflush~ first
-    - 3.6  stdin and stdout are both line buffered. fgets will fflush automatically
-    - 3.7
-      #+include: "Chapter05/exercises/funopen-fmemopen.c" src c
+    - Exercises
+      - 3.1
+        #+include: "Chapter05/exercises/ex1.c" src c
+      - 3.2
+        #+include: "Chapter05/exercises/ex2.c" src c \\
+        execute ~fgets~ and ~fputs~ more than 1 times;
+      - 3.3  print nothing
+      - 3.4  This is a common error. The return value from getc and getchar is an int, not a char. EOF is often defined to be −1, so if the system uses signed characters, the code normally works
+      - 3.5  call ~fflush~ first
+      - 3.6  stdin and stdout are both line buffered. fgets will fflush automatically
+      - 3.7
+        #+include: "Chapter05/exercises/funopen-fmemopen.c" src c
 ** DONE Chapter 6. System Data Files and Information [11/11]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 6.1 introduction
@@ -664,9 +640,9 @@
 *** DONE 6.8 Login Accounting
     #+begin_src c
       struct utmp {
-        char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
-        char ut_name[8]; /* login name */
-        long ut_time; /* seconds since Epoch */
+          char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
+          char ut_name[8]; /* login name */
+          long ut_time; /* seconds since Epoch */
       };
     #+end_src
 *** DONE 6.9 System Identification
@@ -682,17 +658,17 @@
       #+include: "Chapter06/strftime.c" src c \\
     =man 3 strptim=
 *** DONE 6.11 Summary
-    *Exercises*
-    - 6.1  On Mac OS, I can't get it \\
-      On Linux, use ~getsnam~ group functions
-    - 6.2
-      #+include: "Chapter06/exercises/getspnam.c" src c
-    - 6.3
-      #+include: "Chapter06/exercises/uname.c" src c, equivalent
-    - 6.4 32-bit time: =1970 + (2^{31}/60/60/24/365)= \\
-      after pass : =1970 - (2^{31}/60/60/24/365)=
-    - 6.5
-      #+include: "Chapter06/exercises/time.c" src c
+    - Exercises
+      - 6.1  On Mac OS, I can't get it \\
+        On Linux, use ~getsnam~ group functions
+      - 6.2
+        #+include: "Chapter06/exercises/getspnam.c" src c
+      - 6.3
+        #+include: "Chapter06/exercises/uname.c" src c, equivalent
+      - 6.4 32-bit time: =1970 + (2^{31}/60/60/24/365)= \\
+        after pass : =1970 - (2^{31}/60/60/24/365)=
+      - 6.5
+        #+include: "Chapter06/exercises/time.c" src c
 ** DONE Chapter 7. Process Environment [11/11]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 7.1 Introduction
@@ -871,18 +847,18 @@
       #+caption: Figure 7.16 print the current resource limits
       #+include: "Chapter07/rlimit.c" src c
 *** DONE Summary
-    *Exercises*
-    1. the length of "hello, world"
-    2. =man 3 exit=
-    3. Nope
-    4. *for NULL usage*
-    5. =typedef void Exitfunc(void);= \\
-       =int atexit(Exitfunc *func);=
-    6. Yep, not sure
-    7. the heap and stack aren't allocated before applying
-    8. a.out include symbol info
-    9. standard I/O library was copied
-    10. Nope. num in heap
+    - Exercises
+      1. the length of "hello, world"
+      2. =man 3 exit=
+      3. Nope
+      4. *for NULL usage*
+      5. =typedef void Exitfunc(void);= \\
+         =int atexit(Exitfunc *func);=
+      6. Yep, not sure
+      7. the heap and stack aren't allocated before applying
+      8. a.out include symbol info
+      9. standard I/O library was copied
+      10. Nope. num in heap
 ** DONE Chapter 8. Process Control [18/18]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 8.1 Introduction
@@ -1201,14 +1177,14 @@
     We can prevent this from happening by not letting the parent terminate until the child has also finished its output. Replace the code following the fork with the following:
     #+begin_src c
        else if (pid ~~ 0) {
-         WAIT_PARENT(); /* parent goes first */
-         charatatime("output from child\n");
-         TELL_PARENT(getppid()); /* tell parent we’re done */
+           WAIT_PARENT(); /* parent goes first */
+           charatatime("output from child\n");
+           TELL_PARENT(getppid()); /* tell parent we’re done */
        } else {
-         charatatime("output from parent\n");
-         TELL_CHILD(pid);
-         /* tell child we’re done */
-         WAIT_CHILD(); /* wait for child to finish */
+           charatatime("output from parent\n");
+           TELL_CHILD(pid);
+           /* tell child we’re done */
+           WAIT_CHILD(); /* wait for child to finish */
        }
     #+end_src
     We won’t see this happen if we let the child go first, since the shell doesn’t start the next program until the parent terminates.
@@ -1483,13 +1459,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+begin_src c
       struct sigaction {
-        void (*sa_handler) (int);       // addr of signal handler or SIG_IGN or SIG_DFL
+          void (*sa_handler) (int);       // addr of signal handler or SIG_IGN or SIG_DFL
 
-        sigset_t sa_mask;               // addtional signals to block
-        int sa_flags;                   // signal options, Figure 10.16
+          sigset_t sa_mask;               // addtional signals to block
+          int sa_flags;                   // signal options, Figure 10.16
 
-        // alternate handler
-        void (*sa_action)(int, siginfo_t *, void*);
+          // alternate handler
+          void (*sa_action)(int, siginfo_t *, void*);
       };
     #+end_src
 
@@ -1517,15 +1493,15 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       void handler(int signo, siginfo_t *info, void *context);
 
       struct siginfo {
-        int si_signo;          // signal number
-        int si_errno;          // if nonzero, errno value from errno.h
-        int si_code;           // additional info (depends on signal)
-        pid_t si_pid;          // sending process ID
-        uid_t si_uid;          // sending process real user ID
-        void *si_addr;         // address that caused the fault
-        int si_status;         // exit value or signal number
-        union sigval si_value; // application-specific value
-        // possibly other fields also
+          int si_signo;          // signal number
+          int si_errno;          // if nonzero, errno value from errno.h
+          int si_code;           // additional info (depends on signal)
+          pid_t si_pid;          // sending process ID
+          uid_t si_uid;          // sending process real user ID
+          void *si_addr;         // address that caused the fault
+          int si_status;         // exit value or signal number
+          union sigval si_value; // application-specific value
+          // possibly other fields also
       };
       union sigval {int sival_int; void* sival_ptr; };
 
@@ -2005,13 +1981,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        #include <stdlib.h>
 
        void maketimeout(struct timespec *tsp, long minutes) {
-         struct timeval now;
+           struct timeval now;
 
-         // get the current time
-         gettimeofday(&now, NULL);
-         tsp->tv_sec = now.tv_sec;
-         tsp->tv_nsec = now.tv_usec * 1000; // usec to nsec
-         tsp->tv_sec += minutes * 60;
+           // get the current time
+           gettimeofday(&now, NULL);
+           tsp->tv_sec = now.tv_sec;
+           tsp->tv_nsec = now.tv_usec * 1000; // usec to nsec
+           tsp->tv_sec += minutes * 60;
        }
      #+end_src
 
@@ -2205,9 +2181,9 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
      #+begin_src c
        #include <pthread.h>
        int pthread_mutexattr_getpshared(const pthread_mutexattr_t *restrict attr,
-                                       int *restrict pshared);
+                                        int *restrict pshared);
        int pthread_mutexattr_setpshared(pthread_mutexattr_t *attr,
-                                       int pshared);
+                                        int pshared);
        // Both return: 0 if OK, error number on failure
      #+end_src
      default: ~PTHREAD_PROCESS_PRIVATE~
@@ -2394,10 +2370,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       int init_done = 0;
 
       int threadfunc(void *arg) {
-        if (!init_done) {
-          init_done = 1;
-          err = pthread_key_create(&key, destructor);
-        }
+          if (!init_done) {
+              init_done = 1;
+              err = pthread_key_create(&key, destructor);
+          }
       }
     #+end_src
 
@@ -2409,11 +2385,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       pthread_once_t init_done = PTHREAD_ONCE_INIT;
 
       void thread_init(void) {
-        err = pthread_key_create(&key, destructor);
+          err = pthread_key_create(&key, destructor);
       }
 
       int threadfunc (void *arg) {
-        pthread_once(&init_done, thread_init);
+          pthread_once(&init_done, thread_init);
       }
     #+end_src
     #+end_quote
@@ -2524,31 +2500,32 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     use ~pread/pwrite~ in Chapter 3 to solve I/O at different record
 *** DONE 12.11 Summary
     CLOSED: [2019-11-28 Thu 15:37]
-    *Exercises*
-    - 12.1 there are duplicated prints in the file
-      #+begin_quote
-      This is not a multithreading problem, as one might first guess. The standard I/O routines are indeed thread-safe. When we call fork, each process gets a copy of the standard I/O data structures. When we run the program with standard output attached to a terminal, the output is line buffered, so every time we print a line, the standard I/O library writes it to our terminal. However, if we redirect the standard output to a file, then the standard output is fully buffered. The output is written when the buffer fills or the process closes the stream. When we fork in this example, the buffer contains several printed lines not yet written, so when the parent and the child finally flush their copies of the buffer, the initial duplicate contents are written to the file.
-      #+end_quote
-    - 12.2 reentrant version of ~putenv~
-      #+include: "Chapter12/ex12.2.c" src c
-    - 12.3 a signal-blocked version of getenv
-      #+include: "Chapter12/ex12.3.c" src c
-      #+begin_quote
-      The problem is that we don’t know whether any of the functions we call might unmask a signal that we’ve blocked, thereby making it possible for the function to be reentered through another signal handler.
-      #+end_quote
-    - 12.4 just copied the answer
-      #+begin_quote
-      On FreeBSD 8.0, the program drops core. With gdb, we are able to see that the program initialization calls pthread functions, which call getenv to ﬁnd the value of the LIBPTHREAD_SPINLOOPS and LIBPTHREAD_YIELDLOOPS environment variables. However, our thread-safe version of getenv calls back into the pthread library while it is in an intermediate, inconsistent state. In addition, the thread initialization functions call malloc, which, in turn, call getenv to ﬁnd the value of the MALLOC_OPTIONS environment variable.
+    - Exercises
+      - 12.1 there are duplicated prints in the file
+        #+begin_quote
+        This is not a multithreading problem, as one might first guess. The standard I/O routines are indeed thread-safe. When we call fork, each process gets a copy of the standard I/O data structures. When we run the program with standard output attached to a terminal, the output is line buffered, so every time we print a line, the standard I/O library writes it to our terminal. However, if we redirect the standard output to a file, then the standard output is fully buffered. The output is written when the buffer fills or the process closes the stream. When we fork in this example, the buffer contains several printed lines not yet written, so when the parent and the child finally flush their copies of the buffer, the initial duplicate contents are written to the file.
+        #+end_quote
+      - 12.2 reentrant version of ~putenv~
+        #+include: "Chapter12/ex12.2.c" src c
+      - 12.3 a signal-blocked version of getenv
+        #+include: "Chapter12/ex12.3.c" src c
+        #+begin_quote
+        The problem is that we don’t know whether any of the functions we call might unmask a signal that we’ve blocked, thereby making it possible for the function to be reentered through another signal handler.
+        #+end_quote
+      - 12.4 just copied the answer
+        #+begin_quote
+        On FreeBSD 8.0, the program drops core. With gdb, we are able to see that the program initialization calls pthread functions, which call getenv to find the value of the LIBPTHREAD_SPINLOOPS and LIBPTHREAD_YIELDLOOPS environment variables. However, our thread-safe version of getenv calls back into the pthread library while it is in an intermediate, inconsistent state. In addition, the thread initialization functions call malloc, which, in turn, call getenv to find the value of the MALLOC_OPTIONS environment variable.
 
-      To get around this problem, we could make the reasonable assumption that program start-up is single threaded, and use a flag to indicate whether the thread initialization had been completed by our version of getenv. While this flag is false, our version of getenv can operate as the non-reentrant version does (and avoid all calls to pthread functions and malloc). Then we could provide a separate initialization function to call pthread_once, instead of calling it from inside getenv. This requires that the program call our initialization function before calling getenv. This solves our problem, because this can’t be done until the program start-up initialization completes. After the program calls our initialization function, our version of getenv operates in a thread-safe manner.
-      #+end_quote
-    - 12.5 run a program within a program
-    - 12.6 implemented sleep by using select
-      #+include: "Chapter12/ex12.6.c" src c
-    - 12.7 unsafe to do that, because we hardly acquire and release the mutex protected condition variable
-    - 12.8 use select instead?
-      #+include: "Chapter12/ex12.8.c" src c
-** TODO Chapter 13. Daemon Processes [6/8]
+        To get around this problem, we could make the reasonable assumption that program start-up is single threaded, and use a flag to indicate whether the thread initialization had been completed by our version of getenv. While this flag is false, our version of getenv can operate as the non-reentrant version does (and avoid all calls to pthread functions and malloc). Then we could provide a separate initialization function to call pthread_once, instead of calling it from inside getenv. This requires that the program call our initialization function before calling getenv. This solves our problem, because this can’t be done until the program start-up initialization completes. After the program calls our initialization function, our version of getenv operates in a thread-safe manner.
+        #+end_quote
+      - 12.5 run a program within a program
+      - 12.6 implemented sleep by using select
+        #+include: "Chapter12/ex12.6.c" src c
+      - 12.7 unsafe to do that, because we hardly acquire and release the mutex protected condition variable
+      - 12.8 use select instead?
+        #+include: "Chapter12/ex12.8.c" src c
+** DONE Chapter 13. Daemon Processes [8/8]
+   CLOSED: [2019-12-01 Sun 22:21]
 *** DONE 13.1 Introduction
     CLOSED: [2019-11-28 Thu 16:16]
     A process live for a long time in the background.
@@ -2716,8 +2693,24 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       #+caption: Figure 13.8 Alternative implementation of daemon rereading configuration files
       #+include: "Chapter13/fig13.8.c" src c
 
-*** TODO 13.7 Client-Server Model
-*** TODO 13.8 Summary
+*** DONE 13.7 Client-Server Model
+    CLOSED: [2019-12-01 Sun 18:40]
+    #+caption: Figure 13.9 Set close-on-exec flag
+    #+include: "Chapter13/fig13.9.c" src c
+
+*** DONE 13.8 Summary
+    CLOSED: [2019-12-01 Sun 22:20]
+    - Exercises
+      - 13.1 actually I didn't find there is anything wrong here, but the answer is:
+        #+begin_quote
+        If it calls chroot, the process will not be able to open /dev/log. The solution is for the daemon to call openlog with an option of LOG_NDELAY, before calling chroot. This opens the special device file (the UNIX domain datagram socket), yielding a descriptor that is still valid, even after a call to chroot. This scenario is encountered in daemons, such as ftpd (the File Transfer Protocol daemon), that specifically call chroot for security reasons but still need to call syslog to log error conditions.
+        #+end_quote
+      - 13.2 syslog did not to create a session
+      - ...
+      - 13.4 code below
+        #+caption: call daemon and get login name
+        #+include: "Chapter13/ex13.4.c" src c
+
 ** TODO Chapter 14. Advanced I/O [4/9]
 *** DONE 14.1 Introduction
 *** DONE 14.2 Nonblocking I/O
@@ -2836,47 +2829,47 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        ,*/
       int serv_listen(const char *name)
       {
-        int                fd, len, err, rval;
-        struct sockaddr_un un;
+          int                fd, len, err, rval;
+          struct sockaddr_un un;
 
-        if (strlen(name) >= sizeof(un.sun_path)) {
-          errno = ENAMETOOLONG;
-          return (-1);
-        }
+          if (strlen(name) >= sizeof(un.sun_path)) {
+              errno = ENAMETOOLONG;
+              return (-1);
+          }
 
-        /* create a UNIX domain stream socket */
-        if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
-          return (-2);
-        }
+          /* create a UNIX domain stream socket */
+          if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
+              return (-2);
+          }
 
-        /* in case it already exists */
-        unlink(name);
+          /* in case it already exists */
+          unlink(name);
 
-        /* fill in socket address structure */
-        memset(&un, 0, sizeof(un));
-        un.sun_family = AF_UNIX;
-        strcpy(un.sun_path, name);
-        len = offsetof(struct sockaddr_un, sun_path) + strlen(name);
+          /* fill in socket address structure */
+          memset(&un, 0, sizeof(un));
+          un.sun_family = AF_UNIX;
+          strcpy(un.sun_path, name);
+          len = offsetof(struct sockaddr_un, sun_path) + strlen(name);
 
-        /* bind the name to the descriptor */
-        if (bind(fd, (struct sockaddr *)&un, len) < 0) {
-          rval = -3;
-          goto errout;
-        }
+          /* bind the name to the descriptor */
+          if (bind(fd, (struct sockaddr *)&un, len) < 0) {
+              rval = -3;
+              goto errout;
+          }
 
-        if (listen(fd, QLEN) < 0) {
-          /* tell kernel we're a server */
-          rval = -4;
-          goto errout;
-        }
+          if (listen(fd, QLEN) < 0) {
+              /* tell kernel we're a server */
+              rval = -4;
+              goto errout;
+          }
 
-        return (fd);
+          return (fd);
 
        errout:
-        err = errno;
-        close(fd);
-        errno = err;
-        return (rval);
+          err = errno;
+          close(fd);
+          errno = err;
+          return (rval);
       }
     #+end_src
     #+begin_center
@@ -2901,72 +2894,72 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       /**********************************************************/
       int serv_accept(int listenfd, uid_t *uidptr)
       {
-        int                clifd, err, rval;
-        socklen_t          len;
-        time_t             staletime;
-        struct sockaddr_un un;
-        struct stat        statbuf;
-        char *             name;
+          int                clifd, err, rval;
+          socklen_t          len;
+          time_t             staletime;
+          struct sockaddr_un un;
+          struct stat        statbuf;
+          char *             name;
 
-        /* allocate enough space for longest name plus terminating null */
-        if ((name = malloc(sizeof(un.sun_path) + 1))) {
-          return (-1);
-        }
-        len = sizeof(un);
-        if ((clifd = accept(listenfd, (struct sockaddr *)&un, &len)) < 0) {
-          free(name);
-          return (-2);
-        }
+          /* allocate enough space for longest name plus terminating null */
+          if ((name = malloc(sizeof(un.sun_path) + 1))) {
+              return (-1);
+          }
+          len = sizeof(un);
+          if ((clifd = accept(listenfd, (struct sockaddr *)&un, &len)) < 0) {
+              free(name);
+              return (-2);
+          }
 
-        /* obtain the client't uid from its calling address */
-        /* len of pathname */
-        len -= offsetof(struct sockaddr_un, sun_path);
-        memcpy(name, un.sun_path, len);
-        /* null terminate */
-        name[len] = 0;
-        if (stat(name, &statbuf) < 0) {
-          rval = -3;
-          goto errout;
-        }
+          /* obtain the client't uid from its calling address */
+          /* len of pathname */
+          len -= offsetof(struct sockaddr_un, sun_path);
+          memcpy(name, un.sun_path, len);
+          /* null terminate */
+          name[len] = 0;
+          if (stat(name, &statbuf) < 0) {
+              rval = -3;
+              goto errout;
+          }
 
       #ifdef S_ISSOCK
-        if (S_ISSOCK(statbuf.st_mode) == 0) {
-          /* not a socket */
-          rval = -4;
-          goto errout;
-        }
+          if (S_ISSOCK(statbuf.st_mode) == 0) {
+              /* not a socket */
+              rval = -4;
+              goto errout;
+          }
       #endif
 
-        if ((statbuf.st_mode & (S_IRWXG | S_IRWXO)) ||
-            (statbuf.st_mode & S_IRWXU) != S_IRWXU) {
-          /* is not rwx------ */
-          rval = -5;
-          goto errout;
-        }
+          if ((statbuf.st_mode & (S_IRWXG | S_IRWXO)) ||
+              (statbuf.st_mode & S_IRWXU) != S_IRWXU) {
+              /* is not rwx------ */
+              rval = -5;
+              goto errout;
+          }
 
-        staletime = time(NULL) - STALE;
-        if (statbuf.st_atime < staletime ||
-            statbuf.st_ctime < staletime ||
-            statbuf.st_mtime < staletime) {
-          /* i-node is too old */;
-          rval = -6;
-          goto errout;
-        }
+          staletime = time(NULL) - STALE;
+          if (statbuf.st_atime < staletime ||
+              statbuf.st_ctime < staletime ||
+              statbuf.st_mtime < staletime) {
+              /* i-node is too old */;
+              rval = -6;
+              goto errout;
+          }
 
-        if (uidptr != NULL) {
-          /* return uid of caller */
-          ,*uidptr = statbuf.st_uid;
-        }
-        unlink(name);
-        free(name);
-        return (clifd);
+          if (uidptr != NULL) {
+              /* return uid of caller */
+              ,*uidptr = statbuf.st_uid;
+          }
+          unlink(name);
+          free(name);
+          return (clifd);
 
        errout:
-        err = errno;
-        close(clifd);
-        free(name);
-        errno = err;
-        return (rval);
+          err = errno;
+          close(clifd);
+          free(name);
+          errno = err;
+          return (rval);
       }
     #+end_src
     #+begin_center

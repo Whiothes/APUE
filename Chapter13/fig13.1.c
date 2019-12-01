@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/resource.h>
 #include <syslog.h>
+#include <unistd.h>
 
 #include "apue.h"
 
@@ -59,6 +60,8 @@ void daemonize(const char *cmd) {
     if (chdir("/") < 0) {
         err_quit("%s: can't change directory to /", cmd);
     }
+
+    chroot("/");
 
     // close all open file descriptors
     if (rl.rlim_max == RLIM_INFINITY) {

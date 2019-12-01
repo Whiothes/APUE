@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.11)
 
-# aux_source_directory("${PROJECT_SOURCE_DIR}/Chapter01/" srcs)
+aux_source_directory("." objs)
 
-add_executable(shell1 shell1)
+foreach(obj ${objs})
+  string(REGEX REPLACE "(\./|\.c)" "" file ${obj})
+  message("check file: " ${file})
+  add_executable(${file} ${obj})
+endforeach(obj)

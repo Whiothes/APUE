@@ -1,9 +1,9 @@
+#include "apue.h"
 
 #include <ctype.h>
 #include <sys/acct.h>
 #include <sys/types.h>
 
-#include "apue.h"
 #if defined(BSD) /* different structure in FreeBSD */
 #define acct    acctv2
 #define ac_flag ac_trailer.ac_flag
