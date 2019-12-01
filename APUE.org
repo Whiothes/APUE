@@ -1192,7 +1192,7 @@
     -
       #+caption: 8.6
       #+include: "Chapter08/ex8.6.c" src c
-** TODO Chapter 9. Process Relationships [2/12]
+** TODO Chapter 9. Process Relationships [4/12]
 *** DONE 9.1 Introduction
 *** DONE 9.2 Terminal Logins
     CLOSED: [2019-11-08 Fri 09:48]
@@ -1208,11 +1208,40 @@
         execle("/bin/login", "login", "-p", username, (char *)0, envp);
       #+end_src
 
-*** TODO 9.3 Network Logins
-*** TODO 9.4 Process Groups
+*** DONE 9.3 Network Logins
+    CLOSED: [2019-12-01 Sun 23:56]
+    #+begin_quote
+    The main (physical) difference between logging in to a system through a serial terminal and logging ni to a system through a network is that the connection between the terminal and the computer isn't point-to-point.
+
+    To allow the same software to process logins over both terminal logins and network logins, a software driver called a pseudo terminal is used to emulate the behavior of a serial terminal and map terminal operations to network operations, and vice versa.
+    #+end_quote
+*** DONE 9.4 Process Groups
+    CLOSED: [2019-12-02 Mon 00:04]
+    #+name: each process belongs to a process group.
     #+begin_src c
-      getpgid(0) ~~ getpgrp();
+      #include <unistd.h>
+      pid_t getpgrp(void);
+      // Returns: process group ID of calling process
     #+end_src
+    #+name: in older BSD-derived systems:
+    #+begin_src c
+      #include <unistd.h>
+      pid_t getpgid(pid_t pid);
+      // Returns: process group ID if OK, -1 on error
+    #+end_src
+
+    ~getpgid(0) == getpgrp()~
+
+    #+name: A process joins an existing process group or create a new process group:
+    #+begin_src c
+      #include <unistd.h>
+      int setpgid(ipd_t pid, pid_t pgid);
+      // Returns: 0 if OK, -1 on error
+    #+end_src
+    if /pid == pgid/, the pid becomes a process group leader
+    if /pid == 0/, the process ID of the caller is used.
+    if /pgid == 0/, the process ID specified by pid is used as process group ID
+
 *** TODO 9.5 Sessions
 *** TODO 9.6 Controlling Terminal
 *** TODO 9.7 ~tcgetpgrp~, ~tcsetpgrp~, and ~tcgetsid~ Functions
