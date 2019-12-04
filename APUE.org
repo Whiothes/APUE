@@ -1192,7 +1192,7 @@
     -
       #+caption: 8.6
       #+include: "Chapter08/ex8.6.c" src c
-** TODO Chapter 9. Process Relationships [4/12]
+** TODO Chapter 9. Process Relationships [7/12]
 *** DONE 9.1 Introduction
 *** DONE 9.2 Terminal Logins
     CLOSED: [2019-11-08 Fri 09:48]
@@ -1242,23 +1242,61 @@
     if /pid == 0/, the process ID of the caller is used.
     if /pgid == 0/, the process ID specified by pid is used as process group ID
 
-*** TODO 9.5 Sessions
-*** TODO 9.6 Controlling Terminal
-*** TODO 9.7 ~tcgetpgrp~, ~tcsetpgrp~, and ~tcgetsid~ Functions
+*** DONE 9.5 Sessions
+    CLOSED: [2019-12-02 Mon 15:00]
+    #+begin_quote
+    A session is a collection of one or more process groups.
+    #+end_quote
+
+    #+name: establish a new session
+    #+begin_src c
+      #include <unistd.h>
+      pid_t setsid(void);
+      // Returns: process group ID if OK, -1 on error
+    #+end_src
+    1. The process becomes the /session leader/ of this new session. (A session leader is the process that creates a session)
+    2. The process becomes the process group leader of a new process group.
+    3. The process has no controlling terminal.
+
+
+    #+name: return the process group ID of a process's session leader
+    #+begin_src c
+      #include <unistd.h>
+      pid_t getsid(pid_t pid);
+      // Returns: session leader's process group ID if OK, -1 on error
+    #+end_src
+
+*** DONE 9.6 Controlling Terminal
+    CLOSED: [2019-12-02 Mon 16:05]
+    Sessions and progress groups have a few other characteristics
+    - A session can have a single /controlling terminal/.
+    - The session leader that establishes the connection to the controlling terminal
+    - The process groups within a session can be divided into a single /foreground process group/ and one or more /background proces groups/
+    - If a session has a controlling terminal, it has a single foreground process group and all other process groups in the session are background process groups
+    - Whenever we press the terminal's interrupt key(often DELETE or Control-C), the interrupt signal is sent to all processes in the foreground process group.
+    - Whenever we press the terminal's quit key(Often Control-backslash), the quit signal is sent to all processes in the foreground process group.
+    - If a modem(or network) disconnect is detected by the terminal interface, the hang-up signal is sent to the controlling process (the session leader).
+
+*** DONE 9.7 ~tcgetpgrp~, ~tcsetpgrp~, and ~tcgetsid~ Functions
+    CLOSED: [2019-12-04 Wed 19:04]
+    #+name: get/set process group ID for foreground process group
+    #+begin_src c
+      #include <unistd.h>
+      pid_t tcgetpgrp(int fd);
+      // Returns: process group ID of foreground process group if OK, -1 on error
+
+      int tcsetpgrp(int fd, pid_t pgrpid);
+      // Returns: 0 if OK, -1 on eror
+    #+end_src
+
+    #+name: allow application to obtain the process group ID for the session leader given a file descriptor for the controlling TTY.
+    #+begin_src c
+            #include <termios.h>
+      pid_t tcgetsid(int fd);
+      // Returns: session leader's process group ID if OK, -1 on error
+    #+end_src
+
 *** TODO 9.8 Job Control
-    Requirements:
-    1. A shell that supports job control
-    2. The terminal driver in the kernel must support job control
-    3. The kernel must support certain job-control signals
-
-
-    #+begin_src sh
-      cat > temp.foo & # & let start in background
-      fg % 1 # % bring job number into the foreground
-    #+end_src
-    #+begin_src sh
-      stty tostop # disable ability of background to output to controlling terminal
-    #+end_src
 *** TODO 9.9 Shell Execution Programs
 *** TODO 9.10 Orphaned Process Groups
 *** TODO 9.11 FreeBSD Implementation
