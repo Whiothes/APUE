@@ -747,6 +747,33 @@
       extern char **environ;
     #+end_src
 *** DONE 7.6 Memory Layout of a C Program
+
+    #+name: Figure 7.6 Typical memory arrangement
+    #+begin_src  plantuml :file "Chapter07/fig7.6.png" :cmdline -charset utf-8
+      rectangle obj as "
+      <high address>
+      ----
+      stack
+      ....
+      ⭣
+
+      ⭡
+      ....
+      heap
+      ----
+      uninitialized data(bss)
+      ----
+      initialized data
+      ----
+      <low address> text
+      "
+    #+end_src
+
+    #+RESULTS: Figure 7.6 Typical memory arrangement
+    [[file:Chapter07/fig7.6.png]]
+
+
+
     Historically, a C program has been composed of the following pieces:
     - Text segment: consisting of the machine instructions that the CPU executes.
     - Initilized data segment, usually called simply the data segment, \\
@@ -766,7 +793,6 @@
       #+begin_src c
         malloc();
       #+end_src
-      [[file:Chapter07/Figure7.6.png][Figure 7.6 Typical memory arrangement]]
 
 *** DONE 7.7 Shared Libraries
     without shared libraries
@@ -1192,7 +1218,7 @@
     -
       #+caption: 8.6
       #+include: "Chapter08/ex8.6.c" src c
-** TODO Chapter 9. Process Relationships [7/12]
+** TODO Chapter 9. Process Relationships [8/12]
 *** DONE 9.1 Introduction
 *** DONE 9.2 Terminal Logins
     CLOSED: [2019-11-08 Fri 09:48]
@@ -1296,7 +1322,27 @@
       // Returns: session leader's process group ID if OK, -1 on error
     #+end_src
 
-*** TODO 9.8 Job Control
+*** DONE 9.8 Job Control
+    CLOSED: [2019-12-07 Sat 00:53]
+    Requirements:
+    1. A shell that supports job control
+    2. The terminal driver in the kernel must support job control
+    3. The kernel must support certain job-control signals
+
+
+    #+begin_src sh
+      cat > temp.foo & # & let start in background
+      fg % 1 # % bring job number into the foreground
+    #+end_src
+    #+begin_src sh
+      stty tostop # disable ability of background to output to controlling terminal
+    #+end_src
+
+
+    generate signals to the foreground process group:
+    1. The interrupt character (typically DELETE or Control-C) generates SIGINT.
+    2. The quit character (typically Control-backslash) generates SIGQUIT.
+    3. The suspend character (typically Control-Z) generates SIGTSTP.
 *** TODO 9.9 Shell Execution Programs
 *** TODO 9.10 Orphaned Process Groups
 *** TODO 9.11 FreeBSD Implementation
