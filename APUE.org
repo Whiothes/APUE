@@ -1218,7 +1218,7 @@
     -
       #+caption: 8.6
       #+include: "Chapter08/ex8.6.c" src c
-** TODO Chapter 9. Process Relationships [8/12]
+** TODO Chapter 9. Process Relationships [10/12]
 *** DONE 9.1 Introduction
 *** DONE 9.2 Terminal Logins
     CLOSED: [2019-11-08 Fri 09:48]
@@ -1343,8 +1343,43 @@
     1. The interrupt character (typically DELETE or Control-C) generates SIGINT.
     2. The quit character (typically Control-backslash) generates SIGQUIT.
     3. The suspend character (typically Control-Z) generates SIGTSTP.
-*** TODO 9.9 Shell Execution Programs
-*** TODO 9.10 Orphaned Process Groups
+*** DONE 9.9 Shell Execution Programs
+    CLOSED: [2019-12-09 Mon 17:42]
+    #+begin_src sh :result
+      ps -o pid,ppid,pgid,comm
+    #+end_src
+
+    #+RESULTS:
+    |   PID | PPID |  PGID | COMM                                          |
+    |  8101 | 8099 |  8101 | /Applications/iTerm.app/Contents/MacOS/iTerm2 |
+    |  8104 | 8102 |  8104 | -zsh                                          |
+    |  8727 | 8104 |  8727 | tmux                                          |
+    |  8103 | 8099 |  8103 | /Applications/iTerm.app/Contents/MacOS/iTerm2 |
+    |  8106 | 8105 |  8106 | -zsh                                          |
+    |  8731 | 8725 |  8731 | -zsh                                          |
+    | 84043 | 8725 | 84043 | -zsh                                          |
+    |  1748 | 8725 |  1748 | -zsh                                          |
+    | 17029 | 8725 | 17029 | -zsh                                          |
+
+    #+begin_src sh :result
+   ps -o pid,ppid,pgid,comm
+    #+end_src
+
+*** DONE 9.10 Orphaned Process Groups
+    CLOSED: [2019-12-13 Fri 23:00]
+    #+caption: Figure 9.12 Creating an orphaned process group
+    #+include: "Chapter09/fig9.12.c" src c
+    #+begin_quote
+    After the fork
+    - The parent sleeps for 5 seconds.
+    - The child establishes a signal handler for the hang-up signal(SIGHUP) so we can see whether it is sent to the child.
+    - The child sends itself to stop signal(SIGTSTP) with the kill function.
+    - When the parent terminates, the child is orphaned, so the child's parent process ID becomes 1, which is the init process ID.
+    - At this point, the child is now a member of an /orphaned process group/.
+    - Since the process group is orphaned when the parent terminates, and the process group contains a stopped process, *POSIX.1 requires that every process in the newly orphaned process group be sent the hang-up signal(SIGHUP) followed by the continue signal(SIGCONT)*
+    - This causes the child to be continued, after processing the hang-up signal.
+    #+end_quote
+
 *** TODO 9.11 FreeBSD Implementation
 *** TODO 9.12 Summary
 ** DONE Chapter 10. Signals [23/23]

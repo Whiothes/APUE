@@ -23,7 +23,7 @@ link_libraries(apue)
 link_directories("${PROJECT_SOURCE_DIR}/lib")
 
 # define a functon for loop
-function(linkThreads)
+function(add_libthreads)
   if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     foreach(file ${ARGN})
       target_link_libraries(${file} ${CMAKE_THREAD_LIBS_INIT} pthread)
@@ -31,11 +31,21 @@ function(linkThreads)
   endif()
 endfunction()
 
+function(make_individual)
+  foreach(file ${ARGN})
+    string(REGEX REPLACE "(\./|\.c)" "" file ${file})
+    message("check file: " ${file})
+    add_executable(${file} ${file})
+  endforeach(file)
+endfunction(make_individual)
+
+
 
 add_subdirectory("Chapter01")
 # add_subdirectory("Chapter02")
 # add_subdirectory("Chapter07")
 add_subdirectory("Chapter08")
+add_subdirectory("Chapter09")
 add_subdirectory("Chapter10")
 add_subdirectory("Chapter11")
 add_subdirectory("Chapter12")
