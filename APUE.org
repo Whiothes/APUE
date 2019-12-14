@@ -1,4 +1,4 @@
-      - #+SETUPFILE: ~/Documents/style.setup
+- #+SETUPFILE: ~/Documents/style.setup
 #+STARTUP: inlineimages:png
 #+OPTIONS: num:nil
 #+LATEX_HEADER: \usepackage{ulem}
@@ -7,7 +7,7 @@
 #+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
 #+AUTHOR: whiothes
 
-* Advanced Programming in the Unix Environment [57%]
+* Advanced Programming in the Unix Environment [61%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 1.1 Introduction
@@ -640,14 +640,31 @@
 *** DONE 6.8 Login Accounting
     #+begin_src c
       struct utmp {
-          char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
-          char ut_name[8]; /* login name */
-          long ut_time; /* seconds since Epoch */
+        char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
+        char ut_name[8]; /* login name */
+        long ut_time; /* seconds since Epoch */
       };
     #+end_src
+
+    login: filled in and written to te utmp file, and appended to the wtmp file by the login program.
+    logout: utmp file was filled with null bytes by the init process, and a new entry was appended to the wtmp file.
+
+    ~who~ reads utmp file
+    ~last~ reads wtmp file
 *** DONE 6.9 System Identification
-    =man 3 uname=
-    =man 3 gethostname=
+    information on the current host and operating system.
+    #+begin_src c
+      #include <sys/utsname.h>
+      int uname(struct utsname *name);
+      // Returns: non-negative value if OK, -1 on error
+    #+end_src
+
+    network hostname:
+    #+begin_src c
+      #include <unistd.h>
+      int gethostname(char *name, int namelen);
+      // Returns: 0 if OK, -1 on error
+    #+end_src
 *** DONE 6.10 Time and Date Routines
     =man 3 time=
     =man 3 clock_gettime=
@@ -1203,14 +1220,14 @@
     We can prevent this from happening by not letting the parent terminate until the child has also finished its output. Replace the code following the fork with the following:
     #+begin_src c
        else if (pid ~~ 0) {
-           WAIT_PARENT(); /* parent goes first */
-           charatatime("output from child\n");
-           TELL_PARENT(getppid()); /* tell parent we’re done */
+         WAIT_PARENT(); /* parent goes first */
+         charatatime("output from child\n");
+         TELL_PARENT(getppid()); /* tell parent we’re done */
        } else {
-           charatatime("output from parent\n");
-           TELL_CHILD(pid);
-           /* tell child we’re done */
-           WAIT_CHILD(); /* wait for child to finish */
+         charatatime("output from parent\n");
+         TELL_CHILD(pid);
+         /* tell child we’re done */
+         WAIT_CHILD(); /* wait for child to finish */
        }
     #+end_src
     We won’t see this happen if we let the child go first, since the shell doesn’t start the next program until the parent terminates.
@@ -1218,7 +1235,8 @@
     -
       #+caption: 8.6
       #+include: "Chapter08/ex8.6.c" src c
-** TODO Chapter 9. Process Relationships [11/12]
+** DONE Chapter 9. Process Relationships [12/12]
+   CLOSED: [2019-12-14 Sat 17:54]
 *** DONE 9.1 Introduction
 *** DONE 9.2 Terminal Logins
     CLOSED: [2019-11-08 Fri 09:48]
@@ -1317,7 +1335,7 @@
 
     #+name: allow application to obtain the process group ID for the session leader given a file descriptor for the controlling TTY.
     #+begin_src c
-            #include <termios.h>
+      #include <termios.h>
       pid_t tcgetsid(int fd);
       // Returns: session leader's process group ID if OK, -1 on error
     #+end_src
@@ -1423,7 +1441,18 @@
 
     *vnode structure* : allocated when the controlling terminal device is opened.
     #+end_quote
-*** TODO 9.12 Summary
+*** DONE 9.12 Summary
+    CLOSED: [2019-12-14 Sat 17:54]
+    - Exercises
+      - 9.1
+        #+begin_quote
+        The init process learns when a terminal user logs out, because init is the parent of the login shell and receives the SIGCHLD signal when the login shell terminates.
+
+        For a network login, however, init is not involved. Instead, the login entries in the utmp and wtmp files, and their corresponding logout entries, are usually written by the process that handles the login and detects the logout (telnetd in our example).
+        #+end_quote
+
+      - 9.2
+        #+include: "Chapter09/ex9.2.c" src c
 ** DONE Chapter 10. Signals [23/23]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 10.1 Introduction
@@ -1649,13 +1678,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+begin_src c
       struct sigaction {
-          void (*sa_handler) (int);       // addr of signal handler or SIG_IGN or SIG_DFL
+        void (*sa_handler) (int);       // addr of signal handler or SIG_IGN or SIG_DFL
 
-          sigset_t sa_mask;               // addtional signals to block
-          int sa_flags;                   // signal options, Figure 10.16
+        sigset_t sa_mask;               // addtional signals to block
+        int sa_flags;                   // signal options, Figure 10.16
 
-          // alternate handler
-          void (*sa_action)(int, siginfo_t *, void*);
+        // alternate handler
+        void (*sa_action)(int, siginfo_t *, void*);
       };
     #+end_src
 
@@ -1683,15 +1712,15 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       void handler(int signo, siginfo_t *info, void *context);
 
       struct siginfo {
-          int si_signo;          // signal number
-          int si_errno;          // if nonzero, errno value from errno.h
-          int si_code;           // additional info (depends on signal)
-          pid_t si_pid;          // sending process ID
-          uid_t si_uid;          // sending process real user ID
-          void *si_addr;         // address that caused the fault
-          int si_status;         // exit value or signal number
-          union sigval si_value; // application-specific value
-          // possibly other fields also
+        int si_signo;          // signal number
+        int si_errno;          // if nonzero, errno value from errno.h
+        int si_code;           // additional info (depends on signal)
+        pid_t si_pid;          // sending process ID
+        uid_t si_uid;          // sending process real user ID
+        void *si_addr;         // address that caused the fault
+        int si_status;         // exit value or signal number
+        union sigval si_value; // application-specific value
+        // possibly other fields also
       };
       union sigval {int sival_int; void* sival_ptr; };
 
@@ -2171,13 +2200,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        #include <stdlib.h>
 
        void maketimeout(struct timespec *tsp, long minutes) {
-           struct timeval now;
+         struct timeval now;
 
-           // get the current time
-           gettimeofday(&now, NULL);
-           tsp->tv_sec = now.tv_sec;
-           tsp->tv_nsec = now.tv_usec * 1000; // usec to nsec
-           tsp->tv_sec += minutes * 60;
+         // get the current time
+         gettimeofday(&now, NULL);
+         tsp->tv_sec = now.tv_sec;
+         tsp->tv_nsec = now.tv_usec * 1000; // usec to nsec
+         tsp->tv_sec += minutes * 60;
        }
      #+end_src
 
@@ -2560,10 +2589,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       int init_done = 0;
 
       int threadfunc(void *arg) {
-          if (!init_done) {
-              init_done = 1;
-              err = pthread_key_create(&key, destructor);
-          }
+        if (!init_done) {
+          init_done = 1;
+          err = pthread_key_create(&key, destructor);
+        }
       }
     #+end_src
 
@@ -2575,11 +2604,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       pthread_once_t init_done = PTHREAD_ONCE_INIT;
 
       void thread_init(void) {
-          err = pthread_key_create(&key, destructor);
+        err = pthread_key_create(&key, destructor);
       }
 
       int threadfunc (void *arg) {
-          pthread_once(&init_done, thread_init);
+        pthread_once(&init_done, thread_init);
       }
     #+end_src
     #+end_quote
@@ -3019,47 +3048,47 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        ,*/
       int serv_listen(const char *name)
       {
-          int                fd, len, err, rval;
-          struct sockaddr_un un;
+        int                fd, len, err, rval;
+        struct sockaddr_un un;
 
-          if (strlen(name) >= sizeof(un.sun_path)) {
-              errno = ENAMETOOLONG;
-              return (-1);
-          }
+        if (strlen(name) >= sizeof(un.sun_path)) {
+          errno = ENAMETOOLONG;
+          return (-1);
+        }
 
-          /* create a UNIX domain stream socket */
-          if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
-              return (-2);
-          }
+        /* create a UNIX domain stream socket */
+        if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
+          return (-2);
+        }
 
-          /* in case it already exists */
-          unlink(name);
+        /* in case it already exists */
+        unlink(name);
 
-          /* fill in socket address structure */
-          memset(&un, 0, sizeof(un));
-          un.sun_family = AF_UNIX;
-          strcpy(un.sun_path, name);
-          len = offsetof(struct sockaddr_un, sun_path) + strlen(name);
+        /* fill in socket address structure */
+        memset(&un, 0, sizeof(un));
+        un.sun_family = AF_UNIX;
+        strcpy(un.sun_path, name);
+        len = offsetof(struct sockaddr_un, sun_path) + strlen(name);
 
-          /* bind the name to the descriptor */
-          if (bind(fd, (struct sockaddr *)&un, len) < 0) {
-              rval = -3;
-              goto errout;
-          }
+        /* bind the name to the descriptor */
+        if (bind(fd, (struct sockaddr *)&un, len) < 0) {
+          rval = -3;
+          goto errout;
+        }
 
-          if (listen(fd, QLEN) < 0) {
-              /* tell kernel we're a server */
-              rval = -4;
-              goto errout;
-          }
+        if (listen(fd, QLEN) < 0) {
+          /* tell kernel we're a server */
+          rval = -4;
+          goto errout;
+        }
 
-          return (fd);
+        return (fd);
 
        errout:
-          err = errno;
-          close(fd);
-          errno = err;
-          return (rval);
+        err = errno;
+        close(fd);
+        errno = err;
+        return (rval);
       }
     #+end_src
     #+begin_center
@@ -3084,72 +3113,72 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       /**********************************************************/
       int serv_accept(int listenfd, uid_t *uidptr)
       {
-          int                clifd, err, rval;
-          socklen_t          len;
-          time_t             staletime;
-          struct sockaddr_un un;
-          struct stat        statbuf;
-          char *             name;
+        int                clifd, err, rval;
+        socklen_t          len;
+        time_t             staletime;
+        struct sockaddr_un un;
+        struct stat        statbuf;
+        char *             name;
 
-          /* allocate enough space for longest name plus terminating null */
-          if ((name = malloc(sizeof(un.sun_path) + 1))) {
-              return (-1);
-          }
-          len = sizeof(un);
-          if ((clifd = accept(listenfd, (struct sockaddr *)&un, &len)) < 0) {
-              free(name);
-              return (-2);
-          }
+        /* allocate enough space for longest name plus terminating null */
+        if ((name = malloc(sizeof(un.sun_path) + 1))) {
+          return (-1);
+        }
+        len = sizeof(un);
+        if ((clifd = accept(listenfd, (struct sockaddr *)&un, &len)) < 0) {
+          free(name);
+          return (-2);
+        }
 
-          /* obtain the client't uid from its calling address */
-          /* len of pathname */
-          len -= offsetof(struct sockaddr_un, sun_path);
-          memcpy(name, un.sun_path, len);
-          /* null terminate */
-          name[len] = 0;
-          if (stat(name, &statbuf) < 0) {
-              rval = -3;
-              goto errout;
-          }
+        /* obtain the client't uid from its calling address */
+        /* len of pathname */
+        len -= offsetof(struct sockaddr_un, sun_path);
+        memcpy(name, un.sun_path, len);
+        /* null terminate */
+        name[len] = 0;
+        if (stat(name, &statbuf) < 0) {
+          rval = -3;
+          goto errout;
+        }
 
       #ifdef S_ISSOCK
-          if (S_ISSOCK(statbuf.st_mode) == 0) {
-              /* not a socket */
-              rval = -4;
-              goto errout;
-          }
+        if (S_ISSOCK(statbuf.st_mode) == 0) {
+          /* not a socket */
+          rval = -4;
+          goto errout;
+        }
       #endif
 
-          if ((statbuf.st_mode & (S_IRWXG | S_IRWXO)) ||
-              (statbuf.st_mode & S_IRWXU) != S_IRWXU) {
-              /* is not rwx------ */
-              rval = -5;
-              goto errout;
-          }
+        if ((statbuf.st_mode & (S_IRWXG | S_IRWXO)) ||
+            (statbuf.st_mode & S_IRWXU) != S_IRWXU) {
+          /* is not rwx------ */
+          rval = -5;
+          goto errout;
+        }
 
-          staletime = time(NULL) - STALE;
-          if (statbuf.st_atime < staletime ||
-              statbuf.st_ctime < staletime ||
-              statbuf.st_mtime < staletime) {
-              /* i-node is too old */;
-              rval = -6;
-              goto errout;
-          }
+        staletime = time(NULL) - STALE;
+        if (statbuf.st_atime < staletime ||
+            statbuf.st_ctime < staletime ||
+            statbuf.st_mtime < staletime) {
+          /* i-node is too old */;
+          rval = -6;
+          goto errout;
+        }
 
-          if (uidptr != NULL) {
-              /* return uid of caller */
-              ,*uidptr = statbuf.st_uid;
-          }
-          unlink(name);
-          free(name);
-          return (clifd);
+        if (uidptr != NULL) {
+          /* return uid of caller */
+          ,*uidptr = statbuf.st_uid;
+        }
+        unlink(name);
+        free(name);
+        return (clifd);
 
        errout:
-          err = errno;
-          close(clifd);
-          free(name);
-          errno = err;
-          return (rval);
+        err = errno;
+        close(clifd);
+        free(name);
+        errno = err;
+        return (rval);
       }
     #+end_src
     #+begin_center
