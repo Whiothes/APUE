@@ -1,4 +1,4 @@
-#+SETUPFILE: ~/Documents/style.setup
+      - #+SETUPFILE: ~/Documents/style.setup
 #+STARTUP: inlineimages:png
 #+OPTIONS: num:nil
 #+LATEX_HEADER: \usepackage{ulem}
@@ -1218,7 +1218,7 @@
     -
       #+caption: 8.6
       #+include: "Chapter08/ex8.6.c" src c
-** TODO Chapter 9. Process Relationships [10/12]
+** TODO Chapter 9. Process Relationships [11/12]
 *** DONE 9.1 Introduction
 *** DONE 9.2 Terminal Logins
     CLOSED: [2019-11-08 Fri 09:48]
@@ -1343,6 +1343,10 @@
     1. The interrupt character (typically DELETE or Control-C) generates SIGINT.
     2. The quit character (typically Control-backslash) generates SIGQUIT.
     3. The suspend character (typically Control-Z) generates SIGTSTP.
+
+
+    #+caption: Figure 9.9 Summary of job control features with foreground and background jobs, and terminal driver
+    [[file:Chapter09/fig9.9.png]]
 *** DONE 9.9 Shell Execution Programs
     CLOSED: [2019-12-09 Mon 17:42]
     #+begin_src sh :result
@@ -1361,12 +1365,15 @@
     |  1748 | 8725 |  1748 | -zsh                                          |
     | 17029 | 8725 | 17029 | -zsh                                          |
 
-    #+begin_src sh :result
-   ps -o pid,ppid,pgid,comm
-    #+end_src
+
+    #+caption: Figure 9.10 Processes in the pipeline as ~ps | cat1 | cat2 when invoked by bash~
+    [[file:Chapter09/fig9.10.png]]
 
 *** DONE 9.10 Orphaned Process Groups
     CLOSED: [2019-12-13 Fri 23:00]
+    #+caption: Figure 9.11 Example of a process group about to be orphaned
+    [[file:Chapter09/fig9.11.png]]
+
     #+caption: Figure 9.12 Creating an orphaned process group
     #+include: "Chapter09/fig9.12.c" src c
     #+begin_quote
@@ -1380,7 +1387,42 @@
     - This causes the child to be continued, after processing the hang-up signal.
     #+end_quote
 
-*** TODO 9.11 FreeBSD Implementation
+*** DONE 9.11 FreeBSD Implementation
+    CLOSED: [2019-12-14 Sat 17:05]
+    #+caption: Figure 9.13 Free BSD implementation of sessions and process groups
+    file:Chapter09/fig9.13.png
+
+    #+begin_quote
+    *session structure*
+    * ~s_count~: the number of the process groups in the session.
+    * ~s_leader~: a pointer to the proc structure of the session leader
+    * ~s_ttyvp~: a pointer to the vnode structure of the controlling terminal
+    * ~s_ttyp~: a pointer to the tty structure of the controlling terminal
+    * ~s_sid~: the session ID.
+
+
+    *tty structure*
+    * ~t_session~: points to the session structure that has this terminal as its controlling terminal.
+    * ~t_pgrp~: points to the pgrp structure of the foreground process group.
+    * ~t_termios~: is a structure containing all the special characters and related information for this terminal.
+    * ~t_winsize~: is a winsize structure that contains the current size of the terminal window.
+
+
+    *pgrp structure*
+    * ~pg_id~: the process group ID
+    * ~pg_session~: points to the session structure to the session leader
+    * ~pg_members~: a pointer to the list of members' proc structures
+
+
+    *proc structure*
+    * ~p_pid~: contains the process ID
+    * ~p_pptr~: a pointer to the proc structure of the parent process.
+    * ~p_pgrp~: a pointer to the pgrp structure of the process group to which it belongs to
+    * ~p_pglist~: a structure containing pointers to the next and previous process in the process group.
+
+
+    *vnode structure* : allocated when the controlling terminal device is opened.
+    #+end_quote
 *** TODO 9.12 Summary
 ** DONE Chapter 10. Signals [23/23]
    CLOSED: [2019-11-08 Fri 00:38]
