@@ -1,8 +1,11 @@
-- #+SETUPFILE: ~/Documents/style.setup
-#+STARTUP: inlineimages:png
+#+SETUPFILE: ~/Documents/style.setup
 #+OPTIONS: num:nil
-#+LATEX_HEADER: \usepackage{ulem}
-#+LATEX_HEADER: \usepackage{ctex}
+#+EXPORT: num:nil
+#+LATEX_HEADER: \usepackage{xeCJK}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LaTeX_HEADER: \pdfmapfile{/home/neilsen/texmf/fonts/map/dvips/libertine/libertine.map}
+#+LaTeX_HEADER: \usepackage[ttscale=.875]{libertine}
+#+LaTeX_HEADER: \usepackage{sectsty}
 #+LaTeX_HEADER: \sectionfont{\normalfont\scshape}
 #+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
 #+AUTHOR: whiothes
@@ -640,9 +643,9 @@
 *** DONE 6.8 Login Accounting
     #+begin_src c
       struct utmp {
-        char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
-        char ut_name[8]; /* login name */
-        long ut_time; /* seconds since Epoch */
+          char ut_line[8]; /* tty line: "ttyh0", "ttyd0", "ttyp0", ... */
+          char ut_name[8]; /* login name */
+          long ut_time; /* seconds since Epoch */
       };
     #+end_src
 
@@ -1172,7 +1175,7 @@
     #+include: "Chapter08/systest.c" src c
 
     #+caption: Figure 8.25 Print real and effective user IDs
-    #+include; "Chapter08/pruids.c" src c
+    #+include: "Chapter08/pruids.c" src c
 *** DONE 8.14 Process Accounting
     - Example \\
       #+caption: Figure 8.28 Program to generate accounting data
@@ -1220,14 +1223,14 @@
     We can prevent this from happening by not letting the parent terminate until the child has also finished its output. Replace the code following the fork with the following:
     #+begin_src c
        else if (pid ~~ 0) {
-         WAIT_PARENT(); /* parent goes first */
-         charatatime("output from child\n");
-         TELL_PARENT(getppid()); /* tell parent we’re done */
+           WAIT_PARENT(); /* parent goes first */
+           charatatime("output from child\n");
+           TELL_PARENT(getppid()); /* tell parent we’re done */
        } else {
-         charatatime("output from parent\n");
-         TELL_CHILD(pid);
-         /* tell child we’re done */
-         WAIT_CHILD(); /* wait for child to finish */
+           charatatime("output from parent\n");
+           TELL_CHILD(pid);
+           /* tell child we’re done */
+           WAIT_CHILD(); /* wait for child to finish */
        }
     #+end_src
     We won’t see this happen if we let the child go first, since the shell doesn’t start the next program until the parent terminates.
@@ -2930,9 +2933,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+caption: call daemon and get login name
         #+include: "Chapter13/ex13.4.c" src c
 
-** TODO Chapter 14. Advanced I/O [4/9]
+** TODO Chapter 14. Advanced I/O [4/8]
 *** DONE 14.1 Introduction
+    nonblocking I/O, I/O multiplexing(~select~ and ~poll~), asynchronous I/O, the ~readv~ and ~writev~ functions, and memory-mapped I/O (mmap).
 *** DONE 14.2 Nonblocking I/O
+    CLOSED: [2019-12-15 Sun 02:40]
     slow system calls can block forever. include:
     * reads if data isn't present with certain file types
     * writes if data isn't present with certain file types
@@ -2942,6 +2947,9 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     * IPC
 
 
+    Q: What does Nonblocking do?
+    A: returns immediately with an error nothing that the operation would have blocked if the operation cannot be completed.
+
     two way to specify nonblocking I/O:
     1. ~open~ to get the descriptor, specify ~O_NONBLOCK~ flag
     2. call ~fcntl~ to trun on the ~O_NONBLOCK~ if already open.
@@ -2949,26 +2957,210 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example \\
       #+caption: Figure 14.1 Large nonblocking write
-      #+include: "Chapter14/write.c" src c
+      #+include: "Chapter14/fig14.1.c" src c
+      #+begin_src sh :result
+        ls -l /etc/services
+        bin/fig14.1 < /etc/services > temp.file
+        ls -l temp.file
+      #+end_src
+
+      #+RESULTS:
+      | -rw-r--r-- | 1 | root   | wheel | 677972 | Aug | 25 | 06:20 | /etc/services |
+      | -rw-r--r-- | 1 | zhoush | staff |  50000 | Dec | 15 | 02:16 | temp.file     |
+
+      #+begin_src sh :result
+        bin/fig14.1 < /etc/services 2>stderr.out
+        cat stderr.out
+      #+end_src
+
+      #+begin_quote
+      On OSX, a there are lots of
+      nwirte = some number, errno = 0
+      nwrite = -1, errno = 35
+
+      but on Linux, the error message is
+      nwrite = -1, errno = 11 instead
+
+      *they are both EAGAIN number*
+      #+end_quote
 *** DONE 14.3 Record Locking
     Record locking is the term normally used to describe the ability of a process to prevent other processes from modifying a region of a file while the first process is reading or modifying that portion of the file
     - 1. History
+    #+caption: Figure 14.2 Forms of record locking supported by various UNIX systems
+    | Systems         | Advisory | Mandatory | fcntl | lockf | flock |
+    |-----------------+----------+-----------+-------+-------+-------|
+    | SUS             | *        |           | *     | XSI   |       |
+    |-----------------+----------+-----------+-------+-------+-------|
+    | FreeBSD 8.0     | *        |           | *     | *     | *     |
+    | Linux 3.2.0     | *        | *         | *     | *     | *     |
+    | Mac OS X 10.6.8 | *        |           | *     | *     | *     |
+    | Solaris         | *        | *         | *     | *     | *     |
+
     - 2. ~fcntl~ Record Locking
-      #+begin_src sh
-        man 2 fcntl
+      #+begin_src c
+                #include <fcntl.h>
+        int fcntl.(int fd, int cmd, ... /* struct flock *flockptr */);
+        // Returns: depends on cmd if OK (see following), -1 on error
+      #+end_src
+      ~cmd~ is F_GETLK, F_SETLK, or F_SETLKW.
+
+      #+begin_src c
+        struct flock {
+            short l_type;                  // F_RDLCK, or F_UNLCK
+            short l_whence;                // SEEK_SET, SEEK_CUR, or SEEK_END
+            off_t l_start;                 // offset in bytes, relative to l_whence
+            off_t l_len;                   // length, in bytes; 0 means lock to EOF
+            pid_t l_pid;                   // returned with F_GETLK
+        };
       #+end_src
 
+      - describes
+        - The type of lock desired: F_RDLCK, F_WRLCK, or F_UNLCK
+        - The starting byte offset of the region being locked or unlocked (l_start and l_whence)
+        - The size of the region in bytes(l_len)
+        - The ID(l_pid) of the process holding the lock that can block the current process(returned by F_GETLK only)
+      - rules to the specification of the region to be locked or unlocked
+        - The two elements that specify the starting offset of the region are similar to the last two arguments of the ~lseek~ function.
+        - Locks can start and extend beyond the current end of file, but cannot start or extend before the beginning of the file
+        - if l_len is 0, it means that the lock extends to the *largest* possible offset of the file
+        - To lock the entire file, we set l_start and l_whence to point the beginning of the file and specify a length(l_len) of 0.
 
-    - Example - Deadlock \\
-      #+caption: Figure 14.7 Example of deadlock detection
-      #+include: "Chapter14/deadlock.c" src c
+       #+caption: Figure 14.3 Compatibility between different types
+       | conditions             | read lock | write lock |
+       |------------------------+-----------+------------|
+       | no locks               | OK        | OK         |
+       | one or more read locks | OK        | denied     |
+       | one or more write lock | denied    | denied     |
 
-    - Advisory versus Mandatory Locking
-      - Example \\
-        #+caption: Figure 14.12 Determine whether mandatory locking is supported
-        #+include: "Chapter14/mandatory.c" src c
-*** TODO 14.4 I/O Multiplexing
+      - Commands for the ~fcntl~ function
+        - F_GETLK: determine lock
+        - F_SETLK: set lock, also used to clear lock(F_UNLCK)
+        - F_SETLWK: a block version of F_SETLK. (The *W* means wait)
+
+
+      testing for a lock with F_GETLK and then trying to obtain that lock with F_SETLK or F_SETLKW is not an atomic operation
+
+      #+caption: Figure 14.4 File byte-range lock diagram
+      [[file:Chapter14/fig14.4.png]]
+
+
+     - Example - Requesting and Releasing a Lock
+       #+caption: Figure 14.5 Function to lock or unlock a region of a file
+       #+include: "Chapter14/fig14.5.c" src c
+
+     - Example - Testing for a Lock
+       #+caption: Figure 14.6 Function to test for a locking condition
+       #+include: "Chapter14/fig14.6.c" src c
+
+     - Example - Deadlock \\
+       #+caption: Figure 14.7 Example of deadlock detection
+       #+include: "Chapter14/fig14.7.c" src c
+
+     - Implied Inheritance and Release of Locks
+       1. Locks are associated with a process and a file.
+       2. Locks are never inherited by the child accross a fork
+       3. Locks are inherited by a new program accross exec.
+
+     - FreeBSD Implementation
+       #+caption: Figure 14.8 The FreeBSD data structures for record locking
+       [[file:Chapter14/fig14.8.png]]
+       new here are *lockf* structure
+
+       - Example
+         #+caption: Figure 14.9 Place a write lock on an entire file
+         #+include: "Chapter14/fig14.9.c" src c
+
+       macro
+       #+begin_src c
+         #define lockfile(fd) write_lock((fd), 0, SEEK_SET, 0)
+       #+end_src
+
+     - Locks at End of File
+       #+begin_src c
+         // The commented code should be the right one
+         writew_lock(fd, 0, SEEK_END, 0);
+         write(fd, buf, 1);
+         un_lock(fd, 0, SEEK_END);       // un_lock(fd, -1, SEEK_END) instead
+         write(fd, buf, 1);
+       #+end_src
+       #+caption: Figure 14.10 File range lock diagram
+       [[file:Chapter14/fig14.10.png]]
+     - Advisory versus Mandatory Locking
+       #+caption: Figure 14.11 Effect of mandatory locking on reads and writes by other processes
+       [[file:Chapter14/fig14.11.png]]
+
+       - Example \\
+         #+caption: Figure 14.12 Determine whether mandatory locking is supported
+         #+include: "Chapter14/fig14.12.c" src c
+         #+begin_src sh :result
+           bin/fig14.12 temp.lockk
+         #+end_src
+
+         #+RESULTS:
+         | read_lock of already-locked region returns 35 |          |
+         | read OK(no mandatory locking)                 | buf = ab |
+*** 14.4 I/O Multiplexing
+
+    #+begin_src dot :file Chapter14/fig14.13.png :cmdline -Kdot -Tpng
+      digraph G {
+      label="Figure 14.13 Overview of telnet program"
+      labelloc=top
+
+      rankdir=LR
+      node[fontsize=16]
+      T [label="user at a\nterminal", shape=oval]
+      C [label="telnet\ncommand", shape=rectangle]
+      D [label="telnetd\ndaemon", shape=oval]
+
+      T -> C -> D -> C -> T
+      }
+    #+end_src
+
+    #+RESULTS:
+    [[file:Chapter14/fig14.13.png]]
+
+    #+begin_src dot :file Chapter14/fig14.14.png :cmdline -Kdot -Tpng
+      digraph G {
+      label="Figure 14.14 The telnet program using two processes"
+      labelloc=top
+
+      node[fontsize=16]
+      rankdir=LR
+
+      T[label="user at a\nterminal", shape=oval]
+      P[label="telnet command\n(parent)", shape=rectangle]
+      C[label="telnet command\n(child)", shape=rectangle]
+      D[label="telnetd\ndaemon", shape=oval]
+
+      {rank=same; P C}
+
+      T -> P -> D -> C -> T
+      }
+    #+end_src
+
+    #+RESULTS:
+    [[file:Chapter14/fig14.14.png]]
+
+    polling:
+    * waste CPU time
+
+    asynchronous IO:
+    * *we tell the kernel to notify us with a signal when a descriptor is ready for I/O.
+    * *If we enable this signal for two descriptors (in the example we’ve been talking about, reading from two descriptors), the occurrence of the signal doesn’t tell us which descriptor is ready.
+
+    I/O multiplexing:
+    * build a list of descriptors that we are interested in
+    * call a function that doesn't return until one of the descriptors is ready for I/O.
+
 **** TODO 14.4.1 ~select~ and ~pselect~ Functions
+
+     #+begin_src c
+       #include <sys/select.h>
+       int select(int maxfdp1, fd_set *restrict readfds,
+                  fd_set *restrict wriefds, fd_set *restrict exceptfds,
+                  struct timevval *restrict tvptr);
+       // Returns: count of ready descriptors, 0 on timeout, -1 on error
+     #+end_src
 **** TODO 14.4.2 ~poll~ Function
 *** TODO 14.5 Asynchronous I/O
 **** TODO 14.5.1 System V Asynchronous I/O

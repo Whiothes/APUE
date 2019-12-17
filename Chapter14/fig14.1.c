@@ -1,3 +1,10 @@
+/**
+ *   @file     fig14.1.c
+ *   @date     2019-12-15
+ *   @author   whiothes <whiothes81@gmail.com>
+ *   @version  1.0
+ *   @brief    Figure 14.1 Large nonblocking write
+ */
 #include <errno.h>
 #include <fcntl.h>
 
@@ -15,7 +22,6 @@ int main(void) {
     set_fl(STDOUT_FILENO, O_NONBLOCK);
 
     ptr = buf;
-
     while (ntowrite > 0) {
         errno  = 0;
         nwrite = write(STDOUT_FILENO, ptr, ntowrite);
@@ -27,7 +33,7 @@ int main(void) {
         }
     }
 
-    clr_fl(STDOUT_FILENO, O_NONBLOCK); /* clear nonblocking */
+    clr_fl(STDOUT_FILENO, O_NONBLOCK);
 
-    return 0;
+    exit(EXIT_SUCCESS);
 }

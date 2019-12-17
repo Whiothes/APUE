@@ -1,17 +1,18 @@
-#include "apue.h"
 #include <fcntl.h>
 
-void
-clr_fl(int fd, int flags)
-				/* flags are the file status flags to turn off */
-{
-	int		val;
+#include "apue.h"
 
-	if ((val = fcntl(fd, F_GETFL, 0)) < 0)
-		err_sys("fcntl F_GETFL error");
+/* flags are the file status flags to turn off */
+void clr_fl(int fd, int flags) {
+    int val;
 
-	val &= ~flags;		/* turn flags off */
+    if ((val = fcntl(fd, F_GETFL, 0)) < 0) {
+        err_sys("fcntl F_GETFL error");
+    }
 
-	if (fcntl(fd, F_SETFL, val) < 0)
-		err_sys("fcntl F_SETFL error");
+    val &= ~flags; /* turn flags off */
+
+    if (fcntl(fd, F_SETFL, val) < 0) {
+        err_sys("fcntl F_SETFL error");
+    }
 }
