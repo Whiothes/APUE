@@ -3152,8 +3152,16 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     * build a list of descriptors that we are interested in
     * call a function that doesn't return until one of the descriptors is ready for I/O.
 
-**** TODO 14.4.1 ~select~ and ~pselect~ Functions
+**** DONE 14.4.1 ~select~ and ~pselect~ Functions
+     CLOSED: [2019-12-18 Wed 01:01]
+     select arguments:
+     * which descriptors we're interested in
+     * which conditions we're interested in for each descriptor.
+     * How long we want to wait.
 
+     return information:
+     * The total count of the number of descriptors that are ready.
+     * which descriptors are ready for each of the three conditions (read, write, or exception)
      #+begin_src c
        #include <sys/select.h>
        int select(int maxfdp1, fd_set *restrict readfds,
@@ -3161,7 +3169,70 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
                   struct timevval *restrict tvptr);
        // Returns: count of ready descriptors, 0 on timeout, -1 on error
      #+end_src
-**** TODO 14.4.2 ~poll~ Function
+
+     #+name: fd_set relevant
+     #+begin_src c
+       #include <sys/select.h>
+       int FD_ISSET(int fd, fd_set *fdset);
+       // Returns: nonzero if fd is in set, 0 otherwise
+
+       void FD_CLR(int fd, fd_set *fdset);
+       void FD_SET(int fd, fd_set *fdset);
+       void FD_ZERO(fd_set *fdset);
+     #+end_src
+
+     #+name: POSIX.1 defines a variant of select
+     #+begin_src c
+       #include <sys/select.h>
+       int pselect(int maxfdp1, fd_set *restrict readfds,
+                   fd_set *restrict writefds, fd_set *restrict exceptfds,
+                   const struct timespec *restrict tsptr,
+                   const sigset_t *restrict sigmask);
+     #+end_src
+     differences from select
+     * timeout value for ~select~ is specified by a timeval structure, but timespec structure for pselect
+     * timeout for pselect is declared const
+     * An optional signal mask argument is available for pselect.
+**** DONE 14.4.2 ~poll~ Function
+     CLOSED: [2019-12-18 Wed 17:35]
+     ~poll~ is similar to ~select~, but without differentiating conditions
+     #+begin_src c
+       #include <poll.h>
+       int poll(struct pollfd fdarray[], nfds_t nfds, int timeout);
+     #+end_src
+
+     #+begin_src c
+       typedef struct {
+           int   fd;                        // file descriptor to check, or <0 to ignore
+           short events;                    // events of interest on fd
+           short revents;                   // events that occurred on fd
+       };
+     #+end_src
+
+
+     #+caption: Figure 14.17 The events and revents flags for poll
+     | Name       | Input to events? | Result from revents? | Description                                     |
+     |------------+------------------+----------------------+-------------------------------------------------|
+     | POLLIN     | *                | *                    | Equivalent to POLLRDNORM =OR= POLLRDBAND        |
+     | POLLRDNORM | *                | *                    | Normal data can bread without blocking          |
+     | POLLRDBAND | *                | *                    | Priority data can be read without blocking      |
+     | POLLPRI    | *                | *                    | High-priority data can be read without blocking |
+     |------------+------------------+----------------------+-------------------------------------------------|
+     | POLLOUT    | *                | *                    | Normal data can be written without blocking     |
+     | POLLWRNORM | *                | *                    | Same as POLLOUT                                 |
+     | POLLWRBAND | *                | *                    | Priority data can be written without blocking   |
+     |------------+------------------+----------------------+-------------------------------------------------|
+     | POLLERR    |                  | *                    | An error has occurred                           |
+     | POLLHUP    |                  | *                    | A hangup has occurred                           |
+     | POLLNVAL   |                  | *                    | The descriptor does not reference an open file  |
+
+     When a descriptor is hang up (POLLHUP), we can no longer write, but still can read
+
+     - Interruptibility of ~select~ and ~poll~
+       When the automatic restarting of interrupted system calls was introduced with 4.2BSD, the ~select~ function was never restarted.  \\
+       even if the SA_RESTART option is specified. \\
+       but under SVR4, if SA_RESTART was specified, even ~select~ and ~poll~ were automatically restarted.
+
 *** TODO 14.5 Asynchronous I/O
 **** TODO 14.5.1 System V Asynchronous I/O
 **** TODO 14.5.2 BSD Asynchronous I/O

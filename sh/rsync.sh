@@ -21,7 +21,7 @@ PROJECT_DIR=${PWD%/sh}
 
 cd ${PROJECT_DIR}
 if [ -e .git ] && [ -e .gitignore ]; then
-    cmd="rsync -avzu . \"$r_user@$r_host:${r_path}\" --exclude-from=.gitignore --exclude=.git --exclude=Doxyfile --exclude=API.org --exclude=README.org --exclude=.*"
+    cmd="git ls-files > $TMPDIR/tmp.txt; rsync ${PWD%sh} --files-from=$TMPDIR/tmp.txt \"$r_user@$r_host:${r_path}\"  "
 else
     cmd="rsync -avzu . \"$r_user@$r_host:${r_path}\""
 fi
