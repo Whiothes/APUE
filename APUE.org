@@ -212,14 +212,17 @@
 *** DONE 3.13 ~sync~, ~fsync~ and ~fdatasync~ Functions
     ~man 2 sync~
 *** DONE 3.14 ~fcntl~ Function
-    ~man 2 fcntl~
+    #+begin_src c
+      #include <fcntl.h>
+      int fcntl(int fd, int cmd, ... /* int arg */);
+      // Returns: dependos on cmd if OK (see following), -1 on error
+    #+end_src
     The ~fcntl~ function is used for five different purposes.
     1.  Duplicate an existing descriptor (/cmd/ = =F_DUPFD= or =F_DUPFD_CLOEXEC=)
     2.  Get/set file descriptor flags (/cmd/ = =F_GETFD= or =F_SETFD=)
     3.  Get/set file status flags (/cmd/ = =F_GETFL= or =F_SETFL=)
     4.  Get/set asynchronous I/O ownership (/cmd/ = =F_GETOWN= or =F_SETOWN=)
     5.  Get/set record locks (/cmd/ = =F_GETLK=, =F_SETLK=, or =F_SETLKW=)
-
 
     - Example \\
       #+caption: Figure 3.11 Print file flags for specified descriptor
@@ -535,7 +538,7 @@
     | f,F             | [[file:Chapter05/formatted.c::printf("\ndouble%20%EF%AC%82oating-point%20number:\n");][double floating-point number]]                                                              |
     | e,E             | [[file:Chapter05/formatted.c::printf("\nexponential%20format:\n");][double floating-point number in exponential format]]                                        |
     | g,G             | [[file:Chapter05/formatted.c::printf("\ninterpreted:\n");][interpreted as f, F, e, or E, depending on value converted]]                                |
-    | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble%20in%20hexadecimal:\n");][double floating-point number in hexadecimal exponential format]]                             |
+    | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble%20in%20hexadecimal:\n");][double floating-point number in hexadecimal exponential format]]                            |
     | c               | character (with 1 length modifier, wide character)                                        |
     | s               | string(with 1 length modifier, wide character string)                                     |
     | p               | pointer to a void                                                                         |
@@ -2933,7 +2936,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+caption: call daemon and get login name
         #+include: "Chapter13/ex13.4.c" src c
 
-** TODO Chapter 14. Advanced I/O [4/8]
+** TODO Chapter 14. Advanced I/O [5/8]
 *** DONE 14.1 Introduction
     nonblocking I/O, I/O multiplexing(~select~ and ~poll~), asynchronous I/O, the ~readv~ and ~writev~ functions, and memory-mapped I/O (mmap).
 *** DONE 14.2 Nonblocking I/O
@@ -3099,7 +3102,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
          #+RESULTS:
          | read_lock of already-locked region returns 35 |          |
          | read OK(no mandatory locking)                 | buf = ab |
-*** 14.4 I/O Multiplexing
+*** 14.4 I/O Multiplexing [2/2]
 
     #+begin_src dot :file Chapter14/fig14.13.png :cmdline -Kdot -Tpng
       digraph G {
@@ -3233,11 +3236,146 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        even if the SA_RESTART option is specified. \\
        but under SVR4, if SA_RESTART was specified, even ~select~ and ~poll~ were automatically restarted.
 
-*** TODO 14.5 Asynchronous I/O
-**** TODO 14.5.1 System V Asynchronous I/O
-**** TODO 14.5.2 BSD Asynchronous I/O
-**** TODO 14.5.3 POSIX Asynchronous I/O
+*** DONE 14.5 Asynchronous I/O [3/3]
+    CLOSED: [2019-12-27 Fri 00:35]
+**** DONE 14.5.1 System V Asynchronous I/O
+     CLOSED: [2019-12-19 Thu 16:32]
+    ~<stropt.h>~
+    #+caption: Figure 14.18 Conditions for generating SIGPOLL signal
+    | Constant  | Description                                                                 |
+    |-----------+-----------------------------------------------------------------------------|
+    | S_INPUT   | We can read data (other than high-priority data) without blocking           |
+    | S_RDNORM  | We can read normal data without blocking                                    |
+    | S_RDBND   | We can read priority dat without blocking                                   |
+    | S_BANDURG | If this constant is specified with S_RDBAND, the SIGURG signal is generated |
+    |           | instead of SIGPOLL When we can read priority data without blocking          |
+    | S_HIPRI   | we can read high-priority data without blocking                             |
+    | S_OUTPUT  | We can write normal data wihout blocking                                    |
+    | S_WRNORM  | Same as S_OUTPUT                                                            |
+    | S_WRBAND  | We can write priority data without blocing.                                 |
+    | S_MSG     | The SIGPOLL signal message has reached the stream head.                     |
+    | S_ERROR   | The stream has an error.                                                    |
+    | S_HANGUP  | The stream has hung up.                                                     |
+
+**** DONE 14.5.2 BSD Asynchronous I/O
+     CLOSED: [2019-12-19 Thu 16:50]
+     Asynchronous I/O in BSD-derived system is a combination of two signals: SIGIO and SIGURG.
+
+     To receive the =SIGIO= signal, perform the following steps:
+     1. Establish a signal handler for SIGIO, by calling either ~signal~ or ~sigaction~.
+     2. Set the process ID or process group ID to receive the signal for the descriptor, by calling ~fcntl~ with a command of =F_SETOWN= (Section 3.14)
+     3. Enable asynchronous I/O on the descriptor by calling ~fcntl~ with a command of ~F_SETFL~ to set the =O_ASYNC= file status flag (Figure 3.10)
+
+     For the =SIGURG= signal, we need perform only steps 1 and 2. =SIGURG= is generated only for descriptors that refer to network connections that support out-of-band data, such as TCP connections.
+**** DONE 14.5.3 POSIX Asynchronous I/O
+     CLOSED: [2019-12-27 Fri 00:35]
+     The asynchronous I/O interfaces use AIO control blocks to describe I/O operations.
+     #+begin_src c
+       struct aiocb {
+           int             aio_filedes;    // file descriptor
+           off_t           aio_offset;     // file offset for I/O
+           volatile void   *aio_buf;       // buffer for I/O
+           size_t          aio_nbytes;     // number of bytes to transfer
+           int             aio_reqprio;    // priority
+           struct sigevent aio_sigevent;   // signal information
+           int             aio_lio_opcode; // operation for list I/O
+       };
+     #+end_src
+
+     #+begin_src c
+       struct sigevent {
+           int             sigev_notify;                // notify type
+           int             sigev_signo;                 // signal number
+           union sigval    sigev_values;                // notify argument
+           void (*sigev_notify_function)(union sigval); // notify function
+           pthread_attr_t *sigev_notify_attributes;     // notify attrs
+       };
+     #+end_src
+     =sigev_notify= taks one of three values:
+     * SIGEV_NONE    The process is not notified when the asynchronous I/O request completes.
+     * SIGEV_SIGNAL  The signal specified by the =sigev_signo= field is generated when the asynchronous I/O request completes.
+     * SIGEV_THREAD  The function specified by the =sigev_notify_function= field is called when the asynchronous I/O request completes.
+
+
+     AIO related functions:
+     #+begin_src c
+       #include <aio.h>
+
+       int aio_read(struct aiocb *aiocb);
+       int aio_write(struct aiocb *aiocb);
+       // Both return 0 if OK, -1 on error
+       // When the functions return success, the asynchronous I/O request has been queued for processing by the operating system.
+
+       /// @brief force write all pending asynchronous
+       int aio_fsync(int op, struct aiocb *aiocb);
+       // Returns: 0 if OK, -1 on error
+
+       /// @brief determine the completion status of beyond operations
+       int air_error(const struct aiocb* aiocb);
+       // Retuns: 0             if SUCCESS (need to cal aio_return)
+       //         -1            on ERROR (errno for details)
+       //         EINPROGRESS   still pending
+
+       /// @brief get return value if succeeded
+       ssize_t aio_return(const struct aiocb *aiocb);
+       // Retuns: return results if OK, -1 and set errno on error
+
+       /// @brief block operation until an operation completes
+       int aio_suspend(const struct aiocb *const list[], int ncnt,
+                       const struct timespec *timeout);
+       // Retuns: 0 if OK, -1 on error
+
+       /// @brief cancel pending asynchronous I/O operations
+       int aio_cancel(int fd, struct aiocb *aiocb);
+       // Returns: AIO_ALLDONE      all of the operations completed before the attempt to cancel
+       //          AIO_CANCELED     all of the requested operations have been canceled
+       //          AIO_NOTCANCELED  at least one of the requested operations could not be canceled
+       //          -1               failed.
+     #+end_src
+
+     additional function submits a set of I/O requests described by a list of AIO control blocks
+     #+begin_src c
+       #include <aio.h>
+       int lio_listio(int mode, struct aiocb *restrict const list[restrict],
+                      int ncnt, struct sigevent *restrict sigev);
+       // Returns: 0 if OK, -1 on error
+     #+end_src
+
+     mode: =LIO_WAIT= / =LIO_NOWAIT=
+     list: points to a list of AIO control blocks specifying the I/O operations to perform (LIO_READ, LIO_WRITE in =aio_lio_opcode=)
+     ncnt: count of list
+
+     #+caption: Figure 14.19 POSIX.1 runtime invariant values for asynchronous I/O
+     | Name               | Description                                                                        | Minimum acceptable values |
+     |--------------------+------------------------------------------------------------------------------------+---------------------------|
+     | AIO_LISTIO_MAX     | maximum number of I/O operations in a single list I/O call                         | _POSIX_AIO_LISTIO_MAX     |
+     | AIO_MAX            | maximum number of outstanding asynchronous I/O operations                          | _POSIX_AIO_MAX            |
+     | AIO_PRIO_DELTA_MAX | maximum amount by which a process can decrease its asynchronous I/O priority level | 0                         |
+     =AIO_LISTIO_MAX=      = sysconf(_SC_IO_LISTIO_MAX)
+     =AIO_MAX=             = sysconf(_SC_AIO_MAX)
+     =AIO_PRIO_DELTA_MAX=  = sysconf(_SC_AIO_PRIO_DELTA_MAX)
+
+     #+caption: Figure 14.20 Translate a file using ROT-13
+     #+include: "Chapter14/fig14.20.c" src c
+
+     #+caption: Figure 14.21 Translate a file using ROT-13 and asynchronous I/O
+     #+include: "Chapter14/fig14.21.c" src c
+     #+begin_quote
+     this might actually reduce performance—if the reads are presented to the ﬁle system out of order, it can defeat the operating system's read-ahead algorithm.
+     #+end_quote
 *** TODO 14.6 ~readv~ and ~writev~ Functions
+    /scatter read/ and /gather write/.
+    #+begin_src c
+      #include <sys/uio.h>
+      ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
+      ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
+      // Both return: number of bytes read or written, -1 on error
+
+      struct iovec {
+          void   *ivo_base;                 // starting address of buffer
+          size_t  iov_len;                  // sizeof of buffer
+      };
+    #+end_src
 *** TODO 14.7 ~readn~ and ~writen~ Functions
 *** DONE 14.8 Memory-Mapped I/O
     - Example

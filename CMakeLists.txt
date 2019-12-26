@@ -15,7 +15,6 @@ add_library(apue STATIC ${libapue})
 
 message(STATUS "The CMAKE_SYSTEM_NAME: " ${CMAKE_SYSTEM_NAME})
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  find_package(Threads)
   add_definitions(-D_POSIX_C_SOURCE=200809L)
 endif()
 
@@ -25,8 +24,9 @@ link_directories("${PROJECT_SOURCE_DIR}/lib")
 # define a functon for loop
 function(add_libthreads)
   if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    find_package(Threads)
     foreach(file ${ARGN})
-      target_link_libraries(${file} ${CMAKE_THREAD_LIBS_INIT} pthread)
+      target_link_libraries(${file} Threads::Threads )
     endforeach()
   endif()
 endfunction()

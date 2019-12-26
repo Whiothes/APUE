@@ -17,13 +17,14 @@ if [ -z $r_host ]; then
     r_host="39.105.199.190"
 fi
 
-PROJECT_DIR=${PWD%/sh}
 
-cd ${PROJECT_DIR}
 if [ -e .git ] && [ -e .gitignore ]; then
-    cmd="git ls-files > $TMPDIR/tmp.txt; rsync ${PWD%sh} --files-from=$TMPDIR/tmp.txt \"$r_user@$r_host:${r_path}\"  "
+    PROJECT_DIR=$(git rev-parse --show-toplevel)
+    cmd="cd ${PROJECT_DIR} && git ls-files > $TMPDIR/tmp.txt; \
+         rsync ${PWD%sh} --files-from=$TMPDIR/tmp.txt \"$r_user@$r_host:${r_path}\"  "
 else
-    cmd="rsync -avzu . \"$r_user@$r_host:${r_path}\""
+    PROJECT_DIR=${PWD%/sh}
+    cmd="cd ${PROJECT_DIR} && rsync -avzu . \"$r_user@$r_host:${r_path}\""
 fi
 echo $cmd
 eval $cmd
