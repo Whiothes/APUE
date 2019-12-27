@@ -2936,7 +2936,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+caption: call daemon and get login name
         #+include: "Chapter13/ex13.4.c" src c
 
-** TODO Chapter 14. Advanced I/O [5/8]
+** TODO Chapter 14. Advanced I/O [6/8]
 *** DONE 14.1 Introduction
     nonblocking I/O, I/O multiplexing(~select~ and ~poll~), asynchronous I/O, the ~readv~ and ~writev~ functions, and memory-mapped I/O (mmap).
 *** DONE 14.2 Nonblocking I/O
@@ -3363,7 +3363,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
      #+begin_quote
      this might actually reduce performance—if the reads are presented to the ﬁle system out of order, it can defeat the operating system's read-ahead algorithm.
      #+end_quote
-*** TODO 14.6 ~readv~ and ~writev~ Functions
+*** DONE 14.6 ~readv~ and ~writev~ Functions
+    CLOSED: [2019-12-27 Fri 01:26]
     /scatter read/ and /gather write/.
     #+begin_src c
       #include <sys/uio.h>
@@ -3376,7 +3377,19 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
           size_t  iov_len;                  // sizeof of buffer
       };
     #+end_src
+
+    #+caption: Figure 14.22 The iovec structure for readv and writev
+    [[file:Chapter14/fig14.22.png]]
+
+    Three ways to write two buffers consecutively to a file:
+    1. Call ~write~ twice, once for each buffer
+    2. allocate a buffer, merge two buffers into the allocated buffer, then call ~write~
+    3. call ~writev~ to both buffers
+
+    #+caption: Figure 14.23 Timing results comparing writev and other techniques
+    [[file:Chapter14/fig14.23.png]]
 *** TODO 14.7 ~readn~ and ~writen~ Functions
+
 *** DONE 14.8 Memory-Mapped I/O
     - Example
       #+caption: Figure 14.27 Copy a file using memory-mapped I/O
