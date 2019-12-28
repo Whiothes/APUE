@@ -2,7 +2,7 @@
 #include <sys/time.h>
 
 void
-sleep_us(unsigned int nusecs)
+sleep_us_select(unsigned int nusecs)
 {
 	struct timeval	tval;
 

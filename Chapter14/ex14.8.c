@@ -1,9 +1,9 @@
 /**
- *   @file     fig14.21.c
+ *   @file     ex14.8.c
  *   @date     2019-12-26
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
- *   @brief    translate a file using ROT-13
+ *   @brief    rewrite fig14.21.c
  *
  *   block mode
  */
@@ -53,17 +53,20 @@ int main(int argc, char **argv) {
     const struct aiocb *aiolist[NBUF];
     off_t               off = 0;
 
-    if (argc != 3) {
-        err_quit("usage: %s infile outfile", __progname);
-    }
+    // if (argc != 3) {
+    //     err_quit("usage: %s infile outfile", __progname);
+    // }
 
-    if ((ifd = open(STDIN_FILENO, O_RDONLY)) < 0) {
-        err_sys("can't open %s", argv[1]);
-    }
+    // if ((ifd = open(argv[1], O_RDONLY)) < 0) {
+    //     err_sys("can't open %s", argv[1]);
+    // }
 
-    if ((ofd = open(argv[2], O_RDWR | O_CREAT | O_TRUNC, FILE_MODE)) < 0) {
-        err_sys("can't open %s", argv[2]);
-    }
+    // if ((ofd = open(argv[2], O_RDWR | O_CREAT | O_TRUNC, FILE_MODE)) < 0) {
+    //     err_sys("can't open %s", argv[2]);
+    // }
+
+    ifd = STDIN_FILENO;         // for pipe: ifd = pfd[0]?
+    ofd = STDOUT_FILENO;        // for pipe: ofd = pfd[1]?
 
     for (i = 0; i < NBUF; ++i) {
         bufs[i].op                              = UNUSED;

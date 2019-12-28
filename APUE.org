@@ -10,7 +10,7 @@
 #+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
 #+AUTHOR: whiothes
 
-* Advanced Programming in the Unix Environment [61%]
+* Advanced Programming in the Unix Environment [66%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 1.1 Introduction
@@ -2936,7 +2936,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+caption: call daemon and get login name
         #+include: "Chapter13/ex13.4.c" src c
 
-** TODO Chapter 14. Advanced I/O [7/8]
+** DONE Chapter 14. Advanced I/O [8/8]
+   CLOSED: [2019-12-29 Sun 02:15]
 *** DONE 14.1 Introduction
     nonblocking I/O, I/O multiplexing(~select~ and ~poll~), asynchronous I/O, the ~readv~ and ~writev~ functions, and memory-mapped I/O (mmap).
 *** DONE 14.2 Nonblocking I/O
@@ -3312,18 +3313,18 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
        /// @brief determine the completion status of beyond operations
        int air_error(const struct aiocb* aiocb);
-       // Retuns: 0             if SUCCESS (need to cal aio_return)
+       // Returns: 0             if SUCCESS (need to cal aio_return)
        //         -1            on ERROR (errno for details)
        //         EINPROGRESS   still pending
 
        /// @brief get return value if succeeded
        ssize_t aio_return(const struct aiocb *aiocb);
-       // Retuns: return results if OK, -1 and set errno on error
+       // Returns: return results if OK, -1 and set errno on error
 
        /// @brief block operation until an operation completes
        int aio_suspend(const struct aiocb *const list[], int ncnt,
                        const struct timespec *timeout);
-       // Retuns: 0 if OK, -1 on error
+       // Returns: 0 if OK, -1 on error
 
        /// @brief cancel pending asynchronous I/O operations
        int aio_cancel(int fd, struct aiocb *aiocb);
@@ -3401,10 +3402,104 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+caption: Figure 14.24 The ~readn~ and ~writen~ functions
     #+include: "Chapter14/fig14.24.c" src c
 *** DONE 14.8 Memory-Mapped I/O
+    CLOSED: [2019-12-28 Sat 15:27]
+    map a file on disk into a buffer in memory so that, when we fetch bytes from the buffer, the corresponding bytes of the file are read.
+    #+begin_src c
+      #include <sys/mman.h>
+      /// @brief  map a file on disk into a buffer in memory
+      void *mmap(void *addr, size_t len, int prot, int flag, int fd, off_t off);
+      // Returns: starting address of mapped region if OK, MAP_FAILED on error
+
+      /// @brief unmap a memory-mapped region
+      int munmap(void *addr, size_t len);
+      // Returns: 0 if OK, -1 on error
+    #+end_src
+
+    #+caption: Figure 14.25 Protection of memory-mapped region
+    | prot       | Description               |
+    |------------+---------------------------|
+    | PROT_READ  | Region can be read        |
+    | PROT_WRITE | Region can be written     |
+    | PROT_EXEC  | Region can be executed    |
+    | PROT_NONE  | Region cannot be accessed |
+
+    #+caption: Figure 14.26 Example of a memory-mapped file
+    [[file:Chapter14/fig14.26.png]]
+
+    /flag/ argument:
+    - MAP_FIXED: The return value must euqal /addr/.
+    - MAP_SHARED: describe the disposition of store operations into the mapped region by this process.
+    - MAP_PRIVATE: store operations into the mapped region cause a private copy of the mapped file to be created.
+    - MAP_xxx: check ~mmap(2)~ for additional flag values
+
+
     - Example
       #+caption: Figure 14.27 Copy a file using memory-mapped I/O
-      #+include: "Chapter14/mcopy2.c" src c
-*** TODO 14.9 Summary
+      #+include: "Chapter14/fig14.27.c" src c
+
+
+    #+begin_src c
+      /// @brief change the permissions on an existing mmaping
+      #include <sys/mman.h>
+      int mprotect(void *addr, size_t len, int prot);
+      // Returns: 0 if OK, -1 on error
+
+      /// @brief flush the changes to the file that backs the mapping
+      ///
+      /// @param  flags   MS_ASYNC: schedule the page to be written
+      ///                 MS_SYNC:  wait for the writes to be cmoplete before turning
+      ///
+      /// @warning either MS_ASYNC or MS_SYNC must be specified
+      int msync(void *addr, size_t len, int flags);
+      // Returns: 0 if OK, -1 on error
+    #+end_src
+
+    #+caption: Figure 14.29 Timing results comparing read/write versus mmap/memcpy
+    [[file:Chapter14/fig14.28.png]]
+*** DONE 14.9 Summary
+    CLOSED: [2019-12-29 Sun 02:15]
+   - Exercises
+     - 14.1
+       #+include: "Chapter14/ex14.1.c" src c
+     - 14.2
+       #+begin_quote
+       Most systems define the fd_set data type to be a structure that contains a single member: an array of long integers. One bit in this array corresponds to each descriptor. The four FD_ macros then manipulate this array of longs, turning specific bits on and off and testing specific bits.
+
+       One reason that the data type is defined to be a structure containing an array and not simply an array is to allow variables of type fd_set to be assigned to one another with the C assignment statement.
+       #+end_quote
+     - 14.3
+       define or redefine(undefine first) the macro =FD_SETSIZE= (or =__FD_SETSIZE=)
+     - 14.4
+       | file descriptor sets | signal sets |
+       |----------------------+-------------|
+       | FD_ZERO              | sigemptyset |
+       | FD_SET               | sigaddset   |
+       | FD_CLR               | sigdelset   |
+       | FD_ISSET             | sigismember |
+     - 14.5
+       #+include: "Chapter14/ex14.5.c" src c
+     - 14.6
+       No. *call ~fork~ releases all the locks in the child, so the child can't start off with any locks of its own*
+     - 14.7
+       #+include: "Chapter14/ex14.7.c" src c
+       #+begin_quote
+       | Platform           | Pipe Capacity(bytes) |
+       |--------------------+----------------------|
+       | FreeBSD 8.0        |                65536 |
+       | *Linux 4.1.0*      |                65536 |
+       | *Mac OS X 10.15.2* |                65536 |
+       | Solaris 10         |                16384 |
+
+       These values can differ from the corresponding =PIPE_BUF= values, because PIPE_BUF is defined to be the maximum amount of data that *can be written* to a pipe atomically. Here, we calculate the amount of data that a pipe *can hold* independent of any atomicity constraints.
+       #+end_quote
+     - 14.8
+       #+include: "Chapter14/ex14.8.c" src c
+     - 14.9
+       just try to execute the program with a very large file
+     - 14.10
+       Not changed
+     - 14.11
+       #+include: "Chapter14/ex14.11.c" src c
 ** TODO Chapter 15. Interprocess Communication [0/16]
 *** TODO 15.1 Introduction
 *** TODO 15.2 Pipes
