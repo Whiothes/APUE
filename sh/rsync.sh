@@ -18,10 +18,11 @@ if [ -z $r_host ]; then
 fi
 
 
-if [ -e .git ] && [ -e .gitignore ]; then
-    PROJECT_DIR=$(git rev-parse --show-toplevel)
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+if [ -n ${PROJECT_DIR} ] ; then
+    echo "ROOT: ${PROJECT_DIR}"
     cmd="cd ${PROJECT_DIR} && git ls-files > $TMPDIR/tmp.txt; \
-         rsync ${PWD%sh} --files-from=$TMPDIR/tmp.txt \"$r_user@$r_host:${r_path}\"  "
+         rsync ${PROJECT_DIR} --files-from=$TMPDIR/tmp.txt \"$r_user@$r_host:${r_path}\"  "
 else
     PROJECT_DIR=${PWD%/sh}
     cmd="cd ${PROJECT_DIR} && rsync -avzu . \"$r_user@$r_host:${r_path}\""
