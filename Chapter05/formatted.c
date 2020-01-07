@@ -36,7 +36,7 @@ int main(void) {
     printf("\nunsigned hexadecimal:\n");
     printf("%x, %X\n", 1000, 1000);
 
-    printf("\ndouble ﬂoating-point number:\n");
+    printf("\ndouble floating-point number:\n");
     printf("%f, %F\n", 1000.0, 1000.0);
 
     printf("\nexponential format:\n");

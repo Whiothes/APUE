@@ -1,6 +1,5 @@
 #+SETUPFILE: ~/Documents/style.setup
 #+OPTIONS: num:nil
-#+EXPORT: num:nil
 #+LATEX_HEADER: \usepackage{xeCJK}
 #+LATEX_HEADER: \usepackage{hyperref}
 #+LaTeX_HEADER: \pdfmapfile{/home/neilsen/texmf/fonts/map/dvips/libertine/libertine.map}
@@ -22,38 +21,38 @@
     - Pathname
       - Example \\
         #+caption: Figure 1.3 List all the files in a directory
-        #+include: "Chapter01/fig1.3.c" src c
+        #+include: "Chapter01/01fig03.c" src c
 *** DONE 1.5 Input and Output - File Descriptors
     - Standard Input, Standard Output, and Standard Error
     - Unbuffered I/O
       - Example \\
         #+caption: Figure 1.4 Copy standard input to standard output
-        #+include: "Chapter01/fig1.4.c" src c
+        #+include: "Chapter01/01fig04.c" src c
 
     - Standard I/O
       - Example \\
         #+caption: Figure 1.5 Copy standard input to standard output, using standard I/O
-        #+include: "Chapter01/fig1.5.c" src c
+        #+include: "Chapter01/01fig05.c" src c
 *** DONE 1.6 Programs and Processes
     - Program
     - Proceses and Process ID
       - Example \\
         #+caption: Figure 1.6 Print the process ID
-        #+include: "Chapter01/fig1.6.c" src c
+        #+include: "Chapter01/01fig06.c" src c
     - Process Control
       - Example \\
         #+caption: Figure 1.7 Read commands from standard input and execute them
-        #+include: "Chapter01/fig1.7.c" src c
+        #+include: "Chapter01/01fig07.c" src c
 *** DONE 1.7 Error Handling
     - Example \\
       #+caption: Figure 1.8 Demonstrate strerror and perror
-      #+include: "Chapter01/fig1.8.c" src c
+      #+include: "Chapter01/01fig08.c" src c
 *** DONE 1.8 User identification
     - User ID
     - Group ID
       - Example \\
         #+caption: Figure 1.9 Print user ID and group ID
-        #+include: "Chapter01/fig1.9.c" src c
+        #+include: "Chapter01/01fig09.c" src c
     - Supplementary Group IDs
 *** DONE 1.9 Signals
     Process choices:
@@ -64,7 +63,7 @@
 
     - Example \\
       #+caption: Figure 1.10 Read commands from standard input and execute them
-      #+include: "Chapter01/fig1.10.c" src c
+      #+include: "Chapter01/01fig10.c" src c
 *** DONE 1.10 Time Values
     1.  Calendar time.
     2.  Process time.
@@ -187,7 +186,7 @@
     ~man 2 write~
 *** DONE 3.9 I/O Efficiency
     #+caption: Figure 3.5 Copy standard input to standard output
-    #+include: "Chapter03/fig3.5.c" src c
+    #+include: "Chapter03/03fig05.c" src c
 *** DONE 3.10 File Sharing
     1.  Every process has an entry in the process table.
     2.  The kernel maintains a file table for all open files.
@@ -507,12 +506,12 @@
     | Flag    | Description                                                                           |
     |---------+---------------------------------------------------------------------------------------|
     | /       | <>                                                                                    |
-    | '       | [[file:Chapter05/formatted.c::printf("\nthousands%20grouping:\n");][(apostrophe) format integer with thousands grouping characters]]                        |
+    | '       | [[file:Chapter05/formatted.c::printf("\nthousands grouping:\n");][(apostrophe) format integer with thousands grouping characters]]                        |
     | -       | [[file:Chapter05/formatted.c::printf("\nleft-justify:\n");][left justify]]                                                                          |
-    | +       | [[file:Chapter05/formatted.c::printf("\nsigned%20decimal:\n");][always display sign of a signed conversion]]                                            |
-    | (space) | [[file:Chapter05/formatted.c::printf("\nspace%20prefix:\n");][prefix by a space if no sign is generated]]                                             |
-    | \#      | [[file:Chapter05/formatted.c::printf("\nalternative%20form:\n");][convert using alternative form(include 0x prefix for hexadecimal format, for example)]] |
-    | 0       | [[file:Chapter05/formatted.c::printf("\nprefix%20zero:\n");][prefix with leading zeros instead of padding with spaces]]                              |
+    | +       | [[file:Chapter05/formatted.c::printf("\nsigned decimal:\n");][always display sign of a signed conversion]]                                            |
+    | (space) | [[file:Chapter05/formatted.c::printf("\nspace prefix:\n");][prefix by a space if no sign is generated]]                                             |
+    | \#      | [[file:Chapter05/formatted.c::printf("\nalternative form:\n");][convert using alternative form(include 0x prefix for hexadecimal format, for example)]] |
+    | 0       | [[file:Chapter05/formatted.c::printf("\nprefix zero:\n");][prefix with leading zeros instead of padding with spaces]]                              |
 
     #+caption: Figure 5.8 The lenth modifier component of a conversion specification
     | Length modifer | Description                               |
@@ -528,24 +527,24 @@
     | L              | long double                               |
 
     #+caption: Figure 5.9 The conversion type component of a conversion specification
-    | Conversion type | Description                                                                               |
-    |-----------------+-------------------------------------------------------------------------------------------|
-    | /               | <>                                                                                        |
-    | d,i             | [[file:Chapter05/formatted.c::printf("\nsigned%20decimal:\n");][signed decimal]]                                                                            |
-    | o               | [[file:Chapter05/formatted.c::printf("\nalternative%20form:\n");][unsigned octal]]                                                                            |
-    | u               | [[file:Chapter05/formatted.c::printf("\nunsigned%20decimal:\n");][unsigned decimal]]                                                                          |
-    | x,X             | [[file:Chapter05/formatted.c::printf("\nunsigned%20hexadecimal:\n");][unsigned hexadecimal]]                                                                      |
-    | f,F             | [[file:Chapter05/formatted.c::printf("\ndouble%20%EF%AC%82oating-point%20number:\n");][double floating-point number]]                                                              |
-    | e,E             | [[file:Chapter05/formatted.c::printf("\nexponential%20format:\n");][double floating-point number in exponential format]]                                        |
-    | g,G             | [[file:Chapter05/formatted.c::printf("\ninterpreted:\n");][interpreted as f, F, e, or E, depending on value converted]]                                |
-    | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble%20in%20hexadecimal:\n");][double floating-point number in hexadecimal exponential format]]                            |
-    | c               | character (with 1 length modifier, wide character)                                        |
-    | s               | string(with 1 length modifier, wide character string)                                     |
-    | p               | pointer to a void                                                                         |
-    | n               | pointer to a signed integer into which is written the number of characters written so far |
-    | %               | a % character                                                                             |
-    | C               | wide chracter(XSI option, equivalent to lc)                                               |
-    | S               | wide chracter string(XSI option, equivalent to ls)                                        |
+    | Conversion type | Description                                                                                                                               |
+    |-----------------+-------------------------------------------------------------------------------------------------------------------------------------------|
+    | /               | <>                                                                                                                                        |
+    | d,i             | [[file:Chapter05/formatted.c::printf("\nsigned decimal:\n");][signed decimal]]                                                            |
+    | o               | [[file:Chapter05/formatted.c::printf("\nalternative form:\n");][unsigned octal]]                                                        |
+    | u               | [[file:Chapter05/formatted.c::printf("\nunsigned decimal:\n");][unsigned decimal]]                                                      |
+    | x,X             | [[file:Chapter05/formatted.c::printf("\nunsigned hexadecimal:\n");][unsigned hexadecimal]]                                              |
+    | f,F             | [[file:Chapter05/formatted.c::printf("\ndouble floating-point number:\n");][double floating-point number]]                                |
+    | e,E             | [[file:Chapter05/formatted.c::printf("\nexponential format:\n");][double floating-point number in exponential format]]                  |
+    | g,G             | [[file:Chapter05/formatted.c::printf("\ninterpreted:\n");][interpreted as f, F, e, or E, depending on value converted]]                   |
+    | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble in hexadecimal:\n");][double floating-point number in hexadecimal exponential format]] |
+    | c               | character (with 1 length modifier, wide character)                                                                                        |
+    | s               | string(with 1 length modifier, wide character string)                                                                                     |
+    | p               | pointer to a void                                                                                                                         |
+    | n               | pointer to a signed integer into which is written the number of characters written so far                                                 |
+    | %               | a % character                                                                                                                             |
+    | C               | wide chracter(XSI option, equivalent to lc)                                                                                               |
+    | S               | wide chracter string(XSI option, equivalent to ls)                                                                                        |
 
 
     *Formatted Input*
@@ -598,9 +597,9 @@
     before flush: \\
     after fflush: hello, world \\
     len of string in buf = 12 \\
-    after fseek: bbbbbbbbbbbbhello, world \\
+    after fseek: hello, world \\
     len of string in buf = 24 \\
-    after fclose: hello, worldcccccccccccccccccccccccccccccccccc \\
+    after fclose: hello, world \\
     len of string in buf = 46
     #+end_quote
 
@@ -772,7 +771,7 @@
 *** DONE 7.6 Memory Layout of a C Program
 
     #+name: Figure 7.6 Typical memory arrangement
-    #+begin_src  plantuml :file "Chapter07/fig7.6.png" :cmdline -charset utf-8
+    #+begin_src  plantuml :file "Chapter07/07fig06.jpg" :cmdline -charset utf-8
       rectangle obj as "
       <high address>
       ----
@@ -793,7 +792,7 @@
     #+end_src
 
     #+RESULTS: Figure 7.6 Typical memory arrangement
-    [[file:Chapter07/fig7.6.png]]
+    [[file:Chapter07/07fig06.jpg]]
 
 
 
@@ -1118,10 +1117,10 @@
 
 
     #+CAPTION: Figure 8.14 Differences among the seven exec functions
-    [[file:Chapter08/Figure8.14.png]]
+    [[file:Chapter08/08fig14.jpg]]
 
     #+CAPTION: Figure 8.15 Relationship of the seven exec functions
-    [[file:Chapter08/Figure8.15.png]]
+    [[file:Chapter08/08fig15.jpg]]
 
 
     - Example \\
@@ -1139,7 +1138,7 @@
     3. If neither of these two conditions is true, errno is set to EPERM and −1 is returned.
     #+end_quote
     #+caption: Figure 8.18 Ways to change the three user IDs
-    file:Chapter08/Figure8.18.png
+    file:Chapter08/08fig18.jpg
     =man 2 setreuid=
     =man 2 setregid=
 *** DONE 8.12 Interpreter Files
@@ -1163,9 +1162,9 @@
     #+end_quote
     - Example \\
       #+caption: Figure 8.22 The system function, without signal handling
-      #+include: "Chapter08/fig8.22.c" src c
+      #+include: "Chapter08/08fig22.c" src c
       #+caption: Figure 8.23 Calling the system function
-      #+include: "Chapter08/fig8.22.c" src c
+      #+include: "Chapter08/08fig22.c" src c
 
     #+begin_quote
     The advantage in using system, instead of using fork and exec directly, is that system does all the required error handling and (in our next version of this function in Section 10.18) all the required signal handling.
@@ -1196,7 +1195,7 @@
     =man 3 getpriority=
     - Example \\
       #+caption: Figure 8.30 Evaluate the effect of changing the nice value
-      #+include: "Chapter08/fig8.30.c" src c
+      #+include: "Chapter08/08fig30.c" src c
 *** DONE 8.17 Process Times
     #+begin_src c
       #include <sys/times.h>
@@ -1248,7 +1247,7 @@
     CLOSED: [2019-11-08 Fri 09:48]
     - BSD Terminal Logins
       #+caption: Figure 9.1 Processes invoked by init to allow terminal logins
-      [[file:Chapter09/fig9.1.png][file:Chapter09/fig9.1.png]]
+      [[file:Chapter09/9fig1.jpg][file:Chapter09/9fig1.jpg]]
       #+begin_quote
       a real user ID of 0 and an effective user ID of 0
       #+end_quote
@@ -1336,7 +1335,7 @@
       // Returns: process group ID of foreground process group if OK, -1 on error
 
       int tcsetpgrp(int fd, pid_t pgrpid);
-      // Returns: 0 if OK, -1 on eror
+      // Returns: 0 if OK, -1 on error
     #+end_src
 
     #+name: allow application to obtain the process group ID for the session leader given a file descriptor for the controlling TTY.
@@ -1368,9 +1367,8 @@
     2. The quit character (typically Control-backslash) generates SIGQUIT.
     3. The suspend character (typically Control-Z) generates SIGTSTP.
 
-
     #+caption: Figure 9.9 Summary of job control features with foreground and background jobs, and terminal driver
-    [[file:Chapter09/fig9.9.png]]
+    [[file:Chapter09/09fig09.jpg]]
 *** DONE 9.9 Shell Execution Programs
     CLOSED: [2019-12-09 Mon 17:42]
     #+begin_src sh :result
@@ -1391,15 +1389,15 @@
 
 
     #+caption: Figure 9.10 Processes in the pipeline as ~ps | cat1 | cat2 when invoked by bash~
-    [[file:Chapter09/fig9.10.png]]
+    [[file:Chapter09/09fig10.jpg]]
 
 *** DONE 9.10 Orphaned Process Groups
     CLOSED: [2019-12-13 Fri 23:00]
     #+caption: Figure 9.11 Example of a process group about to be orphaned
-    [[file:Chapter09/fig9.11.png]]
+    [[file:Chapter09/09fig11.jpg]]
 
     #+caption: Figure 9.12 Creating an orphaned process group
-    #+include: "Chapter09/fig9.12.c" src c
+    #+include: "Chapter09/09fig12.c" src c
     #+begin_quote
     After the fork
     - The parent sleeps for 5 seconds.
@@ -1414,7 +1412,7 @@
 *** DONE 9.11 FreeBSD Implementation
     CLOSED: [2019-12-14 Sat 17:05]
     #+caption: Figure 9.13 Free BSD implementation of sessions and process groups
-    file:Chapter09/fig9.13.png
+    file:Chapter09/09fig13.jpg
 
     #+begin_quote
     *session structure*
@@ -1543,7 +1541,7 @@
 
     - Example: \\
     #+caption: Figure 10.2 Simple program to catch SIGUSR1 and SIGUSR2
-    #+include: "Chapter10/fig10.2.c" src c
+    #+include: "Chapter10/10fig02.c" src c
     #+begin_quote
     FreeBSD 8.0 and Mac OS X 10.6.8 don’t exhibit this problem, because BSD - based systems generally don’t support historical System V semantics for SIGCLD. Linux 3.2.0 also doesn’t exhibit this problem, because it doesn’t call the SIGCHLD signal handler when a process arranges to catch SIGCHLD and child processes are ready to be waited for, even though SIGCLD and SIGCHLD are defined to be the same value.
     #+end_quote
@@ -1559,11 +1557,11 @@
       POSIX.1 requires an implementation to restart system calls only when the SA_RESTART flag is in effect for the interrupting signal.
 *** DONE 10.6 Reentrant Functions
     #+caption: Figure 10.5 Call a nonreentrant function from a signal handler
-    #+include: "Chapter10/fig10.5.c" src c
+    #+include: "Chapter10/10fig05.c" src c
 
 *** DONE 10.7 ~SIGCLD~ Semantics
     #+caption: Figure 10.6 System V SIGCLD handler that doesn't work
-    #+include: "Chapter10/fig10.6.c" src c
+    #+include: "Chapter10/10fig06.c" src c
 *** DONE 10.8 Reliable-Signal Terminology and Semantics
     #+begin_quote
     If the system delivers the signal more than once, we say that the signals are queued. \\
@@ -1611,15 +1609,15 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example:
       #+caption: Figure 10.7 Simple, incomplete implementation of sleep
-      #+include: "Chapter10/fig10.7.c" src c
+      #+include: "Chapter10/10fig07.c" src c
       #+caption: Figure 10.8 Another (imperfect) implementation of sleep
-      #+include: "Chapter10/fig10.8.c" src c
+      #+include: "Chapter10/10fig08.c" src c
       #+caption: Figure 10.9 Calling sleep2 from a program that catches other signals
-      #+include: "Chapter10/fig10.9.c" src c
+      #+include: "Chapter10/10fig09.c" src c
       #+caption: Figure 10.10 Calling ~read~ with a timeout
-      #+include: "Chapter10/fig10.10.c" src c
+      #+include: "Chapter10/10fig10.c" src c
       #+caption: Figure 10.11 Calling ~read~ with a timeout, using longjmp
-      #+include: "Chapter10/fig10.11.c" src c
+      #+include: "Chapter10/10fig11.c" src c
 
 *** DONE 10.11 Signal Sets
     #+begin_src c
@@ -1643,7 +1641,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+caption: Figure 10.12 An implementation of ~sigaddset~, ~sigdelset~, and ~sigismember~
 
-    #+include: "Chapter10/fig10.12.c" src c
+    #+include: "Chapter10/10fig12.c" src c
 
 *** DONE 10.12 ~sigprocmask~ Function
     #+begin_src c
@@ -1663,7 +1661,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example:
       #+caption: Figure 10.14 Print the signal mask for the process
-      #+include: "Chapter10/fig10.14.c" src c
+      #+include: "Chapter10/10fig14.c" src c
 
 *** DONE 10.13 ~sigpending~ Function
     #+begin_src c
@@ -1674,7 +1672,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example:
       #+caption: Example of signal sets and sigprocmask
-      #+include: "Chapter10/fig10.5.c" src c
+      #+include: "Chapter10/10fig05.c" src c
 *** DONE 10.14 ~sigaction~ Function
     #+begin_src c
       #include <signal.h>
@@ -1737,11 +1735,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example - ~signal~ function
       #+caption: Figure 10.18 An implementation of signal using sigaction
-      #+include: "Chapter10/fig10.18.c" src c
+      #+include: "Chapter10/10fig18.c" src c
 
     - Example - ~signal_intr~ function
       #+caption: Figure 10.19 The signal_intr function
-      #+include: "Chapter10/fig10.19.c" src c
+      #+include: "Chapter10/10fig19.c" src c
 
 *** DONE 10.15 ~sigsetjmp~ and ~siglongjmp~ Functions
     These two functions should always be used when branching from a signal handler.
@@ -1755,7 +1753,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example
       #+caption: Figure 10.20 Example of signal masks, sigsetjmp, and siglongjmp
-      #+include: "Chapter10/fig10.20.c" src c
+      #+include: "Chapter10/10fig20.c" src c
 
       #+begin_quote
       If we change the program in Figure 10.20 so that the calls to sigsetjmp and siglongjmp are replaced with calls to setjmp and longjmp on Linux (or _setjmp and _longjmp on FreeBSD), the final line of output becomes
@@ -1774,13 +1772,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example
       #+caption: Figure 10.22 Protecting a critical region from a signal
-      #+include: "Chapter10/fig10.22.c" src c
+      #+include: "Chapter10/10fig22.c" src c
     - Example
       #+caption: Figure 10.23 Using sigsuspend to wait for a global variable to be set
-      #+include: "Chapter10/fig10.23.c" src c
+      #+include: "Chapter10/10fig23.c" src c
     - Example
       #+caption: Figure 10.24 Routines to allow a parent and child to synchronize
-      #+include: "Chapter10/fig10.24.c" src c
+      #+include: "Chapter10/10fig24.c" src c
 
     #+begin_quote
     1. Block SIGINT and SIGALRM.
@@ -1799,17 +1797,17 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_src
 
     #+caption: Figure 10.25 Implementation of POSIX.1 ~abort~
-    #+include: "Chapter10/fig10.25.c" src c
+    #+include: "Chapter10/10fig25.c" src c
 *** DONE 10.18 ~system~ Function
 
     #+caption: Figure 10.26 Using ~system~ to invoke the =ed= editor
-    #+include: "Chapter10/fig10.26.c" src c
+    #+include: "Chapter10/10fig26.c" src c
 
     #+caption: Figure 10.27 Foreground and background process groups for Figure 10.26
-    [[file:Chapter10/fig10.27.png]]
+    [[file:Chapter10/10fig27.jpg]]
 
     #+caption: Figure 10.28 Correct POSIX.1 implementation of ~system~ function
-    #+include: "Chapter10/fig10.28.c" src c
+    #+include: "Chapter10/10fig28.c" src c
 
 *** DONE 10.19 ~sleep~, ~nanaosleep~, and ~clock_nanosleep~ Functions
     #+begin_src c
@@ -1819,7 +1817,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_src
 
     #+caption: Figure 10.29 Reliable implementation of ~sleep~
-    #+include: "Chapter10/fig10.29.c" src c
+    #+include: "Chapter10/10fig29.c" src c
 
     #+begin_src c
       #include <time.h>
@@ -1855,7 +1853,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     SIGTTOU   Write to controlling terminal by a background process group member
 
     #+caption: Figure 10.31 How to handle SIGTSTP
-    #+include: "Chapter10/fig10.31.c" src c
+    #+include: "Chapter10/10fig31.c" src c
 *** DONE 10.22 Signal Names and Numbers
     map between signal numbers and names.
     #+begin_src  c
@@ -1963,7 +1961,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example \\
       #+caption: Figure 11.2 Printing thread IDs
-      #+include: "Chapter11/fig11.2.c" src c
+      #+include: "Chapter11/11fig02.c" src c
 *** DONE 11.5 Thread Termination
     CLOSED: [2019-11-08 Fri 09:49]
     1. thread return from start routine.
@@ -1988,11 +1986,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_quote
     - Example \\
       #+caption: Figure 11.3 Fetching the thread exit status
-      #+include: "Chapter11/fig11.3.c" src c
+      #+include: "Chapter11/11fig03.c" src c
 
     - Example \\
       #+caption: Figure 11.4 Incorrect use of ~pthread_exit~ argument
-      #+include: "Chapter11/fig11.4.c" src c
+      #+include: "Chapter11/11fig04.c" src c
       #+begin_quote
       the contents of the structure (allocated on the stack of thread tid1) have changed by the time the main thread can access the structure
       #+end_quote
@@ -2026,7 +2024,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example \\
       #+caption: Figure 11.5 Thread cleanup handler
-      #+include: "Chapter11/fig11.5.c" src c
+      #+include: "Chapter11/11fig05.c" src c
       #+begin_quote
       if the thread terminates by returning from its start routine, its cleanup handlers are not called, although this behavior varies among implementations
       #+end_quote
@@ -2063,7 +2061,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_quote
 
     #+caption: Figure 11.9 Two unsynchronized threads incrementing the same variable
-    [[file:Chapter11/fig11.9.png][file:Chapter11/fig11.9.png]]
+    [[file:Chapter11/11fig9.jpg][file:Chapter11/11fig09.jpg]]
 **** DONE 11.6.1 Mutexes
      CLOSED: [2019-11-08 Fri 15:43]
      #+begin_src c
@@ -2084,7 +2082,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      - Example \\
        #+caption: Figure 11.10 Using a mutex to protect a data structure
-       #+include: "Chapter11/fig11.10.c" src c
+       #+include: "Chapter11/11fig10.c" src c
 **** DONE 11.6.2 Deadlock Avoidance
      CLOSED: [2019-11-08 Fri 15:43]
      lock the same mutex twice will cause deadlock
@@ -2093,11 +2091,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      - Example
        #+caption: Figure 11.11 Using two mutexes
-       #+include: "Chapter11/fig11.11.c" src c
+       #+include: "Chapter11/11fig11.c" src c
 
      - Example
        #+caption: Figure 11.12 Simplified locking
-       #+include: "Chapter11/fig11.12.c" src c
+       #+include: "Chapter11/11fig12.c" src c
 **** DONE 11.6.3 ~pthread_mutex_timedlock~ function
      CLOSED: [2019-11-08 Fri 15:53]
      *Mac OSX 10.15.1 doesn't support ~pthread_mutex_timedlock~ yet*
@@ -2116,7 +2114,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      - Example
        #+caption: Figure 11.13 Using ~pthread_mutex_timedlock~
-       #+include: "Chapter11/fig11.13.c" src c
+       #+include: "Chapter11/11fig13.c" src c
 **** DONE 11.6.4 Reader-Writer Locks
      CLOSED: [2019-11-09 Sat 22:07]
      * mutex  : can only one thread lock it at a time, lock/unlock.
@@ -2155,7 +2153,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      - Example
        #+caption: Figure 11.14 Using reader-writer locks
-       #+include: "Chapter11/fig11.14.c" src c
+       #+include: "Chapter11/11fig14.c" src c
 
 **** DONE 11.6.5 Reader-Writer Locking with Timeouts
      CLOSED: [2019-11-09 Sat 22:25]
@@ -2227,7 +2225,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      - Example
        #+caption: Figure 11.15 Using a condition variable
-       #+include: "Chapter11/fig11.15.c" src c
+       #+include: "Chapter11/11fig15.c" src c
 **** DONE 11.6.7 Spin Locks
      CLOSED: [2019-11-10 Sun 16:15]
      #+begin_quote
@@ -2280,7 +2278,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      - Example
        #+caption: Figure 11.16 Using a barrier
-       #+include: "Chapter11/fig11.16.c" src c
+       #+include: "Chapter11/11fig16.c" src c
 *** DONE 11.7 Summary
     CLOSED: [2019-11-15 Fri 00:29]
     - Exercises
@@ -2366,7 +2364,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example
       #+caption: Figure 12.4 Creating a thread in the detached state
-      #+include: "Chapter12/fig12.4.c" src c
+      #+include: "Chapter12/12fig04.c" src c
 
     stack:
     #+begin_src c
@@ -2480,7 +2478,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      - Example
        #+caption: Figure 12.8 Using a recursive mutex
-       #+include: "Chapter12/fig12.8.c" src c
+       #+include: "Chapter12/12fig08.c" src c
 **** DONE 12.4.2 Reader-Writer Lock Attributes
      CLOSED: [2019-11-17 Sun 15:55]
      #+begin_src c
@@ -2561,10 +2559,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example
       #+caption: Figure 12.11 A nonreentrant version of getenv
-      #+include: "Chapter12/fig12.11.c" src c
+      #+include: "Chapter12/12fig11.c" src c
 
       #+caption: Figure 12.12 a reentrant (thread-safe) version of getenv
-      #+include: "Chapter12/fig12.12.c" src c
+      #+include: "Chapter12/12fig12.c" src c
 *** DONE 12.6 Thread-Specific Data
     CLOSED: [2019-11-17 Sun 21:20]
     #+begin_quote
@@ -2621,7 +2619,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example
       #+caption: Figure 12.13 A thread-safe, compatible version of getenv
-      #+include: "Chapter12/fig12.13.c" src c
+      #+include: "Chapter12/12fig13.c" src c
 *** DONE 12.7 Cancel Options
     CLOSED: [2019-11-18 Mon 09:49]
     #+begin_quote
@@ -2684,7 +2682,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example:
       #+caption: Figure 12.16 Synchronous signal handling
-      #+include: "Chapter12/fig12.16.c" src c
+      #+include: "Chapter12/12fig16.c" src c
 *** DONE 12.9 Threads and fork
     CLOSED: [2019-11-28 Thu 01:33]
     #+begin_src c
@@ -2708,7 +2706,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example:
       #+caption: Figure 12.17 pthread_atfork example
-      #+include: "Chapter12/fig12.17.c" src c
+      #+include: "Chapter12/12fig17.c" src c
 
 
     *drawbacks*:
@@ -2796,7 +2794,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example
       #+caption: Figure 13.1 initialize a daemon process
-      #+include: "Chapter13/fig13.1.c" src c
+      #+include: "Chapter13/13fig01.c" src c
 
 *** DONE 13.4 Error Logging
     CLOSED: [2019-11-29 Fri 01:03]
@@ -2901,7 +2899,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     CLOSED: [2019-11-29 Fri 10:25]
     - Example:
       #+caption: Figure 13.6 Ensure that only one copy of a daemon is running
-      #+include: "Chapter13/fig13.6.c" src c
+      #+include: "Chapter13/13fig06.c" src c
 *** DONE 13.6 Daemon Conventions
     CLOSED: [2019-12-01 Sun 18:04]
     - daemon's lock file is usually stored in /var/run. (might need superuser permissions to create a file here.)
@@ -2912,16 +2910,16 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example:
       #+caption: Figure 13.7 Daemon reredaing configuration files
-      #+include: "Chapter13/fig13.7.c" src c
+      #+include: "Chapter13/13fig07.c" src c
 
     - Example:
       #+caption: Figure 13.8 Alternative implementation of daemon rereading configuration files
-      #+include: "Chapter13/fig13.8.c" src c
+      #+include: "Chapter13/13fig08.c" src c
 
 *** DONE 13.7 Client-Server Model
     CLOSED: [2019-12-01 Sun 18:40]
     #+caption: Figure 13.9 Set close-on-exec flag
-    #+include: "Chapter13/fig13.9.c" src c
+    #+include: "Chapter13/13fig09.c" src c
 
 *** DONE 13.8 Summary
     CLOSED: [2019-12-01 Sun 22:20]
@@ -2961,10 +2959,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example \\
       #+caption: Figure 14.1 Large nonblocking write
-      #+include: "Chapter14/fig14.1.c" src c
+      #+include: "Chapter14/14fig01.c" src c
       #+begin_src sh :result
         ls -l /etc/services
-        bin/fig14.1 < /etc/services > temp.file
+        bin/14fig01 < /etc/services > temp.file
         ls -l temp.file
       #+end_src
 
@@ -2973,7 +2971,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       | -rw-r--r-- | 1 | zhoush | staff |  50000 | Dec | 15 | 02:16 | temp.file     |
 
       #+begin_src sh :result
-        bin/fig14.1 < /etc/services 2>stderr.out
+        bin/14fig01 < /etc/services 2>stderr.out
         cat stderr.out
       #+end_src
 
@@ -3045,20 +3043,20 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       testing for a lock with F_GETLK and then trying to obtain that lock with F_SETLK or F_SETLKW is not an atomic operation
 
       #+caption: Figure 14.4 File byte-range lock diagram
-      [[file:Chapter14/fig14.4.png]]
+      [[file:Chapter14/14fig04.jpg]]
 
 
      - Example - Requesting and Releasing a Lock
        #+caption: Figure 14.5 Function to lock or unlock a region of a file
-       #+include: "Chapter14/fig14.5.c" src c
+       #+include: "Chapter14/14fig05.c" src c
 
      - Example - Testing for a Lock
        #+caption: Figure 14.6 Function to test for a locking condition
-       #+include: "Chapter14/fig14.6.c" src c
+       #+include: "Chapter14/14fig06.c" src c
 
      - Example - Deadlock \\
        #+caption: Figure 14.7 Example of deadlock detection
-       #+include: "Chapter14/fig14.7.c" src c
+       #+include: "Chapter14/14fig07.c" src c
 
      - Implied Inheritance and Release of Locks
        1. Locks are associated with a process and a file.
@@ -3067,12 +3065,12 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      - FreeBSD Implementation
        #+caption: Figure 14.8 The FreeBSD data structures for record locking
-       [[file:Chapter14/fig14.8.png]]
+       [[file:Chapter14/14fig08.jpg]]
        new here are *lockf* structure
 
        - Example
          #+caption: Figure 14.9 Place a write lock on an entire file
-         #+include: "Chapter14/fig14.9.c" src c
+         #+include: "Chapter14/14fig09.c" src c
 
        macro
        #+begin_src c
@@ -3088,16 +3086,16 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
          write(fd, buf, 1);
        #+end_src
        #+caption: Figure 14.10 File range lock diagram
-       [[file:Chapter14/fig14.10.png]]
+       [[file:Chapter14/14fig10.jpg]]
      - Advisory versus Mandatory Locking
        #+caption: Figure 14.11 Effect of mandatory locking on reads and writes by other processes
-       [[file:Chapter14/fig14.11.png]]
+       [[file:Chapter14/14fig11.jpg]]
 
        - Example \\
          #+caption: Figure 14.12 Determine whether mandatory locking is supported
-         #+include: "Chapter14/fig14.12.c" src c
+         #+include: "Chapter14/14fig12.c" src c
          #+begin_src sh :result
-           bin/fig14.12 temp.lockk
+           bin/14fig12 temp.lockk
          #+end_src
 
          #+RESULTS:
@@ -3105,7 +3103,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
          | read OK(no mandatory locking)                 | buf = ab |
 *** 14.4 I/O Multiplexing [2/2]
 
-    #+begin_src dot :file Chapter14/fig14.13.png :cmdline -Kdot -Tpng
+    #+begin_src dot :file Chapter14/14fig13.jpg :cmdline -Kdot -Tpng
       digraph G {
       label="Figure 14.13 Overview of telnet program"
       labelloc=top
@@ -3121,9 +3119,9 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_src
 
     #+RESULTS:
-    [[file:Chapter14/fig14.13.png]]
+    [[file:Chapter14/14fig13.jpg]]
 
-    #+begin_src dot :file Chapter14/fig14.14.png :cmdline -Kdot -Tpng
+    #+begin_src dot :file Chapter14/14fig14.jpg :cmdline -Kdot -Tpng
       digraph G {
       label="Figure 14.14 The telnet program using two processes"
       labelloc=top
@@ -3143,7 +3141,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_src
 
     #+RESULTS:
-    [[file:Chapter14/fig14.14.png]]
+    [[file:Chapter14/14fig14.jpg]]
 
     polling:
     * waste CPU time
@@ -3357,10 +3355,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
      =AIO_PRIO_DELTA_MAX=  = sysconf(_SC_AIO_PRIO_DELTA_MAX)
 
      #+caption: Figure 14.20 Translate a file using ROT-13
-     #+include: "Chapter14/fig14.20.c" src c
+     #+include: "Chapter14/14fig20.c" src c
 
      #+caption: Figure 14.21 Translate a file using ROT-13 and asynchronous I/O
-     #+include: "Chapter14/fig14.21.c" src c
+     #+include: "Chapter14/14fig21.c" src c
      #+begin_quote
      this might actually reduce performance—if the reads are presented to the ﬁle system out of order, it can defeat the operating system's read-ahead algorithm.
      #+end_quote
@@ -3380,7 +3378,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_src
 
     #+caption: Figure 14.22 The iovec structure for readv and writev
-    [[file:Chapter14/fig14.22.png]]
+    [[file:Chapter14/14fig22.jpg]]
 
     Three ways to write two buffers consecutively to a file:
     1. Call ~write~ twice, once for each buffer
@@ -3388,7 +3386,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     3. call ~writev~ to both buffers
 
     #+caption: Figure 14.23 Timing results comparing writev and other techniques
-    [[file:Chapter14/fig14.23.png]]
+    [[file:Chapter14/14fig23.jpg]]
 *** DONE 14.7 ~readn~ and ~writen~ Functions
     CLOSED: [2019-12-28 Sat 02:52]
     impletations for reading/writing only /n/ bytes
@@ -3400,8 +3398,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_src
 
     #+caption: Figure 14.24 The ~readn~ and ~writen~ functions
-    #+include: "Chapter14/fig14.24.c" src c
-*** DONE 14.8 Memory-Mapped I/O
+    #+include: "Chapter14/14fig24.c" src c
+*** DONE COMMENT 14.8 Memory-Mapped I/O
     CLOSED: [2019-12-28 Sat 15:27]
     map a file on disk into a buffer in memory so that, when we fetch bytes from the buffer, the corresponding bytes of the file are read.
     #+begin_src c
@@ -3424,7 +3422,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     | PROT_NONE  | Region cannot be accessed |
 
     #+caption: Figure 14.26 Example of a memory-mapped file
-    [[file:Chapter14/fig14.26.png]]
+    [[file:Chapter14/14fig26.jpg]]
 
     /flag/ argument:
     - MAP_FIXED: The return value must euqal /addr/.
@@ -3435,7 +3433,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example
       #+caption: Figure 14.27 Copy a file using memory-mapped I/O
-      #+include: "Chapter14/fig14.27.c" src c
+      #+include: "Chapter14/14fig27.c" src c
 
 
     #+begin_src c
@@ -3455,7 +3453,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     #+end_src
 
     #+caption: Figure 14.29 Timing results comparing read/write versus mmap/memcpy
-    [[file:Chapter14/fig14.28.png]]
+    [[file:Chapter14/14fig28.jpg]]
 *** DONE 14.9 Summary
     CLOSED: [2019-12-29 Sun 02:15]
    - Exercises
@@ -3500,10 +3498,116 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        Not changed
      - 14.11
        #+include: "Chapter14/ex14.11.c" src c
-** TODO Chapter 15. Interprocess Communication [0/16]
-*** TODO 15.1 Introduction
-*** TODO 15.2 Pipes
-*** TODO 15.3 ~popen~ and ~pclose~ Functions
+** TODO Chapter 15. Interprocess Communication [3/16]
+*** DONE 15.1 Introduction
+    CLOSED: [2020-01-03 Fri 19:27]
+    #+caption: Figure 15.1 Summary of UNIX System IPC
+    | IPC type                   | SUS         | FreeBSD 8.0 | Linux 3.2.0 | Mac OS X 10.6.8 | Solaris 10 |
+    |----------------------------+-------------+-------------+-------------+-----------------+------------|
+    | half-duplex pipes          | *           | (full)      | *           | *               | (full)     |
+    | FIFOs                      | *           | *           | *           | *               | *          |
+    |----------------------------+-------------+-------------+-------------+-----------------+------------|
+    | full-duplex pipes          | allowed     | *, UDS      | UDS         | UDS             | *, UDS     |
+    | named full-duplex pipes    | obsolescent | UDS         | UDS         | UDS             | *, UDS     |
+    |----------------------------+-------------+-------------+-------------+-----------------+------------|
+    | XSI message queues         | XSI         | *           | *           | *               | *          |
+    | XSI semaphores             | XSI         | *           | *           | *               | *          |
+    | XSI shared memory          | XSI         | *           | *           | *               | *          |
+    |----------------------------+-------------+-------------+-------------+-----------------+------------|
+    | message queues (real-time) | MSG option  | *           | *           |                 | *          |
+    | semaphores                 | *           | *           | *           | *               | *          |
+    | shared memory  (real-time) | SHM option  | *           | *           | *               | *          |
+    |----------------------------+-------------+-------------+-------------+-----------------+------------|
+    | sockets                    | *           | *           | *           | *               | *          |
+    | STREAMS                    | obsolescent |             |             |                 | *          |
+*** DONE 15.2 Pipes
+    CLOSED: [2020-01-07 Tue 17:18]
+    Limitations:
+    1. for maximum protability, we should never assume that ful-duplex pipes is the case
+    2. pipes can be used only between proesses that have a common ancestor.
+
+
+    #+begin_src c
+      #include <unistd.h.>
+      /// @brief create pipe
+      ///
+      /// @param  fd[0]  open for reading
+      ///         fd[1]  open for writing
+      ///
+      /// @retval 0     OK
+      ///         -1    error
+      int pipe(int fd[2]);
+    #+end_src
+
+    #+caption: Figure 15.2 Two ways to view a half-duplex pipe
+    [[file:Chapter15/15fig02.jpg]]
+
+    #+caption: Figure 15.3 Half-duplex pipe after a fork
+    [[file:Chapter15/15fig03.jpg]]
+
+    #+caption: Figure 15.4 Pipe from parent to child
+    [[file:Chapter15/15fig04.jpg]]
+
+    the parent closes fd[1], and the child closes fd[0].
+
+    #+begin_quote
+    When one end of a pipe is closed, two rules apply.
+    1. If we read from a pipe whose write end has been closed, read returns 0 to indicate an EOF *after* all data has been read.
+    2. If we write to a pipe whose read end has been closed, the signal SIGPIPE is generated. If we either ignore the signal or catch it and return from the signal handler, write returns -1 with errno set to EPIPE.
+    #+end_quote
+
+    the constant =PIPE_BUF= specifies the kernel's pipe buffer size.
+
+    - Example
+      #+caption: Figure 15.5 Send data from parent to child over a pipe
+      #+include: "Chapter15/15fig05.c" src c
+
+      #+caption: Figure 15.6 Copy file to pager program
+      #+include: "Chapter15/15fig06.c" src c
+
+      #+caption: Figure 15.7 Routine to let a parent and child synchronized
+      #+include: "Chapter15/15fig07.c" src c
+
+    #+caption: Figure 15.8 Using two pipes for parent-child synchronization
+    [[file:Chapter15/15fig08.jpg]]
+*** DONE 15.3 ~popen~ and ~pclose~ Functions
+    CLOSED: [2020-01-07 Tue 21:54]
+    #+begin_src c
+      #include <stdio.h>
+      /// @brief fork() , then exec()
+      FILE *popen(const char *cmdstring, const char *type);
+      // Returns: file pointer if OK, NULL on error
+
+      int pclose(FILE *fp);
+      // Returns: termination status of cmdstring, or -1 on error
+    #+end_src
+    ~type == "r"~:
+    #+caption: Figure 15.9 Result of fp = popen(cmdstring, "r");
+    [[file:Chapter15/15fig09.jpg]]
+    ~type == "w"~:
+    #+caption: Figure 15.10 Result of fp = popen(cmdstring, "w");
+    [[file:Chapter15/15fig10.jpg]]
+
+    The /cmdstring/ is executed by bash, as in
+    #+begin_src bash
+      sh -c cmdstring
+    #+end_src
+
+    - Example
+      #+caption: Figure 15.11 Copy file to pager program using ~popen~
+      #+include: "Chapter15/15fig11.c" src c
+
+      #+caption: Figure 15.12 The ~popen~ and ~pclose~ functions
+      #+include: "Chapter15/15fig12.c" src c
+
+      #+caption: Figure 15.13 Transforming input using ~popen~
+      [[file:Chapter15/15fig13.jpg]]
+
+      #+caption: Figure 15.14 Filter to convert uppercase characters to lowercase
+      #+include: "Chapter15/15fig14.c" src c
+
+      #+caption: Figure 15.15 Invoke uppercase/lowercase filter to read commands
+      #+include: "Chapter15/15fig15.c" src c
 *** TODO 15.4 Coprocesses
 *** TODO 15.5 FIFOs
 *** TODO 15.6 XSI IPC
