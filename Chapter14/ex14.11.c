@@ -3,7 +3,7 @@
  *   @date     2019-12-29
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
- *   @brief    rewrite fig14.27
+ *   @brief    rewrite 14fig27
  *
  *  close fd after calling mmap
  *

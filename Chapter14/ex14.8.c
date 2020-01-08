@@ -3,7 +3,7 @@
  *   @date     2019-12-26
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
- *   @brief    rewrite fig14.21.c
+ *   @brief    rewrite 14fig21.c
  *
  *   block mode
  */

@@ -1,5 +1,5 @@
 /**
- *   @file     fig14.20.c
+ *   @file     14fig20.c
  *   @date     2019-12-26
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0

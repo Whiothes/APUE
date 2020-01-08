@@ -1247,7 +1247,7 @@
     CLOSED: [2019-11-08 Fri 09:48]
     - BSD Terminal Logins
       #+caption: Figure 9.1 Processes invoked by init to allow terminal logins
-      [[file:Chapter09/9fig1.jpg][file:Chapter09/9fig1.jpg]]
+      [[file:Chapter09/9fig1.jpg][file:Chapter09/09fig01.jpg]]
       #+begin_quote
       a real user ID of 0 and an effective user ID of 0
       #+end_quote
@@ -3609,6 +3609,15 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       #+caption: Figure 15.15 Invoke uppercase/lowercase filter to read commands
       #+include: "Chapter15/15fig15.c" src c
 *** TODO 15.4 Coprocesses
+    #+begin_quote
+    A filter becomes a /coprocess/ when the same program generates the filter's input and reads the filter's output.
+    #+end_quote
+
+    - Example
+      #+caption: Figure 15.16 Driving a coprocess by writing its standard input and reading its standard output.
+      [[file:Chapter15/15fig16.jpg]]
+
+      #+caption: Figure 15.17 Simple filter to add two numbers
 *** TODO 15.5 FIFOs
 *** TODO 15.6 XSI IPC
 *** TODO 15.6.1 Identifiers and Keys

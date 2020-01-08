@@ -1,2 +1,2 @@
-make_individual(fig12.8 fig12.17)
-add_libthreads(fig12.8 fig12.17)
+make_individual(12fig08 12fig17)
+add_libthreads(12fig08 12fig17)

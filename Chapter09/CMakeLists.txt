@@ -1,1 +1,1 @@
-make_individual(fig9.12 ex9.2)
+make_individual(09fig12 ex9.2)
