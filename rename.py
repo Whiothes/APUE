@@ -7,7 +7,7 @@ import regex
 for root, dirs, files in os.walk(
         "/Users/zhoush/Documents/Notes/books/system/APUE"):
     for filename in files:
-        x = regex.findall("fig([0-9]+)\.([0-9]+)\.c$", filename)
+        x = regex.findall("fig([0-9]+)\\.([0-9]+)\\.c$", filename)
         if x:
             y = list(x[0])
             y[0] = y[0].zfill(2)
