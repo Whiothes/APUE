@@ -3498,7 +3498,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        Not changed
      - 14.11
        #+include: "Chapter14/ex14.11.c" src c
-** TODO Chapter 15. Interprocess Communication [5/12]
+** TODO Chapter 15. Interprocess Communication [6/12]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
     #+caption: Figure 15.1 Summary of UNIX System IPC
@@ -3668,11 +3668,83 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
       #+caption: Figure 15.23 Client-server communication using FIFOs
       [[file:Chapter15/15fig23.jpg]]
-*** TODO 15.6 XSI IPC [0/4]
-**** TODO 15.6.1 Identifiers and Keys
-**** TODO 15.6.2 Permission Structure
-**** TODO 15.6.3 Configuration Limits
-**** TODO 15.6.4 Advantages and Disadvantages
+*** DONE 15.6 XSI IPC [4/4]
+    CLOSED: [2020-01-09 Thu 18:20]
+**** DONE 15.6.1 Identifiers and Keys
+     CLOSED: [2020-01-09 Thu 16:51]
+     The identifier is an internal name for an IPC object. an IPC object is associated with a /key/ that acts as an external name for cooperating processes to be able to rendezvous using the same IPC object.
+
+     *Whenever an IPC structure is being created, a key (<sys/types.h>::key_st) must be specified.*
+
+     ways for a client and a server to rendezvous at the same IPC structure.
+     1. The server can create a new IPC structure by specifying a key of =IPC_PRIVATE= and store the returned identifier somewhere (such as a file) for the client to obtain.
+     2. The client and the server can agree on a key by defining the key in a common header.
+     3. The client and the server can agree on a pathname and project ID (the project ID is a character value between 0 and 255) and call the function ~ftok~ to convert theses two values into a key.
+
+     #+begin_src c
+       #include <sys/ipc.h>
+       /// @brief generating a key from a pathname and project ID
+       ///
+       /// @param path        refer to an existing file
+       /// @param id          only lower 8 bits used
+       ///
+       /// @note              usually formed by taking part of st_dev and st_ino fields in stat structure
+       key_t ftok(const char *path, int id);
+       // Returns: key if OK, (key_t)-1 on error
+     #+end_src
+
+     #+begin_quote
+     If we want to create a new IPC structure, making sure that we don't reference an existing one with the same identifier, we must specify a /flag/ with both the =IPC_CREAT= and =IPC_EXCL= bits set. Doing this causes an error returned of EEXIST if the IPC structure already exists.
+     #+end_quote
+**** DONE 15.6.2 Permission Structure
+     CLOSED: [2020-01-09 Thu 16:55]
+     #+begin_src c
+       struct ipc_perm {
+           uid_t           uid;            /* [XSI] Owner's user ID */
+           gid_t           gid;            /* [XSI] Owner's group ID */
+           uid_t           cuid;           /* [XSI] Creator's user ID */
+           gid_t           cgid;           /* [XSI] Creator's group ID */
+           mode_t          mode;           /* [XSI] Read/write permission */
+           // ... more additional members depends on system
+       };
+     #+end_src
+
+     #+caption: Figure 15.24 XSI IPC permissions
+     [[file:Chapter15/15fig24.jpg]]
+**** DONE 15.6.3 Configuration Limits
+     CLOSED: [2020-01-09 Thu 16:58]
+     modify kernel configuration parameters:
+     | system     | cmd    |
+     |------------+--------|
+     | FreeBSD    | sysctl |
+     | Linux      | sysctl |
+     | Mac OS X   | sysctl |
+     | Solaris 10 | prctl  |
+
+     display the IPC-related limits:
+     | system   | cmd         |
+     |----------+-------------|
+     | Linux    | ~ipcs -l~   |
+     | Mac OS X | ~ipcs -T~   |
+     | FreeBSD  | ~icps -T~   |
+     | Solaris  | ~sysdef -i~ |
+
+**** DONE 15.6.4 Advantages and Disadvantages
+     CLOSED: [2020-01-09 Thu 18:20]
+     * message queue: data left until spcifically read or deleted by some process calling ~msgrcv~ or ~msgctl~, by someone executing the ~ipcrm~ command, or by the system being rebooted.
+     * we can't see the IPC objects with an ~ls~ command, can't remove them with the ~rm~ command, can't change their permissions with ~chmod~ command. use ~ipcs~ and ~ipcrm~ instead.
+     * since they don't use file descriptors, we can't use multiplexed I/O functions(~select~, ~poll~, ~epoll~) with them.
+
+
+     #+caption: Figure 15.25 Comparison of features of various forms of IPC
+    | IPC type                    | Connectionless? | Reliable? | Flow control? | Records? | Message types or priorties? |
+    |-----------------------------+-----------------+-----------+---------------+----------+-----------------------------|
+    | message queues              | no              | yes       | yes           | yes      | yes                         |
+    | STREAMS                     | no              | yes       | yes           | yes      | yes                         |
+    | UNIX domain stream socket   | no              | yes       | yes           | no       | no                          |
+    | UNIX domain datagram socket | yes             | yes       | no            | yes      | no                          |
+    | FIFOs (non-STREAMS)         | no              | yes       | yes           | no       | no                          |
+
 *** TODO 15.7 Message Queues
 *** TODO 15.8 Semaphores
 *** TODO 15.9 Shared Memory
