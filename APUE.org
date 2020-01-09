@@ -3498,7 +3498,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        Not changed
      - 14.11
        #+include: "Chapter14/ex14.11.c" src c
-** TODO Chapter 15. Interprocess Communication [4/12]
+** TODO Chapter 15. Interprocess Communication [5/12]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
     #+caption: Figure 15.1 Summary of UNIX System IPC
@@ -3626,7 +3626,48 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
       #+caption: Figure 15.19 Filter to add two numbers, using standard I/O
       #+include: "Chapter15/15fig19.c" src c
-*** TODO 15.5 FIFOs
+*** DONE 15.5 FIFOs
+    CLOSED: [2020-01-09 Thu 16:22]
+    named pipe. with FIFOs, unrelated processes can exchange data.
+    #+begin_src c
+      #include <sys/stat.h>
+      int mkfifo(const char *path, mode_t mode);
+      int mkfifoat(int fd, const char *path, mode_t mode);
+      // Both return: 0 if OK, -1 on error
+    #+end_src
+    three case for mkfifoat;
+    1. If the /path/ parameter specifies an absolute pathname, then the /fd/ parameter is ignored and the ~mkfifoat~ function behaves like the mkfifo function.
+    2. If the /path/ parameter specifies a relative pathname and the /fd/ parameter is a valid file descriptor for an open directory, the pathname is evaluated relative to this directory.
+    3. If the /path/ parameter specifies a relative pathname and the /fd/ parameter has the special value with AT_FDCWD, the pathname is evaluated starting in the current working directory, and the ~mkfifoat~ behaves like ~mkfifo~.
+
+
+    When we ~open~ a FIFO, the nonblocking flag (=O_NONBLOCK=) affects what happens.
+    * In the normal case (without =O_NONBLOCK=), an ~open~ for read-only blocks until some other processes opens the FIFO for writing .
+    * If =O_NONBLOCK= is specified, an ~open~ for read-only returns immediately. But an ~open~ for write-only returns -1 with errno set to =ENXIO= if no process has the FIFO open for reading.
+
+
+    - Example - Using FIFOs to Duplicate Output Streams
+
+      #+caption: Figure 15.20 Procedure that preocesses a filtered input stream twice
+      [[file:Chapter15/15fig20.jpg]]
+
+
+      #+begin_src sh
+        mkfifo fifo1
+        prog3 < fifo1 &
+        prog1 < infile | tee fifo1 | prog2
+      #+end_src
+      #+caption: Figure 15.21 Using a FIFO and tee to send a stream to two different processes
+      [[file:Chapter15/15fig21.jpg]]
+
+
+    - Example - Clent-Server Communication Using a FIFO
+
+      #+caption: Figure 15.22 Clients sending requests to a server using a FIFO
+      [[file:Chapter15/15fig22.jpg]]
+
+      #+caption: Figure 15.23 Client-server communication using FIFOs
+      [[file:Chapter15/15fig23.jpg]]
 *** TODO 15.6 XSI IPC [0/4]
 **** TODO 15.6.1 Identifiers and Keys
 **** TODO 15.6.2 Permission Structure
