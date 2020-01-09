@@ -3425,7 +3425,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     [[file:Chapter14/14fig26.jpg]]
 
     /flag/ argument:
-    - MAP_FIXED: The return value must euqal /addr/.
+    - MAP_FIXED: The return value must equal /addr/.
     - MAP_SHARED: describe the disposition of store operations into the mapped region by this process.
     - MAP_PRIVATE: store operations into the mapped region cause a private copy of the mapped file to be created.
     - MAP_xxx: check ~mmap(2)~ for additional flag values
@@ -3437,10 +3437,12 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
 
     #+begin_src c
-      /// @brief change the permissions on an existing mmaping
       #include <sys/mman.h>
+      /// @brief change the permissions on an existing mmaping
+      ///
+      /// @retval 0     OK
+      /// @retval -1    error
       int mprotect(void *addr, size_t len, int prot);
-      // Returns: 0 if OK, -1 on error
 
       /// @brief flush the changes to the file that backs the mapping
       ///
@@ -3448,8 +3450,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       ///                 MS_SYNC:  wait for the writes to be cmoplete before turning
       ///
       /// @warning either MS_ASYNC or MS_SYNC must be specified
+      ///
+      /// @retval 0     OK
+      /// @retval -1    error
       int msync(void *addr, size_t len, int flags);
-      // Returns: 0 if OK, -1 on error
     #+end_src
 
     #+caption: Figure 14.29 Timing results comparing read/write versus mmap/memcpy
@@ -3498,7 +3502,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        Not changed
      - 14.11
        #+include: "Chapter14/ex14.11.c" src c
-** TODO Chapter 15. Interprocess Communication [6/12]
+** TODO Chapter 15. Interprocess Communication [7/12]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
     #+caption: Figure 15.1 Summary of UNIX System IPC
@@ -3535,7 +3539,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       ///         fd[1]  open for writing
       ///
       /// @retval 0     OK
-      ///         -1    error
+      /// @retval -1    error
       int pipe(int fd[2]);
     #+end_src
 
@@ -3745,7 +3749,80 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     | UNIX domain datagram socket | yes             | yes       | no            | yes      | no                          |
     | FIFOs (non-STREAMS)         | no              | yes       | yes           | no       | no                          |
 
-*** TODO 15.7 Message Queues
+*** DONE 15.7 Message Queues
+    CLOSED: [2020-01-09 Thu 20:48]
+    A message queue is a linked list of messages stored within the kernel and identified by a message queue identifer.
+    #+begin_src c
+      struct msqid_ds {
+          struct ipc_perm  msg_perm;     /* see Section 15.6.2      */
+          msgqnum_t        msg_qnum;     /* # of messages on queue  */
+          msglen_t         msg_qbytes;   /* max # of bytes on queue */
+          pid_t            msg_lspid;    /* pid of last msgsnd()    */
+          pid_t            msg_lrpid;    /* pid of last msgrcv()    */
+          time_t           msg_stime;    /* last-msgsnd() time      */
+          time_t           msg_rtime;    /* last-msgrcv() time      */
+          time_t           msg_ctime;    /* last-change time        */
+          .
+          .
+          .
+      };
+    #+end_src
+
+    #+caption: Figure 15.26 System limits that affect message queues
+    [[file:Chapter15/15fig26.jpg]]
+
+    message queue related functions:
+    #+begin_src c
+      #include <sys/msg.h>
+      /// @brief either open an existing queue or create a new queue
+      ///
+      /// * The ipc_perm structure is initialized .
+      /// * msg_qnum,msg_lspid,msg_lrpid,msg_stime, and msg_rtime set to 0
+      /// * msg_ctime is set to the current time
+      /// * msg_qbytes is set to the system limit
+      ///
+      /// @retval msqID  OK
+      /// @retval -1     error
+      int msgget(key_t key, int flag);
+
+      /// @brief ioctl-like functions for XSI IPC
+      ///
+      /// * IPC_STAT fetch the msqid_ds structure for this queue
+      /// * IPC_SET copy the following fields from the structure pointed to by buf to the msqid_ds
+      /// * IPC_RMID remove the message queue from the system and any data still on the queue.
+      ///
+      /// @retval 0     OK
+      /// @retval -1    error
+      int msgctl(int msqid, int cmd, struct msqid_ds *buf);
+
+
+      /// @brief data is placed on a message queue by calling msgsnd.
+      ///
+      /// messages are always placed at the end of the queue.
+      /// * IPC_NOWAIT can be specified, this is similar to the nonblocking I/O flag for file I/O.
+      ///
+      /// @retval 0 OK
+      /// @retval -1 error
+      int msgsnd(int msqid, const void *ptr, size_t nbytes, int flag);
+
+      /// @brief messages are retrieved from a queue by msgrcv.
+      ///
+      /// * type == 0 the first message on the queue is returned
+      /// * type > 0  the first message on the queue whose message type equals type is returned.
+      /// * type < 0  the fire message on the queue whose message type is the lowest values
+      ///             less than or equal to the absolute value of type is returned.
+      ///
+      /// @return sizeof data portion of message if OK, -1 on error
+      ssize_t msgrcv(int msqid, void *ptr, size_t nbytes, long type, int flag);
+    #+end_src
+
+   - Example - Timing Comparison of Message Queues and Full-Duplex Pipes.
+     #+caption: Figure 15.27 Timing comparison of IPC alternatives on Solaris
+     | Operation          | User | Systems | Clock |
+     |--------------------+------+---------+-------|
+     | message queue      | 0.58 |    4.16 |  5.09 |
+     | full-duplex pipe   | 0.61 |    4.30 |  5.24 |
+     | UNIX domain socket | 0.59 |    5.58 |  7.49 |
 *** TODO 15.8 Semaphores
 *** TODO 15.9 Shared Memory
 *** TODO 15.10 POSIX Semaphores
