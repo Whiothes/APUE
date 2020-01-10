@@ -2,7 +2,7 @@
 
 #ifndef LINUX
 extern const char *const sys_errlist[];
-extern const int         sys_nerr;
+extern int               sys_nerr;
 #endif
 
 char *strerror(int error) {

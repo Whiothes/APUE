@@ -3405,13 +3405,21 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     map a file on disk into a buffer in memory so that, when we fetch bytes from the buffer, the corresponding bytes of the file are read.
     #+begin_src c
       #include <sys/mman.h>
-      /// @brief  map a file on disk into a buffer in memory
+      /**
+       ,* @brief      map a file on disk into a buffer in memory
+       ,*
+       ,*
+       ,* @return     starting address of mapped region if OK, MAP_FAILED on error
+       ,*/
       void *mmap(void *addr, size_t len, int prot, int flag, int fd, off_t off);
-      // Returns: starting address of mapped region if OK, MAP_FAILED on error
 
       /// @brief unmap a memory-mapped region
+      /**
+       ,* @brief      unmap a memory-mapped region
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
       int munmap(void *addr, size_t len);
-      // Returns: 0 if OK, -1 on error
     #+end_src
 
     #+caption: Figure 14.25 Protection of memory-mapped region
@@ -3439,21 +3447,25 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+begin_src c
       #include <sys/mman.h>
-      /// @brief change the permissions on an existing mmaping
-      ///
-      /// @retval 0     OK
-      /// @retval -1    error
+      /**
+       ,* @brief change the permissions on an existing mmaping
+       ,*
+       ,* @retval 0     OK
+       ,* @retval -1    error
+       ,*/
       int mprotect(void *addr, size_t len, int prot);
 
-      /// @brief flush the changes to the file that backs the mapping
-      ///
-      /// @param  flags   MS_ASYNC: schedule the page to be written
-      ///                 MS_SYNC:  wait for the writes to be cmoplete before turning
-      ///
-      /// @warning either MS_ASYNC or MS_SYNC must be specified
-      ///
-      /// @retval 0     OK
-      /// @retval -1    error
+      /**
+       ,* @brief flush the changes to the file that backs the mapping
+       ,*
+       ,* @param  flags   MS_ASYNC: schedule the page to be written
+       ,*                 MS_SYNC:  wait for the writes to be cmoplete before turning
+       ,*
+       ,* @warning either MS_ASYNC or MS_SYNC must be specified
+       ,*
+       ,* @retval 0     OK
+       ,* @retval -1    error
+       ,*/
       int msync(void *addr, size_t len, int flags);
     #+end_src
 
@@ -3503,7 +3515,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        Not changed
      - 14.11
        #+include: "Chapter14/ex14.11.c" src c
-** TODO Chapter 15. Interprocess Communication [8/12]
+** TODO Chapter 15. Interprocess Communication [9/12]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
     #+caption: Figure 15.1 Summary of UNIX System IPC
@@ -3534,13 +3546,15 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+begin_src c
       #include <unistd.h.>
-      /// @brief create pipe
-      ///
-      /// @param  fd[0]  open for reading
-      ///         fd[1]  open for writing
-      ///
-      /// @retval 0     OK
-      /// @retval -1    error
+      /**
+       ,* @brief create pipe
+       ,*
+       ,* @param  fd[0]  open for reading
+       ,*         fd[1]  open for writing
+       ,*
+       ,* @retval 0     OK
+       ,* @retval -1    error
+       ,*/
       int pipe(int fd[2]);
     #+end_src
 
@@ -3775,45 +3789,56 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     message queue related functions:
     #+begin_src c
       #include <sys/msg.h>
-      /// @brief either open an existing queue or create a new queue
-      ///
-      /// * The ipc_perm structure is initialized .
-      /// * msg_qnum,msg_lspid,msg_lrpid,msg_stime, and msg_rtime set to 0
-      /// * msg_ctime is set to the current time
-      /// * msg_qbytes is set to the system limit
-      ///
-      /// @retval msqID  OK
-      /// @retval -1     error
+      /**
+       ,* @brief either open an existing queue or create a new queue
+       ,*
+       ,* * The ipc_perm structure is initialized .
+       ,* * msg_qnum,msg_lspid,msg_lrpid,msg_stime, and msg_rtime set to 0
+       ,* * msg_ctime is set to the current time
+       ,* * msg_qbytes is set to the system limit
+       ,*
+       ,* @retval msqID  OK
+       ,* @retval -1     error
+       ,*/
       int msgget(key_t key, int flag);
 
-      /// @brief ioctl-like functions for XSI IPC
-      ///
-      /// * IPC_STAT fetch the msqid_ds structure for this queue
-      /// * IPC_SET copy the following fields from the structure pointed to by buf to the msqid_ds
-      /// * IPC_RMID remove the message queue from the system and any data still on the queue.
-      ///
-      /// @retval 0     OK
-      /// @retval -1    error
+      /**
+       ,* @brief ioctl-like functions for XSI IPC
+       ,*
+       ,* * IPC_STAT fetch the msqid_ds structure for this queue
+       ,* * IPC_SET copy the following fields from the structure pointed to by buf to
+       ,* the msqid_ds
+       ,* * IPC_RMID remove the message queue from the system and any data still on the
+       ,* queue.
+       ,*
+       ,* @retval 0     OK
+       ,* @retval -1    error
+       ,*/
       int msgctl(int msqid, int cmd, struct msqid_ds *buf);
 
-
-      /// @brief data is placed on a message queue by calling msgsnd.
-      ///
-      /// messages are always placed at the end of the queue.
-      /// * IPC_NOWAIT can be specified, this is similar to the nonblocking I/O flag for file I/O.
-      ///
-      /// @retval 0 OK
-      /// @retval -1 error
+      /**
+       ,* @brief data is placed on a message queue by calling msgsnd.
+       ,*
+       ,* messages are always placed at the end of the queue.
+       ,* * IPC_NOWAIT can be specified, this is similar to the nonblocking I/O flag
+       ,* for file I/O.
+       ,*
+       ,* @retval 0 OK
+       ,* @retval -1 error
+       ,*/
       int msgsnd(int msqid, const void *ptr, size_t nbytes, int flag);
 
-      /// @brief messages are retrieved from a queue by msgrcv.
-      ///
-      /// * type == 0 the first message on the queue is returned
-      /// * type > 0  the first message on the queue whose message type equals type is returned.
-      /// * type < 0  the fire message on the queue whose message type is the lowest values
-      ///             less than or equal to the absolute value of type is returned.
-      ///
-      /// @return sizeof data portion of message if OK, -1 on error
+      /**
+       ,* @brief messages are retrieved from a queue by msgrcv.
+       ,*
+       ,* * type == 0 the first message on the queue is returned
+       ,* * type > 0  the first message on the queue whose message type equals type is
+       ,* returned.
+       ,* * type < 0  the fire message on the queue whose message type is the lowest
+       ,* values less than or equal to the absolute value of type is returned.
+       ,*
+       ,* @return sizeof data portion of message if OK, -1 on error
+       ,*/
       ssize_t msgrcv(int msqid, void *ptr, size_t nbytes, long type, int flag);
     #+end_src
 
@@ -3979,7 +4004,140 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
          with locking single resource and don't need all the features of XSI semaphores, record locking is preferable, cause that is much simpler to use and system take care of any lingering locks when process terminates.
          unless performance is the primary concerned, record locking is still more preferable than mutex (1. easier to use, 2. cross-platform support)
-*** TODO 15.9 Shared Memory
+*** DONE 15.9 Shared Memory
+    CLOSED: [2020-01-10 Fri 21:54]
+   Shared memory allows two or more processes to share a given region of memory. This is the *fastest* form of IPC.
+   #+begin_src c
+     struct shmid_ds {
+         struct ipc_perm shm_per;     // see section 15.6.2
+         size_t          shm_segsz;   // sizeof segment in bytes
+         pid_t           shm_lpid;    // pid of last shmop()
+         pid_t           shm_cpid;    // pid of creator
+         shmatt_t        shm_nattch;  // number of current attaches, shmatt_t is defined to be an unsigned short
+         time_t          shm_atime;   // last-attach time
+         time_t          shm_dtime;   // last-detach time
+         time_t          shm_ctime;   // last-change time
+         ...
+     };
+   #+end_src
+
+   #+caption: Figure 15.30 System limits that affect shared memory
+   [[file:Chapter15/15fig30.jpg]]
+
+
+   Shared memory API:
+   #+begin_src c
+     #include <sys/shm.h>
+     /**
+      ,* @brief      obtain a shared memory identifier
+      ,*
+      ,* @details    the following members of shmid_ds structure are initialized.
+      ,*             * ipc_perm
+      ,*             * shm_lpid,shm_nattch,shm_atime, and shm_dtime are all set to 0
+      ,*             * shm_ctime is set to the current time
+      ,*             * shm_segsz is set to the size requested
+      ,*
+      ,* @param[in]  key    for converting into an identifier
+      ,* @param[in]  size   the size of the shared memory segment in bytes
+      ,* @param[in]  flag   for ipc_perm's permission bits set
+      ,*
+      ,* @return     shared memory ID if OK, -1 on error
+      ,*/
+     int shmget(key_t key, size_t size, int flag);
+
+     /**
+      ,* @brief      catchall for various shared memory operations
+      ,*
+      ,* @param[in]  shmid      speicify which shared memory to operate
+      ,* @param[in]  cmd        IPC_STAT    fetch the shmid_ds structure for this segment, storing to buf
+      ,*                        IPC_SET     set the following three fields from buf
+      ,*                                    shm_perm.uid,shm_perm.gid,shm_perm.mode
+      ,*                                    can be only executed by UID == shm_perm.cuid or shm_perm.uid or root
+      ,*                        IPC_RMID    remove the shared memory segment set from the system
+      ,*                                    actually it is attachment count decrease 1
+      ,*                                    be removed until the last process using the segment terminates or detaches it .
+      ,*                                    regardless of whether the segment is still in use
+      ,*                                    can be only executed by UID == shm_perm.cuid or shm_perm.uid or root.
+      ,*                        additional commands for Linux and Solaris only
+      ,*                        SHM_LOCK    lock the shared memory
+      ,*                        SHM_UNLOCK  unlock the shared memory
+      ,* @param[in,out] buf     read or write, depends on cmd specified
+      ,*
+      ,* @return     0 if OK, -1 on error
+      ,*/
+     int shmctl(int shmid, int cmd, struct shmid_ds *buf);
+
+     /**
+      ,* @brief      a process attach a existing shared memory segment.
+      ,*
+      ,* @details
+      ,*
+      ,* @param[in]  shmid      specify which shared memory segment to attach
+      ,* @param[in]  is 0, the segment is attached at the first available address selected by the kernel.
+      ,*             is nonzero and SHM_RND is not specified, the segment is attached at addr
+      ,*             is nonzero and SHM_RND is specified, attached at (addr - (addr modulus SHMLBA)),
+      ,*               SHMLBA stands for "low boundary address multiple" and is always a power of 2.
+      ,*               round the address down to the next multiple of SHMLBA.
+      ,*
+      ,* @return     0 if OK, -1 on error
+      ,*/
+     int shmat(int shmid, const void *addr, int flag);
+
+     /**
+      ,* @brief      detach a shared memory segment.
+      ,*
+      ,* @details    this DOES NOT removed the identifier and associated data structure
+      ,*             the identifier remains in existence until removes by calling shmctl with IPC_RMID.
+      ,*
+      ,* @param      addr to detach
+      ,*
+      ,* @return     0 if OK, -1 on error
+      ,*/
+     int shmdt(const void *addr);
+   #+end_src
+
+   - Example
+     #+caption: Figure 15.31 Print where various types of data are stored
+     #+include: "Chapter15/15fig31.c" src c
+   #+begin_quote
+   Results on Linux:
+
+   array[] from 0x602540 to 0x60c180
+
+   stack around 0x7ffdaff9121c
+
+   malloced from 0xd2c010 to 0xd446b0
+
+   shared memory attached from 0x7f40d9097000 to 0x7f40d90af6a0
+   #+end_quote
+   #+begin_quote
+   Results on Mac OS X
+
+   array[] from 0x102d40090 to 0x102d49cd0
+
+   stack around 0x7ffeecec2438
+
+   malloced from 0x102d60000 to 0x102d786a0
+
+   shared memory attached from 0x102d7a000 to 0x102d926a0
+   #+end_quote
+   #+caption: Figure 15.32 Memory layout on an Intel-based Linux system.
+   [[file:Chapter15/15fig32.jpg]]
+
+   - Example - Memory Mapping of /dev/zero
+     techinque for related processes
+     * An unnamed memory region is created whose size is the second argument to mmap, rounded up to the nearest page size on the system.
+     * The memory region is initialized to 0.
+     * Multiple processes can share this region if a common ancestor specifies the MAP_SHARED flag to mmap.
+
+    #+caption: Figure 15.33 IPC between parent and child using memory mapped I/O of /dev/zero
+    #+include: "Chapter15/15fig33.c" src c
+
+
+  - Example - Anonymous Memory Mapping
+    To use this facility, specify =MAP_ANONYMOUS= (=MAP_ANON= deprecated on Linux) flag to ~mmap~ and specify the fd to -1.
+    #+caption: modify [[file:Chapter15/15fig33.c::/**][Figure 15.33]] to use this facility
+    #+include: "Chapter15/15fig33a.c" src c
 *** TODO 15.10 POSIX Semaphores
 *** TODO 15.11 Client-Server Properties
 *** TODO 15.12 Summary
