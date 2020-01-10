@@ -1,5 +1,6 @@
 #+SETUPFILE: ~/Documents/style.setup
 #+OPTIONS: num:nil
+#+HTML_HEAD: <style>pre.src{background:#343131;color:white;} </style>
 #+LATEX_HEADER: \usepackage{xeCJK}
 #+LATEX_HEADER: \usepackage{hyperref}
 #+LaTeX_HEADER: \pdfmapfile{/home/neilsen/texmf/fonts/map/dvips/libertine/libertine.map}
@@ -84,7 +85,7 @@
     - Exercises
       - 1.1
       - 1.2  53268 50922 was occupied
-      - 1.3  strerror: int, value transfer, cannnot be changed, global errno cannnot be forecast
+      - 1.3  strerror: int, value transfer, can not be changed, global errno can not be forecast
         perror: pointer, can be changed the value point to, const set constant
       - 1.4  2038, \( \frac{2^{31}}{(60*60*24*365)+1970} \)
         change time_t to u_64_t
@@ -3502,7 +3503,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        Not changed
      - 14.11
        #+include: "Chapter14/ex14.11.c" src c
-** TODO Chapter 15. Interprocess Communication [7/12]
+** TODO Chapter 15. Interprocess Communication [8/12]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
     #+caption: Figure 15.1 Summary of UNIX System IPC
@@ -3735,7 +3736,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
 **** DONE 15.6.4 Advantages and Disadvantages
      CLOSED: [2020-01-09 Thu 18:20]
-     * message queue: data left until spcifically read or deleted by some process calling ~msgrcv~ or ~msgctl~, by someone executing the ~ipcrm~ command, or by the system being rebooted.
+     * all forms of XSI IPC remain in existence even when no process is using them.
      * we can't see the IPC objects with an ~ls~ command, can't remove them with the ~rm~ command, can't change their permissions with ~chmod~ command. use ~ipcs~ and ~ipcrm~ instead.
      * since they don't use file descriptors, we can't use multiplexed I/O functions(~select~, ~poll~, ~epoll~) with them.
 
@@ -3823,7 +3824,161 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
      | message queue      | 0.58 |    4.16 |  5.09 |
      | full-duplex pipe   | 0.61 |    4.30 |  5.24 |
      | UNIX domain socket | 0.59 |    5.58 |  7.49 |
-*** TODO 15.8 Semaphores
+*** DONE 15.8 Semaphores
+    CLOSED: [2020-01-10 Fri 17:40]
+    A semaphore is a counter used to provide access to a shared data object for multiple processes.
+    obtain a shared resource:
+    1. Test the semaphore that controls the resource.
+    2. If the value of the semaphore is positive, the process can use the resource.
+    3. Otherwise, if the value of the semaphore is 0, the process goes to sleep until the semaphore value is greater than 0.
+
+
+    XSI semaphores :
+    1. A semaphore is not simply a single non-negative value.
+    2. The creation of a semaphore (~semget~) is independent of its initialization (~semctl~).
+    3. Since all forms of XSI IPC remain in existence even when no process is using them, we have to worry about a program that terminates without releasing the semaphores it has been allocated.
+
+
+    The kernel maintains a =semid_ds= structure for each semaphore set:
+    #+begin_src c
+      struct semid_ds {
+          struct ipc_perm sem_perm;  // see section 15.6.2
+          unsigned short  sem_nsems; // # of semaphores in set
+          time_t          sem_otime; // last-semop time
+          time_t          sem_ctime; // last-change time
+          .
+          .
+          .
+      };
+    #+end_src
+
+    Each semaphore is represented by an anonymous structure containing at least the following members:
+    #+begin_src c
+      struct {
+          unsigned short semval;          // semaphore value, alwyas >= 0
+          pid_t          sempid;          // pid for last operation
+          unsigned short semncnt;         // # processes awaiting semval > curval
+          unsigned short semzcnt;         // # processes awaiting semval == 0
+          .
+          .
+          .
+      };
+    #+end_src
+
+
+    #+caption: Figure 15.28 System limits that affect semaphores
+    [[file:Chapter15/15fig28.jpg]]
+
+    XSI semaphores using:
+    #+begin_src c
+      #include <sys/sem.h>
+      /**
+       ,* @brief obtain a semaphore ID
+       ,*
+       ,* * ipc_perm structure is initialized, the mode member depends on perssion bits of flag.
+       ,* * sem_otime is set to 0.
+       ,* * sem_ctime is set to the current time.
+       ,* * sem_nsems is set to the nsems.
+       ,*
+       ,* @param    nsems      the number of semaphores
+       ,*
+       ,* @return   semaphore ID if OK, -1 on error
+       ,*/
+      int semget(key_t key, int nsems, int flag);
+
+      /**
+       ,*  @brief catchall for various semaphore operations
+       ,*
+       ,* A union of various command-specific arguments.
+       ,* union semun {
+       ,*    int              val;     // for SETVAL
+       ,*    struct semid_ds *buf;     // for IPC_STAT and IPC_SET
+       ,*    unsigned short  *array;   // for GETALL and SETALL
+       ,* };
+       ,* The optional argument is the actual union, not a pointer to the union.
+       ,*
+       ,* @param   semid   set specified semaphore
+       ,* @param   cmd     specifies one of the following ten commands to be performed
+       ,*                  IPC_STAT    fetch semid_ds structure for this set
+       ,*                  IPC_SET     set the sem_perm.uid,sem_perm.gid, and sem_perm.mode
+       ,*                  IPC_RMID    remove the semaphore from the system.
+       ,*                  GETVAL      return the value of semval for the member semnum;
+       ,*                  SETVAL      set the value of semval for the member semnum.
+       ,*                  GETPID      get the value of sempid
+       ,*                  GETNCNT     return the value of semncnt for the member semnum.
+       ,*                  GETZCNT     return the value of semzcnt for the member semnum.
+       ,*                  GETALL      fetch all the semaphore values in the set.
+       ,*                  SETALL      set all the semaphore values in the set to the values pointed to by arg array.
+       ,* @return   for all the GET commands other than GETALL, see above for details,
+       ,*          otherwise, 0 if OK, -1 on error and set errno
+       ,*/
+      int semctl(int semid, int semnum, int cmd, ... /* union semun arg */);
+
+      /**
+       ,* @brief atomically performs an array of operations on a semaphore set
+       ,*
+       ,* struct sembuf {
+       ,*     unsigned short sem_num;  // member # in set (0, 1, ... nsems-1);
+       ,*     short          sem_op;   // operation(negative, 0, or positive);
+       ,*     short          sem_flg;  // IPC_NOWAIT, SEM_UNDO
+       ,* };
+       ,* see following for details
+       ,*
+       ,* @return 0 if OK, -1 on error
+       ,*/
+      int semop(int semid, struct sembuf semoparray[], size_t nops);
+    #+end_src
+
+    sem_op value effects:
+    #+begin_quote
+    1. The easiest case is when sem_op is positive. This case corresponds to the returning of resources by the process. The value of sem_op is added to the semaphore’s value. If the undo flag is specified, sem_op is also subtracted from the semaphore’s adjustment value for this process.
+
+    2. If sem_op is negative, we want to obtain resources that the semaphore controls.
+
+       If the semaphore’s value is greater than or equal to the absolute value of sem_op (the resources are available), the absolute value of sem_op is subtracted from the semaphore’s value. This guarantees the resulting semaphore value is greater than or equal to 0. If the undo flag is specified, the absolute value of sem_op is also added to the semaphore’s adjustment value for this process.
+
+       If the semaphore’s value is less than the absolute value of sem_op (the resources are not available), the following conditions apply.
+
+       + If IPC_NOWAIT is specified, semop returns with an error of EAGAIN.
+
+       + If IPC_NOWAIT is not specified, the semncnt value for this semaphore is incremented (since the caller is about to go to sleep), and the calling process is suspended until one of the following occurs.
+
+         - The semaphore’s value becomes greater than or equal to the absolute value of sem_op (i.e., some other process has released some resources). The value of semncnt for this semaphore is decremented (since the calling process is done waiting), and the absolute value of sem_op is subtracted from the semaphore’s value. If the undo flag is specified, the absolute value of sem_op is also added to the semaphore’s adjustment value for this process.
+
+         - The semaphore is removed from the system. In this case, the function returns an error of EIDRM.
+
+         - A signal is caught by the process, and the signal handler returns. In this case, the value of semncnt for this semaphore is decremented (since the calling process is no longer waiting), and the function returns an error of EINTR.
+
+    3. If sem_op is 0, this means that the calling process wants to wait until the semaphore’s value becomes 0.
+
+       If the semaphore’s value is currently 0, the function returns immediately.
+
+       If the semaphore’s value is nonzero, the following conditions apply.
+
+       + If IPC_NOWAIT is specified, return is made with an error of EAGAIN.
+
+       + If IPC_NOWAIT is not specified, the semzcnt value for this semaphore is incremented (since the caller is about to go to sleep), and the calling process is suspended until one of the following occurs.
+
+         - The semaphore’s value becomes 0. The value of semzcnt for this semaphore is decremented (since the calling process is done waiting).
+
+         - The semaphore is removed from the system. In this case, the function returns an error of EIDRM.
+
+         - A signal is caught by the process, and the signal handler returns. In this case, the value of semzcnt for this semaphore is decremented (since the calling process is no longer waiting), and the function returns an error of EINTR.
+     #+end_quote
+
+     - Semaphore Adjustment on exit
+       using ~semctl~ with either =SETVAL= or =SETALL= commands, the adjustment value for that semaphore in all processes is set to 0
+
+       - Example - Timing Comparison of Semaphores, Record Locking, and Mutexes
+         #+caption: Figure 15.29 Timing comparison of locking alternatives on Linux
+         | Operation               | User | System | Clock |
+         |-------------------------+------+--------+-------|
+         | semaphores with undo    | 0.50 |   6.08 |  7.55 |
+         | advisory record locking | 0.51 |   9.06 |  4.38 |
+         | mutex in shared memory  | 0.21 |   0.40 |  0.25 |
+
+         with locking single resource and don't need all the features of XSI semaphores, record locking is preferable, cause that is much simpler to use and system take care of any lingering locks when process terminates.
+         unless performance is the primary concerned, record locking is still more preferable than mutex (1. easier to use, 2. cross-platform support)
 *** TODO 15.9 Shared Memory
 *** TODO 15.10 POSIX Semaphores
 *** TODO 15.11 Client-Server Properties
