@@ -3515,7 +3515,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        Not changed
      - 14.11
        #+include: "Chapter14/ex14.11.c" src c
-** TODO Chapter 15. Interprocess Communication [9/12]
+** TODO Chapter 15. Interprocess Communication [10/12]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
     #+caption: Figure 15.1 Summary of UNIX System IPC
@@ -4138,7 +4138,105 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     To use this facility, specify =MAP_ANONYMOUS= (=MAP_ANON= deprecated on Linux) flag to ~mmap~ and specify the fd to -1.
     #+caption: modify [[file:Chapter15/15fig33.c::/**][Figure 15.33]] to use this facility
     #+include: "Chapter15/15fig33a.c" src c
-*** TODO 15.10 POSIX Semaphores
+*** DONE 15.10 POSIX Semaphores
+    CLOSED: [2020-01-11 Sat 22:02]
+    The POSIX semaphore mechanism is one of three IPC mechanisms that originated with the real-time extensions to POSIX.1.
+
+    The POSIX semaphore interfaces were meant to address several deficiencies with the XSI semaphore interfaces:
+    * The POSIX semaphore interfaces allow for higher-performance implementations compared to XSI semaphores.
+    * The POSIX semaphore interfaces are simpler to use: no semaphore sets, and several of the interfaces are patterned after familiar file system operations.
+    * The POSIX semaphores behave more gracefully when removed.
+
+
+    APIs:
+    #+begin_src c
+      #include <semaphore.h>
+      /**
+       ,* @brief      create a new named semaphore or use an existing one
+       ,*
+       ,* @return     Pointer to semaphore if OK, SEM_FAILED on error
+       ,*
+       ,* @note       To promote portability
+       ,* * The first character in the name should be a slash
+       ,* * The name should contain no other slashes to avoid implementation-defined
+       ,* behavior.
+       ,* * The maximum length of the semaphore name is implementation defined.
+       ,*/
+      sem_t *sem_open(const char *name, int oflag,
+                      ... /* mode_t mode, unsigned int value */);
+
+      /**
+       ,* @brief      release any resources associated with the semaphore
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int sem_close(sem_t *sem);
+
+      /**
+       ,* @brief      remove the name of the semaphore.
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int sem_unlink(const char *name);
+
+      /**
+       ,* @brief      decrement the value of a semaphore
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,* @note       avoids blocking if the semaphore count is 0
+       ,*/
+      int sem_trywait(sem_t *sem);
+      /**
+       ,* @brief      decrement the value of a semaphore
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,* @note       blocks if the semaphore count is 0.
+       ,*/
+      int sem_wait(sem_t *sem);
+
+      /**
+       ,* @brief      block for a bounded amount of time
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      #include <time.h>
+      int sem_timedwait(sem_t *restrict sem, const struct timespec *restrict tsptr);
+
+      /**
+       ,* @brief      increment the value of a semaphore
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int sem_post(sem_t *sem);
+
+      /**
+       ,* @brief      create an unnamed semaphore
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int sem_init(sem_t *sem, int pshared, unsigned int value);
+
+      /**
+       ,* @brief      discard an unnamed semaphore
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int sem_destroy(sem_t *sem);
+
+      /**
+       ,* @brief      retrieve the value of a semaphore
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int sem_getvalue(sem_t *restrict sem, int *restrict valp);
+    #+end_src
+
+    - Example
+      #+caption: Figure 15.34 Timing comparison of semaphore implementation
+      [[file:Chapter15/15fig34.jpg]]
+
+      #+caption: Figure 15.35 Mutual exclusion using a POSIX semaphore
+      #+include: "Chapter15/15fig35.c" src c
 *** TODO 15.11 Client-Server Properties
 *** TODO 15.12 Summary
 ** TODO Chapter 16. Network IPC: Sockets [0/9]
