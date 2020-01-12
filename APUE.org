@@ -3515,7 +3515,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        Not changed
      - 14.11
        #+include: "Chapter14/ex14.11.c" src c
-** TODO Chapter 15. Interprocess Communication [10/12]
+** TODO Chapter 15. Interprocess Communication [11/12]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
     #+caption: Figure 15.1 Summary of UNIX System IPC
@@ -3698,7 +3698,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
      ways for a client and a server to rendezvous at the same IPC structure.
      1. The server can create a new IPC structure by specifying a key of =IPC_PRIVATE= and store the returned identifier somewhere (such as a file) for the client to obtain.
      2. The client and the server can agree on a key by defining the key in a common header.
-     3. The client and the server can agree on a pathname and project ID (the project ID is a character value between 0 and 255) and call the function ~ftok~ to convert theses two values into a key.
+     3. The client and the server can agree on a pathname and project ID (the project ID is a character value between 0 and 255) and call the function ~ftok~ to convert these two values into a key.
 
      #+begin_src c
        #include <sys/ipc.h>
@@ -4237,7 +4237,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
       #+caption: Figure 15.35 Mutual exclusion using a POSIX semaphore
       #+include: "Chapter15/15fig35.c" src c
-*** TODO 15.11 Client-Server Properties
+*** DONE 15.11 Client-Server Properties
+    CLOSED: [2020-01-12 Sun 23:47]
+    *A child cannot pass a descriptor back to the parent (unless special programming techniques are used, which we cover in Chapter 17).*
+
+    Message queue(Either of these two techniques using message queue can be implemented using shared memory and a synchronization method) :
+    1. A single queue can be used between the srever and all the clients, using the type field of each mesage to indicate the message recipient.
+    2. Alternatively, an individual message queue can be used for each client.
 *** TODO 15.12 Summary
 ** TODO Chapter 16. Network IPC: Sockets [0/9]
 *** TODO 16.1 Introduction
