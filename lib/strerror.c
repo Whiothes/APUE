@@ -1,8 +1,11 @@
 #include <stdio.h>
 
-#ifndef LINUX
+#if defined(_GNU_SOURCE)
 extern const char *const sys_errlist[];
 extern int               sys_nerr;
+#elif !defined(LINUX)
+extern const char *const sys_errlist[];
+extern const int         sys_nerr;
 #endif
 
 char *strerror(int error) {

@@ -127,13 +127,13 @@
      4.  Runtime increasable values: ~CHARCLASS_NAME_MAX~, ~COLL_WEIGHTS_MAX~, ~LINE_MAX~, ~NGROUPS_MAX~, and ~RE_DUP_MAX~
      5.  Runtime invariant values;
      6.  Other invariant values: ~NL_ARGMAX~, ~NL_MSGMAX~, ~NL_SETMAX~, and ~NL_TEXTMAX~;
-     7.  Pathname variables values: ~FIFLESIZEBITS~, ~LINK_MAX~, ~MAX_CANON~, ~MAX_INPUT~, ~NAME_MAX~, ~PATH_MAX~, ~PIPE_BUF~, and ~SYMLINK_MAX~
+     7.  Pathname variables values: ~FILESIZEBITS~, ~LINK_MAX~, ~MAX_CANON~, ~MAX_INPUT~, ~NAME_MAX~, ~PATH_MAX~, ~PIPE_BUF~, and ~SYMLINK_MAX~
 **** DONE XSI Limits
      1.  Minimum values:
      2.  Runtime invariant values, possibly indeterminate: *IOV_MAX* and *PAGE_SIZE*
 **** DONE ~sysconf~, ~pathconf~, and ~fpathconf~ Functions
      #+caption: Figure 2.13 Build C program to print all supported configuration limits
-     #+include: "Chapter02/makeconf.awk" src c
+     #+include: "Chapter02/makeconf.awk" src awk
 **** DONE Indeterminate Runtime Limits
      1.
      #+caption: pathalloc
@@ -1683,13 +1683,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+begin_src c
       struct sigaction {
-        void (*sa_handler) (int);       // addr of signal handler or SIG_IGN or SIG_DFL
+          void (*sa_handler) (int);       // addr of signal handler or SIG_IGN or SIG_DFL
 
-        sigset_t sa_mask;               // addtional signals to block
-        int sa_flags;                   // signal options, Figure 10.16
+          sigset_t sa_mask;               // addtional signals to block
+          int sa_flags;                   // signal options, Figure 10.16
 
-        // alternate handler
-        void (*sa_action)(int, siginfo_t *, void*);
+          // alternate handler
+          void (*sa_action)(int, siginfo_t *, void*);
       };
     #+end_src
 
@@ -1717,15 +1717,15 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       void handler(int signo, siginfo_t *info, void *context);
 
       struct siginfo {
-        int si_signo;          // signal number
-        int si_errno;          // if nonzero, errno value from errno.h
-        int si_code;           // additional info (depends on signal)
-        pid_t si_pid;          // sending process ID
-        uid_t si_uid;          // sending process real user ID
-        void *si_addr;         // address that caused the fault
-        int si_status;         // exit value or signal number
-        union sigval si_value; // application-specific value
-        // possibly other fields also
+          int si_signo;          // signal number
+          int si_errno;          // if nonzero, errno value from errno.h
+          int si_code;           // additional info (depends on signal)
+          pid_t si_pid;          // sending process ID
+          uid_t si_uid;          // sending process real user ID
+          void *si_addr;         // address that caused the fault
+          int si_status;         // exit value or signal number
+          union sigval si_value; // application-specific value
+          // possibly other fields also
       };
       union sigval {int sival_int; void* sival_ptr; };
 
@@ -4073,11 +4073,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       ,* @details
       ,*
       ,* @param[in]  shmid      specify which shared memory segment to attach
-      ,* @param[in]  is 0, the segment is attached at the first available address selected by the kernel.
-      ,*             is nonzero and SHM_RND is not specified, the segment is attached at addr
-      ,*             is nonzero and SHM_RND is specified, attached at (addr - (addr modulus SHMLBA)),
-      ,*               SHMLBA stands for "low boundary address multiple" and is always a power of 2.
-      ,*               round the address down to the next multiple of SHMLBA.
+      ,* @param[in]  addr       is 0, the segment is attached at the first available address selected by the kernel.
+      ,*                        is nonzero and SHM_RND is not specified, the segment is attached at addr
+      ,*                        is nonzero and SHM_RND is specified, attached at (addr - (addr modulus SHMLBA)),
+      ,*                          SHMLBA stands for "low boundary address multiple" and is always a power of 2.
+      ,*                          round the address down to the next multiple of SHMLBA.
       ,*
       ,* @return     0 if OK, -1 on error
       ,*/
@@ -4245,9 +4245,132 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     1. A single queue can be used between the srever and all the clients, using the type field of each mesage to indicate the message recipient.
     2. Alternatively, an individual message queue can be used for each client.
 *** TODO 15.12 Summary
-** TODO Chapter 16. Network IPC: Sockets [0/9]
-*** TODO 16.1 Introduction
-*** TODO 16.2 Socket Descriptors
+    - Exercises
+      - 15.1 pager program blocks
+        #+include: "Chapter15/15ex01.c" src c
+      - 15.2
+        #+begin_quote
+        The parent terminates right after writing the last line to the pipe. The read end of the pipe is automatically closed when the parent terminates. But the parent is probably running ahead of the child by one pipe buffer, since the child (the pager program) is waiting for us to look at a page of output. If we’re running a shell, such as the Korn shell, with interactive command-line editing enabled, the shell probably changes the terminal mode when our parent terminates and the shell prints a prompt. This undoubtedly interferes with the pager program, which has also modified the terminal mode. (Most pager programs set the terminal to noncanonical mode when awaiting input to proceed to the next page.)
+        #+end_quote
+        #+include: "Chapter15/15ex02.c" src c
+      - 15.3 cannot execute the non-existent command
+        #+include: "Chapter15/15ex03.c" src c
+        #+RESULTS:
+        sh: ./a.out: No such file or directory
+        #+begin_quote
+        pclose returns the termination status of the command as it is returned by waitpid.
+        #+end_quote
+      - 15.4
+        #+begin_quote
+        When the parent terminates, look at its termination status with the shell. For the Bourne shell, Bourne-again shell, and Korn shell, the command is echo $?. The number printed is 128 plus the signal number.
+        #+end_quote
+        #+RESULTS:
+          ➜   echo $?
+          141
+      - 15.5
+        #+include: "Chapter15/15ex05.c" src c
+      - 15.6
+        The wait function catch the child that popen function generated because we can't distinguish which is the child we want.
+        #+begin_quote
+        The system function calls wait, and the first child to terminate is the child generated by popen. Since that’s not the child that system created, it calls wait again and blocks until the sleep is done. Then system returns. When pclose calls wait, an error is returned, since there are no more children to wait for. Then pclose returns an error.
+        #+end_quote
+      - 15.7
+        #+include: "Chapter15/15ex07.c" src c
+        The answer gives the following table about various behaviors on different systems, but when I test, it seems different
+        #+caption: Figure C.19 Pipe behavior with select and poll
+        | Operation                                        | FreeBSD 8.0 | Linux 3.2.0 | Mac OS X 10.6.8 | Solaris |
+        |--------------------------------------------------+-------------+-------------+-----------------+---------|
+        | select on read end of pipe with write end closed | R/W/E       | R           | R/W             | R/W/E   |
+        | poll on read end of pipe with write end closed   | R/HUP       | HUP         | INV             | HUP     |
+        | select on write end of pipe with read end closed | R/W/E       | R/W         | R/W             | R/W     |
+        | poll on write end of pipe with read end closed   | R/HUP       | W/ERR       | INV             | HUP     |
+
+        #+caption: tested answer
+        | Operation                                        | Linux 3.2.0 | Mac OS X 10.6.8 |
+        |--------------------------------------------------+-------------+-----------------|
+        | select on read end of pipe with write end closed | R/W         | R/W             |
+        | select on write end of pipe with read end closed | HUP         | HUP             |
+      - 15.8
+        parent's standard error appears.
+      - 15.9
+        ~fork~, then ~exec~, ~waitpid~, ~exit~
+        #+begin_quote
+        The popen function forks a child, and the child executes the shell. The shell in turn calls fork, and the child of the shell executes the command string. When cmdstring terminates, the shell is waiting for this to happen. The shell then exits, which is what the waitpid in pclose is waiting for.
+        #+end_quote
+      - 15.10 open twice, and using O_NONBLOCK for reading mode
+        #+include: "Chapter15/15ex10.c" src c
+      - 15.11
+        #+begin_quote
+        The identifier of the message queue. The queue would have to allow the appropriate level of access (probably world-read, for a random malicious process). It would interfere with the running of the server/clients though, because each would probably be expecting messages to exist on the queue that aren't there.
+        #+end_quote
+      - 15.12
+        #+include: "Chapter15/15ex12.c" src c
+      - 15.13 The actual addresses are different for different processes, so we need to store offsets instead.
+        #+begin_quote
+        We never store actual addresses in a shared memory segment, since it’s possible for the server and all the clients to attach the segment at different addresses. Instead, when a linked list is built in a shared memory segment, the list pointers should be stored as offsets to other objects in the shared memory segment. These offsets are formed by subtracting the start of the shared memory segment from the actual address of the object.
+        #+end_quote
+      - 15.14
+        [[file:Chapter15/15ex14.jpg]]
+      - 15.15
+** TODO Chapter 16. Network IPC: Sockets [2/9]
+*** DONE 16.1 Introduction
+    CLOSED: [2020-01-19 Sun 13:50]
+    *only an overview of the socket API*
+*** DONE 16.2 Socket Descriptors
+    CLOSED: [2020-01-19 Sun 20:30]
+    #+begin_src c
+      #include <sys/socket..h>
+
+      /**
+       ,*  @brief create socket
+       ,*
+       ,*  @param domain   determines the nature of the communication, includes the
+       ,*                  address format
+       ,*  @param type     determines the type of the socket, which further determine
+       ,*                  the communication characteristics
+       ,*  @param protocol usually 0, to select the default protocol for the given
+       ,*                  domain and socket type. but can select a particular protocol
+       ,*
+       ,*  @return file (socket) descriptor if OK, -1 on error
+       ,*/
+      int socket(int domain, int type, int protocol);
+
+      /**
+       ,*  @brief diasable I/O on a socket
+       ,*  @param sockfd     socket's return value
+       ,*  @param how        SHUT_RD,   reading is disabled
+       ,*                    SHUT_WR,   writing is disabled
+       ,*                    SHUT_RDWR, disable both data transmission and reception
+       ,*  @return 0 if OK, -1 on error
+       ,*/
+      int shutdown(int sockfd, int how);
+    #+end_src
+    #+caption: Figure 16.1 Socket communication domains
+    | Domain    | Description                                |
+    |-----------+--------------------------------------------|
+    | AF_INET   | IPv4 Internet domain                       |
+    | AF_INET6  | IPv6 Internet domain (optional in POSIX.1) |
+    | AF_UNIX   | UNIX domain                                |
+    | AF_UNSPEC | unspecified                                |
+
+    #+caption: Figure 16.2 Socket types
+    | Type           | Description                                                          |
+    |----------------+----------------------------------------------------------------------|
+    | SOCK_DGRAM     | fix-length, connectionless, unreliable messages                      |
+    | SOCK_RAW       | datagram interface to IP (optional in POSIX.1)                       |
+    | SOCK_SEQPACKET | fix-length, sequenced, reliable, connection-oriented message         |
+    | SOCK_STREAMS   | sequenced, reliable, bidirectional, connection-oriented byte streams |
+
+    #+caption: Figure 16.3 Protocols defined for Internet domain socks
+    | Protocol     | Description                                   |
+    |--------------+-----------------------------------------------|
+    | IPPROTO_IP   | IPv4 Internet Protocol                        |
+    | IPPROTO_IPV6 | IPv6 Internet Protocol (optional in POSIX.1)  |
+    | IPPROTO_ICMP | Internet Control message Protocol             |
+    | IPPROTO_RAW  | Raw IP packets protocol (optional in POSIX.1) |
+    | IPPROTO_TCP  | Transmission Control Protocol                 |
+    | IPPROTO_UDP  | User Datagram Protocol                        |
+
 *** TODO 16.3 Addressing
 **** TODO 16.3.1 Byte Ordering
 **** TODO 16.3.2 Address Formats
@@ -4279,7 +4402,6 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       int serv_accept(int listenfd, uid_t *uidptr); // Returns: new file descriptor if OK, negative value on Error
       int cli_conn(const char *name);               // Returns: file descriptor if OK, negative value on error
     #+end_src
-
 
     #+begin_src c
       #include "apue.h"
@@ -4338,10 +4460,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         return (rval);
       }
     #+end_src
+
     #+begin_center
     Figure 17.8 The ~serv_listen~ function
     #+end_center
-
 
     #+begin_src c
       #include "apue.h"
@@ -4428,9 +4550,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         return (rval);
       }
     #+end_src
+
     #+begin_center
     Figure 17.9 The ~serv_accept~ function
     #+end_center
+
     #+caption: Figure 17.10 The ~cli_conn~ function
     #+include: "Chapter17/cli_conn.c" src c
 *** TODO 17.4 Passing File Descriptors

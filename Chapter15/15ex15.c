@@ -1,12 +1,12 @@
 /**
- *   @file     15fig33.c
+ *   @file     15ex15.c
  *   @date     2020-01-10
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
  *   @brief    IPC between parent and child using memory mapped I/O of /dev/zero
  */
 #include <fcntl.h>
-#include <sys/mman.h>
+#include <sys/shm.h>
 
 #include "apue.h"
 
@@ -22,37 +22,38 @@ int main(void) {
     pid_t pid;
     void *area;
 
-    if ((fd = open("/dev/zero", O_RDWR)) < 0) {
-        err_sys("open error");
-    }
-    if ((area = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0)) ==
-        MAP_FAILED) {
-        err_sys("mmap error");
-    }
-    close(fd);
+    int   shmid;
+    FILE *fp;
+    key_t key;
 
-    TELL_WAIT();
+    if ((shmid = shmget(key, SIZE, 0600)) == -1) {
+        err_sys("shmget error");
+    }
+
+    fclose(fp);
+
+    if ((area = shmat(shmid, 0, 0)) == NULL) {
+        err_sys("shmat error");
+    }
 
     if ((pid = fork()) < 0) {
         err_sys("fork error");
     } else if (pid > 0) { /* parent */
+
         for (i = 0; i < NLOOPS; i += 2) {
-            if ((counter = update((long *)area)) != i) {
+            shmctl(shmid, IPC_SET | SHM_LOCK, 0);
+            if ((counter = update((long *)area)) != i)
                 err_quit("parent: expected %d, got %d", i, counter);
-            }
-            printf("parent: %d\n", counter);
-            TELL_CHILD(pid);
-            WAIT_CHILD();
+
+            shmctl(shmid, IPC_SET | SHM_UNLOCK, 0);
         }
     } else { /* child */
-        for (i = 1; i < NLOOPS + 1; i += 2) {
-            WAIT_PARENT();
 
+        for (i = 1; i < NLOOPS + 1; i += 2) {
             if ((counter = update((long *)area)) != i)
                 err_quit("child: expected %d, got %d", i, counter);
-
-            printf("child: %d\n", counter);
-            TELL_PARENT(getppid());
         }
     }
+
+    shmctl(shmid, IPC_RMID, 0);
 }

@@ -1,5 +1,5 @@
 /**
- *   @file     15fig06.c
+ *   @file     15ex01.c
  *   @date     2020-01-04
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
             err_sys("fgets error");
         }
 
-        close(fd[1]);
+        // close(fd[1]);
         if (waitpid(pid, NULL, 0) < 0) {
             err_sys("waitpid error");
         }

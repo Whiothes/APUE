@@ -1,5 +1,5 @@
 /**
- *   @file     15fig06.c
+ *   @file     15ex02.c
  *   @date     2020-01-04
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
@@ -77,9 +77,9 @@ int main(int argc, char *argv[]) {
         }
 
         close(fd[1]);
-        if (waitpid(pid, NULL, 0) < 0) {
-            err_sys("waitpid error");
-        }
+        // if (waitpid(pid, NULL, 0) < 0) {
+        //     err_sys("waitpid error");
+        // }
         exit(0);
     }
 }
