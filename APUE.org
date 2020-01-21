@@ -4311,7 +4311,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+end_quote
       - 15.14
         [[file:Chapter15/15ex14.jpg]]
-      - 15.15
+      - 15.15 pause
 ** TODO Chapter 16. Network IPC: Sockets [2/9]
 *** DONE 16.1 Introduction
     CLOSED: [2020-01-19 Sun 13:50]
@@ -4371,10 +4371,297 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     | IPPROTO_TCP  | Transmission Control Protocol                 |
     | IPPROTO_UDP  | User Datagram Protocol                        |
 
-*** TODO 16.3 Addressing
-**** TODO 16.3.1 Byte Ordering
-**** TODO 16.3.2 Address Formats
-**** TODO 16.3.3 Address Lookup
+*** TODO 16.3 Addressing [3/4]
+**** DONE 16.3.1 Byte Ordering
+     CLOSED: [2020-01-20 Mon 11:49]
+     #+caption: Figure 16.5 Byte order in a 32-bit integer
+     [[file:Chapter16/16fig05.jpg]]
+
+     #+caption: Figure 16.6 Byte order for test platforms
+     | Operating system | Processor architecture | Byte order    |
+     |------------------+------------------------+---------------|
+     | FreeBSD 8.0      | Intel Pentium          | little-endian |
+     | Linux 3.2.0      | Intel Core i5          | little-endian |
+     | Mac OS X 10.6.8  | Intel Core 2 Duo       | little-endian |
+     | Solaris 10       | Sun SPARC              | big-endian    |
+
+
+     #+begin_src c
+       /**
+        ,* functions to convert between the processor byte order
+        ,* and the network byte order for TCP/IP applications
+        ,*/
+
+       #include <arpa/inet.h>
+
+       /// @return 32-bit integer in network byte order
+       uint32_t htonl(uint32_t hostint32);
+
+       /// @return 16-bit integer in network byte order
+       uint16_t htons(uint16_t hostint16);
+
+       /// @return 32-bit integer in host byte order
+       uint32_t ntohl(uint32_t netint32);
+
+       /// @return 16-bit integer in host byte order
+       uint16_t ntohs(uint16_t netint16);
+     #+end_src
+
+**** DONE 16.3.2 Address Formats
+     CLOSED: [2020-01-21 Tue 19:15]
+     #+begin_src c
+       // generic sockaddr address structure
+       struct sockaddr {
+           sa_family_t sa_family;  // address family
+           char        sa_data[];  // variable-length address
+           ...  // free to add more members and define a size for the sa_data member
+       };
+
+       // on Linux
+       struct sockaddr {
+           sa_family_t sa_family;
+           char        sa_data[14];
+       };
+
+       // on FreeBSD
+       struct sockaddr {
+           unsigned char sa_len;       // total length
+           sa_family_t   sa_family;    // address family
+           char          sa_data[14];  // variable-length address
+       };
+     #+end_src
+
+
+     Internet addresses
+     #+begin_src c
+       #include <netinet/in.h>
+
+       // #include <stdint.h> defined uintxx_t
+       typedef uint16_t in_port_t;
+       typedef uint32_t in_addr_t;
+
+       // In the IPv4 Internet domain (AF_INET),
+       // a socket address is represented by a sockaddr_in structure
+
+       struct in_addr {
+           in_addr_t s_addr;  // IPv4 address
+       };
+
+       struct sockaddr_in {
+           sa_family_t    sin_family;  // address family
+           in_port_t      sin_port;    // port number
+           struct in_addr sin_addr;    // IPv4 address
+       };
+
+       // In the IPv6 Internet domain (AF_INET6)
+       // represented by a sockaddr_in6 structure
+       struct in6_addr {
+           uint8_t s6_addr[16];  // IPv6 address
+       };
+
+       struct sockaddr_in6 {
+           sa_family_t     sin6_family;    // address family
+           in_port_t       sin6_port;      // port number
+           uint32_t        sin6_flowinfo;  // traffic class and flow info
+           struct in6_addr sin6_addr;      // IPv6 address
+           uint32_t        sin6_scope_id;  // set of interfaces for scope
+       };
+
+       // on Linux
+       struct sockaddr_in {
+           sa_family_t    sin_family;   // address family
+           in_port_t      sin_port;     // port number
+           struct in_addr sin_addr;     // IPv4 address
+           unsigned char  sin_zero[8];  // filler
+       };
+     #+end_src
+
+     convert between the binary address format and a string in dotted-decimal notation.
+     #+begin_src c
+       #include <arpa/inet.h>
+
+       /**
+        ,* @param  domain    AF_INET/AF_INET6 only
+        ,*
+        ,* @return pointer to address string on success, NULL on error
+        ,*/
+       const char *inet_ntop(int domain, const void *restrict addr, char *restrict str,
+                             socklen_t size);
+
+       /**
+        ,* @brief string addr to binary
+        ,*
+        ,* @param  domain   AF_INET/AF_INET6/only
+        ,*
+        ,* @return 1 on success, 0 if the format is invalid, or -1 on error
+        ,*/
+       int inet_pton(int domain, const char *restrict str, void *restrict addr);
+     #+end_src
+**** DONE 16.3.3 Address Lookup
+     CLOSED: [2020-01-22 Wed 00:59]
+     get hosts
+     #+begin_src c
+       #include <netdb.h>
+
+       /**
+        ,*  @brief get hosts
+        ,*
+        ,*  @return pointer if OK, NULL on error
+        ,*/
+       struct hostent* gethostent(void);
+
+       void sethostent(int stayopen);
+
+       void endhostent(void);
+
+       struct hostent {
+           char*  h_name;       // name of host
+           char** h_aliases;    // pointer to alternate host name array
+           int    h_addrtype;   // address type
+           int    h_length;     // length in bytes of address
+           char** h_addr_list;  // pointer to array of network addresses
+           ...
+       };
+
+       #include <netdb.h>
+       /**
+        ,*  @brief get network info
+        ,*
+        ,*  a set of interfaces
+        ,*
+        ,*  @return pointer if OK, NULL on error
+        ,*/
+       struct netent* getnetbyaddr(uint32_t net, int type);
+       struct netent* getnetbyname(const char* name);
+       struct netent* getnetent(void);
+
+       void setnetent(int stayopen);
+       void endnetent(void);
+
+       struct netent {
+           char*    n_name;      // network name
+           char**   n_aliases;   // alternate network name array pointer
+           int      n_addrtype;  // address type
+           uint32_t n_net;       // network number
+           ...
+       };
+
+       #include <netdb.h>
+       /**
+        ,* @brief      map between protol names and numbers
+        ,*
+        ,* @return     pointer if OK, NULL on error
+        ,*/
+       struct protoent* getprotobyname(const char* name);
+       struct protoent* getprotobynumber(int proto);
+       struct protoent* getprotoent(void);
+
+       void setprotoent(int stayopen);
+       void endprotoent(void);
+
+       struct protoent {
+           char*  p_name;     // protocol name
+           char** p_aliases;  // pointer to alternate protocol name array
+           int    p_proto;    // proto number
+           ...
+       };
+
+       #include <netdb.h>
+       /**
+        ,* @brief      a set of services' interfaces
+        ,*
+        ,*
+        ,* @return     pointer if OK, NULL on error
+        ,*/
+       struct servent* getservbyname(const char* name, const char* proto);
+       struct servent* getservbyport(int port, const char* proto);
+       struct servent* getservent(void);
+
+       void setservent(int stayopen);
+       void endservent(void);
+
+       struct servent {
+           char*  s_name;     // service name
+           char** s_aliases;  // pointer to alternate srevice name array
+           int    s_port;     // port number
+           char*  s_proto;    // name of proto
+           ...
+       };
+
+       #include <netdb.h>
+       #include <sys/socket.h>
+       /**
+        ,* @brief      get address info
+        ,*
+        ,* @return     0 if OK, nonzero error code on error
+        ,*/
+
+       int getaddrinfo(const char* restrict host, const char* restrict service,
+                       const struct addrinfo* restrict hint,
+                       struct addrinfo** restrict      res);
+
+       void freeaddrinfo(struct addrinfo* ai);
+
+       /**
+        ,* @brief      convert the error code into error message
+        ,*
+        ,* @details    can't use perror or strerror to generate an error message
+        ,* but, need to call gai_strerror instead
+        ,*
+        ,* @param      error code returned by getaddrinfo
+        ,*
+        ,* @return     a pointer to a string describing the error
+        ,*/
+       const char* gai_strerror(int error);
+
+       struct addrinfo {
+           int              ai_flags;      // customize behavior
+           int              ai_family;     // address family
+           int              ai_socktype;   // socket type
+           int              ai_protocol;   // protocol
+           socklen_t        ai_addrlen;    // length in bytes of address
+           struct sockaddr* ai_addr;       // address
+           char*            ai_canonname;  // canonical name of host
+           struct addrinfo* ai_next;       // next in list
+           ...
+       };
+
+       /**
+        ,* @brief      convert an address into host and service name
+        ,*
+        ,* @return     0 if OK, nonzero on error
+        ,*/
+       #include <netdb.h>
+       #include <sys/socket.h>
+
+       int getnameinfo(const struct sockaddr* restrict addr, socklen_t alen,
+                       char* restrict host, socklen_t hostlen, char* restrict service,
+                       socklen_t servlen, int flags);
+     #+end_src
+
+     #+caption: Figure 16.7 Flags for addrinfo structure
+     | Flags          | Description                                                                   |
+     |----------------+-------------------------------------------------------------------------------|
+     | AI_ADDRCONFIG  | Query for whichever address type (IPv4 or IPv6) is configured.                |
+     | AI_ALL         | Look for both IPv4 and IPv6 addresses (used only with AI_V4MAPPED).           |
+     | AI_CANONNAME   | Request a canonical name (as opposed to an alias).                            |
+     | AI_NUMERICHOST | The host address is specified in numeric format; don't try to translate it.   |
+     | AI_NUMERICSERV | The service is specified as a numeric port number, don't try to translate it. |
+     | AI_PASSIVE     | Socket address is intended to be bound for listening.                         |
+     | AI_V4MAPPED    | If no IPv6 addreses are found, return IPv4 addresses mapped in IPv6 format.   |
+
+     #+caption: Figure 16.8 Flags for the ~getnameinfo ~function
+     | Flags           | Description                                                                             |
+     |-----------------+-----------------------------------------------------------------------------------------|
+     | NI_DGRAM        | The service is datagram based instead of stream based.                                  |
+     | NI_NAMEREQD     | If the host name can't be found, treat this as an error.                                |
+     | NI_NOFQDN       | Return only the node name portion of the fulling qualified domain name for local hosts. |
+     | NI_NUMERICHOST  | Return the numeric form of the host address instead of the name.                        |
+     | NI_NUMERICSCOPE | For IPv6, return the numeric form of the scope ID instead of the name.                  |
+     | NI_NUMERICSERV  | Return the numeric form of the service address (i.e., the port number)                  |
+
+     #+caption: Figure 16.9 Print host and service information
+     #+include: "Chapter16/16fig09.c" src c
 **** TODO 16.3.4 Associating Addresses with Sockets
 *** TODO 16.4 Connection Establishment
 *** TODO 16.5 Data Transfer
