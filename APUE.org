@@ -1898,7 +1898,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 10.2
         #+include: "Chapter10/10ex02.c" src c
       - 10.3
-        [[file:Chapter10/ex10.3.png][file:~/Documents/Notes/books/system/APUE/Chapter10/ex10.3.png]]
+        [[file:Chapter10/10ex03.png][file:~/Documents/Notes/books/system/APUE/Chapter10/10ex03.png]]
       - 10.4
         race condition between first call ~alarm~ and ~setjmp~
       - 10.5

@@ -1,5 +1,5 @@
 /**
- *   @file     ex10.10.c
+ *   @file     10ex10.c
  *   @date     2019-11-03
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
@@ -15,7 +15,7 @@ extern int log_to_stderr;
 
 void cron() {
     log_to_stderr = 0;
-    log_open("ex10.10", 0, 0);
+    log_open("10ex10", 0, 0);
     for (int i = 0;; ++i) {
         if (i % 5 == 0) {
             time_t    t  = time(NULL);

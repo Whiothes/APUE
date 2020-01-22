@@ -9,5 +9,5 @@ add_executable(13fig08 13fig08 13fig01 13fig06)
 
 add_libthreads(13fig07 13fig08)
 
-add_executable(ex13.1 ex13.1)
-add_executable(ex13.4 ex13.4)
+add_executable(13ex01 13ex01)
+add_executable(13ex04 13ex04)

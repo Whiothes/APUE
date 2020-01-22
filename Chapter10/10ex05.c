@@ -1,5 +1,5 @@
 /**
- *   @file     ex10.5.c
+ *   @file     10ex05.c
  *   @date     2019-10-29
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
