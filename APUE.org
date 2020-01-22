@@ -4371,7 +4371,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     | IPPROTO_TCP  | Transmission Control Protocol                 |
     | IPPROTO_UDP  | User Datagram Protocol                        |
 
-*** TODO 16.3 Addressing [3/4]
+*** TODO 16.3 Addressing [4/4]
 **** DONE 16.3.1 Byte Ordering
      CLOSED: [2020-01-20 Mon 11:49]
      #+caption: Figure 16.5 Byte order in a 32-bit integer
@@ -4662,7 +4662,45 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
      #+caption: Figure 16.9 Print host and service information
      #+include: "Chapter16/16fig09.c" src c
-**** TODO 16.3.4 Associating Addresses with Sockets
+**** DONE 16.3.4 Associating Addresses with Sockets
+     CLOSED: [2020-01-22 Wed 09:29]
+     #+begin_src c
+       #include <sys/socket.h>
+
+       /**
+        ,* @brief      associate an address with a socket
+        ,*
+        ,* @param      addr     restrictions:
+        ,*                      * The address we specify must be valid for the
+        ,* machine on which the process is running; we can't specify an address
+        ,* belonging to some other machine
+        ,*                      * The address must match the format supported by the
+        ,* address family we used to create the socket
+        ,*                      * The port number in the address cannot be less than
+        ,* 1024 unless the process has the appropriate privilege
+        ,*                      * Usually, ony one socket endpoint can be bound to a
+        ,* given address, although some protocols allow duplicate bindings.
+        ,*
+        ,* @return     0 if OK, -1 on error
+        ,*/
+       int bind(int sockfd, const struct sockaaddr *addr, socklen_t len);
+
+       /**
+        ,* @brief      discover the address bound to a socket
+        ,*
+        ,* @return     0 if OK, -1 on error
+        ,*/
+       int getsockname(int sockfd, struct sockaddr *restrict addr,
+                       socklen_t *restrict alenp);
+
+       /**
+        ,* @brief      find out the peer's address
+        ,*
+        ,* @return     0 if OK, -1 on error
+        ,*/
+       int getpeername(int sockfd, struct sockaddr *restrict addr,
+                       socklen_t *restrict alenp);
+     #+end_src
 *** TODO 16.4 Connection Establishment
 *** TODO 16.5 Data Transfer
 *** TODO 16.6 Socket Options
