@@ -4312,7 +4312,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 15.14
         [[file:Chapter15/15ex14.jpg]]
       - 15.15 pause
-** TODO Chapter 16. Network IPC: Sockets [2/9]
+** TODO Chapter 16. Network IPC: Sockets [3/9]
 *** DONE 16.1 Introduction
     CLOSED: [2020-01-19 Sun 13:50]
     *only an overview of the socket API*
@@ -4701,7 +4701,62 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        int getpeername(int sockfd, struct sockaddr *restrict addr,
                        socklen_t *restrict alenp);
      #+end_src
-*** TODO 16.4 Connection Establishment
+*** DONE 16.4 Connection Establishment
+    CLOSED: [2020-01-22 Wed 10:17]
+    #+begin_src c
+      #include <sys/socket.h>
+
+      /**
+       ,* @brief      create a connection
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int connect(int sockfd, const struct sockaddr *addr, socklen_t len);
+    #+end_src
+
+    - Example
+      #+caption: Figure 16.10 Connect with retry
+      #+include: "Chapter16/16fig10.c" src c
+
+      #+caption: Figure 16.11 Portable connect with retry
+      #+include: "Chapter16/16fig11.c" src c
+
+
+    #+begin_src c
+      #include <sys/socket.h>
+
+      /**
+       ,* @brief      be willing to accept connect requests
+       ,*
+       ,* @param      backlog    a hint to the system regarding the number of
+       ,*                        outstanding connect requests that it should
+       ,*                        enqueue on behalf of the process.
+       ,*                        is determined by the system,
+       ,*                        upper limit SOMAXCONN
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int listen(int sockfd, int backlog);
+
+      /**
+       ,* @brief      retrieve a connect request and convert it into a connection
+       ,*
+       ,* @details
+       ,*
+       ,* @param      addr       set to NULL when don't care, otherwise, set a buffer
+       ,*                        large enough to hold the address will be returned
+       ,* @param      len        set to NULL when don't care, otherwise, set a integer
+       ,*                        pointed by len and to the size of the buffer.
+       ,*
+       ,* @return     file (socket) descriptor if OK, -1 on error
+       ,*/
+      int accept(int sockfd, struct sockaddr *restrict addr, socklen_t *restrict len);
+    #+end_src
+
+    - Example
+      #+caption: Figure 16.12 Initialize a socket endpoint for use by a server
+      #+include: "Chapter16/16fig12.c" src c
+
 *** TODO 16.5 Data Transfer
 *** TODO 16.6 Socket Options
 *** TODO 16.7 Out-of-Band Data
