@@ -1214,13 +1214,13 @@
     - Exercises
       -
         #+caption: 8.1
-        #+include: "Chapter08/ex8.1.c" src c
+        #+include: "Chapter08/08ex01.c" src c
       -
         #+caption: 8.2
-        #+include: "Chapter08/ex8.2.c" src c
+        #+include: "Chapter08/08ex02.c" src c
       -
         #+caption: 8.3
-        #+include: "Chapter08/ex8.1.c" src c
+        #+include: "Chapter08/08ex01.c" src c
       - 8.4
     In Figure 8.13, we have the parent write its output first. When the parent is done, the child writes its output, but we let the parent terminate. Whether the parent terminates or whether the child finishes its output first depends on the kernel’s scheduling of the two processes (another race condition). When the parent terminates, the shell starts up the next program, and this next program can interfere with the output from the previous child.
     We can prevent this from happening by not letting the parent terminate until the child has also finished its output. Replace the code following the fork with the following:
@@ -1240,7 +1240,7 @@
     - 8.5 The same value
     -
       #+caption: 8.6
-      #+include: "Chapter08/ex8.6.c" src c
+      #+include: "Chapter08/08ex06.c" src c
 ** DONE Chapter 9. Process Relationships [12/12]
    CLOSED: [2019-12-14 Sat 17:54]
 *** DONE 9.1 Introduction
@@ -1457,7 +1457,7 @@
         #+end_quote
 
       - 9.2
-        #+include: "Chapter09/ex9.2.c" src c
+        #+include: "Chapter09/09ex02.c" src c
 ** DONE Chapter 10. Signals [23/23]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 10.1 Introduction
@@ -1896,7 +1896,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         ~pause~ until a signal is received from either the kill(2) function or an interval timer
         #+end_quote
       - 10.2
-        #+include: "Chapter10/ex10.2.c" src c
+        #+include: "Chapter10/10ex02.c" src c
       - 10.3
         [[file:Chapter10/ex10.3.png][file:~/Documents/Notes/books/system/APUE/Chapter10/ex10.3.png]]
       - 10.4
@@ -1904,7 +1904,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 10.5
         [[http://www.kohala.com/start/libes.timers.txt][www.kohala.com/start/libes.timers.txt]]
       - 10.6
-        #+include: "Chapter10/ex10.6.c" src c
+        #+include: "Chapter10/10ex06.c" src c
       - 10.7
         #+begin_quote
         the termination status of the process would not show that it was terminated by the SIGABRT signal.
@@ -1914,14 +1914,14 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         If the signal was sent by a process owned by some other user, the process has to be set-user-ID to either root or to the owner of the receiving process, or the kill attempt won’t work. Therefore, the real user ID provides more information to the receiver of the signal.
         #+end_quote
       - 10.9
-        #+include: "Chapter10/ex10.9.c" src c
+        #+include: "Chapter10/10ex09.c" src c
       - 10.10
-        #+include: "Chapter10/ex10.10.c" src c
+        #+include: "Chapter10/10ex10.c" src c
       - 10.11
-        #+include: "Chapter10/ex10.11.c" src c
+        #+include: "Chapter10/10ex11.c" src c
         SIGXFSZ never caught
       - 10.12
-        #+include: "Chapter10/ex10.2.c" src c
+        #+include: "Chapter10/10ex02.c" src c
         finished, alarm appears until fwrite finshied, it seems the kernel is blocking SIGALRM
 ** DONE Chapter 11. Threads [7/7]
    CLOSED: [2019-11-14 Thu 22:35]
@@ -2284,7 +2284,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     CLOSED: [2019-11-15 Fri 00:29]
     - Exercises
       - 11.1
-        #+include: "Chapter11/ex11.1.c" src c
+        #+include: "Chapter11/11ex01.c" src c
       - 11.2
         #+begin_quote
         write-mode lock on the whole list while the ID is changing.
@@ -2294,7 +2294,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         to solve this problem, add another mutex in struct job
         #+end_quote
       - 11.3
-        #+include: "Chapter11/ex11.3.c" src c
+        #+include: "Chapter11/11ex03.c" src c
         1. rwlock change to condition lock, and need additional mutex lock
         2. data structure for each thread OR
         3. if lock the whole list, the other jobs have to wait, it is the waste of time
@@ -2304,7 +2304,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+end_quote
       - 11.5
         pthread_cond && counter
-        #+include: "Chapter11/ex11.5.c" src c
+        #+include: "Chapter11/11ex05.c" src c
 ** DONE Chapter 12. Thread Control [11/11]
    CLOSED: [2019-11-28 Thu 15:37]
 *** DONE 12.1 Introduction
@@ -2730,9 +2730,9 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         This is not a multithreading problem, as one might first guess. The standard I/O routines are indeed thread-safe. When we call fork, each process gets a copy of the standard I/O data structures. When we run the program with standard output attached to a terminal, the output is line buffered, so every time we print a line, the standard I/O library writes it to our terminal. However, if we redirect the standard output to a file, then the standard output is fully buffered. The output is written when the buffer fills or the process closes the stream. When we fork in this example, the buffer contains several printed lines not yet written, so when the parent and the child finally flush their copies of the buffer, the initial duplicate contents are written to the file.
         #+end_quote
       - 12.2 reentrant version of ~putenv~
-        #+include: "Chapter12/ex12.2.c" src c
+        #+include: "Chapter12/12ex02.c" src c
       - 12.3 a signal-blocked version of getenv
-        #+include: "Chapter12/ex12.3.c" src c
+        #+include: "Chapter12/12ex03.c" src c
         #+begin_quote
         The problem is that we don’t know whether any of the functions we call might unmask a signal that we’ve blocked, thereby making it possible for the function to be reentered through another signal handler.
         #+end_quote
@@ -2744,10 +2744,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+end_quote
       - 12.5 run a program within a program
       - 12.6 implemented sleep by using select
-        #+include: "Chapter12/ex12.6.c" src c
+        #+include: "Chapter12/12ex06.c" src c
       - 12.7 unsafe to do that, because we hardly acquire and release the mutex protected condition variable
       - 12.8 use select instead?
-        #+include: "Chapter12/ex12.8.c" src c
+        #+include: "Chapter12/12ex08.c" src c
 ** DONE Chapter 13. Daemon Processes [8/8]
    CLOSED: [2019-12-01 Sun 22:21]
 *** DONE 13.1 Introduction
@@ -2933,7 +2933,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - ...
       - 13.4 code below
         #+caption: call daemon and get login name
-        #+include: "Chapter13/ex13.4.c" src c
+        #+include: "Chapter13/13ex04.c" src c
 
 ** DONE Chapter 14. Advanced I/O [8/8]
    CLOSED: [2019-12-29 Sun 02:15]
@@ -3475,7 +3475,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     CLOSED: [2019-12-29 Sun 02:15]
    - Exercises
      - 14.1
-       #+include: "Chapter14/ex14.1.c" src c
+       #+include: "Chapter14/14ex01.c" src c
      - 14.2
        #+begin_quote
        Most systems define the fd_set data type to be a structure that contains a single member: an array of long integers. One bit in this array corresponds to each descriptor. The four FD_ macros then manipulate this array of longs, turning specific bits on and off and testing specific bits.
@@ -3492,11 +3492,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        | FD_CLR               | sigdelset   |
        | FD_ISSET             | sigismember |
      - 14.5
-       #+include: "Chapter14/ex14.5.c" src c
+       #+include: "Chapter14/14ex05.c" src c
      - 14.6
        No. *call ~fork~ releases all the locks in the child, so the child can't start off with any locks of its own*
      - 14.7
-       #+include: "Chapter14/ex14.7.c" src c
+       #+include: "Chapter14/14ex07.c" src c
        #+begin_quote
        | Platform           | Pipe Capacity(bytes) |
        |--------------------+----------------------|
@@ -3508,13 +3508,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        These values can differ from the corresponding =PIPE_BUF= values, because PIPE_BUF is defined to be the maximum amount of data that *can be written* to a pipe atomically. Here, we calculate the amount of data that a pipe *can hold* independent of any atomicity constraints.
        #+end_quote
      - 14.8
-       #+include: "Chapter14/ex14.8.c" src c
+       #+include: "Chapter14/14ex08.c" src c
      - 14.9
        just try to execute the program with a very large file
      - 14.10
        Not changed
      - 14.11
-       #+include: "Chapter14/ex14.11.c" src c
+       #+include: "Chapter14/14ex11.c" src c
 ** TODO Chapter 15. Interprocess Communication [11/12]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
