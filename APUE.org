@@ -4758,6 +4758,119 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       #+include: "Chapter16/16fig12.c" src c
 
 *** TODO 16.5 Data Transfer
+    #+begin_src c
+      #include <sys/socket.h>
+
+      /**
+       ,* @brief      similar to send
+       ,*
+       ,* @details    allows us to specify flags to change how the data we want to
+       ,* transmit is treated
+       ,*
+       ,* @param      flags        see below
+       ,*
+       ,* @return     number of bytes sent if OK, -1 on error
+       ,*/
+      ssize_t send(int sockfd, const void *buf, size_t nbytes, int flags);
+
+      /**
+       ,* @brief      similar to send
+       ,*
+       ,* @details    allows us to specify a destination address to be used with
+       ,* connectionless sockets
+       ,*
+       ,* @return     number of bytes sent if OK, -1 on error
+       ,*/
+      ssize_t sendto(int sockfd, const void *buf, size_t nytes, int flags,
+                     const struct sockaddr *destaddr, socklen_t destlen);
+
+      /**
+       ,* @brief      similar to writev
+       ,*
+       ,* @details    send multiple buffers
+       ,*
+       ,* @param      msghdr       specify multiple buffers from which to transmit data
+       ,*
+       ,* @return     number of bytes sent if OK, -1 on error
+       ,*/
+      struct msghdr {
+          void *        msg_name;        // optional address
+          socklen_t     msg_namelen;     // address size in bytes
+          struct iovec *msg_iov;         // array of I/O buffers
+          int           msg_iovlen;      // number of elements in array
+          void *        msg_control;     // ancillary data
+          socklen_t     msg_controllen;  // number of ancillary bytes
+          int           msg_flags;       // flags for received message
+          ...
+      };
+      ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
+    #+end_src
+    #+caption: Figure 16.13 Flags used with ~send~ socket calls
+    | Flags         | Description                                                       | POSIX.1 | FreeBSD | Linux | Mac OS X | Solaris |
+    |               |                                                                   |         | 8.0     | 3.2.0 | 10.6.8   | 10      |
+    |---------------+-------------------------------------------------------------------+---------+---------+-------+----------+---------|
+    |               | <10>                                                              |         |         |       |          |         |
+    | MSG_CONFIRM   | Provide feedback to the link layer to keep address mapping valid  |         |         | *     |          |         |
+    | MSG_DONTROUTE | Don't route packet outside of local network                       |         | *       | *     | *        | *       |
+    | MSG_DONTWAIT  | Enable nonblocking operation (equivalent to using O_NONBLOCK)     |         | *       | *     | *        | *       |
+    | MSG_EOF       | Shut the sender side of the socket down after sending data        |         | *       |       | *        |         |
+    | MSG_EOR       | Mark the end of the record if supported by protocol               | *       | *       | *     | *        | *       |
+    | MSG_MORE      | Delay sending the packet to allow more data to be written         |         |         | *     |          |         |
+    | MSG_NOSIGNAL  | Don't generate SIGPIPE when writing to an unconnected socket      | *       | *       | *     |          |         |
+    | MSG_OOB       | Send out-of-band data if supported by protocol (see section 16.7) | *       | *       | *     | *        | *       |
+
+
+    #+begin_src c
+      #include <sys/socket.h>
+
+      /**
+       ,* @brief      similar to send, but fetch data
+       ,*
+       ,* @return     length of message in bytes, 0 if no messages are available and
+       ,*             peer has done an olderly shutdown or -1 on error
+       ,*/
+      ssize_t recv(int sockfd, void *buf, size_t nbytes, int flags);
+
+      /**
+       ,* @brief      similar to sendto, but fetch data
+       ,*
+       ,* @return     length of message in bytes, 0 if no messages are available and
+       ,*             peer has done an olderly shutdown or -1 on error
+       ,*/
+      ssize_t recvfrom(int sockfd, void *restrict buf, size_t len, int flags,
+                       struct sockaddr *restrict addr, socklen_t *restrict addrlen);
+
+      /**
+       ,* @brief      similar to sendmsg, but fetch data
+       ,*
+       ,* @param      flags    see below
+       ,*
+       ,* @return     length of message in bytes, 0 if no messages are available and
+       ,*             peer has done an olderly shutdown or -1 on error
+       ,*/
+      ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
+    #+end_src
+    #+caption: Figure 16.14 Flags returned in msg_flags by recvmsg
+    | Flags        | Description                                      | POSIX.1 | FreeBSD 8.0 | Linux 3.2.0 | Mac OS X 10.6.8 | Solaris 10 |
+    |--------------+--------------------------------------------------+---------+-------------+-------------+-----------------+------------|
+    | MSG_CTRUNC   | Control data was truncated                       | *       | *           | *           | *               | *          |
+    | MSG_EOR      | End of record was received                       | *       | *           | *           | *               | *          |
+    | MSG_ERRQUEUE | Error information was received as ancillary data |         |             | *           |                 |            |
+    | MSG_OOB      | Out-of-band data was received                    | *       | *           | *           | *               | *          |
+    | MSG_TRUNC    | Normal data was truncated                        | *       | *           | *           | *               | *          |
+
+
+    - Example -- Connection-Oriented Client
+      #+caption: Figure 16.16 Client command to get uptime from server
+      #+include: "Chapter16/16fig16.c" src c
+
+    - Example -- Connection-Oriented Server
+      #+caption: Figure 16.17 Server program to provide system uptime
+      #+include: "Chapter16/16fig17.c" src c
+
+    - Example -- Alternative Connection-Oriented Server
+      #+caption: Figure 16.18 Server program illustrating command writing directly to socket
+    
 *** TODO 16.6 Socket Options
 *** TODO 16.7 Out-of-Band Data
 *** TODO 16.8 Nonblocking and Asynchronous I/O

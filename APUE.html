@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-01-22 Wed 10:18 -->
+<!-- 2020-01-22 Wed 15:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -18589,32 +18589,317 @@ Example
 </div>
 </div>
 
-<div id="outline-container-org58290bd" class="outline-4">
-<h4 id="org58290bd"><span class="todo TODO">TODO</span> 16.5 Data Transfer</h4>
+<div id="outline-container-org0fb2aba" class="outline-4">
+<h4 id="org0fb2aba"><span class="todo TODO">TODO</span> 16.5 Data Transfer</h4>
+<div class="outline-text-4" id="text-org0fb2aba">
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #A6E22E;">#include</span> <span style="color: #C4BE89;">&lt;</span><span style="color: #E6DB74;">sys/socket.h</span><span style="color: #C4BE89;">&gt;</span>
+
+<span style="color: #465457; font-style: italic;">/**</span>
+<span style="color: #465457; font-style: italic;"> * @brief      similar to send</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @details    allows us to specify flags to change how the data we want to</span>
+<span style="color: #465457; font-style: italic;"> * transmit is treated</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @param      flags        see below</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @return     number of bytes sent if OK, -1 on error</span>
+<span style="color: #465457; font-style: italic;"> */</span>
+<span style="color: #66D9EF;">ssize_t</span> <span style="color: #F92672; font-style: italic;">send</span><span style="color: #C4BE89;">(</span><span style="color: #66D9EF;">int</span> <span style="color: #F92672;">sockfd</span>, <span style="color: #66D9EF;">const</span> <span style="color: #66D9EF;">void</span> *<span style="color: #F92672;">buf</span>, <span style="color: #66D9EF;">size_t</span> <span style="color: #F92672;">nbytes</span>, <span style="color: #66D9EF;">int</span> <span style="color: #F92672;">flags</span><span style="color: #C4BE89;">)</span>;
+
+<span style="color: #465457; font-style: italic;">/**</span>
+<span style="color: #465457; font-style: italic;"> * @brief      similar to send</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @details    allows us to specify a destination address to be used with</span>
+<span style="color: #465457; font-style: italic;"> * connectionless sockets</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @return     number of bytes sent if OK, -1 on error</span>
+<span style="color: #465457; font-style: italic;"> */</span>
+<span style="color: #66D9EF;">ssize_t</span> <span style="color: #F92672; font-style: italic;">sendto</span><span style="color: #C4BE89;">(</span><span style="color: #66D9EF;">int</span> <span style="color: #F92672;">sockfd</span>, <span style="color: #66D9EF;">const</span> <span style="color: #66D9EF;">void</span> *<span style="color: #F92672;">buf</span>, <span style="color: #66D9EF;">size_t</span> <span style="color: #F92672;">nytes</span>, <span style="color: #66D9EF;">int</span> <span style="color: #F92672;">flags</span>,
+               <span style="color: #66D9EF;">const</span> <span style="color: #66D9EF;">struct</span> <span style="color: #66D9EF;">sockaddr</span> *<span style="color: #F92672;">destaddr</span>, <span style="color: #66D9EF;">socklen_t</span> <span style="color: #F92672;">destlen</span><span style="color: #C4BE89;">)</span>;
+
+<span style="color: #465457; font-style: italic;">/**</span>
+<span style="color: #465457; font-style: italic;"> * @brief      similar to writev</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @details    send multiple buffers</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @param      msghdr       specify multiple buffers from which to transmit data</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @return     number of bytes sent if OK, -1 on error</span>
+<span style="color: #465457; font-style: italic;"> */</span>
+<span style="color: #66D9EF;">struct</span> <span style="color: #66D9EF;">msghdr</span> <span style="color: #C4BE89;">{</span>
+    <span style="color: #66D9EF;">void</span> *        <span style="color: #F92672;">msg_name</span>;        <span style="color: #465457; font-style: italic;">// </span><span style="color: #465457; font-style: italic;">optional address</span>
+    <span style="color: #66D9EF;">socklen_t</span>     <span style="color: #F92672;">msg_namelen</span>;     <span style="color: #465457; font-style: italic;">// </span><span style="color: #465457; font-style: italic;">address size in bytes</span>
+    <span style="color: #66D9EF;">struct</span> <span style="color: #66D9EF;">iovec</span> *<span style="color: #F92672;">msg_iov</span>;         <span style="color: #465457; font-style: italic;">// </span><span style="color: #465457; font-style: italic;">array of I/O buffers</span>
+    <span style="color: #66D9EF;">int</span>           <span style="color: #F92672;">msg_iovlen</span>;      <span style="color: #465457; font-style: italic;">// </span><span style="color: #465457; font-style: italic;">number of elements in array</span>
+    <span style="color: #66D9EF;">void</span> *        <span style="color: #F92672;">msg_control</span>;     <span style="color: #465457; font-style: italic;">// </span><span style="color: #465457; font-style: italic;">ancillary data</span>
+    <span style="color: #66D9EF;">socklen_t</span>     <span style="color: #F92672;">msg_controllen</span>;  <span style="color: #465457; font-style: italic;">// </span><span style="color: #465457; font-style: italic;">number of ancillary bytes</span>
+    <span style="color: #66D9EF;">int</span>           <span style="color: #F92672;">msg_flags</span>;       <span style="color: #465457; font-style: italic;">// </span><span style="color: #465457; font-style: italic;">flags for received message</span>
+    ...
+<span style="color: #C4BE89;">}</span>;
+<span style="color: #66D9EF;">ssize_t</span> <span style="color: #F92672; font-style: italic;">sendmsg</span><span style="color: #C4BE89;">(</span><span style="color: #66D9EF;">int</span> <span style="color: #F92672;">sockfd</span>, <span style="color: #66D9EF;">const</span> <span style="color: #66D9EF;">struct</span> <span style="color: #66D9EF;">msghdr</span> *<span style="color: #F92672;">msg</span>, <span style="color: #66D9EF;">int</span> <span style="color: #F92672;">flags</span><span style="color: #C4BE89;">)</span>;
+</pre>
 </div>
-<div id="outline-container-org497ee52" class="outline-4">
-<h4 id="org497ee52"><span class="todo TODO">TODO</span> 16.6 Socket Options</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 34:</span> Figure 16.13 Flags used with <code>send</code> socket calls</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Flags</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">POSIX.1</th>
+<th scope="col" class="org-left">FreeBSD</th>
+<th scope="col" class="org-left">Linux</th>
+<th scope="col" class="org-left">Mac OS X</th>
+<th scope="col" class="org-left">Solaris</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">8.0</th>
+<th scope="col" class="org-left">3.2.0</th>
+<th scope="col" class="org-left">10.6.8</th>
+<th scope="col" class="org-left">10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">MSG_CONFIRM</td>
+<td class="org-left">Provide feedback to the link layer to keep address mapping valid</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_DONTROUTE</td>
+<td class="org-left">Don't route packet outside of local network</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_DONTWAIT</td>
+<td class="org-left">Enable nonblocking operation (equivalent to using O_NONBLOCK)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_EOF</td>
+<td class="org-left">Shut the sender side of the socket down after sending data</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_EOR</td>
+<td class="org-left">Mark the end of the record if supported by protocol</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_MORE</td>
+<td class="org-left">Delay sending the packet to allow more data to be written</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_NOSIGNAL</td>
+<td class="org-left">Don't generate SIGPIPE when writing to an unconnected socket</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_OOB</td>
+<td class="org-left">Send out-of-band data if supported by protocol (see section 16.7)</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #A6E22E;">#include</span> <span style="color: #C4BE89;">&lt;</span><span style="color: #E6DB74;">sys/socket.h</span><span style="color: #C4BE89;">&gt;</span>
+
+<span style="color: #465457; font-style: italic;">/**</span>
+<span style="color: #465457; font-style: italic;"> * @brief      similar to send, but fetch data</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @return     length of message in bytes, 0 if no messages are available and</span>
+<span style="color: #465457; font-style: italic;"> *             peer has done an olderly shutdown or -1 on error</span>
+<span style="color: #465457; font-style: italic;"> */</span>
+<span style="color: #66D9EF;">ssize_t</span> <span style="color: #F92672; font-style: italic;">recv</span><span style="color: #C4BE89;">(</span><span style="color: #66D9EF;">int</span> <span style="color: #F92672;">sockfd</span>, <span style="color: #66D9EF;">void</span> *<span style="color: #F92672;">buf</span>, <span style="color: #66D9EF;">size_t</span> <span style="color: #F92672;">nbytes</span>, <span style="color: #66D9EF;">int</span> <span style="color: #F92672;">flags</span><span style="color: #C4BE89;">)</span>;
+
+<span style="color: #465457; font-style: italic;">/**</span>
+<span style="color: #465457; font-style: italic;"> * @brief      similar to sendto, but fetch data</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @return     length of message in bytes, 0 if no messages are available and</span>
+<span style="color: #465457; font-style: italic;"> *             peer has done an olderly shutdown or -1 on error</span>
+<span style="color: #465457; font-style: italic;"> */</span>
+<span style="color: #66D9EF;">ssize_t</span> <span style="color: #F92672; font-style: italic;">recvfrom</span><span style="color: #C4BE89;">(</span><span style="color: #66D9EF;">int</span> <span style="color: #F92672;">sockfd</span>, <span style="color: #66D9EF;">void</span> *<span style="color: #66D9EF;">restrict</span> <span style="color: #F92672;">buf</span>, <span style="color: #66D9EF;">size_t</span> <span style="color: #F92672;">len</span>, <span style="color: #66D9EF;">int</span> <span style="color: #F92672;">flags</span>,
+                 <span style="color: #66D9EF;">struct</span> <span style="color: #66D9EF;">sockaddr</span> *<span style="color: #66D9EF;">restrict</span> <span style="color: #F92672;">addr</span>, <span style="color: #66D9EF;">socklen_t</span> *<span style="color: #66D9EF;">restrict</span> <span style="color: #F92672;">addrlen</span><span style="color: #C4BE89;">)</span>;
+
+<span style="color: #465457; font-style: italic;">/**</span>
+<span style="color: #465457; font-style: italic;"> * @brief      similar to sendmsg, but fetch data</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @param      flags    see below</span>
+<span style="color: #465457; font-style: italic;"> *</span>
+<span style="color: #465457; font-style: italic;"> * @return     length of message in bytes, 0 if no messages are available and</span>
+<span style="color: #465457; font-style: italic;"> *             peer has done an olderly shutdown or -1 on error</span>
+<span style="color: #465457; font-style: italic;"> */</span>
+<span style="color: #66D9EF;">ssize_t</span> <span style="color: #F92672; font-style: italic;">recvmsg</span><span style="color: #C4BE89;">(</span><span style="color: #66D9EF;">int</span> <span style="color: #F92672;">sockfd</span>, <span style="color: #66D9EF;">struct</span> <span style="color: #66D9EF;">msghdr</span> *<span style="color: #F92672;">msg</span>, <span style="color: #66D9EF;">int</span> <span style="color: #F92672;">flags</span><span style="color: #C4BE89;">)</span>;
+</pre>
 </div>
-<div id="outline-container-orgaa714e5" class="outline-4">
-<h4 id="orgaa714e5"><span class="todo TODO">TODO</span> 16.7 Out-of-Band Data</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 35:</span> Figure 16.14 Flags returned in msg_flags by recvmsg</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Flags</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">POSIX.1</th>
+<th scope="col" class="org-left">FreeBSD 8.0</th>
+<th scope="col" class="org-left">Linux 3.2.0</th>
+<th scope="col" class="org-left">Mac OS X 10.6.8</th>
+<th scope="col" class="org-left">Solaris 10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">MSG_CTRUNC</td>
+<td class="org-left">Control data was truncated</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_EOR</td>
+<td class="org-left">End of record was received</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_ERRQUEUE</td>
+<td class="org-left">Error information was received as ancillary data</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_OOB</td>
+<td class="org-left">Out-of-band data was received</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+</tr>
+
+<tr>
+<td class="org-left">MSG_TRUNC</td>
+<td class="org-left">Normal data was truncated</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+<td class="org-left">*</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="outline-container-orgd516950" class="outline-4">
-<h4 id="orgd516950"><span class="todo TODO">TODO</span> 16.8 Nonblocking and Asynchronous I/O</h4>
 </div>
-<div id="outline-container-orgbec82f4" class="outline-4">
-<h4 id="orgbec82f4"><span class="todo TODO">TODO</span> 16.9 Summary</h4>
+<div id="outline-container-org69ef553" class="outline-4">
+<h4 id="org69ef553"><span class="todo TODO">TODO</span> 16.6 Socket Options</h4>
+</div>
+<div id="outline-container-org557ac0c" class="outline-4">
+<h4 id="org557ac0c"><span class="todo TODO">TODO</span> 16.7 Out-of-Band Data</h4>
+</div>
+<div id="outline-container-org397ae2d" class="outline-4">
+<h4 id="org397ae2d"><span class="todo TODO">TODO</span> 16.8 Nonblocking and Asynchronous I/O</h4>
+</div>
+<div id="outline-container-org3c3f2b4" class="outline-4">
+<h4 id="org3c3f2b4"><span class="todo TODO">TODO</span> 16.9 Summary</h4>
 </div>
 </div>
-<div id="outline-container-orgde7725c" class="outline-3">
-<h3 id="orgde7725c"><span class="todo TODO">TODO</span> Chapter 17. Advanced IPC <code>[2/7]</code></h3>
-<div class="outline-text-3" id="text-orgde7725c">
+<div id="outline-container-org2338ee4" class="outline-3">
+<h3 id="org2338ee4"><span class="todo TODO">TODO</span> Chapter 17. Advanced IPC <code>[2/7]</code></h3>
+<div class="outline-text-3" id="text-org2338ee4">
 </div>
-<div id="outline-container-org6a76786" class="outline-4">
-<h4 id="org6a76786"><span class="todo TODO">TODO</span> 17.1 Introduction</h4>
+<div id="outline-container-orgd3b8c7d" class="outline-4">
+<h4 id="orgd3b8c7d"><span class="todo TODO">TODO</span> 17.1 Introduction</h4>
 </div>
-<div id="outline-container-org8642d52" class="outline-4">
-<h4 id="org8642d52"><span class="done DONE">DONE</span> 17.2 UNIX Domain Sockets</h4>
-<div class="outline-text-4" id="text-org8642d52">
+<div id="outline-container-orgaa3575c" class="outline-4">
+<h4 id="orgaa3575c"><span class="done DONE">DONE</span> 17.2 UNIX Domain Sockets</h4>
+<div class="outline-text-4" id="text-orgaa3575c">
 <ul class="org-ul">
 <li><p>
 Example &#x2013; Polling XSI Message Queues with the Help of UNIX Domain Sockets

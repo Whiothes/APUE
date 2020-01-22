@@ -1,36 +1,20 @@
+/**
+ *   @file     16fig16.c
+ *   @date     2020-01-22
+ *   @author   whiothes <whiothes81@gmail.com>
+ *   @version  1.0
+ *   @brief    client command to get uptime from server
+ */
+
 #include <errno.h>
 #include <netdb.h>
 #include <sys/socket.h>
 
 #include "apue.h"
 
-#define MAXSLEEP 128
-#define BUFLEN   128
-int connect_retry(int domain, int type, int protocol,
-                  const struct sockaddr *addr, socklen_t alen) {
-    int numsec, fd;
+#define BUFLEN 128
 
-    /*
-     * Try to connect with exponential backoff
-     */
-    for (numsec = 1; numsec < MAXSLEEP; numsec <<= 1) {
-        if ((fd = socket(domain, type, protocol)) < 0) return -1;
-
-        if (connect(fd, addr, alen) == 0)
-            /*
-             * Connection accepted
-             */
-            return fd;
-        close(fd);
-
-        /*
-         * Delay before trying again
-         */
-        if (numsec <= MAXSLEEP / 2) sleep(numsec);
-    }
-
-    return -1;
-}
+extern int connect_retry(int, int, int, const struct sockaddr *, socklen_t);
 
 void print_uptime(int sockfd) {
     int  n;
@@ -50,15 +34,19 @@ int main(int argc, char *argv[]) {
     struct addrinfo  hint;
     int              sockfd, err;
 
-    memset(&hint, 0, sizeof(struct addrinfo));
-    /* /\* hint.ai_socktype  = SOCK_STREAM; *\/ */
-    /* hint.ai_socktype  = SOCK_DGRAM; */
+    if (argc != 2) {
+        err_quit("usage: ruptime hostname", argv[0]);
+    }
+
+    memset(&hint, 0, sizeof(hint));
+    hint.ai_socktype  = SOCK_STREAM;
     hint.ai_canonname = NULL;
     hint.ai_addr      = NULL;
     hint.ai_next      = NULL;
 
-    if ((err = getaddrinfo("localhost", "4000", &hint, &ailist)) != 0)
+    if ((err = getaddrinfo(argv[1], "4000", &hint, &ailist)) != 0) {
         err_quit("getaddrinfo error: %s", gai_strerror(err));
+    }
     for (aip = ailist; aip != NULL; aip = aip->ai_next) {
         if ((sockfd = connect_retry(aip->ai_family, SOCK_STREAM, 0,
                                     aip->ai_addr, aip->ai_addrlen)) < 0) {
