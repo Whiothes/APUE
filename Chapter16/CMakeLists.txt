@@ -11,3 +11,5 @@ add_executable(16fig16 16fig16 16fig11)
 add_executable(16fig17 16fig17 16fig12)
 add_executable(16fig18 16fig18 16fig12)
 add_executable(16fig20 16fig20 16fig12)
+
+add_library(16fig22 STATIC 16fig22)

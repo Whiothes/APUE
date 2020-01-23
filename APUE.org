@@ -2761,7 +2761,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+begin_quote
     * The kswapd daemon is also known as pageout daemon. It supports the virtual memory subsystem by writing dirty pages to disk slowly over time, so the pages can be reclamed.
-    * The flush daemon fluhes dirty pages to disk when available memory reaches a configured minimul thrshold.
+    * The flush daemon fluhes dirty pages to disk when available memory reaches a configured minimum thrshold.
     * The sync_supers daemon periodically fluhes the system metadata to disk.
     * The jbd daemon helps implement the journal in the ext4 file system.
     #+end_quote
@@ -4312,7 +4312,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 15.14
         [[file:Chapter15/15ex14.jpg]]
       - 15.15 pause
-** TODO Chapter 16. Network IPC: Sockets [3/9]
+** TODO Chapter 16. Network IPC: Sockets [4/9]
 *** DONE 16.1 Introduction
     CLOSED: [2020-01-19 Sun 13:50]
     *only an overview of the socket API*
@@ -4871,7 +4871,63 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     - Example -- Alternative Connection-Oriented Server
       #+caption: Figure 16.18 Server program illustrating command writing directly to socket
     
-*** TODO 16.6 Socket Options
+*** DONE 16.6 Socket Options
+    CLOSED: [2020-01-23 Thu 15:02]
+    #+begin_quote
+    three kinds of options:
+    1. Generic options that work with all socket types.
+    2. Options that are managed at the socket leve, but depend on the underlying protocols for support
+    3. Protocol-specific options unique to each individual protocol
+    #+end_quote
+
+    #+begin_src c
+
+      #include <sys/socket.h>
+
+      /**
+       ,* @brief      set a socket option
+       ,*
+       ,* @param      option     see below
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int setsockopt(int sockfd, int level, int option, const void *val,
+                     socklen_t len);
+
+      /**
+       ,* @brief      get a socket option
+       ,*
+       ,* @param      option     see below
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int getsockopt(int sockfd, int level, int option, void *val,
+                     socklen_t *restrict lenp);
+    #+end_src
+    #+caption: Figure 16.21 Socket options
+    | Option        | Type of val argument | Description                                                         |
+    |---------------+----------------------+---------------------------------------------------------------------|
+    | SO_ACCEPTCONN | int                  | Return whether a socket is enabled for listening (getsockopt only). |
+    | SO_BROADCAST  | int                  | Broadcast datagrams if *val is nonzero.                             |
+    | SO_DEBUG      | int                  | Debugging in network drivers enabled if *val is nonzero.            |
+    | SO_DONTROUTE  | int                  | Bypass normal routing if *val is nonzero.                           |
+    | SO_ERROR      | int                  | Return and clear pending socket eror (getsockopt only).             |
+    | SO_KEEPALIVE  | int                  | Periordic keep-alive messages enabled if *val is nonzero.           |
+    | SO_LINGER     | struct linger        | Delay time when unsent messages exist and socket is closed.         |
+    | SO_OOBINLINE  | int                  | Out-of-band data placed inline with normal data if *val is nonzero. |
+    | SO_RCVBUF     | int                  | The size in bytes of the receive buffer.                            |
+    | SO_RCVLOWAT   | int                  | The minimum amount of data in bytes to return on a receive call.    |
+    | SO_RCVTIMEO   | struct timeval       | The timeout value for a socket receive call.                        |
+    | SO_REUSEADDR  | int                  | Reuse addresses in bind if *val is nonzero.                         |
+    | SO_SNDBUF     | int                  | The size in bytes of the send buffre.                               |
+    | SO_SNDLOWAT   | int                  | The minium amount of data in bytes to transmit in a send call.      |
+    | SO_SNDTIMEO   | struct timeval       | The timeout value for a socket send call.                           |
+    | SO_TYPE       | int                  | Identify the socket type (getsockopt only).                         |
+
+    - Example
+      #+caption: Figure 16.22 Initialize a socket endpoint for use by a server with address reuse
+      #+include: "Chapter16/16fig22.c" src c
+
 *** TODO 16.7 Out-of-Band Data
 *** TODO 16.8 Nonblocking and Asynchronous I/O
 *** TODO 16.9 Summary
