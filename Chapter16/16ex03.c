@@ -1,57 +1,52 @@
 /**
- *   @file     16fig18.c
- *   @date     2020-01-22
+ *   @file     16ex03.c
+ *   @date     2020-01-27
  *   @author   whiothes <whiothes81@gmail.com>
  *   @version  1.0
- *   @brief    server program illustrating command wrting directly to socket
+ *   @brief    amend 16fig17.c for multiple services
  */
 
 #include <errno.h>
-#include <fcntl.h>
 #include <netdb.h>
+#include <sys/select.h>
 #include <sys/socket.h>
-#include <sys/wait.h>
 #include <syslog.h>
 
 #include "apue.h"
 
-#define QLEN 10
+#define BUFLEN 128
+#define QLEN   10
 
 #ifndef HOST_NAME_MAX
 #define HOST_NAME_MAX 256
-#endif  // HOST_NAME_MAX
+#endif /* HOST_NAME_MAX */
 
 extern int initserver(int, const struct sockaddr *, socklen_t, int);
 
 void serve(int sockfd) {
-    int   clfd, status;
-    pid_t pid;
+    int   clfd;
+    FILE *fp;
+    char  buf[BUFLEN];
 
     set_cloexec(sockfd);
-
     for (;;) {
         if ((clfd = accept(sockfd, NULL, NULL)) < 0) {
             syslog(LOG_ERR, "ruptimed: accept error: %s", strerror(errno));
             exit(EXIT_FAILURE);
         }
 
-        if ((pid = fork()) < 0) {
-            syslog(LOG_ERR, "ruptimed: fork error: %s", strerror(errno));
-            exit(EXIT_FAILURE);
-        } else if (pid == 0) {  // child
-            if (dup2(clfd, STDOUT_FILENO) != STDOUT_FILENO ||
-                dup2(clfd, STDERR_FILENO) != STDERR_FILENO) {
-                syslog(LOG_ERR, "ruptimed: unexpected error");
-                exit(EXIT_FAILURE);
-            }
-            close(clfd);
-            execl("/usr/bin/uptime", "uptime", (char *)0);
-            syslog(LOG_ERR, "ruptimed: unexpected return from exec: %s",
-                   strerror(errno));
+        set_cloexec(clfd);
+
+        if ((fp = popen("/usr/bin/uptime", "r")) == NULL) {
+            sprintf(buf, "error: %s\n", strerror(errno));
+            send(clfd, buf, strlen(buf), 0);
         } else {
-            close(clfd);
-            waitpid(pid, &status, 0);
+            while (fgets(buf, BUFLEN, fp) != NULL) {
+                send(clfd, buf, strlen(buf), 0);
+            }
+            pclose(fp);
         }
+        close(clfd);
     }
 }
 
@@ -59,7 +54,8 @@ int main(int argc, char *argv[]) {
     struct addrinfo *ailist, *aip;
     struct addrinfo  hint;
     int              sockfd, err, n;
-    char            *host;
+    char *           host;
+    fd_set           allset;
 
     if (argc != 1) {
         err_quit("usage: ruptimed");
@@ -67,11 +63,13 @@ int main(int argc, char *argv[]) {
     if ((n = sysconf(_SC_HOST_NAME_MAX)) < 0) {
         n = HOST_NAME_MAX;
     }
-    if ((host = malloc(n)) == NULL) {
+    if ((host = (char *)malloc(n)) == NULL) {
         err_sys("malloc error");
     }
     if (gethostname(host, n) < 0) {
         err_sys("gethostname error");
+    } else {
+        printf("hostname: %s\n", host);
     }
 
     daemonize("ruptimed");
@@ -87,12 +85,16 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    for (aip = ailist; aip != NULL; aip = aip->ai_next) {
-        if ((sockfd = initserver(SOCK_STREAM, aip->ai_addr, aip->ai_addrlen,
-                                 QLEN)) >= 0) {
-            serve(sockfd);
-            exit(EXIT_SUCCESS);
+    FD_ZERO(&allset);
+    for (aip = ailist; aip; aip = aip->ai_next) {
+        if (fork() == 0) {
+            if ((sockfd = initserver(SOCK_STREAM, aip->ai_addr, aip->ai_addrlen,
+                                     QLEN)) >= 0) {
+                serve(sockfd);
+                exit(EXIT_SUCCESS);
+            }
         }
     }
-    exit(EXIT_FAILURE);
+
+    exit(EXIT_SUCCESS);
 }

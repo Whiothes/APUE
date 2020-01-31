@@ -8,7 +8,6 @@
 
 #include <fcntl.h>
 #include <sys/mman.h>
-#include <sys/select.h>
 
 #include "apue.h"
 

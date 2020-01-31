@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 3.5.1)
-add_definitions(-g -std=gnu11)
+
+# definition options
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=gnu11")
+if (APPLE)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_DARWIN_C_SOURCE")
+elseif(UNIX)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE")
+endif()
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 project(APUE)
 
@@ -12,13 +21,6 @@ SET(LIBRARY_OUTPUT_PATH     ${PROJECT_SOURCE_DIR}/lib)
 include_directories("${PROJECT_SOURCE_DIR}/include")
 aux_source_directory("${PROJECT_SOURCE_DIR}/lib" libapue)
 add_library(apue STATIC ${libapue})
-
-message(STATUS "The CMAKE_SYSTEM_NAME: " ${CMAKE_SYSTEM_NAME})
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  add_definitions(-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE)
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  add_definitions(-D_DARWIN_C_SOURCE)
-endif()
 
 
 link_libraries(apue)
@@ -38,7 +40,7 @@ function(make_individual)
   foreach(file ${ARGN})
     string(REGEX REPLACE "(\./|\.c)" "" file ${file})
     message("check file: " ${file})
-    add_executable(${file} ${file})
+    add_executable("${file}" "${file}")
   endforeach(file)
 endfunction(make_individual)
 

@@ -10,7 +10,7 @@
 #+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
 #+AUTHOR: whiothes
 
-* Advanced Programming in the Unix Environment [66%]
+* Advanced Programming in the Unix Environment [71%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 1.1 Introduction
@@ -3867,7 +3867,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     The kernel maintains a =semid_ds= structure for each semaphore set:
     #+begin_src c
       struct semid_ds {
-          struct ipc_perm sem_perm;  // see section 15.6.2
+          struct ipc_perm sem_perm;  // see Section 15.6.2
           unsigned short  sem_nsems; // # of semaphores in set
           time_t          sem_otime; // last-semop time
           time_t          sem_ctime; // last-change time
@@ -4009,7 +4009,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
    Shared memory allows two or more processes to share a given region of memory. This is the *fastest* form of IPC.
    #+begin_src c
      struct shmid_ds {
-         struct ipc_perm shm_per;     // see section 15.6.2
+         struct ipc_perm shm_per;     // see Section 15.6.2
          size_t          shm_segsz;   // sizeof segment in bytes
          pid_t           shm_lpid;    // pid of last shmop()
          pid_t           shm_cpid;    // pid of creator
@@ -4312,7 +4312,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       - 15.14
         [[file:Chapter15/15ex14.jpg]]
       - 15.15 pause
-** TODO Chapter 16. Network IPC: Sockets [4/9]
+** DONE Chapter 16. Network IPC: Sockets [9/9]
+   CLOSED: [2020-01-31 Fri 14:51]
 *** DONE 16.1 Introduction
     CLOSED: [2020-01-19 Sun 13:50]
     *only an overview of the socket API*
@@ -4371,7 +4372,34 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     | IPPROTO_TCP  | Transmission Control Protocol                 |
     | IPPROTO_UDP  | User Datagram Protocol                        |
 
-*** TODO 16.3 Addressing [4/4]
+    A =SOCK_SEQPACKET= is just like a =SOCK_STREAM= socket except that we get a message-based service instead of a byte-stream service.
+
+    #+caption: Figure 16.4 How file descriptor functions act with sockets
+    | Function                                      | Behavior with socket                                                                                                    |
+    |-----------------------------------------------+-------------------------------------------------------------------------------------------------------------------------|
+    | close(Section 3.3)                            | deallocates the socket                                                                                                  |
+    | dup, dup2(Section 3.12)                       | duplicates the file descriptor as normal                                                                                |
+    | fchdir (Section 4.23)                         | fails with errno set to ENOTDIR                                                                                         |
+    | fchmod (Section 4.9)                          | unspecified                                                                                                             |
+    | fchown (Section 4.11)                         | implementation defined                                                                                                  |
+    | fcntl (Section 3.14)                          | some commands supported, including F_DUPFD, F_DUPFD_CLOEXEC, F_GETFD, F_GETFL, F_GETOWN, F_SETFD, F_SETFL, and F_SETOWN |
+    | fdatasync, fsync (Section 3.13)               | implementation defined                                                                                                  |
+    | fstat (Section 4.2)                           | some status structure members supported, but left up to the implementation                                              |
+    | ftruncate (Section 4.13)                      | unspecified                                                                                                             |
+    | ioctl (Section 3.15)                          | some commands work, depending on underlying device driver                                                               |
+    | lseek (Section 3.6)                           | implementation defined (usually fails with errno set to ESPIPE)                                                         |
+    | mmap (Section 14.8)                           | unspecified                                                                                                             |
+    | poll (Section 14.4.2)                         | works as expected                                                                                                       |
+    | pread and pwrite (Section 3.11)               | fails with errno set to ESPIPE                                                                                          |
+    | read (Section 3.7) and readv (Section 14.6)   | equivalent to recv (Section 16.5) without any flags                                                                     |
+    | select (Section 14.4.1)                       | works as expected                                                                                                       |
+    | write (Section 3.8) and writev (Section 14.6) | equivalent to send (Section 16.5) without any flags                                                            |
+
+*** DONE 16.3 Addressing [4/4]
+    CLOSED: [2020-01-23 Thu 18:34]
+    :PROPERTIES:
+    :ID:       6AA28BE4-0602-4084-AECC-A77FABF38452
+    :END:
 **** DONE 16.3.1 Byte Ordering
      CLOSED: [2020-01-20 Mon 11:49]
      #+caption: Figure 16.5 Byte order in a 32-bit integer
@@ -4757,7 +4785,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       #+caption: Figure 16.12 Initialize a socket endpoint for use by a server
       #+include: "Chapter16/16fig12.c" src c
 
-*** TODO 16.5 Data Transfer
+*** DONE 16.5 Data Transfer
+    CLOSED: [2020-01-23 Thu 18:34]
     #+begin_src c
       #include <sys/socket.h>
 
@@ -4817,7 +4846,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     | MSG_EOR       | Mark the end of the record if supported by protocol               | *       | *       | *     | *        | *       |
     | MSG_MORE      | Delay sending the packet to allow more data to be written         |         |         | *     |          |         |
     | MSG_NOSIGNAL  | Don't generate SIGPIPE when writing to an unconnected socket      | *       | *       | *     |          |         |
-    | MSG_OOB       | Send out-of-band data if supported by protocol (see section 16.7) | *       | *       | *     | *        | *       |
+    | MSG_OOB       | Send out-of-band data if supported by protocol (see Section 16.7) | *       | *       | *     | *        | *       |
 
 
     #+begin_src c
@@ -4849,8 +4878,32 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        ,*             peer has done an olderly shutdown or -1 on error
        ,*/
       ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
+
     #+end_src
-    #+caption: Figure 16.14 Flags returned in msg_flags by recvmsg
+    #+caption: Figure 16.13 Flags used with recv socket calls
+    | Flag             | Description                         | POSIX.1 | FreeBSD 8.0 | Linux 3.2.0 | Mac OS X 10.6.8 | Solaris |
+    |------------------+-------------------------------------+---------+-------------+-------------+-----------------+---------|
+    | MSG_CMSG_CLOEXEC | Set the close-on-exec flag for file |         |             | *           |                 |         |
+    |                  | descriptors received over a         |         |             |             |                 |         |
+    |                  | UNIX domain socket                  |         |             |             |                 |         |
+    |                  | (see Section 17.4)                  |         |             |             |                 |         |
+    | MSG_DONTWAIT     | Enable nonblocking operation        |         | *           | *           |                 | *       |
+    |                  | (equivalent to using =O_NONBLOCK=)  |         |             |             |                 |         |
+    | MSG_ERRQUEUE     | Receive error information as        |         |             | *           |                 |         |
+    |                  | ancillary data                      |         |             |             |                 |         |
+    | MSG_OOB          | Retrieve out-of-band data if        | *       | *           | *           | *               | *       |
+    |                  | supported by protocol               |         |             |             |                 |         |
+    |                  | (see Section 16.7)                  |         |             |             |                 |         |
+    | MSG_PEEK         | Return pack contents without        | *       | *           | *           | *               | *       |
+    |                  | consuming the packet                |         |             |             |                 |         |
+    | MSG_TRUNC        | Request that the real length of     |         |             | *           |                 |         |
+    |                  | the packet be returned, even if     |         |             |             |                 |         |
+    |                  | it was truncated                    |         |             |             |                 |         |
+    | MSG_WAITALL      | Wait until all data is available    | *       | *           | *           | *               | *       |
+    |                  | (SOCK_STREM only)                   |         |             |             |                 |         |
+
+
+    #+caption: Figure 16.15 Flags returned in msg_flags by recvmsg
     | Flags        | Description                                      | POSIX.1 | FreeBSD 8.0 | Linux 3.2.0 | Mac OS X 10.6.8 | Solaris 10 |
     |--------------+--------------------------------------------------+---------+-------------+-------------+-----------------+------------|
     | MSG_CTRUNC   | Control data was truncated                       | *       | *           | *           | *               | *          |
@@ -4928,9 +4981,111 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       #+caption: Figure 16.22 Initialize a socket endpoint for use by a server with address reuse
       #+include: "Chapter16/16fig22.c" src c
 
-*** TODO 16.7 Out-of-Band Data
-*** TODO 16.8 Nonblocking and Asynchronous I/O
-*** TODO 16.9 Summary
+*** DONE 16.7 Out-of-Band Data
+    CLOSED: [2020-01-23 Thu 15:42]
+    allowing higher-priority delivery of data than normal.
+    is sent ahead of any data that is already queued for transmission.
+
+    TCP refers to out-of-band data as "urgent" data. TCP supports only a single byte of urgent data,
+    but allows urgent data to be delivered out of band from the normal data delivery mechanisms.
+    specify =MSG_OOB= flag to ~send~ functions.
+    with more than one byte with =MSG_OOB= flag, the last byte will be treated as the urgent-data byte.
+
+
+    sent =SIGURG= signal when urgent data is received and we have arranged for signal generation by the socket.
+
+    receive signals from a socket by calling
+    #+begin_src c
+      /**
+       ,* @brief      receive signals from a socket
+       ,*
+       ,* @details
+       ,*
+       ,* @param      F_SETOWN   be used to retrieve the current socket ownership
+       ,* @parm       pid        a positive value represents a process ID
+       ,*/
+      int pid = fcntl(sockfd, F_GETOWN, 0);
+      fcntl(sockfd, F_SETOWN, pid);
+    #+end_src
+
+
+    /urgent mark/: the point in the normal data stream where the urgent data would go.
+
+    receive the urgent data inline with the normal data: =SO_OOBINLINE=
+
+    identify when we have reached the urgent mark
+    #+begin_src c
+      #include <sys/socket.h>
+
+      /**
+       ,* @brief      identify the urgent mark
+       ,*
+       ,* @return     1 if at mark, 0 if not at mark, -1 on error
+       ,*/
+      int sockatmark(int sockfd);
+    #+end_src
+*** DONE 16.8 Nonblocking and Asynchronous I/O
+    CLOSED: [2020-01-23 Thu 15:58]
+    normally, I/O functions will block when it is not immediately available.
+
+    when the socket is in nonblocking mode, these function failes instead of blocking, setting =errno= to either =EWOULDBLOCK= or =EAGAIN=. we can use either ~poll~ or ~select~ to determine when we can receive or transmit data.
+
+    with socket-based asynchronous I/O, sent =SIGIO= signal when it's available.
+
+    Enabling asynchronous I/O:
+    1. Establish socket ownership so signals can be delivered to the proper progresses.
+       - Use the =F_SETOWN= command with ~fcntl~.
+       - Use the =FIOSETOWN= command with ~ioctl~.
+       - Use the =SIOCSPGRP= command with ~ioctl~.
+    2. Inform the socket that we want it to signal us when I/O operations won't block.
+       - Use the =F_SETFL= command with ~fcntl~ and enable the =O_ASYNC= file flag.
+       - Use the =FIOASYNC= command with ~ioctl~.
+
+
+    #+caption: Figure 16.23 Socket asynchronous I/O management commands
+    | Mechanism                               | POSIX.1 | FreeBSD 8.0 | Linux 3.2.0 | Mac OS X 10.6.8 | Solaris 10 |
+    |-----------------------------------------+---------+-------------+-------------+-----------------+------------|
+    | fcntl(fd, F_SETOWN, pid)                | *       | *           | *           | *               | *          |
+    | ioctl(fd, FIOSETOWN, pid)               |         | *           | *           | *               | *          |
+    | ioctl(fd, SIOCSPGRP, pid)               |         | *           | *           | *               | *          |
+    |-----------------------------------------+---------+-------------+-------------+-----------------+------------|
+    | fcntl(fd, F_SETFL, flags \vert O_ASYNC) |         | *           | *           | *               |            |
+    | ioctl(fd, FIOASYNC, &n);                |         | *           | *           | *               | *          |
+
+*** DONE 16.9 Summary
+    CLOSED: [2020-01-31 Fri 14:51]
+    - Example
+      - 16.1 see below
+        #+include: "Chapter16/16ex01.cpp" src cpp
+      - 16.2 see below
+        | Fields                         | Mac OS X 10.15.2 | Linux 3.10 |
+        |--------------------------------+------------------+------------|
+        | ID of device containing file   |                0 |          7 |
+        | Mode of file (see below)       |            49590 |      49663 |
+        | Number of hard links           |                0 |          1 |
+        | File serial number             |                0 |      58400 |
+        | User ID of the file            |              501 |    0(root) |
+        | Group ID of the file           |               20 |    0(root) |
+        | Device ID                      |                0 |          0 |
+        | time of last access            |                0 |          0 |
+        | time of last data modification |                0 |          0 |
+        | time of last status change     |                0 |          0 |
+        | time of file creation(birth)   |                0 |            |
+        | user defined flags for file    |                0 |            |
+        | file generation number         |                0 |            |
+        | file size, in bytes            |                0 |          0 |
+        | blocks allocated for file      |                0 |          0 |
+        | optimal blocksize for I/O      |           131072 |       4096 |
+        |--------------------------------+------------------+------------|
+        #+include: "Chapter16/16ex02.cpp" src cpp
+      - 16.3 *NEED TO BE TESTED*
+        #+include: "Chapter16/16ex03.c" src c
+      - 16.4 see below for server program
+        #+include: "Chapter16/16ex04s.c" src c
+      - 16.5
+        #+include: "Chapter16/16ex05.c" src c
+      - 16.6
+        #+include: "Chapter16/16ex06.c" src c
 ** TODO Chapter 17. Advanced IPC [2/7]
 *** TODO 17.1 Introduction
 *** DONE 17.2 UNIX Domain Sockets

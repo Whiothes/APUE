@@ -1,9 +1,11 @@
 /**
- *   @file     16fig18.c
+ *   @file     16ex05.c
  *   @date     2020-01-22
  *   @author   whiothes <whiothes81@gmail.com>
- *   @version  1.0
+ *   @version  2.0
  *   @brief    server program illustrating command wrting directly to socket
+ *
+ *   redesign for no-delay processing
  */
 
 #include <errno.h>
@@ -59,7 +61,7 @@ int main(int argc, char *argv[]) {
     struct addrinfo *ailist, *aip;
     struct addrinfo  hint;
     int              sockfd, err, n;
-    char            *host;
+    char *           host;
 
     if (argc != 1) {
         err_quit("usage: ruptimed");
@@ -88,10 +90,14 @@ int main(int argc, char *argv[]) {
     }
 
     for (aip = ailist; aip != NULL; aip = aip->ai_next) {
-        if ((sockfd = initserver(SOCK_STREAM, aip->ai_addr, aip->ai_addrlen,
-                                 QLEN)) >= 0) {
-            serve(sockfd);
-            exit(EXIT_SUCCESS);
+        if (fork() == 0) {
+            if ((sockfd = initserver(SOCK_STREAM, aip->ai_addr, aip->ai_addrlen,
+                                     QLEN)) >= 0) {
+                serve(sockfd);
+                exit(EXIT_SUCCESS);
+            } else {
+                close (sockfd);
+            }
         }
     }
     exit(EXIT_FAILURE);
