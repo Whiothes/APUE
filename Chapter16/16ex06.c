@@ -10,6 +10,7 @@
  */
 
 #include "apue.h"
+#include <fcntl.h>
 
 int setasync(int sockfd) {
     int n;
@@ -18,7 +19,7 @@ int setasync(int sockfd) {
         return -1;
     }
 
-    int n = 0;
+    n = 1;
     if (ioctl(sockfd, FIOASYNC, &n) < 0) {
         return -1;
     }
