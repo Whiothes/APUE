@@ -56,3 +56,4 @@ apue.3e/
 bin/
 build
 .ccls-cache
+./compile_commands.json

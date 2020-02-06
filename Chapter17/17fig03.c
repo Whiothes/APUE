@@ -1,3 +1,11 @@
+/**
+ *   @file     pollmsg.c
+ *   @date     2020-01-31
+ *   @author   whiothes <whiothes81@gmail.com>
+ *   @version  1.0
+ *   @brief    Poll for XSI message using UNIX domain sockets
+ */
+
 #include <poll.h>
 #include <pthread.h>
 #include <sys/msg.h>
@@ -5,9 +13,9 @@
 
 #include "apue.h"
 
-#define NQ     3
-#define MAXMSZ 512
-#define KEY    0x123
+#define NQ     3      // number of queues
+#define MAXMSZ 512    // maximum message size
+#define KEY    0x123  // key for first message queus
 
 struct threadinfo {
     int qid;
@@ -29,7 +37,7 @@ void *helper(void *arg) {
         if ((n = msgrcv(tip->qid, &m, MAXMSZ, 0, MSG_NOERROR)) < 0) {
             err_sys("msgrcv error");
         }
-        if (write(tip->fd, m.mtext, n) < 0) {
+        if ((write(tip->fd, m.mtext, n)) < 0) {
             err_sys("write error");
         }
     }
@@ -48,10 +56,9 @@ int main() {
         if ((qid[i] = msgget((KEY + i), IPC_CREAT | 0666)) < 0) {
             err_sys("msgget error");
         }
+        printf("queue-%d < %d > \n", i, qid[i]);
 
-        printf("queue ID %d is %d\n", i, qid[i]);
-
-        if (socketpair(AF_UNIX, SOCK_DGRAM, 0, fd) < 0) {
+        if ((socketpair(AF_UNIX, SOCK_DGRAM, 0, fd)) < 0) {
             err_sys("socketpair error");
         }
 
@@ -75,10 +82,10 @@ int main() {
                 if ((n = read(pfd[i].fd, buf, sizeof(buf))) < 0) {
                     err_sys("read error");
                 }
+
                 buf[n] = 0;
-                printf("queue id %d, message %s\n", qid[i], buf);
+                printf("queue <%d>: %s\n", qid[i], buf);
             }
         }
     }
-    exit(0);
 }

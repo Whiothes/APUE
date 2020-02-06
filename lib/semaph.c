@@ -32,6 +32,7 @@
 #include <sys/sem.h>
 #include <errno.h>
 
+#if 0
 void	sem_op(int, int);
 int		sem_create(key_t, int);
 int		sem_open(key_t);
@@ -289,3 +290,4 @@ sem_op(int id, int value)
 	if (semop(id, &op_op[0], 1) < 0)
 		err_sys("sem_op error");
 }
+#endif

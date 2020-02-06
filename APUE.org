@@ -1,6 +1,5 @@
 #+SETUPFILE: ~/Documents/style.setup
 #+OPTIONS: num:nil
-#+HTML_HEAD: <style>pre.src{background:#343131;color:white;} </style>
 #+LATEX_HEADER: \usepackage{xeCJK}
 #+LATEX_HEADER: \usepackage{hyperref}
 #+LaTeX_HEADER: \pdfmapfile{/home/neilsen/texmf/fonts/map/dvips/libertine/libertine.map}
@@ -10,7 +9,7 @@
 #+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
 #+AUTHOR: whiothes
 
-* Advanced Programming in the Unix Environment [71%]
+* Advanced Programming in the Unix Environment [76%]
 ** DONE Chapter 1. UNIX System Overview [12/12]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 1.1 Introduction
@@ -2205,13 +2204,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
        #include <stdlib.h>
 
        void maketimeout(struct timespec *tsp, long minutes) {
-         struct timeval now;
+           struct timeval now;
 
-         // get the current time
-         gettimeofday(&now, NULL);
-         tsp->tv_sec = now.tv_sec;
-         tsp->tv_nsec = now.tv_usec * 1000; // usec to nsec
-         tsp->tv_sec += minutes * 60;
+           // get the current time
+           gettimeofday(&now, NULL);
+           tsp->tv_sec = now.tv_sec;
+           tsp->tv_nsec = now.tv_usec * 1000; // usec to nsec
+           tsp->tv_sec += minutes * 60;
        }
      #+end_src
 
@@ -2594,10 +2593,10 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       int init_done = 0;
 
       int threadfunc(void *arg) {
-        if (!init_done) {
-          init_done = 1;
-          err = pthread_key_create(&key, destructor);
-        }
+          if (!init_done) {
+              init_done = 1;
+              err = pthread_key_create(&key, destructor);
+          }
       }
     #+end_src
 
@@ -2609,11 +2608,11 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       pthread_once_t init_done = PTHREAD_ONCE_INIT;
 
       void thread_init(void) {
-        err = pthread_key_create(&key, destructor);
+          err = pthread_key_create(&key, destructor);
       }
 
       int threadfunc (void *arg) {
-        pthread_once(&init_done, thread_init);
+          pthread_once(&init_done, thread_init);
       }
     #+end_src
     #+end_quote
@@ -3001,7 +3000,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - 2. ~fcntl~ Record Locking
       #+begin_src c
-                #include <fcntl.h>
+        #include <fcntl.h>
         int fcntl.(int fd, int cmd, ... /* struct flock *flockptr */);
         // Returns: depends on cmd if OK (see following), -1 on error
       #+end_src
@@ -3028,12 +3027,12 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         - if l_len is 0, it means that the lock extends to the *largest* possible offset of the file
         - To lock the entire file, we set l_start and l_whence to point the beginning of the file and specify a length(l_len) of 0.
 
-       #+caption: Figure 14.3 Compatibility between different types
-       | conditions             | read lock | write lock |
-       |------------------------+-----------+------------|
-       | no locks               | OK        | OK         |
-       | one or more read locks | OK        | denied     |
-       | one or more write lock | denied    | denied     |
+        #+caption: Figure 14.3 Compatibility between different types
+        | conditions             | read lock | write lock |
+        |------------------------+-----------+------------|
+        | no locks               | OK        | OK         |
+        | one or more read locks | OK        | denied     |
+        | one or more write lock | denied    | denied     |
 
       - Commands for the ~fcntl~ function
         - F_GETLK: determine lock
@@ -3041,67 +3040,67 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         - F_SETLWK: a block version of F_SETLK. (The *W* means wait)
 
 
-      testing for a lock with F_GETLK and then trying to obtain that lock with F_SETLK or F_SETLKW is not an atomic operation
+    testing for a lock with F_GETLK and then trying to obtain that lock with F_SETLK or F_SETLKW is not an atomic operation
 
-      #+caption: Figure 14.4 File byte-range lock diagram
-      [[file:Chapter14/14fig04.jpg]]
+    #+caption: Figure 14.4 File byte-range lock diagram
+    [[file:Chapter14/14fig04.jpg]]
 
 
-     - Example - Requesting and Releasing a Lock
-       #+caption: Figure 14.5 Function to lock or unlock a region of a file
-       #+include: "Chapter14/14fig05.c" src c
+    - Example - Requesting and Releasing a Lock
+      #+caption: Figure 14.5 Function to lock or unlock a region of a file
+      #+include: "Chapter14/14fig05.c" src c
 
-     - Example - Testing for a Lock
-       #+caption: Figure 14.6 Function to test for a locking condition
-       #+include: "Chapter14/14fig06.c" src c
+    - Example - Testing for a Lock
+      #+caption: Figure 14.6 Function to test for a locking condition
+      #+include: "Chapter14/14fig06.c" src c
 
-     - Example - Deadlock \\
-       #+caption: Figure 14.7 Example of deadlock detection
-       #+include: "Chapter14/14fig07.c" src c
+    - Example - Deadlock \\
+      #+caption: Figure 14.7 Example of deadlock detection
+      #+include: "Chapter14/14fig07.c" src c
 
-     - Implied Inheritance and Release of Locks
-       1. Locks are associated with a process and a file.
-       2. Locks are never inherited by the child accross a fork
-       3. Locks are inherited by a new program accross exec.
+    - Implied Inheritance and Release of Locks
+      1. Locks are associated with a process and a file.
+      2. Locks are never inherited by the child accross a fork
+      3. Locks are inherited by a new program accross exec.
 
-     - FreeBSD Implementation
-       #+caption: Figure 14.8 The FreeBSD data structures for record locking
-       [[file:Chapter14/14fig08.jpg]]
-       new here are *lockf* structure
+    - FreeBSD Implementation
+      #+caption: Figure 14.8 The FreeBSD data structures for record locking
+      [[file:Chapter14/14fig08.jpg]]
+      new here are *lockf* structure
 
-       - Example
-         #+caption: Figure 14.9 Place a write lock on an entire file
-         #+include: "Chapter14/14fig09.c" src c
+      - Example
+        #+caption: Figure 14.9 Place a write lock on an entire file
+        #+include: "Chapter14/14fig09.c" src c
 
-       macro
-       #+begin_src c
-         #define lockfile(fd) write_lock((fd), 0, SEEK_SET, 0)
-       #+end_src
+      macro
+      #+begin_src c
+        #define lockfile(fd) write_lock((fd), 0, SEEK_SET, 0)
+      #+end_src
 
-     - Locks at End of File
-       #+begin_src c
-         // The commented code should be the right one
-         writew_lock(fd, 0, SEEK_END, 0);
-         write(fd, buf, 1);
-         un_lock(fd, 0, SEEK_END);       // un_lock(fd, -1, SEEK_END) instead
-         write(fd, buf, 1);
-       #+end_src
-       #+caption: Figure 14.10 File range lock diagram
-       [[file:Chapter14/14fig10.jpg]]
-     - Advisory versus Mandatory Locking
-       #+caption: Figure 14.11 Effect of mandatory locking on reads and writes by other processes
-       [[file:Chapter14/14fig11.jpg]]
+    - Locks at End of File
+      #+begin_src c
+        // The commented code should be the right one
+        writew_lock(fd, 0, SEEK_END, 0);
+        write(fd, buf, 1);
+        un_lock(fd, 0, SEEK_END);       // un_lock(fd, -1, SEEK_END) instead
+        write(fd, buf, 1);
+      #+end_src
+      #+caption: Figure 14.10 File range lock diagram
+      [[file:Chapter14/14fig10.jpg]]
+    - Advisory versus Mandatory Locking
+      #+caption: Figure 14.11 Effect of mandatory locking on reads and writes by other processes
+      [[file:Chapter14/14fig11.jpg]]
 
-       - Example \\
-         #+caption: Figure 14.12 Determine whether mandatory locking is supported
-         #+include: "Chapter14/14fig12.c" src c
-         #+begin_src sh :result
-           bin/14fig12 temp.lockk
-         #+end_src
+      - Example \\
+        #+caption: Figure 14.12 Determine whether mandatory locking is supported
+        #+include: "Chapter14/14fig12.c" src c
+        #+begin_src sh :result
+          bin/14fig12 temp.lockk
+        #+end_src
 
-         #+RESULTS:
-         | read_lock of already-locked region returns 35 |          |
-         | read OK(no mandatory locking)                 | buf = ab |
+        #+RESULTS:
+        | read_lock of already-locked region returns 35 |          |
+        | read OK(no mandatory locking)                 | buf = ab |
 *** 14.4 I/O Multiplexing [2/2]
 
     #+begin_src dot :file Chapter14/14fig13.jpg :cmdline -Kdot -Tpng
@@ -3240,22 +3239,22 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     CLOSED: [2019-12-27 Fri 00:35]
 **** DONE 14.5.1 System V Asynchronous I/O
      CLOSED: [2019-12-19 Thu 16:32]
-    ~<stropt.h>~
-    #+caption: Figure 14.18 Conditions for generating SIGPOLL signal
-    | Constant  | Description                                                                 |
-    |-----------+-----------------------------------------------------------------------------|
-    | S_INPUT   | We can read data (other than high-priority data) without blocking           |
-    | S_RDNORM  | We can read normal data without blocking                                    |
-    | S_RDBND   | We can read priority dat without blocking                                   |
-    | S_BANDURG | If this constant is specified with S_RDBAND, the SIGURG signal is generated |
-    |           | instead of SIGPOLL When we can read priority data without blocking          |
-    | S_HIPRI   | we can read high-priority data without blocking                             |
-    | S_OUTPUT  | We can write normal data wihout blocking                                    |
-    | S_WRNORM  | Same as S_OUTPUT                                                            |
-    | S_WRBAND  | We can write priority data without blocing.                                 |
-    | S_MSG     | The SIGPOLL signal message has reached the stream head.                     |
-    | S_ERROR   | The stream has an error.                                                    |
-    | S_HANGUP  | The stream has hung up.                                                     |
+     ~<stropt.h>~
+     #+caption: Figure 14.18 Conditions for generating SIGPOLL signal
+     | Constant  | Description                                                                 |
+     |-----------+-----------------------------------------------------------------------------|
+     | S_INPUT   | We can read data (other than high-priority data) without blocking           |
+     | S_RDNORM  | We can read normal data without blocking                                    |
+     | S_RDBND   | We can read priority dat without blocking                                   |
+     | S_BANDURG | If this constant is specified with S_RDBAND, the SIGURG signal is generated |
+     |           | instead of SIGPOLL When we can read priority data without blocking          |
+     | S_HIPRI   | we can read high-priority data without blocking                             |
+     | S_OUTPUT  | We can write normal data wihout blocking                                    |
+     | S_WRNORM  | Same as S_OUTPUT                                                            |
+     | S_WRBAND  | We can write priority data without blocing.                                 |
+     | S_MSG     | The SIGPOLL signal message has reached the stream head.                     |
+     | S_ERROR   | The stream has an error.                                                    |
+     | S_HANGUP  | The stream has hung up.                                                     |
 
 **** DONE 14.5.2 BSD Asynchronous I/O
      CLOSED: [2019-12-19 Thu 16:50]
@@ -3473,49 +3472,50 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     [[file:Chapter14/14fig28.jpg]]
 *** DONE 14.9 Summary
     CLOSED: [2019-12-29 Sun 02:15]
-   - Exercises
-     - 14.1
-       #+include: "Chapter14/14ex01.c" src c
-     - 14.2
-       #+begin_quote
-       Most systems define the fd_set data type to be a structure that contains a single member: an array of long integers. One bit in this array corresponds to each descriptor. The four FD_ macros then manipulate this array of longs, turning specific bits on and off and testing specific bits.
+    - Exercises
+      - 14.1
+        #+include: "Chapter14/14ex01.c" src c
+      - 14.2
+        #+begin_quote
+        Most systems define the fd_set data type to be a structure that contains a single member: an array of long integers. One bit in this array corresponds to each descriptor. The four FD_ macros then manipulate this array of longs, turning specific bits on and off and testing specific bits.
 
-       One reason that the data type is defined to be a structure containing an array and not simply an array is to allow variables of type fd_set to be assigned to one another with the C assignment statement.
-       #+end_quote
-     - 14.3
-       define or redefine(undefine first) the macro =FD_SETSIZE= (or =__FD_SETSIZE=)
-     - 14.4
-       | file descriptor sets | signal sets |
-       |----------------------+-------------|
-       | FD_ZERO              | sigemptyset |
-       | FD_SET               | sigaddset   |
-       | FD_CLR               | sigdelset   |
-       | FD_ISSET             | sigismember |
-     - 14.5
-       #+include: "Chapter14/14ex05.c" src c
-     - 14.6
-       No. *call ~fork~ releases all the locks in the child, so the child can't start off with any locks of its own*
-     - 14.7
-       #+include: "Chapter14/14ex07.c" src c
-       #+begin_quote
-       | Platform           | Pipe Capacity(bytes) |
-       |--------------------+----------------------|
-       | FreeBSD 8.0        |                65536 |
-       | *Linux 4.1.0*      |                65536 |
-       | *Mac OS X 10.15.2* |                65536 |
-       | Solaris 10         |                16384 |
+        One reason that the data type is defined to be a structure containing an array and not simply an array is to allow variables of type fd_set to be assigned to one another with the C assignment statement.
+        #+end_quote
+      - 14.3
+        define or redefine(undefine first) the macro =FD_SETSIZE= (or =__FD_SETSIZE=)
+      - 14.4
+        | file descriptor sets | signal sets |
+        |----------------------+-------------|
+        | FD_ZERO              | sigemptyset |
+        | FD_SET               | sigaddset   |
+        | FD_CLR               | sigdelset   |
+        | FD_ISSET             | sigismember |
+      - 14.5
+        #+include: "Chapter14/14ex05.c" src c
+      - 14.6
+        No. *call ~fork~ releases all the locks in the child, so the child can't start off with any locks of its own*
+      - 14.7
+        #+include: "Chapter14/14ex07.c" src c
+        #+begin_quote
+        | Platform           | Pipe Capacity(bytes) |
+        |--------------------+----------------------|
+        | FreeBSD 8.0        |                65536 |
+        | *Linux 4.1.0*      |                65536 |
+        | *Mac OS X 10.15.2* |                65536 |
+        | Solaris 10         |                16384 |
 
-       These values can differ from the corresponding =PIPE_BUF= values, because PIPE_BUF is defined to be the maximum amount of data that *can be written* to a pipe atomically. Here, we calculate the amount of data that a pipe *can hold* independent of any atomicity constraints.
-       #+end_quote
-     - 14.8
-       #+include: "Chapter14/14ex08.c" src c
-     - 14.9
-       just try to execute the program with a very large file
-     - 14.10
-       Not changed
-     - 14.11
-       #+include: "Chapter14/14ex11.c" src c
-** TODO Chapter 15. Interprocess Communication [11/12]
+        These values can differ from the corresponding =PIPE_BUF= values, because PIPE_BUF is defined to be the maximum amount of data that *can be written* to a pipe atomically. Here, we calculate the amount of data that a pipe *can hold* independent of any atomicity constraints.
+        #+end_quote
+      - 14.8
+        #+include: "Chapter14/14ex08.c" src c
+      - 14.9
+        just try to execute the program with a very large file
+      - 14.10
+        Not changed
+      - 14.11
+        #+include: "Chapter14/14ex11.c" src c
+** DONE Chapter 15. Interprocess Communication [12/12]
+   CLOSED: [2020-02-06 Thu 15:24]
 *** DONE 15.1 Introduction
     CLOSED: [2020-01-03 Fri 19:27]
     #+caption: Figure 15.1 Summary of UNIX System IPC
@@ -3591,14 +3591,34 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     [[file:Chapter15/15fig08.jpg]]
 *** DONE 15.3 ~popen~ and ~pclose~ Functions
     CLOSED: [2020-01-07 Tue 21:54]
+    #+begin_quote
+    creating a pipe, forking a child, closing the unused ends of the pipe, executing a shell to run the command, and waiting for the command to terminate.
+    #+end_quote
     #+begin_src c
       #include <stdio.h>
-      /// @brief fork() , then exec()
+      /**
+       ,*  @brief        fork(), then exec() the cmdstring,
+       ,*
+       ,*  @details      and returns a stdio pointer.
+       ,*
+       ,*  @param[in]    cmdstring    cmd to execute
+       ,*  @param[in]    type         "r", connect to stdout
+       ,*                             "w", connect to stdin
+       ,*  @return       file pointer if OK, NULL on error
+       ,*/
       FILE *popen(const char *cmdstring, const char *type);
-      // Returns: file pointer if OK, NULL on error
 
+      /**
+       ,* @brief      close the stdio stream,
+       ,*
+       ,* @details    waits for the cmd to terminate, and
+       ,*             returns termination status of the shell
+       ,*
+       ,* @param      fp             returned by popen
+       ,*
+       ,* @return     termination status of cmdstring, or -1 on error
+       ,*/
       int pclose(FILE *fp);
-      // Returns: termination status of cmdstring, or -1 on error
     #+end_src
     ~type == "r"~:
     #+caption: Figure 15.9 Result of fp = popen(cmdstring, "r");
@@ -3671,13 +3691,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       [[file:Chapter15/15fig20.jpg]]
 
 
-      #+begin_src sh
-        mkfifo fifo1
-        prog3 < fifo1 &
-        prog1 < infile | tee fifo1 | prog2
-      #+end_src
-      #+caption: Figure 15.21 Using a FIFO and tee to send a stream to two different processes
-      [[file:Chapter15/15fig21.jpg]]
+    #+begin_src sh
+      mkfifo fifo1
+      prog3 < fifo1 &
+      prog1 < infile | tee fifo1 | prog2
+    #+end_src
+    #+caption: Figure 15.21 Using a FIFO and tee to send a stream to two different processes
+    [[file:Chapter15/15fig21.jpg]]
 
 
     - Example - Clent-Server Communication Using a FIFO
@@ -3756,13 +3776,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
 
      #+caption: Figure 15.25 Comparison of features of various forms of IPC
-    | IPC type                    | Connectionless? | Reliable? | Flow control? | Records? | Message types or priorties? |
-    |-----------------------------+-----------------+-----------+---------------+----------+-----------------------------|
-    | message queues              | no              | yes       | yes           | yes      | yes                         |
-    | STREAMS                     | no              | yes       | yes           | yes      | yes                         |
-    | UNIX domain stream socket   | no              | yes       | yes           | no       | no                          |
-    | UNIX domain datagram socket | yes             | yes       | no            | yes      | no                          |
-    | FIFOs (non-STREAMS)         | no              | yes       | yes           | no       | no                          |
+     | IPC type                    | Connectionless? | Reliable? | Flow control? | Records? | Message types or priorties? |
+     |-----------------------------+-----------------+-----------+---------------+----------+-----------------------------|
+     | message queues              | no              | yes       | yes           | yes      | yes                         |
+     | STREAMS                     | no              | yes       | yes           | yes      | yes                         |
+     | UNIX domain stream socket   | no              | yes       | yes           | no       | no                          |
+     | UNIX domain datagram socket | yes             | yes       | no            | yes      | no                          |
+     | FIFOs (non-STREAMS)         | no              | yes       | yes           | no       | no                          |
 
 *** DONE 15.7 Message Queues
     CLOSED: [2020-01-09 Thu 20:48]
@@ -3842,13 +3862,13 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
       ssize_t msgrcv(int msqid, void *ptr, size_t nbytes, long type, int flag);
     #+end_src
 
-   - Example - Timing Comparison of Message Queues and Full-Duplex Pipes.
-     #+caption: Figure 15.27 Timing comparison of IPC alternatives on Solaris
-     | Operation          | User | Systems | Clock |
-     |--------------------+------+---------+-------|
-     | message queue      | 0.58 |    4.16 |  5.09 |
-     | full-duplex pipe   | 0.61 |    4.30 |  5.24 |
-     | UNIX domain socket | 0.59 |    5.58 |  7.49 |
+    - Example - Timing Comparison of Message Queues and Full-Duplex Pipes.
+      #+caption: Figure 15.27 Timing comparison of IPC alternatives on Solaris
+      | Operation          | User | Systems | Clock |
+      |--------------------+------+---------+-------|
+      | message queue      | 0.58 |    4.16 |  5.09 |
+      | full-duplex pipe   | 0.61 |    4.30 |  5.24 |
+      | UNIX domain socket | 0.59 |    5.58 |  7.49 |
 *** DONE 15.8 Semaphores
     CLOSED: [2020-01-10 Fri 17:40]
     A semaphore is a counter used to provide access to a shared data object for multiple processes.
@@ -3989,155 +4009,155 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
          - The semaphore is removed from the system. In this case, the function returns an error of EIDRM.
 
          - A signal is caught by the process, and the signal handler returns. In this case, the value of semzcnt for this semaphore is decremented (since the calling process is no longer waiting), and the function returns an error of EINTR.
-     #+end_quote
+    #+end_quote
 
-     - Semaphore Adjustment on exit
-       using ~semctl~ with either =SETVAL= or =SETALL= commands, the adjustment value for that semaphore in all processes is set to 0
+    - Semaphore Adjustment on exit
+      using ~semctl~ with either =SETVAL= or =SETALL= commands, the adjustment value for that semaphore in all processes is set to 0
 
-       - Example - Timing Comparison of Semaphores, Record Locking, and Mutexes
-         #+caption: Figure 15.29 Timing comparison of locking alternatives on Linux
-         | Operation               | User | System | Clock |
-         |-------------------------+------+--------+-------|
-         | semaphores with undo    | 0.50 |   6.08 |  7.55 |
-         | advisory record locking | 0.51 |   9.06 |  4.38 |
-         | mutex in shared memory  | 0.21 |   0.40 |  0.25 |
+      - Example - Timing Comparison of Semaphores, Record Locking, and Mutexes
+        #+caption: Figure 15.29 Timing comparison of locking alternatives on Linux
+        | Operation               | User | System | Clock |
+        |-------------------------+------+--------+-------|
+        | semaphores with undo    | 0.50 |   6.08 |  7.55 |
+        | advisory record locking | 0.51 |   9.06 |  4.38 |
+        | mutex in shared memory  | 0.21 |   0.40 |  0.25 |
 
-         with locking single resource and don't need all the features of XSI semaphores, record locking is preferable, cause that is much simpler to use and system take care of any lingering locks when process terminates.
-         unless performance is the primary concerned, record locking is still more preferable than mutex (1. easier to use, 2. cross-platform support)
+        with locking single resource and don't need all the features of XSI semaphores, record locking is preferable, cause that is much simpler to use and system take care of any lingering locks when process terminates.
+        unless performance is the primary concerned, record locking is still more preferable than mutex (1. easier to use, 2. cross-platform support)
 *** DONE 15.9 Shared Memory
     CLOSED: [2020-01-10 Fri 21:54]
-   Shared memory allows two or more processes to share a given region of memory. This is the *fastest* form of IPC.
-   #+begin_src c
-     struct shmid_ds {
-         struct ipc_perm shm_per;     // see Section 15.6.2
-         size_t          shm_segsz;   // sizeof segment in bytes
-         pid_t           shm_lpid;    // pid of last shmop()
-         pid_t           shm_cpid;    // pid of creator
-         shmatt_t        shm_nattch;  // number of current attaches, shmatt_t is defined to be an unsigned short
-         time_t          shm_atime;   // last-attach time
-         time_t          shm_dtime;   // last-detach time
-         time_t          shm_ctime;   // last-change time
-         ...
-     };
-   #+end_src
+    Shared memory allows two or more processes to share a given region of memory. This is the *fastest* form of IPC.
+    #+begin_src c
+      struct shmid_ds {
+          struct ipc_perm shm_per;     // see Section 15.6.2
+          size_t          shm_segsz;   // sizeof segment in bytes
+          pid_t           shm_lpid;    // pid of last shmop()
+          pid_t           shm_cpid;    // pid of creator
+          shmatt_t        shm_nattch;  // number of current attaches, shmatt_t is defined to be an unsigned short
+          time_t          shm_atime;   // last-attach time
+          time_t          shm_dtime;   // last-detach time
+          time_t          shm_ctime;   // last-change time
+          ...
+      };
+    #+end_src
 
-   #+caption: Figure 15.30 System limits that affect shared memory
-   [[file:Chapter15/15fig30.jpg]]
-
-
-   Shared memory API:
-   #+begin_src c
-     #include <sys/shm.h>
-     /**
-      ,* @brief      obtain a shared memory identifier
-      ,*
-      ,* @details    the following members of shmid_ds structure are initialized.
-      ,*             * ipc_perm
-      ,*             * shm_lpid,shm_nattch,shm_atime, and shm_dtime are all set to 0
-      ,*             * shm_ctime is set to the current time
-      ,*             * shm_segsz is set to the size requested
-      ,*
-      ,* @param[in]  key    for converting into an identifier
-      ,* @param[in]  size   the size of the shared memory segment in bytes
-      ,* @param[in]  flag   for ipc_perm's permission bits set
-      ,*
-      ,* @return     shared memory ID if OK, -1 on error
-      ,*/
-     int shmget(key_t key, size_t size, int flag);
-
-     /**
-      ,* @brief      catchall for various shared memory operations
-      ,*
-      ,* @param[in]  shmid      speicify which shared memory to operate
-      ,* @param[in]  cmd        IPC_STAT    fetch the shmid_ds structure for this segment, storing to buf
-      ,*                        IPC_SET     set the following three fields from buf
-      ,*                                    shm_perm.uid,shm_perm.gid,shm_perm.mode
-      ,*                                    can be only executed by UID == shm_perm.cuid or shm_perm.uid or root
-      ,*                        IPC_RMID    remove the shared memory segment set from the system
-      ,*                                    actually it is attachment count decrease 1
-      ,*                                    be removed until the last process using the segment terminates or detaches it .
-      ,*                                    regardless of whether the segment is still in use
-      ,*                                    can be only executed by UID == shm_perm.cuid or shm_perm.uid or root.
-      ,*                        additional commands for Linux and Solaris only
-      ,*                        SHM_LOCK    lock the shared memory
-      ,*                        SHM_UNLOCK  unlock the shared memory
-      ,* @param[in,out] buf     read or write, depends on cmd specified
-      ,*
-      ,* @return     0 if OK, -1 on error
-      ,*/
-     int shmctl(int shmid, int cmd, struct shmid_ds *buf);
-
-     /**
-      ,* @brief      a process attach a existing shared memory segment.
-      ,*
-      ,* @details
-      ,*
-      ,* @param[in]  shmid      specify which shared memory segment to attach
-      ,* @param[in]  addr       is 0, the segment is attached at the first available address selected by the kernel.
-      ,*                        is nonzero and SHM_RND is not specified, the segment is attached at addr
-      ,*                        is nonzero and SHM_RND is specified, attached at (addr - (addr modulus SHMLBA)),
-      ,*                          SHMLBA stands for "low boundary address multiple" and is always a power of 2.
-      ,*                          round the address down to the next multiple of SHMLBA.
-      ,*
-      ,* @return     0 if OK, -1 on error
-      ,*/
-     int shmat(int shmid, const void *addr, int flag);
-
-     /**
-      ,* @brief      detach a shared memory segment.
-      ,*
-      ,* @details    this DOES NOT removed the identifier and associated data structure
-      ,*             the identifier remains in existence until removes by calling shmctl with IPC_RMID.
-      ,*
-      ,* @param      addr to detach
-      ,*
-      ,* @return     0 if OK, -1 on error
-      ,*/
-     int shmdt(const void *addr);
-   #+end_src
-
-   - Example
-     #+caption: Figure 15.31 Print where various types of data are stored
-     #+include: "Chapter15/15fig31.c" src c
-   #+begin_quote
-   Results on Linux:
-
-   array[] from 0x602540 to 0x60c180
-
-   stack around 0x7ffdaff9121c
-
-   malloced from 0xd2c010 to 0xd446b0
-
-   shared memory attached from 0x7f40d9097000 to 0x7f40d90af6a0
-   #+end_quote
-   #+begin_quote
-   Results on Mac OS X
-
-   array[] from 0x102d40090 to 0x102d49cd0
-
-   stack around 0x7ffeecec2438
-
-   malloced from 0x102d60000 to 0x102d786a0
-
-   shared memory attached from 0x102d7a000 to 0x102d926a0
-   #+end_quote
-   #+caption: Figure 15.32 Memory layout on an Intel-based Linux system.
-   [[file:Chapter15/15fig32.jpg]]
-
-   - Example - Memory Mapping of /dev/zero
-     techinque for related processes
-     * An unnamed memory region is created whose size is the second argument to mmap, rounded up to the nearest page size on the system.
-     * The memory region is initialized to 0.
-     * Multiple processes can share this region if a common ancestor specifies the MAP_SHARED flag to mmap.
-
-    #+caption: Figure 15.33 IPC between parent and child using memory mapped I/O of /dev/zero
-    #+include: "Chapter15/15fig33.c" src c
+    #+caption: Figure 15.30 System limits that affect shared memory
+    [[file:Chapter15/15fig30.jpg]]
 
 
-  - Example - Anonymous Memory Mapping
-    To use this facility, specify =MAP_ANONYMOUS= (=MAP_ANON= deprecated on Linux) flag to ~mmap~ and specify the fd to -1.
-    #+caption: modify [[file:Chapter15/15fig33.c::/**][Figure 15.33]] to use this facility
-    #+include: "Chapter15/15fig33a.c" src c
+    Shared memory API:
+    #+begin_src c
+      #include <sys/shm.h>
+      /**
+       ,* @brief      obtain a shared memory identifier
+       ,*
+       ,* @details    the following members of shmid_ds structure are initialized.
+       ,*             * ipc_perm
+       ,*             * shm_lpid,shm_nattch,shm_atime, and shm_dtime are all set to 0
+       ,*             * shm_ctime is set to the current time
+       ,*             * shm_segsz is set to the size requested
+       ,*
+       ,* @param[in]  key    for converting into an identifier
+       ,* @param[in]  size   the size of the shared memory segment in bytes
+       ,* @param[in]  flag   for ipc_perm's permission bits set
+       ,*
+       ,* @return     shared memory ID if OK, -1 on error
+       ,*/
+      int shmget(key_t key, size_t size, int flag);
+
+      /**
+       ,* @brief      catchall for various shared memory operations
+       ,*
+       ,* @param[in]  shmid      speicify which shared memory to operate
+       ,* @param[in]  cmd        IPC_STAT    fetch the shmid_ds structure for this segment, storing to buf
+       ,*                        IPC_SET     set the following three fields from buf
+       ,*                                    shm_perm.uid,shm_perm.gid,shm_perm.mode
+       ,*                                    can be only executed by UID == shm_perm.cuid or shm_perm.uid or root
+       ,*                        IPC_RMID    remove the shared memory segment set from the system
+       ,*                                    actually it is attachment count decrease 1
+       ,*                                    be removed until the last process using the segment terminates or detaches it .
+       ,*                                    regardless of whether the segment is still in use
+       ,*                                    can be only executed by UID == shm_perm.cuid or shm_perm.uid or root.
+       ,*                        additional commands for Linux and Solaris only
+       ,*                        SHM_LOCK    lock the shared memory
+       ,*                        SHM_UNLOCK  unlock the shared memory
+       ,* @param[in,out] buf     read or write, depends on cmd specified
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int shmctl(int shmid, int cmd, struct shmid_ds *buf);
+
+      /**
+       ,* @brief      a process attach a existing shared memory segment.
+       ,*
+       ,* @details
+       ,*
+       ,* @param[in]  shmid      specify which shared memory segment to attach
+       ,* @param[in]  addr       is 0, the segment is attached at the first available address selected by the kernel.
+       ,*                        is nonzero and SHM_RND is not specified, the segment is attached at addr
+       ,*                        is nonzero and SHM_RND is specified, attached at (addr - (addr modulus SHMLBA)),
+       ,*                          SHMLBA stands for "low boundary address multiple" and is always a power of 2.
+       ,*                          round the address down to the next multiple of SHMLBA.
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int shmat(int shmid, const void *addr, int flag);
+
+      /**
+       ,* @brief      detach a shared memory segment.
+       ,*
+       ,* @details    this DOES NOT removed the identifier and associated data structure
+       ,*             the identifier remains in existence until removes by calling shmctl with IPC_RMID.
+       ,*
+       ,* @param      addr to detach
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int shmdt(const void *addr);
+    #+end_src
+
+    - Example
+      #+caption: Figure 15.31 Print where various types of data are stored
+      #+include: "Chapter15/15fig31.c" src c
+    #+begin_quote
+    Results on Linux:
+
+    array[] from 0x602540 to 0x60c180
+
+    stack around 0x7ffdaff9121c
+
+    malloced from 0xd2c010 to 0xd446b0
+
+    shared memory attached from 0x7f40d9097000 to 0x7f40d90af6a0
+    #+end_quote
+    #+begin_quote
+    Results on Mac OS X
+
+    array[] from 0x102d40090 to 0x102d49cd0
+
+    stack around 0x7ffeecec2438
+
+    malloced from 0x102d60000 to 0x102d786a0
+
+    shared memory attached from 0x102d7a000 to 0x102d926a0
+    #+end_quote
+    #+caption: Figure 15.32 Memory layout on an Intel-based Linux system.
+    [[file:Chapter15/15fig32.jpg]]
+
+    - Example - Memory Mapping of /dev/zero
+      techinque for related processes
+      * An unnamed memory region is created whose size is the second argument to mmap, rounded up to the nearest page size on the system.
+      * The memory region is initialized to 0.
+      * Multiple processes can share this region if a common ancestor specifies the MAP_SHARED flag to mmap.
+
+      #+caption: Figure 15.33 IPC between parent and child using memory mapped I/O of /dev/zero
+      #+include: "Chapter15/15fig33.c" src c
+
+
+    - Example - Anonymous Memory Mapping
+      To use this facility, specify =MAP_ANONYMOUS= (=MAP_ANON= deprecated on Linux) flag to ~mmap~ and specify the fd to -1.
+      #+caption: modify [[file:Chapter15/15fig33.c::/**][Figure 15.33]] to use this facility
+      #+include: "Chapter15/15fig33a.c" src c
 *** DONE 15.10 POSIX Semaphores
     CLOSED: [2020-01-11 Sat 22:02]
     The POSIX semaphore mechanism is one of three IPC mechanisms that originated with the real-time extensions to POSIX.1.
@@ -4244,7 +4264,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     Message queue(Either of these two techniques using message queue can be implemented using shared memory and a synchronization method) :
     1. A single queue can be used between the srever and all the clients, using the type field of each mesage to indicate the message recipient.
     2. Alternatively, an individual message queue can be used for each client.
-*** TODO 15.12 Summary
+*** DONE 15.12 Summary
+    CLOSED: [2020-02-06 Thu 15:24]
     - Exercises
       - 15.1 pager program blocks
         #+include: "Chapter15/15ex01.c" src c
@@ -4265,8 +4286,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         When the parent terminates, look at its termination status with the shell. For the Bourne shell, Bourne-again shell, and Korn shell, the command is echo $?. The number printed is 128 plus the signal number.
         #+end_quote
         #+RESULTS:
-          ➜   echo $?
-          141
+        ➜   echo $?
+        141
       - 15.5
         #+include: "Chapter15/15ex05.c" src c
       - 15.6
@@ -4311,7 +4332,14 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+end_quote
       - 15.14
         [[file:Chapter15/15ex14.jpg]]
-      - 15.15 pause
+      - 15.15
+        #+include: "Chapter15/15ex15.c" src c
+      - 15.16 it's not shared memory
+        #+include: "Chapter15/15ex16.c" src c
+      - 15.17 it's not shared memory
+        #+include: "Chapter15/15ex17.c" src c
+      - 15.18 it's not shared memory
+        #+include: "Chapter15/15ex18.c" src c
 ** DONE Chapter 16. Network IPC: Sockets [9/9]
    CLOSED: [2020-01-31 Fri 14:51]
 *** DONE 16.1 Introduction
@@ -4923,7 +4951,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     - Example -- Alternative Connection-Oriented Server
       #+caption: Figure 16.18 Server program illustrating command writing directly to socket
-    
+
 *** DONE 16.6 Socket Options
     CLOSED: [2020-01-23 Thu 15:02]
     #+begin_quote
@@ -5086,182 +5114,192 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+include: "Chapter16/16ex05.c" src c
       - 16.6
         #+include: "Chapter16/16ex06.c" src c
-** TODO Chapter 17. Advanced IPC [2/7]
-*** TODO 17.1 Introduction
+** TODO Chapter 17. Advanced IPC [3/7]
+*** DONE 17.1 Introduction
+    CLOSED: [2020-02-01 Sat 18:02]
 *** DONE 17.2 UNIX Domain Sockets
+    UNIX domain sockts are used to communicate with processes running on the same machines.
+
+    #+begin_src c
+      #include <sys/socket.h>
+
+      /**
+       ,*  @brief create a pair of unamed, connected, UNIX domain sockets.
+       ,*
+       ,*  @return 0 if OK, -1 on error
+       ,*/
+      int socketpair(int domain, int type, int protocol, int sockfd[2]);
+    #+end_src
+
+    #+caption: Figure 17.1 A socket pair
+    [[file:Chapter17/17fig01.jpg]]
+
+    - Example -- fd_pipe Functions
+      #+caption: Figure 17.2 Creating a full-duplex pipe
+      #+include: "Chapter17/17fig02.c" src c
+
     - Example -- Polling XSI Message Queues with the Help of UNIX Domain Sockets
       #+caption: Figure 17.3 Poll for XSI Messsages using UNIX domain sockets
-      #+include: "Chapter17/pollmsg.c" src c
+      #+include: "Chapter17/17fig03.c" src c
 
       #+caption: Figure 17.4 Post a message to XSI message queue
-      #+include: "Chapter17/sendmsg.c" src c
+      #+include: "Chapter17/17fig04.c" src c
 **** DONE 17.2.1 Naming UNIX Domain Sockets
+     Unamed socket pairs can't be addressed by unrelated processes.
+     #+begin_src c
+       /**
+        ,* @brief      UNIX domain socket on Linux 3.2.0 and Solaris 10,
+        ,*  *             defined in <sys/un.h>
+        ,*/
+       struct sockaddr_un {
+           sa_family_t sun_family;     // AF_UNIX
+           char        sun_path[108];  // pathname
+       };
+
+       /**
+        ,* @brief      UNIX domain socket on FreeBSD 8.0 and Mac OS X 10.6.8
+        ,*/
+
+       struct sockaddr_un {
+           unsigned char sun_len;        // sockaddr length
+           sa_family_t   sun_family;     // AF_UNIX
+           char          sun_path[104];  // pathname
+       };
+     #+end_src
+
      - Example \\
        #+caption: Figure 17.5 Binding an address to a UNIX domain socket
-       #+include: "Chapter17/bindunix.c" src c
+       #+include: "Chapter17/17fig05.c" src c
 *** DONE 17.3 Unique Connections
+    CLOSED: [2020-02-01 Sat 18:04]
+    #+caption: Figure 17.6 Client and server sockets before a ~connect~
+    [[file:Chapter17/17fig06.jpg]]
+
+    #+caption: Figure 17.7 Client and server sockets after a ~connect~
+    [[file:Chapter17/17fig07.jpg]]
+
+
     develop three functions can be used to create unique connections between unrelated processes running on same machine:
     #+begin_src c
-      int serv_listen(const char *name);            // Returns: file descriptor to listen on if OK, negative value on error
-      int serv_accept(int listenfd, uid_t *uidptr); // Returns: new file descriptor if OK, negative value on Error
-      int cli_conn(const char *name);               // Returns: file descriptor if OK, negative value on error
+      // @return: file descriptor to listen on if OK, negative value on error
+      int serv_listen(const char *name);
+      // @return: new file descriptor if OK, negative value on Error
+      int serv_accept(int listenfd, uid_t *uidptr);
+      // @return: file descriptor if OK, negative value on error
+      int cli_conn(const char *name);
     #+end_src
 
-    #+begin_src c
-      #include "apue.h"
-      #include <errno.h>
-      #include <sys/socket.h>
-      #include <sys/un.h>
+    #+caption: Figure 17.8 The ~serv_listen~ function
+    #+include: "Chapter17/17fig08.c" src c
 
-      #define QLEN 10
-
-      /*
-       ,* Create a server endpoint of a connection.
-       ,* Returns fd if all OK, <0 on error.
-       ,*/
-      int serv_listen(const char *name)
-      {
-        int                fd, len, err, rval;
-        struct sockaddr_un un;
-
-        if (strlen(name) >= sizeof(un.sun_path)) {
-          errno = ENAMETOOLONG;
-          return (-1);
-        }
-
-        /* create a UNIX domain stream socket */
-        if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
-          return (-2);
-        }
-
-        /* in case it already exists */
-        unlink(name);
-
-        /* fill in socket address structure */
-        memset(&un, 0, sizeof(un));
-        un.sun_family = AF_UNIX;
-        strcpy(un.sun_path, name);
-        len = offsetof(struct sockaddr_un, sun_path) + strlen(name);
-
-        /* bind the name to the descriptor */
-        if (bind(fd, (struct sockaddr *)&un, len) < 0) {
-          rval = -3;
-          goto errout;
-        }
-
-        if (listen(fd, QLEN) < 0) {
-          /* tell kernel we're a server */
-          rval = -4;
-          goto errout;
-        }
-
-        return (fd);
-
-       errout:
-        err = errno;
-        close(fd);
-        errno = err;
-        return (rval);
-      }
-    #+end_src
-
-    #+begin_center
-    Figure 17.8 The ~serv_listen~ function
-    #+end_center
-
-    #+begin_src c
-      #include "apue.h"
-      #include <errno.h>
-      #include <sys/socket.h>
-      #include <sys/un.h>
-      #include <time.h>
-
-      #define STALE 30 /* client's name can't be older than this (sec) */
-
-      /**********************************************************/
-      /* Wait for a client connection to arrive, and accept it. */
-      /* We also obtain the client's user ID from the pathname  */
-      /* that it must bind before calling us.                   */
-      /* Returns new fd if all OK, <0 on error                  */
-      /**********************************************************/
-      int serv_accept(int listenfd, uid_t *uidptr)
-      {
-        int                clifd, err, rval;
-        socklen_t          len;
-        time_t             staletime;
-        struct sockaddr_un un;
-        struct stat        statbuf;
-        char *             name;
-
-        /* allocate enough space for longest name plus terminating null */
-        if ((name = malloc(sizeof(un.sun_path) + 1))) {
-          return (-1);
-        }
-        len = sizeof(un);
-        if ((clifd = accept(listenfd, (struct sockaddr *)&un, &len)) < 0) {
-          free(name);
-          return (-2);
-        }
-
-        /* obtain the client't uid from its calling address */
-        /* len of pathname */
-        len -= offsetof(struct sockaddr_un, sun_path);
-        memcpy(name, un.sun_path, len);
-        /* null terminate */
-        name[len] = 0;
-        if (stat(name, &statbuf) < 0) {
-          rval = -3;
-          goto errout;
-        }
-
-      #ifdef S_ISSOCK
-        if (S_ISSOCK(statbuf.st_mode) == 0) {
-          /* not a socket */
-          rval = -4;
-          goto errout;
-        }
-      #endif
-
-        if ((statbuf.st_mode & (S_IRWXG | S_IRWXO)) ||
-            (statbuf.st_mode & S_IRWXU) != S_IRWXU) {
-          /* is not rwx------ */
-          rval = -5;
-          goto errout;
-        }
-
-        staletime = time(NULL) - STALE;
-        if (statbuf.st_atime < staletime ||
-            statbuf.st_ctime < staletime ||
-            statbuf.st_mtime < staletime) {
-          /* i-node is too old */;
-          rval = -6;
-          goto errout;
-        }
-
-        if (uidptr != NULL) {
-          /* return uid of caller */
-          ,*uidptr = statbuf.st_uid;
-        }
-        unlink(name);
-        free(name);
-        return (clifd);
-
-       errout:
-        err = errno;
-        close(clifd);
-        free(name);
-        errno = err;
-        return (rval);
-      }
-    #+end_src
-
-    #+begin_center
-    Figure 17.9 The ~serv_accept~ function
-    #+end_center
+    #+caption: Figure 17.9 The ~serv_accept~ function
+    #+include: "Chapter17/17fig09.c" src c
 
     #+caption: Figure 17.10 The ~cli_conn~ function
-    #+include: "Chapter17/cli_conn.c" src c
+    #+include: "Chapter17/17fig10.c" src c
 *** TODO 17.4 Passing File Descriptors
+    #+begin_quote
+    It can lead to different ways of designing client-server applications.
+    It allows one process (typically a server) to do everything that is required to open a file
+    (involving such details as translating a network name to a network address, dialing a modem, and neogiating
+    locks for the file) and simply pass back to the calling process a descriptor that can be used with all the I/O functions.
+    #+end_quote
+
+    #+caption: Figure 17.11 Passing an open file from the top process to the bottom process
+    [[file:Chapter17/17fig11.jpg]]
+
+    #+begin_src c
+      #include "apue.h"
+
+      /**
+       ,* @brief       send file descriptor
+       ,*
+       ,* @detail      sends the descriptor fd_to_send across
+       ,* using the UNIX domain socket represented by fd.
+       ,*
+       ,* @return      0 if OK, -1 on error
+       ,*/
+      int send_fd(int fd, int fd_to_send);
+
+      /**
+       ,* @brief      send file descriptor
+       ,*
+       ,* @detail     sends the errmsg using fd, followed by
+       ,* the status byte. The value of status must be in the
+       ,* range -1 through -255.
+       ,*
+       ,* @return     0 if OK, -1 on error
+       ,*/
+      int send_err(int fd, int status, const char *errmsg);
+
+      /**
+       ,* @brief     receive file descriptor
+       ,*
+       ,* @detail    if error, the value returned is the status
+       ,* that was sent by send_err (a negative value in the range -1 through -255).
+       ,*
+       ,* @param     userfunc  process the message (often was write)
+       ,* @param     1st     STDERR_FILENO
+       ,* @param     2nd     a pointer to the error message
+       ,* @param     3st     length of message
+       ,* @return    number of bytes written or a negative number on error.
+       ,*
+       ,* @return    the file descriptor if OK, negative value on error
+       ,*/
+      int recv_fd(int fd, sszie_t (*userfunc)(int, const void *, size_t));
+    #+end_src
+
+    #+caption: Figure 17.12 The ~send+err~ function
+    #+include: "Chapter17/17fig12.c" src c
+
+    call sendmsg and recvmsg functions to take a pointer to ~msghdr~ strcture to exchange file descriptors using UNIX domain sockets
+    #+begin_src c
+      struct msghdr {
+          void *        msg_name;     // optional address
+          socklen_t     msg_namelen;  // address size in bytes
+          struct iovec *msg_iov;      // array of I/O buffers
+          int           msg_iovlen;   // number of elements in array
+          void *        msg_control;  // ancillary adata
+          int           msg_flags;    // flags for received message
+      };
+
+      struct cmsghdr {
+          socklen_t cmsg_len;    // data byte count, including header
+          int       cmsg_level;  // originating protocol
+          int       cmsg_type;   // protocol-specific type
+          // followed by the actual control message data
+      };
+
+      #include <sys/socket.h>
+
+      /**
+       ,* access the control data
+       ,* @return  pointer to data associated with cmsghdr structure
+       ,*/
+      unsigned char *CMSG_DATA(struct cmsghdr *cp);
+
+      /**
+       ,* @return pointer to first cmsghdr structure associated with
+       ,*         the msghdr structure, or NULL if none exists
+       ,*/
+      struct cmsghdr *CMSG_FIRSTHDR(struct msghdr *mp);
+
+      /**
+       ,* @return pointer to next cmsghdr structure assocaited with
+       ,*         the msghdr structure given the current cmsghdr
+       ,*         structure, or NULL if we're at the last one
+       ,*/
+      struct cmsghdr *CMSG_NXTHDR(struct msghdr *mp, struct cmsghdr *cp);
+
+      /**
+       ,* @breif     get the value to be used
+       ,* @return    size to allocate for data object nbytes large
+       ,* @note      The Single UNIX Specification defines the first three macros, but
+       ,* omits CMSG_LEN.
+       ,*/
+      unsigned int CMSG_LEN(unsigned int nbytes);
+    #+end_src
+
 *** TODO 17.5 An Open Server, Version 1
 *** TODO 17.6 An Open Server, Version 2
 *** TODO 17.7 Summary
