@@ -1,10 +1,6 @@
-#+SETUPFILE: ~/Documents/style.setup
-#+OPTIONS: num:nil
-#+LATEX_HEADER: \usepackage{xeCJK}
-#+LATEX_HEADER: \usepackage{hyperref}
-#+LaTeX_HEADER: \pdfmapfile{/home/neilsen/texmf/fonts/map/dvips/libertine/libertine.map}
-#+LaTeX_HEADER: \usepackage[ttscale=.875]{libertine}
-#+LaTeX_HEADER: \usepackage{sectsty}
+#+STARTUP: align
+#+LATEX_HEADER: \usepackage{ulem}
+#+LATEX_HEADER: \usepackage{ctex}
 #+LaTeX_HEADER: \sectionfont{\normalfont\scshape}
 #+LaTeX_HEADER: \subsectionfont{\normalfont\itshape}
 #+AUTHOR: whiothes
@@ -14,8 +10,14 @@
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 1.1 Introduction
 *** DONE 1.2 UNIX Architecture
+    #+caption: Figure 1.1 Architecture of the UNIX operating system
+    [[file:Chapter01/01fig01.jpg]]
 *** DONE 1.3 Logging in
     - Login Name
+      =/etc/passwd=
+    - Shells
+      #+caption: Figure 1.2 Common shells used on UNIX systems
+      [[file:Chapter01/01fig02.jpg]]
 *** DONE 1.4 Files and Directories
     - File System
     - Pathname
@@ -28,14 +30,17 @@
       - Example \\
         #+caption: Figure 1.4 Copy standard input to standard output
         #+include: "Chapter01/01fig04.c" src c
-
     - Standard I/O
+      provide a *buffered* interface to the *unbuffered* I/O functions
       - Example \\
         #+caption: Figure 1.5 Copy standard input to standard output, using standard I/O
         #+include: "Chapter01/01fig05.c" src c
 *** DONE 1.6 Programs and Processes
     - Program
+      is an *executable* file residing on disk in a directory.
+      is read into memory and is exected by the kernel as a result of one of the seven ~exec~ functions.
     - Proceses and Process ID
+      every process has a unique numeric identifier called pid. always a non-negative integer.
       - Example \\
         #+caption: Figure 1.6 Print the process ID
         #+include: "Chapter01/01fig06.c" src c
@@ -242,8 +247,8 @@
       - 3.4  without =if (fd > 2)=, there are 4 descriptors pointer to file, otherwise , there will be 3
       - 3.5  =./a.out > outfile 2>&1=: stdout => outfile, stderr => stdout => outfile
         =./a.out 2>&1 > outfile=: stderr => stdout, stdout => outfile \\
-      - 3.6
-        #+include: "Chapter03/ex06.c" src c, can be read random, but cannot replace existing data;
+      - 3.6, can be read random, but cannot replace existing data;
+        #+include: "Chapter03/ex06.c" src c
 ** DONE Chapter 4. System Data Files and Information [26/26]
    CLOSED: [2019-11-08 Fri 00:38]
 *** DONE 4.1 Introduction
