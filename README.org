@@ -1,2 +1,2 @@
 * Introduction
-  This is a study note for APUE(3rd edition)
+  This is study notes for "APUE(3rd edition)"
