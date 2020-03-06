@@ -1,3 +1,5 @@
+#+SETUPFILE: ~/Documents/style.setup
+#+SETUPFILE: ~/Documents/style.setup
 #+STARTUP: align
 #+LATEX_HEADER: \usepackage{ulem}
 #+LATEX_HEADER: \usepackage{ctex}
@@ -296,31 +298,31 @@
     | S_IWOTH      | other-write   |
     | S_IXOTH      | other-execute |
 *** DONE 4.6 Ownership of New Files and Directories
-*** DONE ~access~ and ~faccessat~ Functions
+*** DONE 4.7 ~access~ and ~faccessat~ Functions
     =man 2 access=
     - Example \\
       #+caption: Figure 4.8 Example of access function
       #+include: "Chapter04/access.c" src c
-*** DONE ~umask~ Function
+*** DONE 4.8 ~umask~ Function
     =man 2 umask=
     - Example \\
       #+caption: Figure 4.9 Example of umask function
       #+include: "Chapter04/umask.c" src c
-*** DONE ~chmod~, ~fchmod~, and ~fchmodat~ Functions
+*** DONE 4.9 ~chmod~, ~fchmod~, and ~fchmodat~ Functions
     =man 2 chmod=
     - Example \\
       #+caption: Figure 4.12 Example of chmod function
       #+include: "Chapter04/changemod.c" src c
-*** DONE Sticky Bit
+*** DONE 4.10 Sticky Bit
     If it was set for an executable program file, then the first time the program was executed, \\
     a copy of the program’s text was saved in the swap area when the process terminated
-*** DONE ~chown~, ~fchown~, ~fchownat~, and ~lchown~ Functions
+*** DONE 4.11 ~chown~, ~fchown~, ~fchownat~, and ~lchown~ Functions
     =man 2 chown=
-*** DONE File Size
+*** DONE 4.12 File Size
     =struct stat.st_size=
-*** DONE File Truncation
+*** DONE 4.13 File Truncation
     =man 2 truncate=
-*** DONE File Systems
+*** DONE 4.14 File Systems
     - Only when the link count goes to 0 can the file be deleted. \\
       =struct stat.st_nlink=
     - The other type of link is called a symbolic link. With a symbolic link, the actual contents of the file—the data blocks—store the name of the file that the symbolic link points to.
@@ -328,26 +330,26 @@
       Most of the information in the stat structure is obtained from the i-node, exclude *filename* and *i-node* number.
     - a directory entry can’t refer to an i-node in a different file system.
     - When renaming a file without changing file systems, the actual contents of the file need not be moved—all that needs to be done is to add a new directory entry that points to the existing i-node and then unlink the old directory entry.
-*** DONE ~link~, ~linkat~, ~unlink~, ~unlinkat~, and ~remove~ Functions
+*** DONE 4.15 ~link~, ~linkat~, ~unlink~, ~unlinkat~, and ~remove~ Functions
     =man 2 link=
     - Example \\
       #+caption: Figure 4.16 Open a file and then unlink it
       #+include: "Chapter04/unlink.c" src c
-*** DONE ~rename~ and ~renameat~ Functions
+*** DONE 4.16 ~rename~ and ~renameat~ Functions
     =man 2 rename=
     1.  If oldname specifies a file that is not a directory, then we are renaming a file or a symbolic link.
     2.  If oldname specifies a directory, then we are renaming a directory.
     3.  If either oldname or newname refers to a symbolic link, then the link itself is processed, not the file to which it resolves.
     4.  We can’t rename dot or dot-dot.
     5.  As a special case, if oldname and newname refer to the same file, the function returns successfully without changing anything.
-*** DONE Symbolic Links
+*** DONE 4.17 Symbolic Links
     - Hard links normally require that the link and the file reside in the same file system.
     - Only the superuser can create a hard link to a directory (when supported by the underlying file system).
-*** DONE Creating and Reading Symbolic Links
+*** DONE 4.18 Creating and Reading Symbolic Links
     =man 2 symlink=
     =man 2 readlink=
-*** DONE File Times
-*** DONE ~futimens~, ~utimensat~, and ~utimes~ Functions
+*** DONE 4.19 File Times
+*** DONE 4.20 ~futimens~, ~utimensat~, and ~utimes~ Functions
     POSIX.1
     =man 2 futimens=
     XSI
@@ -355,33 +357,33 @@
     - Example \\
       #+caption: Figure 4.21 Example of futimens function
       #+include: "Chapter04/futimens.c" src c
-*** DONE ~mkdir~, ~mkdirat~, and ~rmdir~ Functions
-    Creat:
-    =man 2 mkdir=
-    Remove:
-    =man 2 rmdir=
-*** DONE Reading Directories
-    =man 3 opendir=
-    - Example \\
-      [[/Users/zhoush/Private/Notes/books/c/APUE/Chapter04/ftw.c][Figure 4.22 Recursively descend a directory hierarchy, counting file types]]
-*** DONE ~chidr~, ~fchdir~ and ~getcwd~ Functions
-    =man 2 chdir=
-    - Example \\
-      #+caption: Figure 4.23 Example of chdir function
-      #+include: "Chapter04/chdir.c" src c
-    =man 3 getcwd=
-    - Example \\
-      #+caption: Figure 4.24 Example of getcwd function
-      #+include: "Chapter04/getcwd.c" src c
-*** DONE Device Special Files
-    - Example \\
-      #+caption: Figure 4.25 Print st_dev and st_rdev values
-      #+include: "Chapter04/devrdev.c" src c
-*** DONE Summary of File Access Permission Bits
-    S_IRWXU = S_IRUSR | S_IWUSR | S_IXUSR
-    S_IRWXG = S_IRGRP | S_IWGRP | S_IXGRP
-    S_IRWXO = S_IROTH | S_IWOTH | S_IXOTH
-*** DONE Summary
+*** DONE 4.21 ~mkdir~, ~mkdirat~, and ~rmdir~ Functions
+    Creat4:
+    =man 42 mkdir=
+    Remov4e:
+    =man 42 rmdir=.2 .2 .2 .2
+*** DONE 4.22 Reading Directories
+    =man 43 o pendir=
+    - Exa4mpl e \\
+      [[/4Use rs/zhoush/Private/Notes/books/c/APUE/Chapter04/ftw.c][Figure 4.22 Recursively descend a directory hierarchy, counting file types]].2 .2 .2
+*** DONE 4.23 ~chidr~, ~fchdir~ and ~getcwd~ Functions
+    =man 42 c hdir=
+    - Exa4mpl e \\
+      #+c4apt ion: Figure 4.23 Example of chdir function
+      #+i4ncl ude: "Chapter04/chdir.c" src c
+    =man 43 g etcwd=
+    - Exa4mpl e \\
+      #+c4apt ion: Figure 4.24 Example of getcwd function
+      #+i4ncl ude: "Chapter04/getcwd.c" src c.2 .2 .2 .2 .2 .2 .2 .2
+*** DONE 4.24 Device Special Files
+    - Exa4mpl e \\
+      #+c4apt ion: Figure 4.25 Print st_dev and st_rdev values
+      #+i4ncl ude: "Chapter04/devrdev.c" src c.2 .2 .2
+*** DONE 4.25 Summary of File Access Permission Bits
+    S_IRW4XU  = S_IRUSR | S_IWUSR | S_IXUSR
+    S_IRW4XG  = S_IRGRP | S_IWGRP | S_IXGRP
+    S_IRW4XO  = S_IROTH | S_IWOTH | S_IXOTH.2 .2 .2
+*** DONE 4.26 Summary
     - Exercises
       - 4.1
         #+include: "Chapter04/exercises/ex1.c" src c
@@ -483,26 +485,19 @@
     #+begin_src c
       #include <stdio.h>
 
-      int
-      fgetpos(FILE *restrict stream, fpos_t *restrict pos);
+      int fgetpos(FILE *restrict stream, fpos_t *restrict pos);
 
-      int
-      fseek(FILE *stream, long offset, int whence);
+      int fseek(FILE *stream, long offset, int whence);
 
-      int
-      fseeko(FILE *stream, off_t offset, int whence);
+      int fseeko(FILE *stream, off_t offset, int whence);
 
-      int
-      fsetpos(FILE *stream, const fpos_t *pos);
+      int fsetpos(FILE *stream, const fpos_t *pos);
 
-      long
-      ftell(FILE *stream);
+      long ftell(FILE *stream);
 
-      off_t
-      ftello(FILE *stream);
+      off_t ftello(FILE *stream);
 
-      void
-      rewind(FILE *stream);
+      void rewind(FILE *stream);
     #+end_src
 *** DONE 5.13 Formated I/O
     =man 3 printf=
@@ -532,24 +527,24 @@
     | L              | long double                               |
 
     #+caption: Figure 5.9 The conversion type component of a conversion specification
-    | Conversion type | Description                                                                                                                               |
-    |-----------------+-------------------------------------------------------------------------------------------------------------------------------------------|
-    | /               | <>                                                                                                                                        |
-    | d,i             | [[file:Chapter05/formatted.c::printf("\nsigned decimal:\n");][signed decimal]]                                                            |
-    | o               | [[file:Chapter05/formatted.c::printf("\nalternative form:\n");][unsigned octal]]                                                        |
-    | u               | [[file:Chapter05/formatted.c::printf("\nunsigned decimal:\n");][unsigned decimal]]                                                      |
-    | x,X             | [[file:Chapter05/formatted.c::printf("\nunsigned hexadecimal:\n");][unsigned hexadecimal]]                                              |
-    | f,F             | [[file:Chapter05/formatted.c::printf("\ndouble floating-point number:\n");][double floating-point number]]                                |
-    | e,E             | [[file:Chapter05/formatted.c::printf("\nexponential format:\n");][double floating-point number in exponential format]]                  |
-    | g,G             | [[file:Chapter05/formatted.c::printf("\ninterpreted:\n");][interpreted as f, F, e, or E, depending on value converted]]                   |
-    | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble in hexadecimal:\n");][double floating-point number in hexadecimal exponential format]] |
-    | c               | character (with 1 length modifier, wide character)                                                                                        |
-    | s               | string(with 1 length modifier, wide character string)                                                                                     |
-    | p               | pointer to a void                                                                                                                         |
-    | n               | pointer to a signed integer into which is written the number of characters written so far                                                 |
-    | %               | a % character                                                                                                                             |
-    | C               | wide chracter(XSI option, equivalent to lc)                                                                                               |
-    | S               | wide chracter string(XSI option, equivalent to ls)                                                                                        |
+    | Conversion type | Description                                                                               |
+    |-----------------+-------------------------------------------------------------------------------------------|
+    | /               | <>                                                                                        |
+    | d,i             | [[file:Chapter05/formatted.c::printf("\nsigned decimal:\n");][signed decimal]]                                                                            |
+    | o               | [[file:Chapter05/formatted.c::printf("\nalternative form:\n");][unsigned octal]]                                                                            |
+    | u               | [[file:Chapter05/formatted.c::printf("\nunsigned decimal:\n");][unsigned decimal]]                                                                          |
+    | x,X             | [[file:Chapter05/formatted.c::printf("\nunsigned hexadecimal:\n");][unsigned hexadecimal]]                                                                      |
+    | f,F             | [[file:Chapter05/formatted.c::printf("\ndouble floating-point number:\n");][double floating-point number]]                                                              |
+    | e,E             | [[file:Chapter05/formatted.c::printf("\nexponential format:\n");][double floating-point number in exponential format]]                                        |
+    | g,G             | [[file:Chapter05/formatted.c::printf("\ninterpreted:\n");][interpreted as f, F, e, or E, depending on value converted]]                                |
+    | a,A             | [[file:Chapter05/formatted.c::printf("\ndouble in hexadecimal:\n");][double floating-point number in hexadecimal exponential format]]                            |
+    | c               | character (with 1 length modifier, wide character)                                        |
+    | s               | string(with 1 length modifier, wide character string)                                     |
+    | p               | pointer to a void                                                                         |
+    | n               | pointer to a signed integer into which is written the number of characters written so far |
+    | %               | a % character                                                                             |
+    | C               | wide chracter(XSI option, equivalent to lc)                                               |
+    | S               | wide chracter string(XSI option, equivalent to ls)                                        |
 
 
     *Formatted Input*
@@ -1710,7 +1705,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     | SA_ONSTACK   | XSI | *       | *     | *       | *       | if an alternative stack has been declared with ~signalstack~[fn:1]                            |
     | SA_RESETHAND | *   | *       | *     | *       | *       | the disposition for this signal is reset to SIG_DFL, and the SA_SIGINFO flag is cleared       |
     | SA_RESTART   | *   | *       | *     | *       | *       | system calls interrupted by this signal are automatically restarted                           |
-    | SA_SIGINFO   | *   | *       | *     | *       | *       | provides additional information to a signal hander                                           |
+    | SA_SIGINFO   | *   | *       | *     | *       | *       | provides additional information to a signal hander                                            |
 
 
     #+begin_src c
@@ -2854,30 +2849,30 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+caption: Figure 13.4 The /facility/ argument for ~openlog~
     | facility     | XSI | Description                                                     |
-    |--------------+---+-----------------------------------------------------------------|
-    | LOG_AUDIT    |   | the audit fcility                                               |
-    | LOG_AUTH     |   | authorization programs: login, su, getty, ...                   |
-    | LOG_AUTHPRIV |   | same as LOG_AUTH, but logged to fle with restricted permissions |
-    | LOG_CONSOLE  |   | messages written to /dev/console                                |
-    | LOG_CRON     |   | cron and at                                                     |
-    | LOG_DAEMON   |   | system daemons: inetd, routed, ...                              |
-    | LOG_FTP      |   | the FTP daemon (ftpd)                                           |
-    | LOG_KERN     |   | messages generated by the kernel                                |
-    | LOG_LOCAL0   | * | reserved for local use                                          |
-    | LOG_LOCAL1   | * | reserved for local use                                          |
-    | LOG_LOCAL2   | * | reserved for local use                                          |
-    | LOG_LOCAL3   | * | reserved for local use                                          |
-    | LOG_LOCAL4   | * | reserved for local use                                          |
-    | LOG_LOCAL5   | * | reserved for local use                                          |
-    | LOG_LOCAL6   | * | reserved for local use                                          |
-    | LOG_LOCAL7   | * | reserved for local use                                          |
-    | LOG_LPR      |   | line printer system: lpd, lpc, ...                              |
-    | LOG_MAIL     |   | the mail system                                                 |
-    | LOG_NEWS     |   | the network time protocol system                                |
-    | LOG_SECURITY |   | the security subsystem                                          |
-    | LOG_SYSLOG   |   | the syslogd daemon itself                                       |
-    | LOG_USER     | * | message from other user processes(deafult)                      |
-    | LOG_UUCP     |   | the UUCP system                                                 |
+    |--------------+-----+-----------------------------------------------------------------|
+    | LOG_AUDIT    |     | the audit fcility                                               |
+    | LOG_AUTH     |     | authorization programs: login, su, getty, ...                   |
+    | LOG_AUTHPRIV |     | same as LOG_AUTH, but logged to fle with restricted permissions |
+    | LOG_CONSOLE  |     | messages written to /dev/console                                |
+    | LOG_CRON     |     | cron and at                                                     |
+    | LOG_DAEMON   |     | system daemons: inetd, routed, ...                              |
+    | LOG_FTP      |     | the FTP daemon (ftpd)                                           |
+    | LOG_KERN     |     | messages generated by the kernel                                |
+    | LOG_LOCAL0   | *   | reserved for local use                                          |
+    | LOG_LOCAL1   | *   | reserved for local use                                          |
+    | LOG_LOCAL2   | *   | reserved for local use                                          |
+    | LOG_LOCAL3   | *   | reserved for local use                                          |
+    | LOG_LOCAL4   | *   | reserved for local use                                          |
+    | LOG_LOCAL5   | *   | reserved for local use                                          |
+    | LOG_LOCAL6   | *   | reserved for local use                                          |
+    | LOG_LOCAL7   | *   | reserved for local use                                          |
+    | LOG_LPR      |     | line printer system: lpd, lpc, ...                              |
+    | LOG_MAIL     |     | the mail system                                                 |
+    | LOG_NEWS     |     | the network time protocol system                                |
+    | LOG_SECURITY |     | the security subsystem                                          |
+    | LOG_SYSLOG   |     | the syslogd daemon itself                                       |
+    | LOG_USER     | *   | message from other user processes(deafult)                      |
+    | LOG_UUCP     |     | the UUCP system                                                 |
 
     #+caption: Figure 13.5 The ~syslog~ /levels/ (ordered)
     | level       | Description                                        |
@@ -4426,7 +4421,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
     | pread and pwrite (Section 3.11)               | fails with errno set to ESPIPE                                                                                          |
     | read (Section 3.7) and readv (Section 14.6)   | equivalent to recv (Section 16.5) without any flags                                                                     |
     | select (Section 14.4.1)                       | works as expected                                                                                                       |
-    | write (Section 3.8) and writev (Section 14.6) | equivalent to send (Section 16.5) without any flags                                                            |
+    | write (Section 3.8) and writev (Section 14.6) | equivalent to send (Section 16.5) without any flags                                                                     |
 
 *** DONE 16.3 Addressing [4/4]
     CLOSED: [2020-01-23 Thu 18:34]
