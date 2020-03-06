@@ -2934,7 +2934,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+caption: call daemon and get login name
         #+include: "Chapter13/13ex04.c" src c
 
-** DONE Chapter 14. Advanced I/O [8/8]
+** DONE Chapter 14. Advanced I/O [9/9]
    CLOSED: [2019-12-29 Sun 02:15]
 *** DONE 14.1 Introduction
     nonblocking I/O, I/O multiplexing(~select~ and ~poll~), asynchronous I/O, the ~readv~ and ~writev~ functions, and memory-mapped I/O (mmap).
@@ -3101,7 +3101,8 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
         #+RESULTS:
         | read_lock of already-locked region returns 35 |          |
         | read OK(no mandatory locking)                 | buf = ab |
-*** 14.4 I/O Multiplexing [2/2]
+*** DONE 14.4 I/O Multiplexing [2/2]
+    CLOSED: [2020-03-06 Fri 16:21]
 
     #+begin_src dot :file Chapter14/14fig13.jpg :cmdline -Kdot -Tpng
       digraph G {
@@ -3399,7 +3400,7 @@ If we call alarm first and are sent SIGALRM before we can install the signal han
 
     #+caption: Figure 14.24 The ~readn~ and ~writen~ functions
     #+include: "Chapter14/14fig24.c" src c
-*** DONE COMMENT 14.8 Memory-Mapped I/O
+*** DONE 14.8 Memory-Mapped I/O
     CLOSED: [2019-12-28 Sat 15:27]
     map a file on disk into a buffer in memory so that, when we fetch bytes from the buffer, the corresponding bytes of the file are read.
     #+begin_src c
