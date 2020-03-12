@@ -1,5 +1,4 @@
 #+SETUPFILE: ~/Documents/style.setup
-#+SETUPFILE: ~/Documents/style.setup
 #+STARTUP: align
 #+LATEX_HEADER: \usepackage{ulem}
 #+LATEX_HEADER: \usepackage{ctex}
